@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 // Carregar variáveis do arquivo .env
 dotenv.config();
 
-// Configuração do pool de conexões
+// Configuração do pool de conexões com o banco de dados MySQL
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT, 
@@ -17,7 +17,7 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-// Função para obter uma conexão do pool
+// Função para obter uma conexão do pool para executar operações no banco
 async function getConnection() {
     return pool.getConnection();
 }
@@ -26,11 +26,14 @@ async function getConnection() {
 async function read(table, where = null) {
     const connection = await getConnection();
     try {
+        //pega em uma tabela
         let sql = `SELECT * FROM ${table}`;
+        //onde (WHERE se fornecido)
         if (where) {
             sql += ` WHERE ${where}`;
         }
 
+        // Executa a query e retorna os resultados
         const [rows] = await connection.execute(sql);
         return rows;
     } finally {
@@ -42,11 +45,14 @@ async function read(table, where = null) {
 async function create(table, data) {
     const connection = await getConnection();
     try {
+        // Extrai os nomes das colunas do objeto (ex: "nome, idade")
         const columns = Object.keys(data).join(', ');
         const placeholders = Array(Object.keys(data).length).fill('?').join(', ');
+         // Monta a query INSERT (ex: "INSERT INTO usuarios (nome, idade) VALUES (?, ?)")
         const sql = `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`;
         const values = Object.values(data);
 
+        // Retorna o ID do registro inserido
         const [result] = await connection.execute(sql, values);
         return result.insertId;
     } finally {
@@ -54,7 +60,7 @@ async function create(table, data) {
     }
 }
 
-// Função para atualizar um registro
+// Função para atualizar/update um registro
 async function update(table, data, where) {
     const connection = await getConnection();
     try {
@@ -63,6 +69,7 @@ async function update(table, data, where) {
             .join(', ');
 
         const sql = `UPDATE ${table} SET ${set} WHERE ${where}`;
+        // Extrai os valores para substituir os placeholders
         const values = Object.values(data);
 
         const [result] = await connection.execute(sql, [...values]);
@@ -72,7 +79,7 @@ async function update(table, data, where) {
     }
 }
 
-// Função para excluir um registro
+// Função para excluir/delete um registro
 async function deleteRecord(table, where) {
     const connection = await getConnection();
     try {
@@ -85,6 +92,7 @@ async function deleteRecord(table, where) {
 }
 
 // Função para comparar senha com hash
+// Função para VERIFICAR se uma senha corresponde ao hash armazenado
 async function comparePassword(password, hash) {
     try {
         return await bcrypt.compare(password, hash);
@@ -104,6 +112,7 @@ async function hashPassword(password) {
     }
 }
 
+// Exporta todas as funções para serem usadas em outros arquivos
 export { 
     create, 
     read, 

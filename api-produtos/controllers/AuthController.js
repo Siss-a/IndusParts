@@ -5,11 +5,14 @@ import { JWT_CONFIG } from '../config/jwt.js';
 // Controller para operações de autenticação
 class AuthController {
     
+     // ========== ROTA: POST /auth/login ==========
+    // Realiza o login do usuário e retorna um token JWT
     // POST /auth/login - Fazer login
     static async login(req, res) {
         try {
             const { email, senha } = req.body;
             
+            // === VALIDAÇÕES DE CAMPOS OBRIGATÓRIOS ===
             // Validações básicas
             if (!email || email.trim() === '') {
                 return res.status(400).json({
@@ -19,6 +22,7 @@ class AuthController {
                 });
             }
 
+            // Verifica se a senha foi fornecida
             if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
@@ -28,6 +32,7 @@ class AuthController {
             }
 
             // Validação básica de formato de email
+            // Regex que valida formato básico: algo@algo.algo
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 return res.status(400).json({
@@ -37,9 +42,11 @@ class AuthController {
                 });
             }
 
-            // Verificar credenciais
+            // Verificar credenciais do banco 
+            // Busca usuário no banco e verifica se a senha está correta
             const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha);
             
+            // Se não encontrou usuário ou senha incorreta, retorna erro 401
             if (!usuario) {
                 return res.status(401).json({
                     sucesso: false,
@@ -49,6 +56,7 @@ class AuthController {
             }
 
             // Gerar token JWT
+            // Cria um token contendo informações do usuário
             const token = jwt.sign(
                 { 
                     id: usuario.id, 
@@ -59,6 +67,7 @@ class AuthController {
                 { expiresIn: JWT_CONFIG.expiresIn }
             );
 
+            // Retorna sucesso com o token e dados do usuário
             res.status(200).json({
                 sucesso: true,
                 mensagem: 'Login realizado com sucesso',
@@ -73,6 +82,7 @@ class AuthController {
                 }
             });
         } catch (error) {
+            //erro geral
             console.error('Erro ao fazer login:', error);
             res.status(500).json({
                 sucesso: false,
@@ -85,6 +95,7 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
+            // Extrai dados do corpo da requisição
             const { nome, email, senha, tipo } = req.body;
             
             // Validações básicas
@@ -112,7 +123,9 @@ class AuthController {
                 });
             }
 
-            // Validações de formato
+            // Validações de tamanho e formato
+
+            // Nome deve ter pelo menos 2 caracteres
             if (nome.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
@@ -121,6 +134,7 @@ class AuthController {
                 });
             }
 
+            // Nome não pode ter mais de 255 caracteres
             if (nome.length > 255) {
                 return res.status(400).json({
                     sucesso: false,
@@ -129,6 +143,7 @@ class AuthController {
                 });
             }
 
+            // Valida formato do email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 return res.status(400).json({
@@ -138,6 +153,7 @@ class AuthController {
                 });
             }
 
+            // Senha deve ter pelo menos 6 caracteres
             if (senha.length < 6) {
                 return res.status(400).json({
                     sucesso: false,
@@ -158,10 +174,10 @@ class AuthController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome: nome.trim(),
-                email: email.trim().toLowerCase(),
-                senha: senha,
-                tipo: tipo || 'comum'
+                nome: nome.trim(), // Remove espaços extras
+                email: email.trim().toLowerCase(),  // Padroniza em minúsculas
+                senha: senha, // Será hasheada no Model
+                tipo: tipo || 'comum' // Padrão: usuário comum
             };
 
             // Criar usuário
@@ -190,8 +206,10 @@ class AuthController {
     // GET /auth/perfil - Obter perfil do usuário logado
     static async obterPerfil(req, res) {
         try {
+            // req.usuario foi adicionado pelo middleware de autenticação
             const usuario = await UsuarioModel.buscarPorId(req.usuario.id);
             
+            // Verifica se o usuário existe
             if (!usuario) {
                 return res.status(404).json({
                     sucesso: false,
@@ -242,6 +260,7 @@ class AuthController {
                 });
             }
             
+            // === BUSCAR USUÁRIOS COM PAGINAÇÃO ===
             const resultado = await UsuarioModel.listarTodos(pagina, limite);
             
             // Remover senha de todos os usuários
