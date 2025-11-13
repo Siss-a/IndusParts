@@ -70,4 +70,3 @@ const adminMiddleware = (req, res, next) => {
 };
 
 export { authMiddleware, adminMiddleware };
-

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Empresas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #374151;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .actions button {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .modal-header h3 {
+            color: #333;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-info {
+            padding: 8px 16px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Gerenciamento de Empresas</h1>
+            <p>Sistema B2B - Cadastro e controle de empresas parceiras</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; border: none; padding: 0;">Lista de Empresas</h2>
+                <button class="btn btn-primary" onclick="abrirModalNova()">
+                    ➕ Nova Empresa
+                </button>
+            </div>
+
+            <div class="search-bar">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="🔍 Buscar por razão social ou CNPJ..."
+                    oninput="filtrarEmpresas()"
+                >
+            </div>
+
+            <div id="loadingContainer" class="loading" style="display: none;">
+                <p>⏳ Carregando empresas...</p>
+            </div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+                <h3>Nenhuma empresa cadastrada</h3>
+                <p>Clique no botão "Nova Empresa" para começar</p>
+            </div>
+
+            <div id="tableContainer" class="table-container">
+                <table id="companiesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CNPJ</th>
+                            <th>Razão Social</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Cadastro</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="companiesTableBody">
+                        <!-- Preenchido dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button id="btnPrevPage" onclick="mudarPagina(-1)">← Anterior</button>
+                <span class="page-info" id="pageInfo">Página 1 de 1</span>
+                <button id="btnNextPage" onclick="mudarPagina(1)">Próxima →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Criar/Editar Empresa -->
+    <div id="companyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nova Empresa</h3>
+            </div>
+
+            <form id="companyForm" onsubmit="salvarEmpresa(event)">
+                <input type="hidden" id="companyId">
+
+                <div class="form-group">
+                    <label for="cnpj">CNPJ *</label>
+                    <input 
+                        type="text" 
+                        id="cnpj" 
+                        required 
+                        maxlength="14"
+                        placeholder="Apenas números (14 dígitos)"
+                        oninput="validarCNPJ(this)"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="corporateName">Razão Social *</label>
+                    <input 
+                        type="text" 
+                        id="corporateName" 
+                        required 
+                        maxlength="255"
+                        placeholder="Nome completo da empresa"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        maxlength="255"
+                        placeholder="contato@empresa.com"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input 
+                        type="text" 
+                        id="phone" 
+                        maxlength="30"
+                        placeholder="(00) 00000-0000"
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">💾 Salvar</button>
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">✖ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Configuração da API
+        const API_URL = 'http://localhost:3000/api';
+        let token = localStorage.getItem('token');
+        let paginaAtual = 1;
+        let totalPaginas = 1;
+        let empresas = [];
+        let empresasFiltradas = [];
+
+        // Verificar se está logado
+        if (!token) {
+            mostrarAlerta('Você precisa fazer login primeiro!', 'error');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        }
+
+        // Carregar empresas ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEmpresas();
+        });
+
+        // Carregar empresas da API
+        async function carregarEmpresas() {
+            mostrarLoading(true);
+            
+            try {
+                const response = await fetch(`${API_URL}/companies?pagina=${paginaAtual}&limite=10`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        mostrarAlerta('Sessão expirada. Faça login novamente.', 'error');
+                        setTimeout(() => {
+                            localStorage.removeItem('token');
+                            window.location.href = 'login.html';
+                        }, 2000);
+                        return;
+                    }
+                    throw new Error('Erro ao carregar empresas');
+                }
+
+                const data = await response.json();
+                empresas = data.dados || [];
+                empresasFiltradas = empresas;
+                totalPaginas = data.paginacao?.totalPaginas || 1;
+                
+                renderizarTabela();
+                atualizarPaginacao();
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarAlerta('Erro ao carregar empresas: ' + error.message, 'error');
+            } finally {
+                mostrarLoading(false);
+            }
+        }
+
+        // Renderizar tabela
+        function renderizarTabela() {
+            const tbody = document.getElementById('companiesTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const tableContainer = document.getElementById('tableContainer');
+
+            if (empresasFiltradas.length === 0) {
+                tableContainer.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            tableContainer.style.display = 'block';
+            emptyState.style.display = 'none';
+
+            tbody.innerHTML = empresasFiltradas.map(empresa => `
+                <tr>
+                    <td>${empresa.id}</td>
+                    <td>${formatarCNPJ(empresa.cnpj)}</td>
+                    <td><strong>${empresa.corporate_name}</strong></td>
+                    <td>${empresa.email || '-'}</td>
+                    <td>${empresa.phone || '-'}</td>
+                    <td>${formatarData(empresa.created_at)}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-warning" onclick="editarEmpresa(${empresa.id})">
+                                ✏️ Editar
+                            </button>
+                            <button class="btn btn-danger" onclick="confirmarExclusao(${empresa.id}, '${empresa.corporate_name}')">
+                                🗑️ Excluir
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filtrar empresas
+        function filtrarEmpresas() {
+            const termo = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (termo === '') {
+                empresasFiltradas = empresas;
+            } else {
+                empresasFiltradas = empresas.filter(empresa => 
+                    empresa.corporate_name.toLowerCase().includes(termo) ||
+                    empresa.cnpj.includes(termo)
+                );
+            }
+            
+            renderizarTabela();
+        }
+
+        // Abrir modal para nova empresa
+        function abrirModalNova() {
+            document.getElementById('modalTitle').textContent = 'Nova Empresa';
+            document.getElementById('companyForm').reset();
+            document.getElementById('companyId').value = '';
+            document.getElementById('companyModal').classList.add('active');
+        }
+
+        // Editar empresa
+        async function editarEmpresa(id) {
+            const empresa = empresas.find(e => e.id === id);
+            if (!empresa) return;
+
+            document.getElementById('modalTitle').textContent = 'Editar Empresa';
+            document.getElementById('companyId').value = empresa.id;
+            document.getElementById('cnpj').value = empresa.cnpj;
+            document.getElementById('corporateName').value = empresa.corporate_name;
+            document.getElementById('email').value = empresa.email || '';
+            document.getElementById('phone').value = empresa.phone || '';
+            
+            document.getElementById('companyModal').classList.add('active');
+        }
+
+        // Salvar empresa (criar ou atualizar)
+        async function salvarEmpresa(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('companyId').value;
+            const dados = {
+                cnpj: document.getElementById('cnpj').value.replace(/\D/g, ''),
+                corporate_name: document.getElementById('corporateName').value,
+                email: document.getElementById('email').value || null,
+                phone: document.getElementById('phone').value || null
+            };
+
+            try {
+                const url = id ? `${API_URL}/companies/${id}` : `${API_URL}/companies`;
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.mensagem || 'Erro ao salvar empresa');
+                }
+
+                mostrarAlerta(
+                    id ? 'Empresa atualizada com sucesso!' : 'Empresa cadastrada com sucesso!',
+                    'success'
+                );
+                
+                fecharModal();
+                carregarEmpresas();
+
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarAlerta('Erro ao salvar: ' + error.message, 'error');
+            }
+        }
+
+        // Confirmar exclusão
+        function confirmarExclusao(id, nome) {
+            if (confirm(`Tem certeza que deseja excluir a empresa "${nome}"?\n\nEsta ação não pode ser desfeita!`)) {
+                excluirEmpresa(id);
+            }
+        }
+
+        // Excluir empresa
+        async function excluirEmpresa(id) {
+            try {
+                const response = await fetch(`${API_URL}/companies/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.mensagem || 'Erro ao excluir empresa');
+                }
+
+                mostrarAlerta('Empresa excluída com sucesso!', 'success');
+                carregarEmpresas();
+
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarAlerta('Erro ao excluir: ' + error.message, 'error');
+            }
+        }
+
+        // Fechar modal
+        function fecharModal() {
+            document.getElementById('companyModal').classList.remove('active');
+            document.getElementById('companyForm').reset();
+        }
+
+        // Mudar página
+        function mudarPagina(direcao) {
+            const novaPagina = paginaAtual + direcao;
+            if (novaPagina >= 1 && novaPagina <= totalPaginas) {
+                paginaAtual = novaPagina;
+                carregarEmpresas();
+            }
+        }
+
+        // Atualizar controles de paginação
+        function atualizarPaginacao() {
+            document.getElementById('pageInfo').textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+            document.getElementById('btnPrevPage').disabled = paginaAtual === 1;
+            document.getElementById('btnNextPage').disabled = paginaAtual === totalPaginas;
+        }
+
+        // Mostrar loading
+        function mostrarLoading(show) {
+            document.getElementById('loadingContainer').style.display = show ? 'block' : 'none';
+            document.getElementById('tableContainer').style.display = show ? 'none' : 'block';
+        }
+
+        // Mostrar alerta
+        function mostrarAlerta(mensagem, tipo) {
+            const container = document.getElementById('alertContainer');
+            const alertClass = tipo === 'success' ? 'alert-success' : 'alert-error';
+            
+            container.innerHTML = `
+                <div class="card">
+                    <div class="alert ${alertClass}">
+                        ${mensagem}
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Validar CNPJ (apenas números)
+        function validarCNPJ(input) {
+            input.value = input.value.replace(/\D/g, '');
+        }
+
+        // Formatar CNPJ para exibição
+        function formatarCNPJ(cnpj) {
+            if (!cnpj) return '-';
+            return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+        }
+
+        // Formatar data
+        function formatarData(dataISO) {
+            if (!dataISO) return '-';
+            const data = new Date(dataISO);
+            return data.toLocaleDateString('pt-BR');
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('companyModal').addEventListener('click', (e) => {
+            if (e.target.id === 'companyModal') {
+                fecharModal();
+            }
+        });
+    </script>
+</body>
+</html>

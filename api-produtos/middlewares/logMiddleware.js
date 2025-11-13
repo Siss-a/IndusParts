@@ -4,7 +4,7 @@ import { create } from '../config/database.js';
 export const logMiddleware = async (req, res, next) => {
     const startTime = Date.now();
     
-    // Capturar dados da requisição (sem usuario_id ainda, será capturado na resposta)
+    // Capturar dados da requisição
     const logData = {
         rota: req.originalUrl,
         metodo: req.method,
@@ -21,24 +21,23 @@ export const logMiddleware = async (req, res, next) => {
         }
     };
 
-    // Interceptar a resposta para capturar status code, tempo e usuário (após authMiddleware executar)
+    // Interceptar a resposta
     const originalSend = res.send;
     const originalJson = res.json;
     
     res.send = function(data) {
-        // Capturar dados atualizados no momento da resposta (após todos os middlewares executarem)
         const finalLogData = {
             ...logData,
             status_code: res.statusCode,
             tempo_resposta_ms: Date.now() - startTime
         };
         
-        // Capturar usuário se autenticado (após authMiddleware ter executado)
+        // Capturar user_id se autenticado (ATUALIZADO: user_id ao invés de usuario_id)
         if (req.usuario && req.usuario.id) {
-            finalLogData.usuario_id = req.usuario.id;
+            finalLogData.user_id = req.usuario.id;
         }
         
-        // Capturar dados da resposta (limitado para evitar logs muito grandes)
+        // Capturar dados da resposta em caso de erro
         if (res.statusCode >= 400) {
             finalLogData.dados_resposta = {
                 error: true,
@@ -47,7 +46,7 @@ export const logMiddleware = async (req, res, next) => {
             };
         }
         
-        // Salvar log de forma assíncrona (não bloquear a resposta)
+        // Salvar log de forma assíncrona
         saveLog(finalLogData).catch(error => {
             console.error('Erro ao salvar log:', error);
         });
@@ -56,19 +55,18 @@ export const logMiddleware = async (req, res, next) => {
     };
     
     res.json = function(data) {
-        // Capturar dados atualizados no momento da resposta (após todos os middlewares executarem)
         const finalLogData = {
             ...logData,
             status_code: res.statusCode,
             tempo_resposta_ms: Date.now() - startTime
         };
         
-        // Capturar usuário se autenticado (após authMiddleware ter executado)
+        // Capturar user_id se autenticado
         if (req.usuario && req.usuario.id) {
-            finalLogData.usuario_id = req.usuario.id;
+            finalLogData.user_id = req.usuario.id;
         }
         
-        // Capturar dados da resposta (limitado para evitar logs muito grandes)
+        // Capturar dados da resposta em caso de erro
         if (res.statusCode >= 400) {
             finalLogData.dados_resposta = {
                 error: true,
@@ -77,7 +75,7 @@ export const logMiddleware = async (req, res, next) => {
             };
         }
         
-        // Salvar log de forma assíncrona (não bloquear a resposta)
+        // Salvar log de forma assíncrona
         saveLog(finalLogData).catch(error => {
             console.error('Erro ao salvar log:', error);
         });
@@ -95,7 +93,7 @@ function sanitizeRequestBody(body) {
     const sanitized = { ...body };
     
     // Remover campos sensíveis
-    const sensitiveFields = ['senha', 'password', 'token', 'authorization'];
+    const sensitiveFields = ['senha', 'password', 'password_hash', 'token', 'authorization'];
     sensitiveFields.forEach(field => {
         if (sanitized[field]) {
             sanitized[field] = '[REDACTED]';

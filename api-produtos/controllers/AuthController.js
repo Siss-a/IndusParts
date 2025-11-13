@@ -5,14 +5,11 @@ import { JWT_CONFIG } from '../config/jwt.js';
 // Controller para operações de autenticação
 class AuthController {
     
-     // ========== ROTA: POST /auth/login ==========
-    // Realiza o login do usuário e retorna um token JWT
     // POST /auth/login - Fazer login
     static async login(req, res) {
         try {
             const { email, senha } = req.body;
             
-            // === VALIDAÇÕES DE CAMPOS OBRIGATÓRIOS ===
             // Validações básicas
             if (!email || email.trim() === '') {
                 return res.status(400).json({
@@ -22,7 +19,6 @@ class AuthController {
                 });
             }
 
-            // Verifica se a senha foi fornecida
             if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
@@ -31,8 +27,7 @@ class AuthController {
                 });
             }
 
-            // Validação básica de formato de email
-            // Regex que valida formato básico: algo@algo.algo
+            // Validação de formato de email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 return res.status(400).json({
@@ -42,11 +37,9 @@ class AuthController {
                 });
             }
 
-            // Verificar credenciais do banco 
-            // Busca usuário no banco e verifica se a senha está correta
+            // Verificar credenciais
             const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha);
             
-            // Se não encontrou usuário ou senha incorreta, retorna erro 401
             if (!usuario) {
                 return res.status(401).json({
                     sucesso: false,
@@ -56,18 +49,17 @@ class AuthController {
             }
 
             // Gerar token JWT
-            // Cria um token contendo informações do usuário
             const token = jwt.sign(
                 { 
                     id: usuario.id, 
                     email: usuario.email,
-                    tipo: usuario.tipo 
+                    role: usuario.role,
+                    company_id: usuario.company_id
                 },
                 JWT_CONFIG.secret,
                 { expiresIn: JWT_CONFIG.expiresIn }
             );
 
-            // Retorna sucesso com o token e dados do usuário
             res.status(200).json({
                 sucesso: true,
                 mensagem: 'Login realizado com sucesso',
@@ -75,14 +67,15 @@ class AuthController {
                     token,
                     usuario: {
                         id: usuario.id,
-                        nome: usuario.nome,
+                        name: usuario.name,
                         email: usuario.email,
-                        tipo: usuario.tipo
+                        role: usuario.role,
+                        company_id: usuario.company_id,
+                        company_name: usuario.company_name
                     }
                 }
             });
         } catch (error) {
-            //erro geral
             console.error('Erro ao fazer login:', error);
             res.status(500).json({
                 sucesso: false,
@@ -95,11 +88,13 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            // Extrai dados do corpo da requisição
-            const { nome, email, senha, tipo } = req.body;
+            const { name, email, senha, password, role, company_id } = req.body;
+            
+            // Aceitar tanto 'senha' quanto 'password'
+            const senhaFinal = senha || password;
             
             // Validações básicas
-            if (!nome || nome.trim() === '') {
+            if (!name || name.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome obrigatório',
@@ -115,7 +110,7 @@ class AuthController {
                 });
             }
 
-            if (!senha || senha.trim() === '') {
+            if (!senhaFinal || senhaFinal.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
@@ -123,10 +118,8 @@ class AuthController {
                 });
             }
 
-            // Validações de tamanho e formato
-
-            // Nome deve ter pelo menos 2 caracteres
-            if (nome.length < 2) {
+            // Validações de formato
+            if (name.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome muito curto',
@@ -134,16 +127,6 @@ class AuthController {
                 });
             }
 
-            // Nome não pode ter mais de 255 caracteres
-            if (nome.length > 255) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Nome muito longo',
-                    mensagem: 'O nome deve ter no máximo 255 caracteres'
-                });
-            }
-
-            // Valida formato do email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 return res.status(400).json({
@@ -153,8 +136,7 @@ class AuthController {
                 });
             }
 
-            // Senha deve ter pelo menos 6 caracteres
-            if (senha.length < 6) {
+            if (senhaFinal.length < 6) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha muito curta',
@@ -174,10 +156,11 @@ class AuthController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome: nome.trim(), // Remove espaços extras
-                email: email.trim().toLowerCase(),  // Padroniza em minúsculas
-                senha: senha, // Será hasheada no Model
-                tipo: tipo || 'comum' // Padrão: usuário comum
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
+                password: senhaFinal,
+                role: role || 'company_user',
+                company_id: company_id || null
             };
 
             // Criar usuário
@@ -188,9 +171,10 @@ class AuthController {
                 mensagem: 'Usuário registrado com sucesso',
                 dados: {
                     id: usuarioId,
-                    nome: dadosUsuario.nome,
+                    name: dadosUsuario.name,
                     email: dadosUsuario.email,
-                    tipo: dadosUsuario.tipo
+                    role: dadosUsuario.role,
+                    company_id: dadosUsuario.company_id
                 }
             });
         } catch (error) {
@@ -206,10 +190,8 @@ class AuthController {
     // GET /auth/perfil - Obter perfil do usuário logado
     static async obterPerfil(req, res) {
         try {
-            // req.usuario foi adicionado pelo middleware de autenticação
             const usuario = await UsuarioModel.buscarPorId(req.usuario.id);
             
-            // Verifica se o usuário existe
             if (!usuario) {
                 return res.status(404).json({
                     sucesso: false,
@@ -219,7 +201,7 @@ class AuthController {
             }
 
             // Remover senha dos dados retornados
-            const { senha, ...usuarioSemSenha } = usuario;
+            const { password_hash, ...usuarioSemSenha } = usuario;
 
             res.status(200).json({
                 sucesso: true,
@@ -235,14 +217,12 @@ class AuthController {
         }
     }
 
-    // GET /usuarios - Listar todos os usuários (apenas admin, com paginação)
+    // GET /usuarios - Listar todos os usuários (apenas admin)
     static async listarUsuarios(req, res) {
         try {
-            // Obter parâmetros de paginação da query string
             const pagina = parseInt(req.query.pagina) || 1;
             const limite = parseInt(req.query.limite) || 10;
             
-            // Validações
             if (pagina < 1) {
                 return res.status(400).json({
                     sucesso: false,
@@ -260,11 +240,10 @@ class AuthController {
                 });
             }
             
-            // === BUSCAR USUÁRIOS COM PAGINAÇÃO ===
             const resultado = await UsuarioModel.listarTodos(pagina, limite);
             
-            // Remover senha de todos os usuários
-            const usuariosSemSenha = resultado.usuarios.map(({ senha, ...usuario }) => usuario);
+            // Remover password_hash de todos os usuários
+            const usuariosSemSenha = resultado.users.map(({ password_hash, ...usuario }) => usuario);
 
             res.status(200).json({
                 sucesso: true,
@@ -285,269 +264,6 @@ class AuthController {
             });
         }
     }
-
-    // POST /usuarios - Criar novo usuário (apenas admin)
-    static async criarUsuario(req, res) {
-        try {
-            const { nome, email, senha, tipo } = req.body;
-            
-            // Validações básicas
-            if (!nome || nome.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Nome obrigatório',
-                    mensagem: 'O nome é obrigatório'
-                });
-            }
-
-            if (!email || email.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Email obrigatório',
-                    mensagem: 'O email é obrigatório'
-                });
-            }
-
-            if (!senha || senha.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Senha obrigatória',
-                    mensagem: 'A senha é obrigatória'
-                });
-            }
-
-            // Validações de formato
-            if (nome.length < 2) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Nome muito curto',
-                    mensagem: 'O nome deve ter pelo menos 2 caracteres'
-                });
-            }
-
-            if (nome.length > 255) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Nome muito longo',
-                    mensagem: 'O nome deve ter no máximo 255 caracteres'
-                });
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Email inválido',
-                    mensagem: 'Formato de email inválido'
-                });
-            }
-
-            if (senha.length < 6) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Senha muito curta',
-                    mensagem: 'A senha deve ter pelo menos 6 caracteres'
-                });
-            }
-
-            // Verificar se o email já existe
-            const usuarioExistente = await UsuarioModel.buscarPorEmail(email);
-            if (usuarioExistente) {
-                return res.status(409).json({
-                    sucesso: false,
-                    erro: 'Email já cadastrado',
-                    mensagem: 'Este email já está sendo usado por outro usuário'
-                });
-            }
-
-            // Preparar dados do usuário
-            const dadosUsuario = {
-                nome: nome.trim(),
-                email: email.trim().toLowerCase(),
-                senha: senha,
-                tipo: tipo || 'comum'
-            };
-
-            // Criar usuário
-            const usuarioId = await UsuarioModel.criar(dadosUsuario);
-            
-            res.status(201).json({
-                sucesso: true,
-                mensagem: 'Usuário criado com sucesso',
-                dados: {
-                    id: usuarioId,
-                    nome: dadosUsuario.nome,
-                    email: dadosUsuario.email,
-                    tipo: dadosUsuario.tipo
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao criar usuário:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível criar o usuário'
-            });
-        }
-    }
-
-    // PUT /usuarios/:id - Atualizar usuário (apenas admin)
-    static async atualizarUsuario(req, res) {
-        try {
-            const { id } = req.params;
-            const { nome, email, senha, tipo } = req.body;
-            
-            // Validação do ID
-            if (!id || isNaN(id)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'ID inválido',
-                    mensagem: 'O ID deve ser um número válido'
-                });
-            }
-
-            // Verificar se o usuário existe
-            const usuarioExistente = await UsuarioModel.buscarPorId(id);
-            if (!usuarioExistente) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Usuário não encontrado',
-                    mensagem: `Usuário com ID ${id} não foi encontrado`
-                });
-            }
-
-            // Preparar dados para atualização
-            const dadosAtualizacao = {};
-            
-            if (nome !== undefined) {
-                if (nome.trim() === '') {
-                    return res.status(400).json({
-                        sucesso: false,
-                        erro: 'Nome inválido',
-                        mensagem: 'O nome não pode estar vazio'
-                    });
-                }
-                if (nome.length < 2) {
-                    return res.status(400).json({
-                        sucesso: false,
-                        erro: 'Nome muito curto',
-                        mensagem: 'O nome deve ter pelo menos 2 caracteres'
-                    });
-                }
-                dadosAtualizacao.nome = nome.trim();
-            }
-
-            if (email !== undefined) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    return res.status(400).json({
-                        sucesso: false,
-                        erro: 'Email inválido',
-                        mensagem: 'Formato de email inválido'
-                    });
-                }
-                
-                // Verificar se o email já está em uso por outro usuário
-                const usuarioComEmail = await UsuarioModel.buscarPorEmail(email);
-                if (usuarioComEmail && usuarioComEmail.id !== parseInt(id)) {
-                    return res.status(409).json({
-                        sucesso: false,
-                        erro: 'Email já cadastrado',
-                        mensagem: 'Este email já está sendo usado por outro usuário'
-                    });
-                }
-                
-                dadosAtualizacao.email = email.trim().toLowerCase();
-            }
-
-            if (senha !== undefined) {
-                if (senha.length < 6) {
-                    return res.status(400).json({
-                        sucesso: false,
-                        erro: 'Senha muito curta',
-                        mensagem: 'A senha deve ter pelo menos 6 caracteres'
-                    });
-                }
-                dadosAtualizacao.senha = senha;
-            }
-
-            if (tipo !== undefined) {
-                dadosAtualizacao.tipo = tipo;
-            }
-
-            // Verificar se há dados para atualizar
-            if (Object.keys(dadosAtualizacao).length === 0) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Nenhum dado para atualizar',
-                    mensagem: 'Forneça pelo menos um campo para atualizar'
-                });
-            }
-
-            // Atualizar usuário
-            const resultado = await UsuarioModel.atualizar(id, dadosAtualizacao);
-            
-            res.status(200).json({
-                sucesso: true,
-                mensagem: 'Usuário atualizado com sucesso',
-                dados: {
-                    linhasAfetadas: resultado || 1
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao atualizar usuário:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível atualizar o usuário'
-            });
-        }
-    }
-
-    // DELETE /usuarios/:id - Excluir usuário (apenas admin)
-    static async excluirUsuario(req, res) {
-        try {
-            const { id } = req.params;
-            
-            // Validação do ID
-            if (!id || isNaN(id)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'ID inválido',
-                    mensagem: 'O ID deve ser um número válido'
-                });
-            }
-
-            // Verificar se o usuário existe
-            const usuarioExistente = await UsuarioModel.buscarPorId(id);
-            if (!usuarioExistente) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Usuário não encontrado',
-                    mensagem: `Usuário com ID ${id} não foi encontrado`
-                });
-            }
-
-            // Excluir usuário
-            const resultado = await UsuarioModel.excluir(id);
-            
-            res.status(200).json({
-                sucesso: true,
-                mensagem: 'Usuário excluído com sucesso',
-                dados: {
-                    linhasAfetadas: resultado || 1
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao excluir usuário:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível excluir o usuário'
-            });
-        }
-    }
 }
 
 export default AuthController;
-
