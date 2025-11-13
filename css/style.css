@@ -11,9 +11,10 @@ body {
 /* ===== NAV ===== */
 nav {
   width: 260px;
-  border-radius: 16px;
+  height: 100vh;
+  border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 15px 0;
+  padding-top: 7vh;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -66,27 +67,54 @@ nav button.ativo i {
 }
 
 
-/* ===== HEADER ===== */
-header {
-    padding: 10px;
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 12px 20px;
+  background: #ffffff;
+  transition: box-shadow 0.3s ease; /* animação suave */
+  z-index: 999;
 }
 
-header h1 {
-    padding-left: 3vh;
-    margin: 0;
+/* sombra aparece somente quando rolar */
+.header.scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
+
+.header .titulo {
+  margin: 0;
+  font-weight: 600;
+  color: #007bff; /* Azul suave estilo Google */
 }
+
+/* --- Ícones --- */
+.icones .btn-header {
+  background: #ffffff;      /* Azul clarinho */
+  border-radius: 10px;
+  border: none;
+  padding: 6px 10px;
+  font-size: 22px;
+  transition: 0.2s ease;
+}
+
+.icones .btn-header:hover {
+  background: #e0ebff;      /* hover mais claro */
+  transform: translateY(-2px);
+}
+
+.icones .btn-header:active {
+  transform: scale(0.95);
+}
+
 
 /* ===== MAIN ===== */
 main {
     flex-grow: 1;
     padding-left: 1vh;
+    padding-top: 7vh;
 }
 
 /* ===== CONTEÚDOS ===== */

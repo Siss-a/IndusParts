@@ -13,14 +13,19 @@
 
 <body>
 
-  <header class="d-flex">
-    <div class="w-50">
-      <h1>IndusParts</h1>
-    </div>
-    <div class="w-50 d-flex justify-content-end gap-2">
-      <button class="material-icons">search</button>
-      <button class="material-icons">help_outline</button>
-      <button class="material-icons">apps</button>
+  <header class="d-flex align-items-center justify-content-between header">
+    <h1 class="fs-4 titulo">IndusParts</h1>
+
+    <div class="d-flex align-items-center gap-2 icones">
+      <a href="#">
+        <button class="material-icons btn-header">search</button>
+      </a>
+      <a href="#">
+        <button class="material-icons btn-header">help_outline</button>
+      </a>
+      <a href="testeee.html">
+        <button class="material-icons btn-header">apps</button>
+      </a>
     </div>
   </header>
 
@@ -39,7 +44,7 @@
         <i class="bi bi-info-circle"></i> Sobre
       </button>
     </nav>
-    
+
     <!-- ===== MAIN ===== -->
     <main>
       <div id="inicio" class="conteudo ativo pt-3">
@@ -54,6 +59,7 @@
           <h1>Bem-vindo, (nome da pessoa)</h1>
           <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
               href="#">Saiba mais ?</a></p>
+        
         </div>
       </div>
 
@@ -95,6 +101,19 @@
       });
     });
   </script>
+<!-- header animação -->
+<script>
+  const header = document.querySelector(".header");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 10) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
+</script>
+
 </body>
 
 </html>
