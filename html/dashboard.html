@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>IndusParts</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="d-flex">
+    <div class="w-50">
+      <h1>IndusParts</h1>
+    </div>
+    <div class="w-50 d-flex justify-content-end gap-2">
+      <button class="material-icons">search</button>
+      <button class="material-icons">help_outline</button>
+      <button class="material-icons">apps</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav>
+      <button class="ativo" data-alvo="inicio">
+        <i class="bi bi-house-door"></i> Início
+      </button>
+      <button data-alvo="info">
+        <i class="bi bi-person"></i> Informações pessoais
+      </button>
+      <button data-alvo="privacidade" class="borda-inferior">
+        <i class="bi bi-shield-lock"></i> Dados e privacidade
+      </button>
+      <button data-alvo="sobre">
+        <i class="bi bi-info-circle"></i> Sobre
+      </button>
+    </nav>
+    
+    <!-- ===== MAIN ===== -->
+    <main>
+      <div id="inicio" class="conteudo ativo pt-3">
+        <div class="foto">
+          <div class="perfil">
+            <img src="/imagens/mulher.webp" alt="Foto de perfil">
+          </div>
+        </div>
+
+
+        <div class="infos">
+          <h1>Bem-vindo, (nome da pessoa)</h1>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+        </div>
+      </div>
+
+      <div id="info" class="conteudo">
+        <h2>Informações Pessoais</h2>
+        <p>Aqui você pode editar seu nome, e-mail, etc.</p>
+      </div>
+
+      <div id="privacidade" class="conteudo">
+        <h2>Dados e Privacidade</h2>
+        <p>Gerencie suas configurações de segurança e privacidade.</p>
+      </div>
+
+      <div id="sobre" class="conteudo">
+        <h2>Sobre</h2>
+        <p>Versão do sistema: 1.0</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+    integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const botoes = document.querySelectorAll("nav button");
+    const conteudos = document.querySelectorAll(".conteudo");
+
+    botoes.forEach(botao => {
+      botao.addEventListener("click", () => {
+        botoes.forEach(b => b.classList.remove("ativo"));
+        conteudos.forEach(c => c.classList.remove("ativo"));
+
+        botao.classList.add("ativo");
+        document.getElementById(botao.dataset.alvo).classList.add("ativo");
+      });
+    });
+  </script>
+</body>
+
+</html>
