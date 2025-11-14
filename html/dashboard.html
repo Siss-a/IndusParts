@@ -4,17 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <title>IndusParts</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <!-- bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- style -->
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Icones -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- icones tb -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
   <header class="d-flex align-items-center justify-content-between header">
-    <h1 class="fs-4 titulo">IndusParts</h1>
+    <a class="text-decoration-none" href="#">
+      <h1 class="fs-4 titulo"><span style="color: #007bff ;">Indus</span><span style="color: black;">Parts</span></h1>
+    </a>
 
     <div class="d-flex align-items-center gap-2 icones">
       <a href="#">
@@ -29,54 +36,107 @@
     </div>
   </header>
 
-  <div class="layout">
-    <nav>
+  <!-- ===== LAYOUT: usa o grid do Bootstrap corretamente ===== -->
+  <div class="layout m-0">
+
+    <!-- Nav: 12 col no mobile, 2 col a partir do md -->
+    <nav class="col-12 col-md-2">
       <button class="ativo" data-alvo="inicio">
-        <i class="bi bi-house-door"></i> Início
+        <i class="bi bi-house-door"></i> <span class="ms-1">Início</span>
       </button>
       <button data-alvo="info">
-        <i class="bi bi-person"></i> Informações pessoais
+        <i class="bi bi-person"></i> <span class="ms-1" >Informações pessoais</span>
       </button>
       <button data-alvo="privacidade" class="borda-inferior">
-        <i class="bi bi-shield-lock"></i> Dados e privacidade
+        <i class="bi bi-shield-lock"></i> <span class="ms-1">Dados e privacidade</span>
       </button>
       <button data-alvo="sobre">
-        <i class="bi bi-info-circle"></i> Sobre
+        <i class="bi bi-info-circle"></i> <span class="ms-1">Sobre</span>
       </button>
     </nav>
 
-    <!-- ===== MAIN ===== -->
-    <main>
-      <div id="inicio" class="conteudo ativo pt-3">
-        <div class="foto">
+    <!-- MAIN: ocupa 12 col no mobile e 10 no md+ -->
+   <main class="col-12 col-md-10 row m-0">
+
+      <!-- cada seção ocupa 12 colunas dentro do main -->
+      <div id="inicio" class="col-12 col-md-10 conteudo ativo container pt-3">
+        <header class="foto">
           <div class="perfil">
             <img src="/imagens/mulher.webp" alt="Foto de perfil">
           </div>
-        </div>
-
+        </header>
 
         <div class="infos">
-          <h1>Bem-vindo, (nome da pessoa)</h1>
+          <h1 class="t1">Bem-vindo, (nome da pessoa)</h1>
           <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
               href="#">Saiba mais ?</a></p>
-        
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
+          <p>Gerencie suas informações, privacidade e segurança para que o Google funcione melhor para você. <a
+              href="#">Saiba mais ?</a></p>
         </div>
       </div>
 
-      <div id="info" class="conteudo">
+      <div id="info" class="col-12 conteudo container">
         <h2>Informações Pessoais</h2>
         <p>Aqui você pode editar seu nome, e-mail, etc.</p>
       </div>
 
-      <div id="privacidade" class="conteudo">
+      <div id="privacidade" class="col-12 conteudo container">
         <h2>Dados e Privacidade</h2>
         <p>Gerencie suas configurações de segurança e privacidade.</p>
       </div>
 
-      <div id="sobre" class="conteudo">
+      <div id="sobre" class="col-12 conteudo container">
         <h2>Sobre</h2>
-        <p>Versão do sistema: 1.0</p>
+        <p>Versão atual: 1.2 — versão estável totalmente funcional.</p>
+        <p>Nosso foco é entregar clareza, velocidade e confiabilidade em cada atualização.</p>
       </div>
+
     </main>
   </div>
 
@@ -101,18 +161,18 @@
       });
     });
   </script>
-<!-- header animação -->
-<script>
-  const header = document.querySelector(".header");
+  <!-- header animação -->
+  <script>
+    const header = document.querySelector(".header");
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 10) {
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
-    }
-  });
-</script>
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
 
 </body>
 

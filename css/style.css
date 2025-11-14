@@ -1,26 +1,26 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 /* layout principal */
 .layout {
-    display: flex;
+  display: flex;
+  margin-left: 280px;
 }
 
 /* ===== NAV ===== */
 nav {
-  width: 260px;
-  height: 100vh;
-  border-radius: 5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding-top: 7vh;
+  min-height: 100vh;
+  min-width: 280px;
+  max-width: 280px;
+
+  padding-top: 9vh;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-/* ===== BOTÕES ===== */
 nav button {
   display: flex;
   align-items: center;
@@ -44,11 +44,6 @@ nav button i {
   transition: color 0.25s ease;
 }
 
-nav button:hover {
-  background-color: #f4f7ff;
-  transform: translateX(2px);
-}
-
 nav button.ativo {
   background: linear-gradient(90deg, #e9f1ff, #f5f9ff);
   font-weight: 600;
@@ -66,33 +61,32 @@ nav button.ativo i {
   border-bottom: 1px solid #e0e0e0;
 }
 
-
 /* HEADER */
 .header {
   position: fixed;
   top: 0;
+  background-color: #ffffff;
   width: 100%;
   padding: 12px 20px;
-  background: #ffffff;
-  transition: box-shadow 0.3s ease; /* animação suave */
-  z-index: 999;
+  transition: box-shadow 0.3s ease;
+  z-index: 999 !important;
 }
 
-/* sombra aparece somente quando rolar */
 .header.scrolled {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-
-.header .titulo {
-  margin: 0;
-  font-weight: 600;
-  color: #007bff; /* Azul suave estilo Google */
+.titulo {
+  transition: ease 0.3s;
 }
 
-/* --- Ícones --- */
+.titulo:hover {
+  transition: ease 0.3s;
+  transform: scale(1.03);
+}
+
 .icones .btn-header {
-  background: #ffffff;      /* Azul clarinho */
+  background: #ffffff;
   border-radius: 10px;
   border: none;
   padding: 6px 10px;
@@ -101,7 +95,7 @@ nav button.ativo i {
 }
 
 .icones .btn-header:hover {
-  background: #e0ebff;      /* hover mais claro */
+  background: #e0ebff;
   transform: translateY(-2px);
 }
 
@@ -109,24 +103,28 @@ nav button.ativo i {
   transform: scale(0.95);
 }
 
-
 /* ===== MAIN ===== */
 main {
-    flex-grow: 1;
-    padding-left: 1vh;
-    padding-top: 7vh;
+  padding-top: 7vh;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
 }
 
 /* ===== CONTEÚDOS ===== */
 .conteudo {
-    display: none;
+  display: none;
 }
 
 .conteudo.ativo {
-    display: block;
-    width: 100%;
-    height: 90vh;
-    justify-content: center;
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  height: auto;
+}
+
+.t1 {
+  font-size: 1.8rem;
 }
 
 /* ===== FOTO ===== */
@@ -138,8 +136,8 @@ main {
 
 .perfil {
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   overflow: hidden;
   background: linear-gradient(135deg, #0047ab, #ffcc00);
@@ -151,10 +149,6 @@ main {
   transition: transform 0.3s ease;
 }
 
-.perfil:hover {
-  transform: scale(1.03);
-}
-
 .perfil img {
   width: 100%;
   height: 100%;
@@ -162,7 +156,6 @@ main {
   object-fit: cover;
   transition: opacity 0.3s ease;
 }
-
 
 /* ===== INFOS ===== */
 .infos {
@@ -194,4 +187,91 @@ main {
 
 .infos a:hover {
   text-decoration: underline;
+}
+
+
+/* ========== RESPOSIVIDADE ========== */
+
+@media (max-width: 1130px) {
+
+  nav {
+    min-height: 10px !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 60px !important;
+    padding-top: 0 !important;
+
+    position: fixed;
+    top: 50px;
+    left: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    z-index: 999;
+  }
+
+  nav button {
+    width: auto;
+    min-height: 60px;
+    padding-bottom: 5px;;
+  }
+  
+  .botao-inferior {
+    border-bottom: none !important;
+  }
+
+   nav button.ativo {
+    background: none !important;
+    font-weight: 600;
+    color: #1a73e8 !important;
+    box-shadow: none !important;
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    border-bottom: 3px solid #1a73e8 !important;
+    
+  }
+
+  /* Cor dos ícones */
+  nav button.ativo i {
+    color: #1a73e8 !important;
+  }
+
+  .layout {
+    flex-direction: column; /* NAV em cima, MAIN embaixo */
+  }
+  main {
+    width: 100% !important;
+    flex: 1;
+    padding-top: 110px !important;
+  }
+}
+
+@media (max-width: 518px) {
+
+  nav {
+    overflow-x: auto;       /* habilita scroll horizontal */
+    white-space: nowrap;    /* impede que os botões quebrem linha */
+    gap: 8px;
+    padding: 10px 5px;
+
+    /* remove scrollbar do Chrome */
+    scrollbar-width: none;   /* Firefox */
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;  /* Chrome */
+  }
+
+  nav button {
+    flex: 0 0 auto;   /* os botões passam a ter largura fixa e não quebram */
+  }
+
+    .botao-inferior {
+    border-bottom: none !important;
+  }
 }
