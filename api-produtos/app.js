@@ -91,7 +91,7 @@ app.use(errorMiddleware);
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`╔══════════════════════════════════════════╗`);
-    console.log(`║   API B2B - Sistema de Gestão            ║`);
+    console.log(`║   Sistema de Gestão                      ║`);
     console.log(`║   http://localhost:${PORT}                  ║`);
     console.log(`║   Ambiente: ${process.env.NODE_ENV || 'development'}                  ║`);
     console.log(`╚══════════════════════════════════════════╝`);

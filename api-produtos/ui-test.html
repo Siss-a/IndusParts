@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teste API / DB - Interface</title>
+  <style>
+    :root{--accent:#0b67d0;--muted:#666;--bg:#f6f8fb}
+    body{font-family:Inter,Segoe UI,Arial;background:var(--bg);margin:0;padding:24px;color:#222}
+    .container{max-width:900px;margin:0 auto;background:#fff;border-radius:8px;padding:20px;box-shadow:0 8px 30px rgba(15,15,15,0.06)}
+    h1{margin:0 0 16px;font-size:20px}
+    .row{display:flex;gap:16px;flex-wrap:wrap}
+    .card{flex:1 1 280px;background:#fafafa;border:1px solid #eee;padding:14px;border-radius:6px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input[type="text"],input[type="password"],input[type="number"],textarea,select{
+      width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:14px;background:#fff;
+    }
+    button{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:5px;cursor:pointer}
+    button.secondary{background:#666}
+    pre{background:#0f1724;color:#e6f0ff;padding:10px;border-radius:6px;overflow:auto;max-height:260px}
+    .small{font-size:13px;color:var(--muted)}
+    .spaced{margin-top:12px}
+    .success{color:green}
+    .error{color:#b00020}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Painel rápido — API & DB</h1>
+
+    <div class="row">
+      <div class="card" id="apiCard">
+        <h3>Verificar API</h3>
+        <p class="small">Health check da sua API (GET /)</p>
+        <div class="spaced">
+          <label>URL da API</label>
+          <input type="text" id="apiUrl" value="http://localhost:3000" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="btnHealth">Verificar</button>
+            <button id="btnOpen" class="secondary">Abrir no navegador</button>
+          </div>
+        </div>
+        <div class="spaced">
+          <label>Resposta</label>
+          <pre id="apiResult">—</pre>
+        </div>
+      </div>
+
+      <div class="card" id="loginCard">
+        <h3>Login (autenticação)</h3>
+        <p class="small">Fazer POST para /api/auth/login e exibir token/resposta</p>
+        <label>Email</label>
+        <input type="text" id="loginEmail" value="admin@gmail.com" />
+        <label>Senha</label>
+        <input type="password" id="loginSenha" value="SenhaForteAqui123!" />
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="btnLogin">Fazer login</button>
+          <button id="btnClearToken" class="secondary">Limpar token</button>
+        </div>
+        <div class="spaced">
+          <label>Token</label>
+          <textarea id="tokenArea" rows="3" placeholder="JWT retornará aqui"></textarea>
+        </div>
+        <div class="spaced">
+          <label>Resposta do login</label>
+          <pre id="loginResult">—</pre>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px" class="row">
+      <div class="card">
+        <h3>Testar conexão ao Banco</h3>
+        <p class="small">Envia as credenciais para um endpoint do backend que tenta conectar ao MySQL</p>
+        <label>Host</label>
+        <input type="text" id="dbHost" value="localhost" />
+        <label>Porta</label>
+        <input type="number" id="dbPort" value="3306" />
+        <label>Usuário</label>
+        <input type="text" id="dbUser" value="api_user" />
+        <label>Senha</label>
+        <input type="password" id="dbPassword" value="IndusParts_apiUser_2025" />
+        <label>Database</label>
+        <input type="text" id="dbName" value="produtos_api" />
+
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="btnTestDb">Testar conexão</button>
+          <button id="btnCreateUser" class="secondary">Criar DB / Usuário (back-end)</button>
+        </div>
+
+        <div class="spaced">
+          <label>Resposta DB</label>
+          <pre id="dbResult">—</pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Requisição Protegida</h3>
+        <p class="small">Testar rota protegida com o token obtido</p>
+        <label>Rota (GET)</label>
+        <input type="text" id="protectedRoute" value="/api/auth/profile" />
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="btnProtected">Chamar rota</button>
+        </div>
+        <div class="spaced">
+          <label>Resposta</label>
+          <pre id="protectedResult">—</pre>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px" class="small">
+      Observações: o botão "Criar DB / Usuário" pressupõe que exista um endpoint no backend que execute as queries de criação (por segurança, implemente esse endpoint apenas localmente).
+    </div>
+  </div>
+
+  <script>
+    // Helpers
+    const el = id => document.getElementById(id);
+    const show = (id, text) => { el(id).textContent = typeof text === 'string' ? text : JSON.stringify(text, null, 2); };
+
+    // Health check
+    el('btnHealth').addEventListener('click', async () => {
+      const base = el('apiUrl').value.replace(/\/$/, '');
+      try {
+        const r = await fetch(base + '/', { method: 'GET' });
+        const ct = r.headers.get('content-type') || '';
+        const body = ct.includes('application/json') ? await r.json() : await r.text();
+        show('apiResult', { status: r.status, headers: Object.fromEntries(r.headers), body });
+      } catch (err) {
+        show('apiResult', 'Erro: ' + err.message);
+      }
+    });
+    el('btnOpen').addEventListener('click', () => {
+      window.open(el('apiUrl').value, '_blank');
+    });
+
+    // Login
+    el('btnLogin').addEventListener('click', async () => {
+      const base = el('apiUrl').value.replace(/\/$/, '');
+      const payload = { email: el('loginEmail').value, senha: el('loginSenha').value };
+      try {
+        const r = await fetch(base + '/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await r.json().catch(()=>null);
+        show('loginResult', json ?? await r.text());
+        if (json && json.token) {
+          el('tokenArea').value = json.token;
+        } else if (json && json.sucesso === true && json.token) {
+          el('tokenArea').value = json.token;
+        }
+      } catch (err) {
+        show('loginResult', 'Erro: ' + err.message);
+      }
+    });
+
+    el('btnClearToken').addEventListener('click', () => {
+      el('tokenArea').value = '';
+    });
+
+    // Test DB connection (requires backend endpoint POST /api/test-connection)
+    el('btnTestDb').addEventListener('click', async () => {
+      const base = el('apiUrl').value.replace(/\/$/, '');
+      const payload = {
+        host: el('dbHost').value,
+        port: Number(el('dbPort').value),
+        user: el('dbUser').value,
+        password: el('dbPassword').value,
+        database: el('dbName').value
+      };
+      try {
+        const r = await fetch(base + '/api/test-connection', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await r.json().catch(()=>null);
+        show('dbResult', json ?? await r.text());
+      } catch (err) {
+        show('dbResult', 'Erro: ' + err.message);
+      }
+    });
+
+    // Create DB / user (dangerous: require a secure backend endpoint)
+    el('btnCreateUser').addEventListener('click', async () => {
+      const base = el('apiUrl').value.replace(/\/$/, '');
+      if (!confirm('Executar criação de DB/usuário via backend? Só use localmente.')) return;
+      try {
+        const r = await fetch(base + '/api/create-db-user', { method: 'POST' });
+        const json = await r.json().catch(()=>null);
+        show('dbResult', json ?? await r.text());
+      } catch (err) {
+        show('dbResult', 'Erro: ' + err.message);
+      }
+    });
+
+    // Protected route
+    el('btnProtected').addEventListener('click', async () => {
+      const base = el('apiUrl').value.replace(/\/$/, '');
+      const route = el('protectedRoute').value;
+      const token = el('tokenArea').value;
+      try {
+        const r = await fetch(base + route, {
+          method: 'GET',
+          headers: token ? { Authorization: 'Bearer ' + token } : {}
+        });
+        const ct = r.headers.get('content-type') || '';
+        const body = ct.includes('application/json') ? await r.json() : await r.text();
+        show('protectedResult', { status: r.status, body });
+      } catch (err) {
+        show('protectedResult', 'Erro: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
