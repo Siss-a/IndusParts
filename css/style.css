@@ -127,7 +127,7 @@ main {
   width: 100%;
 }
 
-/* ===== CONTEÚDOS ===== */
+/* ===== CONTEUDOS ===== */
 
 .conteudo {
   display: none;
@@ -175,7 +175,7 @@ main {
   transition: opacity 0.3s ease;
 }
 
-/* ===== INFOS ===== */
+/* ===== INICIO ===== */
 
 .infos1 {
   width: 100%;
@@ -208,37 +208,36 @@ main {
   text-decoration: underline;
 }
 
-/* ========== BARRA DE PESQUISA ========== */
-
-/* ===== BARRA DE PESQUISA ===== */
-
-.search-box {
-  position: relative;
-  display: flex;
-  align-items: center;
+.bloco {
+  /* background: #bd3030; */
+  height: 70vh;
+  width: 60%;
 }
 
-.search-box input {
-  width: 800px;
-  padding: 8px 35px 8px 12px;
-  border-radius: 10px;
-  border: 1px solid #d0d0d0;
-  font-size: 14px;
-  transition: 0.3s ease;
+.painel {
+  /* background: #fff;   */
+  min-width: 406px;
+  height: 407px;
+
+  
+  background: #fff;
+  border-radius: 12px;    
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12); 
+  border: 1px solid #e0e0e0; /* opcional: borda fininha */
 }
 
-.search-box input:focus {
-  outline: none;
-  border-color: #1a73e8;
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+.desc{
+  font-size: 0.95rem;
+  color: #5f6368
 }
 
-.search-box span {
-  position: absolute;
-  right: 10px;
-  color: #5f6368;
-  font-size: 20px;
-  cursor: pointer;
+
+/* ========== INFORMAÇÕES PESSOAIS ========== */
+
+.teste1 {
+ text-align: center;
+ flex-direction: column;
 }
 
 
@@ -351,5 +350,11 @@ main {
 
     .botao-inferior {
     border-bottom: none !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .infos1 h1, p {
+    font-size: 1.5rem;
   }
 }
