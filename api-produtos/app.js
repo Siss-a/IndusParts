@@ -6,8 +6,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Importar rotas
+import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
-import companyRotas from './routes/companyRotas.js';
+import criptografiaRotas from './routes/criptografiaRotas.js';
+import usuarioRotas from './routes/usuarioRotas.js';
 
 // Importar middlewares
 import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -28,17 +30,17 @@ app.use(helmet()); // Segurança HTTP
 
 // Configuração CORS global
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    preflightContinue: false,
-    optionsSuccessStatus: 200
+    origin: '*', // Permitir todas as origens. Ajuste conforme necessário. Ex.: 'http://meufrontend.com'
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+    preflightContinue: false, // Não passar para o próximo middleware
+    optionsSuccessStatus: 200 // Responder com 200 para requisições OPTIONS
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir arquivos estáticos
+//  Servir arquivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware para log de requisições (salva no banco de dados)
@@ -46,32 +48,32 @@ app.use(logMiddleware);
 
 // Rotas da API
 app.use('/api/auth', authRotas);
-app.use('/api/companies', companyRotas);
+app.use('/api/produtos', produtoRotas);
+app.use('/api/criptografia', criptografiaRotas);
+app.use('/api/usuarios', usuarioRotas);
 
 // Rota raiz
 app.get('/', (req, res) => {
     res.json({
         sucesso: true,
-        mensagem: 'API B2B - Sistema de Gestão Empresarial',
-        versao: '2.0.0',
+        mensagem: 'API de Produtos - Sistema de Gestão',
+        versao: '1.0.0',
         rotas: {
             autenticacao: '/api/auth',
-            empresas: '/api/companies'
+            produtos: '/api/produtos',
+            criptografia: '/api/criptografia'
         },
         documentacao: {
-            // Autenticação
             login: 'POST /api/auth/login',
             registrar: 'POST /api/auth/registrar',
             perfil: 'GET /api/auth/perfil',
-            
-            // Empresas
-            listarEmpresas: 'GET /api/companies',
-            buscarEmpresa: 'GET /api/companies/:id',
-            criarEmpresa: 'POST /api/companies',
-            atualizarEmpresa: 'PUT /api/companies/:id',
-            excluirEmpresa: 'DELETE /api/companies/:id',
-            usuariosEmpresa: 'GET /api/companies/:id/users',
-            enderecosEmpresa: 'GET /api/companies/:id/addresses'
+            listarProdutos: 'GET /api/produtos',
+            buscarProduto: 'GET /api/produtos/:id',
+            criarProduto: 'POST /api/produtos',
+            atualizarProduto: 'PUT /api/produtos/:id',
+            excluirProduto: 'DELETE /api/produtos/:id',
+            infoCriptografia: 'GET /api/criptografia/info',
+            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario'
         }
     });
 });
@@ -90,11 +92,10 @@ app.use(errorMiddleware);
 
 // Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`╔══════════════════════════════════════════╗`);
-    console.log(`║   Sistema de Gestão                      ║`);
-    console.log(`║   http://localhost:${PORT}                  ║`);
-    console.log(`║   Ambiente: ${process.env.NODE_ENV || 'development'}                  ║`);
-    console.log(`╚══════════════════════════════════════════╝`);
+    console.log(`Acesse: http://localhost:${PORT}`);
+    console.log(`API de Produtos - Sistema de Gestão`);
+    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
 
 export default app;
+
