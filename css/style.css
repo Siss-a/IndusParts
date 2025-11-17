@@ -1,8 +1,16 @@
 /* Bem vindo ao meu caos */
 
+@font-face {
+  font-family: "Helvetica";
+  src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Helvetica", sans-serif;
 }
 
 /* layout principal */
@@ -169,39 +177,69 @@ main {
 
 /* ===== INFOS ===== */
 
-.infos {
+.infos1 {
   width: 100%;
   text-align: center;
   margin-top: 15px;
   color: #202124;
 }
 
-.infos h2 {
+.infos1 h2 {
   font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.infos h2 span {
+.infos1 h2 span {
   color: #1a73e8;
 }
 
-.infos p {
+.infos1 p {
   font-size: 0.95rem;
   color: #5f6368;
 }
 
-.infos a {
+.infos1 a {
   color: #1a73e8;
   text-decoration: none;
 }
 
-.infos a:hover {
+.infos1 a:hover {
   text-decoration: underline;
 }
 
+/* ========== BARRA DE PESQUISA ========== */
 
+/* ===== BARRA DE PESQUISA ===== */
 
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  width: 800px;
+  padding: 8px 35px 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+.search-box span {
+  position: absolute;
+  right: 10px;
+  color: #5f6368;
+  font-size: 20px;
+  cursor: pointer;
+}
 
 
 

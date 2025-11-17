@@ -6,7 +6,7 @@
   <title>IndusParts</title>
   <!-- bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <!-- style -->
   <link rel="stylesheet" href="/css/style.css">
   <!-- Icones -->
@@ -38,25 +38,25 @@
 
   <!-- ===== LAYOUT: usa o grid do Bootstrap corretamente ===== -->
   <div class="layout m-0">
-<div style="width: 280px;">
-    <!-- Nav: 12 col no mobile, 2 col a partir do md -->
-    <nav class="col-12 col-md-2">
-      <button class="ativo" data-alvo="inicio">
-        <i class="bi bi-house-door"></i> <span class="ms-1">Início</span>
-      </button>
-      <button data-alvo="info">
-        <i class="bi bi-person"></i> <span class="ms-1" >Informações pessoais</span>
-      </button>
-      <button data-alvo="privacidade" class="borda-inferior">
-        <i class="bi bi-shield-lock"></i> <span class="ms-1">Dados e privacidade</span>
-      </button>
-      <button data-alvo="sobre">
-        <i class="bi bi-info-circle"></i> <span class="ms-1">Sobre</span>
-      </button>
-    </nav>
-</div>
+    <div style="width: 280px;">
+      <!-- Nav: 12 col no mobile, 2 col a partir do md -->
+      <nav class="col-12 col-md-2">
+        <button class="ativo" data-alvo="inicio">
+          <i class="bi bi-house-door"></i> <span class="ms-1">Início</span>
+        </button>
+        <button data-alvo="info">
+          <i class="bi bi-person"></i> <span class="ms-1">Informações pessoais</span>
+        </button>
+        <button data-alvo="privacidade" class="borda-inferior">
+          <i class="bi bi-shield-lock"></i> <span class="ms-1">Dados e privacidade</span>
+        </button>
+        <button data-alvo="sobre">
+          <i class="bi bi-info-circle"></i> <span class="ms-1">Sobre</span>
+        </button>
+      </nav>
+    </div>
     <!-- MAIN: ocupa 12 col no mobile e 10 no md+ -->
-   <main class="col-12 col-md-10 row m-0">
+    <main class="col-12 col-md-10 row m-0">
 
       <!-- cada seção ocupa 12 colunas dentro do main -->
       <div id="inicio" class="col-12 col-md-10 conteudo ativo container pt-3">
@@ -66,13 +66,20 @@
           </div>
         </header>
 
-        <div class="infos">
+        <div class="infos1">
           <h1 class="t1">Bem-vindo, (nome da pessoa)</h1>
           <p>Gerencie suas informações, privacidade e segurança para que a IndusParts funcione melhor para você. <a
               href="#">Saiba mais ?</a></p>
-      
-         
         </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 icones">
+
+          <!-- Barra de pesquisa -->
+          <div class="search-box ">
+            <input type="text" placeholder="Pesquisar na conta da IndusParts" />
+            <span class="material-icons">search</span>
+          </div>
+
       </div>
 
       <div id="info" class="col-12 conteudo container">
@@ -87,7 +94,7 @@
 
       <div id="sobre" class="col-12 conteudo container">
         <h2>Sobre</h2>
-        <p>Versão atual: 1.2 — versão estável totalmente funcional.</p>
+        <p>Versão atual: 1.3 — versão estável totalmente funcional.</p>
         <p>Nosso foco é entregar clareza, velocidade e confiabilidade em cada atualização.</p>
       </div>
 
