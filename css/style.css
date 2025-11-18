@@ -536,7 +536,7 @@ footer {
     /* NAV em cima, MAIN embaixo */
   }
 
-  main {
+  .m1 {
     width: 100% !important;
     flex: 1;
     padding-top: 110px !important;
