@@ -8,6 +8,11 @@
 }
 
 
+
+a {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   font-family: "Helvetica", sans-serif;
@@ -209,49 +214,77 @@ main {
 }
 
 .bloco {
-  width: 100%;       /* ocupa toda a largura disponível */
-  max-width: 1200px; /* opcional: limita a largura máxima */
-     /* centraliza a .bloco */
+  width: 100%;
+  /* ocupa toda a largura disponível */
+  max-width: 1200px;
+  /* opcional: limita a largura máxima */
+  /* centraliza a .bloco */
   display: flex;
-  flex-wrap: wrap;   /* permite que os cards quebrem linha */
-  gap: 20px;         /* espaço entre os cards */
-   /* centraliza os cards na linha */
+  flex-wrap: wrap;
+  /* permite que os cards quebrem linha */
+  gap: 20px;
+  /* espaço entre os cards */
+  /* centraliza os cards na linha */
 }
 
 .painel {
-  flex: 1 1 300px; /* ocupa mínimo 300px, cresce se houver espaço */
+  flex: 1 1 300px;
+  /* ocupa mínimo 300px, cresce se houver espaço */
   max-width: 406px;
-  height: auto;    /* deixa a altura flexível se necessário */
+  height: auto;
+  /* deixa a altura flexível se necessário */
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   border: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
 }
 
-.longinho{
+.longinho {
   padding: 20px;
 }
 
-.desc{
+.desc {
   font-size: 0.95rem;
   color: #5f6368
 }
 
-.desce{
-  margin-top: auto;;
+.desce {
+  margin-top: auto;
+  ;
 }
 
+.plargo {
+  width: 830px;
+  min-height: 90px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e0e0;
+}
 
 /* ========== INFORMAÇÕES PESSOAIS ========== */
 
 .teste1 {
- text-align: center;
- flex-direction: column;
+  text-align: center;
+  flex-direction: column;
 }
 
 
+
+
+
+
+/* ========== FOOTER ========== */
+
+footer {
+  width: 830px;
+  margin-top: 40px;
+  font-size: 0.95rem;
+  color: #5f6368;
+  text-align: center;
+  padding: 0 20px 20px 20px;
+}
 
 /* ========== RESPOSIVIDADE ========== */
 
@@ -306,14 +339,15 @@ main {
   nav button {
     width: auto;
     min-height: 60px;
-    padding-bottom: 5px;;
+    padding-bottom: 5px;
+    ;
   }
-  
+
   .botao-inferior {
     border-bottom: none !important;
   }
 
-   nav button.ativo {
+  nav button.ativo {
     background: none !important;
     font-weight: 600;
     color: #1a73e8 !important;
@@ -321,7 +355,7 @@ main {
     border-bottom-left-radius: 5px !important;
     border-bottom-right-radius: 5px !important;
     border-bottom: 3px solid #1a73e8 !important;
-    
+
   }
 
   /* Cor dos ícones */
@@ -330,8 +364,10 @@ main {
   }
 
   .layout {
-    flex-direction: column; /* NAV em cima, MAIN embaixo */
+    flex-direction: column;
+    /* NAV em cima, MAIN embaixo */
   }
+
   main {
     width: 100% !important;
     flex: 1;
@@ -342,30 +378,44 @@ main {
 @media (max-width: 700px) {
 
   nav {
-    overflow-x: auto;       /* habilita scroll horizontal */
-    white-space: nowrap;    /* impede que os botões quebrem linha */
+    overflow-x: auto;
+    /* habilita scroll horizontal */
+    white-space: nowrap;
+    /* impede que os botões quebrem linha */
     gap: 8px;
     padding: 10px 5px;
 
     /* remove scrollbar do Chrome */
-    scrollbar-width: none;   /* Firefox */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   nav::-webkit-scrollbar {
-    display: none;  /* Chrome */
+    display: none;
+    /* Chrome */
   }
 
   nav button {
-    flex: 0 0 auto;   /* os botões passam a ter largura fixa e não quebram */
+    flex: 0 0 auto;
+    /* os botões passam a ter largura fixa e não quebram */
   }
 
-    .botao-inferior {
+  .botao-inferior {
     border-bottom: none !important;
   }
 }
 
 @media (max-width: 450px) {
-  .infos1 h1, p {
+
+  .infos1 h1,
+  p {
     font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 643px) {
+  .plargo {
+    max-width: 406px;
+    margin-top: 20px;
   }
 }
