@@ -125,7 +125,7 @@ nav button.ativo i {
 
 /* ===== MAIN ===== */
 
-main {
+.m1 {
   padding-top: 6vh;
   flex: 1;
   min-width: 0;
@@ -270,6 +270,174 @@ main {
   flex-direction: column;
 }
 
+/* Container dos blocos */
+.blocao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ===== BLOCO 1 ===== */
+.bloco1 {
+  display: flex;
+  width: 75%;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* texto do bloco 1 */
+.bloco1 .texto {
+  width: 55%;
+}
+
+/* imagem do bloco 1 */
+.ft1 {
+  width: 260px;
+  height: auto;
+  object-fit: cover;
+}
+
+/* ===== BLOCO 2 ===== */
+
+.bloco2 {
+  width: 75%;
+  margin: 10px auto 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card infos básicas */
+.info-card {
+  max-width: 920px;
+  width: 100%;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  border: 1px solid #e9e9e9;
+}
+
+/* Cabeçalho */
+.info-card .card-header h3 {
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.info-card .card-header p {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+}
+
+/* Linha (label + value) */
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 6px;
+}
+
+/* Label */
+.info-label {
+  flex: 0 0 200px;
+  color: #6c6c6c;
+  font-size: 0.95rem;
+}
+
+/* Value */
+.info-value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 1rem;
+  color: #222;
+}
+
+/* Avatar */
+.avatar-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+
+/* Linhas clicáveis */
+.link-row {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.link-row:hover {
+  background: #f8f9fb;
+}
+
+/* Setinha */
+.info-value i.bi {
+  color: #8a8a8a;
+  font-size: 1.05rem;
+}
+
+/* Divider */
+.info-card hr {
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 768px) {
+
+  .bloco1 {
+    flex-direction: column;
+    text-align: center;
+    width: 95%;
+  }
+
+  .bloco1 .texto {
+    width: 100%;
+  }
+
+  .ft1 {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .bloco2 {
+    width: 95%;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .info-label {
+    flex: none;
+    width: 100%;
+  }
+
+  .info-value {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+  }
+}
 
 
 
