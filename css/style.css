@@ -136,7 +136,7 @@ main {
 .conteudo.ativo {
   display: block;
   width: 100%;
-  padding-left: 0;
+  /* padding-left: 0; */
   height: auto;
 }
 
@@ -209,27 +209,38 @@ main {
 }
 
 .bloco {
-  /* background: #bd3030; */
-  height: 70vh;
-  width: 60%;
+  width: 100%;       /* ocupa toda a largura disponível */
+  max-width: 1200px; /* opcional: limita a largura máxima */
+     /* centraliza a .bloco */
+  display: flex;
+  flex-wrap: wrap;   /* permite que os cards quebrem linha */
+  gap: 20px;         /* espaço entre os cards */
+   /* centraliza os cards na linha */
 }
 
 .painel {
-  /* background: #fff;   */
-  min-width: 406px;
-  height: 407px;
-
-  
+  flex: 1 1 300px; /* ocupa mínimo 300px, cresce se houver espaço */
+  max-width: 406px;
+  height: auto;    /* deixa a altura flexível se necessário */
   background: #fff;
-  border-radius: 12px;    
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.longinho{
   padding: 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12); 
-  border: 1px solid #e0e0e0; /* opcional: borda fininha */
 }
 
 .desc{
   font-size: 0.95rem;
   color: #5f6368
+}
+
+.desce{
+  margin-top: auto;;
 }
 
 
