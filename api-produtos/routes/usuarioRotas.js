@@ -5,10 +5,10 @@ import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.j
 const router = express.Router();
 
 // Rotas de usuários (apenas admin)
-router.get('/', authMiddleware, adminMiddleware, AuthController.listarUsuarios);
-router.post('/', authMiddleware, adminMiddleware, AuthController.criarUsuario);
-router.put('/:id', authMiddleware, adminMiddleware, AuthController.atualizarUsuario);
-router.delete('/:id', authMiddleware, adminMiddleware, AuthController.excluirUsuario);
+router.get('/', authMiddleware, adminMiddleware, UsuarioController.listarUsuarios);
+router.post('/', authMiddleware, adminMiddleware, UsuarioController.criarUsuario);
+router.put('/:id', authMiddleware, adminMiddleware, UsuarioController.atualizarUsuario);
+router.delete('/:id', authMiddleware, adminMiddleware, UsuarioController.excluirUsuario);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/', (req, res) => {
