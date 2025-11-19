@@ -12,6 +12,7 @@
 
 <body>
     <main>
+        
         <div class="login-container">
             <div class="logo">
                 <h1>Login</h1>
@@ -37,9 +38,11 @@
             </form>
 
             <div class="footer-text">
-                <p>© 2025 Sistema B2B. Todos os direitos reservados.</p>
+                <a class="forgot" data-bs-toggle="modal" data-bs-target="#exampleModal">Não tem uma conta?</a>
             </div>
         </div>
+        
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -67,7 +70,7 @@
             // btnLogin.textContent = '⏳ Entrando...'; 
 
             try {
-                const res = await fetch(`http:localhost:3000/login`, {
+                const res = await fetch(`http://localhost:3000/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

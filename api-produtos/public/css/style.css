@@ -9,7 +9,7 @@
 
 .login {
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
         /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
         min-height: 100vh;
         display: flex;
@@ -27,6 +27,7 @@
         border: solid var(--azul-escuro);
         max-width: 450px;
         width: 100%;
+        width: 90vh;
     }
 
     .logo {
@@ -131,5 +132,14 @@
         margin-top: 20px;
         color: #666;
         font-size: 14px;
+    }
+
+    @media (max-width: 576px) {
+        .login-container{
+            border: none;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 80vw;
+            background-color: aqua;
+        }
     }
 }
