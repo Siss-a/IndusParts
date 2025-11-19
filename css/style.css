@@ -271,11 +271,12 @@ nav button.ativo i {
 }
 
 /* Container dos blocos */
-.blocao {
+.b1 {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  background-color: #0047ab;
 }
 
 /* ===== BLOCO 1 ===== */
@@ -301,11 +302,13 @@ nav button.ativo i {
 
 /* ===== BLOCO 2 ===== */
 
+
 .bloco2 {
   width: 75%;
   margin: 10px auto 0 auto;
   display: flex;
   justify-content: center;
+  gap: 20px;
 }
 
 /* Card infos básicas */
