@@ -9,6 +9,11 @@
 
 
 
+* {
+  transition: 0.2s ease;
+}
+
+
 a {
   text-decoration: none;
 }
@@ -26,6 +31,12 @@ body {
 }
 
 /* ===== NAV ===== */
+
+/* animação no botao */
+nav button.ativo {
+  transition: 0.25s ease;
+  transform: translateX(2px);
+}
 
 nav {
   min-height: 100vh;
@@ -270,7 +281,7 @@ nav button.ativo i {
   flex-direction: column;
 }
 
-.m2{
+.m2 {
   /* display: flex; */
   flex-direction: column;
 }
@@ -323,7 +334,7 @@ nav button.ativo i {
   width: 100%;
   border-radius: 8px;
   padding: 18px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   border: 1px solid #e9e9e9;
 }
 
@@ -377,7 +388,7 @@ nav button.ativo i {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
 /* Linhas clicáveis */
@@ -417,10 +428,9 @@ nav button.ativo i {
 
 @media (max-width: 1669px) {
   .plargo2 {
-    width:920px;
+    width: 920px;
   }
 }
-
 
 
 /* ===== RESPONSIVIDADE ===== */
@@ -607,6 +617,12 @@ footer {
   .infos1 h1,
   p {
     font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px){
+  h1,h2,h3{
+     font-size: 90%;
   }
 }
 
