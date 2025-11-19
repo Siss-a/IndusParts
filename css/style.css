@@ -273,7 +273,6 @@ nav button.ativo i {
 .m2{
   /* display: flex; */
   flex-direction: column;
-  height: 90vh;
 }
 
 /* Container dos blocos */
@@ -410,6 +409,10 @@ nav button.ativo i {
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   border: 1px solid #e0e0e0;
+}
+
+.longinho2 {
+  padding: 20px;
 }
 
 /* ===== RESPONSIVIDADE ===== */
