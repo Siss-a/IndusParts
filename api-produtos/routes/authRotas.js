@@ -9,9 +9,14 @@ router.post('/login', AuthController.login);
 router.post('/registrar', AuthController.registrar);
 
 // Rotas protegidas (precisam de autenticação)
-router.get('/perfil', authMiddleware, AuthController.obterPerfil);
-router.get('/usuarios', authMiddleware, adminMiddleware, AuthController.listarUsuarios);
+router.get('/perfil', authMiddleware, UsuarioController.obterPerfil);
 
+// fetch("http://localhost:3000/api/usuarios", {
+//     method: "GET",
+//     headers: {
+//         Bearer: token
+//     }
+// })
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/login', (req, res) => {

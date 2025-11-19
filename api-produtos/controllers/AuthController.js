@@ -18,7 +18,7 @@ class AuthController {
                     mensagem: 'O email é obrigatório'
                 });
             }
-
+    
             if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
@@ -27,7 +27,7 @@ class AuthController {
                 });
             }
 
-            // Validação de formato de email
+            // Validação básica de formato de email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 return res.status(400).json({
@@ -53,8 +53,7 @@ class AuthController {
                 { 
                     id: usuario.id, 
                     email: usuario.email,
-                    role: usuario.role,
-                    company_id: usuario.company_id
+                    tipo: usuario.tipo 
                 },
                 JWT_CONFIG.secret,
                 { expiresIn: JWT_CONFIG.expiresIn }
@@ -67,11 +66,9 @@ class AuthController {
                     token,
                     usuario: {
                         id: usuario.id,
-                        name: usuario.name,
+                        nome: usuario.nome,
                         email: usuario.email,
-                        role: usuario.role,
-                        company_id: usuario.company_id,
-                        company_name: usuario.company_name
+                        tipo: usuario.tipo
                     }
                 }
             });
@@ -88,13 +85,10 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            const { name, email, senha, password, role, company_id } = req.body;
-            
-            // Aceitar tanto 'senha' quanto 'password'
-            const senhaFinal = senha || password;
+            const { nome, email, senha, tipo } = req.body;
             
             // Validações básicas
-            if (!name || name.trim() === '') {
+            if (!nome || nome.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome obrigatório',
@@ -110,7 +104,7 @@ class AuthController {
                 });
             }
 
-            if (!senhaFinal || senhaFinal.trim() === '') {
+            if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
@@ -119,11 +113,19 @@ class AuthController {
             }
 
             // Validações de formato
-            if (name.length < 2) {
+            if (nome.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome muito curto',
                     mensagem: 'O nome deve ter pelo menos 2 caracteres'
+                });
+            }
+
+            if (nome.length > 255) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Nome muito longo',
+                    mensagem: 'O nome deve ter no máximo 255 caracteres'
                 });
             }
 
@@ -136,7 +138,7 @@ class AuthController {
                 });
             }
 
-            if (senhaFinal.length < 6) {
+            if (senha.length < 6) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha muito curta',
@@ -156,11 +158,10 @@ class AuthController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                name: name.trim(),
+                nome: nome.trim(),
                 email: email.trim().toLowerCase(),
-                password: senhaFinal,
-                role: role || 'company_user',
-                company_id: company_id || null
+                senha: senha,
+                tipo: tipo || 'comum'
             };
 
             // Criar usuário
@@ -171,10 +172,9 @@ class AuthController {
                 mensagem: 'Usuário registrado com sucesso',
                 dados: {
                     id: usuarioId,
-                    name: dadosUsuario.name,
+                    nome: dadosUsuario.nome,
                     email: dadosUsuario.email,
-                    role: dadosUsuario.role,
-                    company_id: dadosUsuario.company_id
+                    tipo: dadosUsuario.tipo
                 }
             });
         } catch (error) {
@@ -187,83 +187,10 @@ class AuthController {
         }
     }
 
-    // GET /auth/perfil - Obter perfil do usuário logado
-    static async obterPerfil(req, res) {
-        try {
-            const usuario = await UsuarioModel.buscarPorId(req.usuario.id);
-            
-            if (!usuario) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Usuário não encontrado',
-                    mensagem: 'Usuário não foi encontrado'
-                });
-            }
+    
 
-            // Remover senha dos dados retornados
-            const { password_hash, ...usuarioSemSenha } = usuario;
-
-            res.status(200).json({
-                sucesso: true,
-                dados: usuarioSemSenha
-            });
-        } catch (error) {
-            console.error('Erro ao obter perfil:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível obter o perfil'
-            });
-        }
-    }
-
-    // GET /usuarios - Listar todos os usuários (apenas admin)
-    static async listarUsuarios(req, res) {
-        try {
-            const pagina = parseInt(req.query.pagina) || 1;
-            const limite = parseInt(req.query.limite) || 10;
-            
-            if (pagina < 1) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Página inválida',
-                    mensagem: 'A página deve ser um número maior que zero'
-                });
-            }
-            
-            const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
-            if (limite < 1 || limite > limiteMaximo) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Limite inválido',
-                    mensagem: `O limite deve ser um número entre 1 e ${limiteMaximo}`
-                });
-            }
-            
-            const resultado = await UsuarioModel.listarTodos(pagina, limite);
-            
-            // Remover password_hash de todos os usuários
-            const usuariosSemSenha = resultado.users.map(({ password_hash, ...usuario }) => usuario);
-
-            res.status(200).json({
-                sucesso: true,
-                dados: usuariosSemSenha,
-                paginacao: {
-                    pagina: resultado.pagina,
-                    limite: resultado.limite,
-                    total: resultado.total,
-                    totalPaginas: resultado.totalPaginas
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao listar usuários:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível listar os usuários'
-            });
-        }
-    }
+  
 }
 
 export default AuthController;
+
