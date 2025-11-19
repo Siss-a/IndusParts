@@ -415,6 +415,12 @@ nav button.ativo i {
   padding: 20px;
 }
 
+@media (max-width: 1669px) {
+  .plargo2 {
+    width:920px;
+  }
+}
+
 /* ===== RESPONSIVIDADE ===== */
 
 @media (max-width: 768px) {
