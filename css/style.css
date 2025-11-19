@@ -478,6 +478,7 @@ nav button.ativo i {
   }
 }
 
+/* ========== DADOS E PRIVACIDADE ========== */
 
 
 
@@ -612,6 +613,17 @@ footer {
   }
 }
 
+
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+
+
 @media (max-width: 450px) {
 
   .infos1 h1,
@@ -626,9 +638,10 @@ footer {
   }
 }
 
-@media (max-width: 643px) {
+@media (max-width: 660px) {
   .plargo {
     max-width: 406px;
     margin-top: 20px;
   }
 }
+
