@@ -1,5 +1,8 @@
 :root {
-    --azul-escuro: #233d4d;
+    --azul-mais-escuro: #012F6D ;
+    --azul-escuro: #144272;
+    --azul: ;
+    --azul-claro: ;
 }
 
 * {
@@ -44,6 +47,12 @@
     .logo p {
         color: #666;
         font-size: 14px;
+    }
+
+    a{
+        text-decoration: none;
+        color: var(--azul-escuro);
+        font-weight: 6y00;
     }
 
     .form-group {
@@ -139,7 +148,6 @@
             border: none;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 80vw;
-            background-color: aqua;
         }
     }
 }
