@@ -6,7 +6,7 @@ form.addEventListener('submit', async (r) => {
     const senha = document.getElementById('senha_hash').value;
     const email = document.getElementById('email').value;
 
-    const res = await fetch('/api/usuarios/cadastro', {
+    const res = await fetch('/api/auth/registrar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

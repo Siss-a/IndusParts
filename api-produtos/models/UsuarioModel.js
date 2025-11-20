@@ -109,7 +109,7 @@ class UsuarioModel {
                 return null;
             }
 
-            const senhaValida = await comparePassword(senha, usuario.senha);
+            const senhaValida = await comparePassword(senha, usuario.senha_hash);
             
             if (!senhaValida) {
                 return null;

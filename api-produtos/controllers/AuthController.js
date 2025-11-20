@@ -53,7 +53,7 @@ class AuthController {
                 { 
                     id: usuario.id, 
                     email: usuario.email,
-                    tipo: usuario.tipo 
+                    cnpj: usuario.cnpj
                 },
                 JWT_CONFIG.secret,
                 { expiresIn: JWT_CONFIG.expiresIn }
@@ -66,7 +66,7 @@ class AuthController {
                     token,
                     usuario: {
                         id: usuario.id,
-                        nome: usuario.nome,
+                        nome: usuario.nome_social,
                         email: usuario.email,
                         tipo: usuario.tipo
                     }
