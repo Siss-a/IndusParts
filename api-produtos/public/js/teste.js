@@ -826,3 +826,81 @@ export default function App() {
     </div>
   );
 }
+
+/* <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        // Verificar se já está logado
+        if (localStorage.getItem('token')) {
+            window.location.href = 'companies.html';
+        }
+
+        async function fazerLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const btnLogin = document.getElementById('btnLogin');
+
+            // Desabilitar botão
+            btnLogin.disabled = true;
+            // btnLogin.textContent = '⏳ Entrando...'; 
+
+            try {
+                const res = await fetch(`http://localhost:3000/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.mensagem || 'Erro ao fazer login');
+                }
+
+                // Salvar token e dados do usuário
+                localStorage.setItem('token', data.dados.token);
+                localStorage.setItem('usuario', JSON.stringify(data.dados.usuario));
+
+                mostrarAlerta('Login realizado com sucesso! Redirecionando...', 'success');
+
+                // Redirecionar após 1 segundo
+                setTimeout(() => {
+                    window.location.href = 'companies.html';
+                }, 1000);
+
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarAlerta(error.message, 'error');
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Entrar';
+            }
+        }
+
+        function mostrarAlerta(mensagem, tipo) {
+            const container = document.getElementById('alertContainer');
+            const alertClass = tipo === 'success' ? 'alert-success' : 'alert-error';
+
+            container.innerHTML = `
+                <div class="alert ${alertClass} show">
+                    ${mensagem}
+                </div>
+            `;
+
+            if (tipo === 'error') {
+                setTimeout(() => {
+                    container.innerHTML = '';
+                }, 5000);
+            }
+        }
+
+        // Permitir login com Enter
+        document.getElementById('senha').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                fazerLogin(e);
+            }
+        });
+    </script> */
