@@ -8,7 +8,7 @@ class AuthController {
     // POST /auth/login - Fazer login
     static async login(req, res) {
         try {
-            const { email, senha } = req.body;
+            const { email, senha_hash } = req.body;
             
             // Validações básicas
             if (!email || email.trim() === '') {
@@ -19,11 +19,11 @@ class AuthController {
                 });
             }
     
-            if (!senha || senha.trim() === '') {
+            if (!senha_hash || senha_hash.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
-                    mensagem: 'A senha é obrigatória'
+                    mensagem: 'A Senha é obrigatória'
                 });
             }
 
@@ -38,7 +38,7 @@ class AuthController {
             }
 
             // Verificar credenciais
-            const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha);
+            const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha_hash);
             
             if (!usuario) {
                 return res.status(401).json({
@@ -66,9 +66,8 @@ class AuthController {
                     token,
                     usuario: {
                         id: usuario.id,
-                        nome: usuario.nome_social,
-                        email: usuario.email,
-                        tipo: usuario.tipo
+                        nome_social: usuario.nome_social_social,
+                        email: usuario.email
                     }
                 }
             });
@@ -85,14 +84,14 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            const { nome, email, senha, tipo } = req.body;
+            const { nome_social, email, senha_hash, cnpj, telefone } = req.body;
             
             // Validações básicas
-            if (!nome || nome.trim() === '') {
+            if (!nome_social || nome_social.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Nome obrigatório',
-                    mensagem: 'O nome é obrigatório'
+                    erro: 'Nome social obrigatório',
+                    mensagem: 'O nome social é obrigatório'
                 });
             }
 
@@ -104,7 +103,7 @@ class AuthController {
                 });
             }
 
-            if (!senha || senha.trim() === '') {
+            if (!senha_hash || senha_hash.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
@@ -113,19 +112,19 @@ class AuthController {
             }
 
             // Validações de formato
-            if (nome.length < 2) {
+            if (nome_social.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Nome muito curto',
-                    mensagem: 'O nome deve ter pelo menos 2 caracteres'
+                    erro: 'nome_social muito curto',
+                    mensagem: 'O nome_social deve ter pelo menos 2 caracteres'
                 });
             }
 
-            if (nome.length > 255) {
+            if (nome_social.length > 255) {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Nome muito longo',
-                    mensagem: 'O nome deve ter no máximo 255 caracteres'
+                    erro: 'nome_social muito longo',
+                    mensagem: 'O nome_social deve ter no máximo 255 caracteres'
                 });
             }
 
@@ -138,10 +137,10 @@ class AuthController {
                 });
             }
 
-            if (senha.length < 6) {
+            if (senha_hash.length < 6) {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Senha muito curta',
+                    erro: 'senha muito curta',
                     mensagem: 'A senha deve ter pelo menos 6 caracteres'
                 });
             }
@@ -158,9 +157,9 @@ class AuthController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome: nome.trim(),
+                nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
-                senha: senha,
+                senha_hash: senha_hash,
                 tipo: tipo || 'comum'
             };
 
@@ -172,7 +171,7 @@ class AuthController {
                 mensagem: 'Usuário registrado com sucesso',
                 dados: {
                     id: usuarioId,
-                    nome: dadosUsuario.nome,
+                    nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
                     tipo: dadosUsuario.tipo
                 }
