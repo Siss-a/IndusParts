@@ -1,144 +1,264 @@
-// Simulação de dados do MySQL
-const produtos = [
-    { id: 1, nome: "Máquina de Solda MIG 130", categoria: "Mig 130", preco: 523.99, rating: 0, parcelas: "12x" },
-    { id: 2, nome: "Soldador MIG 130 Pro", categoria: "Mig 130", preco: 489.90, rating: 4, parcelas: "10x" },
-    { id: 3, nome: "Kit Solda MIG 130", categoria: "Mig 130", preco: 599.00, rating: 5, parcelas: "12x" },
-    { id: 4, nome: "MIG 130 Industrial", categoria: "Mig 130", preco: 723.50, rating: 4, parcelas: "12x" },
-    { id: 5, nome: "Solda MIG 130 Compacta", categoria: "Mig 130", preco: 445.00, rating: 3, parcelas: "10x" },
-    { id: 6, nome: "MIG 130 Profissional", categoria: "Mig 130", preco: 823.99, rating: 5, parcelas: "12x" }
-];
+// Estado da aplicação
+let produtos = [];
+let produtosFiltrados = [];
+let categorias = new Set();
+let paginaAtual = 1;
+let totalPaginas = 1;
+const itensPorPagina = 12;
 
-let filteredProducts = [...produtos];
-let selectedCategory = null;
-let minPrice = null;
-let maxPrice = null;
+// Elementos do DOM
+const produtosContainer = document.getElementById('produtos-container');
+const paginacaoContainer = document.getElementById('paginacao');
+const loadingElement = document.getElementById('loading');
+const categoriaFilter = document.getElementById('categoria-filter');
+const ordenarSelect = document.getElementById('ordenar');
+const buscarInput = document.getElementById('buscar');
 
-function renderProducts() {
-    const grid = document.getElementById('productsGrid');
-    const noResults = document.getElementById('noResults');
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    carregarProdutos();
+    configurarEventos();
+});
 
-    if (filteredProducts.length === 0) {
-        grid.innerHTML = '';
-        noResults.style.display = 'block';
-        updateResultsCount(0);
+// Configurar eventos
+function configurarEventos() {
+    categoriaFilter.addEventListener('change', aplicarFiltros);
+    ordenarSelect.addEventListener('change', aplicarOrdenacao);
+    buscarInput.addEventListener('input', debounce(aplicarFiltros, 500));
+}
+
+// Função debounce para busca
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Carregar todos os produtos
+async function carregarProdutos() {
+    try {
+        mostrarLoading(true);
+        
+        // Buscar todos os produtos (com limite alto)
+        const response = await apiRequest(`${API_CONFIG.ENDPOINTS.PRODUTOS}?limite=100`);
+        
+        if (response.sucesso) {
+            produtos = response.dados;
+            produtosFiltrados = [...produtos];
+            
+            // Extrair categorias únicas
+            produtos.forEach(produto => {
+                if (produto.categoria) {
+                    categorias.add(produto.categoria);
+                }
+            });
+            
+            atualizarFiltroCategoria();
+            aplicarOrdenacao();
+            renderizarProdutos();
+        }
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        mostrarErro('Não foi possível carregar os produtos. Tente novamente.');
+    } finally {
+        mostrarLoading(false);
+    }
+}
+
+// Atualizar select de categorias
+function atualizarFiltroCategoria() {
+    categoriaFilter.innerHTML = '<option value="">Todas</option>';
+    
+    Array.from(categorias).sort().forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.textContent = categoria;
+        categoriaFilter.appendChild(option);
+    });
+}
+
+// Aplicar filtros
+function aplicarFiltros() {
+    const categoriaSelecionada = categoriaFilter.value;
+    const termoBusca = buscarInput.value.toLowerCase().trim();
+    
+    produtosFiltrados = produtos.filter(produto => {
+        const matchCategoria = !categoriaSelecionada || produto.categoria === categoriaSelecionada;
+        const matchBusca = !termoBusca || 
+            produto.nome.toLowerCase().includes(termoBusca) ||
+            (produto.descricao && produto.descricao.toLowerCase().includes(termoBusca));
+        
+        return matchCategoria && matchBusca;
+    });
+    
+    paginaAtual = 1;
+    aplicarOrdenacao();
+    renderizarProdutos();
+}
+
+// Aplicar ordenação
+function aplicarOrdenacao() {
+    const ordenacao = ordenarSelect.value;
+    
+    switch (ordenacao) {
+        case 'nome-asc':
+            produtosFiltrados.sort((a, b) => a.nome.localeCompare(b.nome));
+            break;
+        case 'nome-desc':
+            produtosFiltrados.sort((a, b) => b.nome.localeCompare(a.nome));
+            break;
+        case 'preco-asc':
+            produtosFiltrados.sort((a, b) => a.preco - b.preco);
+            break;
+        case 'preco-desc':
+            produtosFiltrados.sort((a, b) => b.preco - a.preco);
+            break;
+    }
+    
+    renderizarProdutos();
+}
+
+// Renderizar produtos
+function renderizarProdutos() {
+    // Calcular paginação
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+    const fim = inicio + itensPorPagina;
+    const produtosPagina = produtosFiltrados.slice(inicio, fim);
+    totalPaginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
+    
+    // Limpar container
+    produtosContainer.innerHTML = '';
+    
+    if (produtosPagina.length === 0) {
+        mostrarEstadoVazio();
+        paginacaoContainer.innerHTML = '';
         return;
     }
-
-    noResults.style.display = 'none';
-
-    grid.innerHTML = filteredProducts.map(produto => `
-                <div class="col-md-6 col-lg-4">
-                    <div class="product-card">
-                        <div class="product-image"></div>
-                        <div class="product-info">
-                            <div class="product-name">${produto.nome}</div>
-                            <div class="product-rating">
-                                ${'★'.repeat(produto.rating)}${'☆'.repeat(5 - produto.rating)} ${produto.rating}
-                            </div>
-                            <div class="product-installment">${produto.parcelas} de</div>
-                            <div class="product-price">R$${produto.preco.toFixed(2).replace('.', ',')}</div>
-                            <div class="product-details">
-                                <div class="detail-bar" style="width: 70%; background: #7a8a9a;"></div>
-                                <div class="detail-bar small" style="background: #a0a8b0;"></div>
-                                <div class="detail-bar dark small"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-    updateResultsCount(filteredProducts.length);
-}
-
-function updateResultsCount(count) {
-    document.getElementById('searchResults').textContent = `${count} resultados`;
-    document.getElementById('searchResultsMobile').textContent = `${count} resultados`;
-}
-
-function applyFilters() {
-    filteredProducts = produtos.filter(p => {
-        let matches = true;
-
-        if (selectedCategory) {
-            matches = matches && p.categoria === selectedCategory;
-        }
-
-        if (minPrice !== null) {
-            matches = matches && p.preco >= minPrice;
-        }
-
-        if (maxPrice !== null) {
-            matches = matches && p.preco <= maxPrice;
-        }
-
-        return matches;
+    
+    // Renderizar produtos
+    produtosPagina.forEach(produto => {
+        const card = criarCardProduto(produto);
+        produtosContainer.appendChild(card);
     });
-
-    renderProducts();
+    
+    renderizarPaginacao();
 }
 
-function searchProducts() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+// Criar card de produto
+function criarCardProduto(produto) {
+    const card = document.createElement('div');
+    card.className = 'produto-card';
+    
+    const descricao = produto.descricao || 'Sem descrição disponível';
+    const categoria = produto.categoria || 'Geral';
+    
+    card.innerHTML = `
+        <img src="${getImageUrl(produto.imagem)}" 
+             alt="${produto.nome}" 
+             class="produto-imagem"
+             onerror="this.src='https://via.placeholder.com/300x200?text=Sem+Imagem'">
+        <div class="produto-info">
+            <div class="produto-categoria">${categoria}</div>
+            <h3 class="produto-nome">${produto.nome}</h3>
+            <p class="produto-descricao">${descricao}</p>
+            <div class="produto-preco">${formatarPreco(produto.preco)}</div>
+        </div>
+    `;
+    
+    return card;
+}
 
-    if (searchTerm === '') {
-        filteredProducts = [...produtos];
-    } else {
-        filteredProducts = produtos.filter(p =>
-            p.nome.toLowerCase().includes(searchTerm) ||
-            p.categoria.toLowerCase().includes(searchTerm)
-        );
+// Renderizar paginação
+function renderizarPaginacao() {
+    if (totalPaginas <= 1) {
+        paginacaoContainer.innerHTML = '';
+        return;
     }
-
-    renderProducts();
-}
-
-function setMinPrice() {
-    minPrice = Math.min(...produtos.map(p => p.preco));
-    maxPrice = null;
-    updatePriceDisplay();
-    applyFilters();
-}
-
-function setMaxPrice() {
-    maxPrice = Math.max(...produtos.map(p => p.preco));
-    minPrice = null;
-    updatePriceDisplay();
-    applyFilters();
-}
-
-function updatePriceDisplay() {
-    const price = maxPrice || minPrice || 523.99;
-    const priceStr = `R$${price.toFixed(2).replace('.', ',')}`;
-    document.getElementById('priceDisplay').textContent = priceStr;
-    document.getElementById('priceDisplayMobile').textContent = priceStr;
-}
-
-// Event listeners para categorias desktop
-document.querySelectorAll('.category-filter').forEach(btn => {
-    btn.addEventListener('click', function () {
-        document.querySelectorAll('.category-filter').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        selectedCategory = this.dataset.category;
-        applyFilters();
+    
+    paginacaoContainer.innerHTML = '';
+    
+    // Botão anterior
+    const btnAnterior = document.createElement('button');
+    btnAnterior.textContent = '← Anterior';
+    btnAnterior.disabled = paginaAtual === 1;
+    btnAnterior.addEventListener('click', () => {
+        if (paginaAtual > 1) {
+            paginaAtual--;
+            renderizarProdutos();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     });
-});
-
-// Event listeners para categorias mobile
-document.querySelectorAll('.category-filter-mobile').forEach(btn => {
-    btn.addEventListener('click', function () {
-        document.querySelectorAll('.category-filter-mobile').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        selectedCategory = this.dataset.category;
-        applyFilters();
-    });
-});
-
-// Enter na busca
-document.getElementById('searchInput').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        searchProducts();
+    paginacaoContainer.appendChild(btnAnterior);
+    
+    // Páginas
+    const maxBotoes = 5;
+    let inicioPaginas = Math.max(1, paginaAtual - Math.floor(maxBotoes / 2));
+    let fimPaginas = Math.min(totalPaginas, inicioPaginas + maxBotoes - 1);
+    
+    if (fimPaginas - inicioPaginas < maxBotoes - 1) {
+        inicioPaginas = Math.max(1, fimPaginas - maxBotoes + 1);
     }
-});
+    
+    for (let i = inicioPaginas; i <= fimPaginas; i++) {
+        const btnPagina = document.createElement('button');
+        btnPagina.textContent = i;
+        btnPagina.className = i === paginaAtual ? 'active' : '';
+        btnPagina.addEventListener('click', () => {
+            paginaAtual = i;
+            renderizarProdutos();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        paginacaoContainer.appendChild(btnPagina);
+    }
+    
+    // Info
+    const info = document.createElement('span');
+    info.className = 'paginacao-info';
+    info.textContent = `${produtosFiltrados.length} produto(s)`;
+    paginacaoContainer.appendChild(info);
+    
+    // Botão próximo
+    const btnProximo = document.createElement('button');
+    btnProximo.textContent = 'Próximo →';
+    btnProximo.disabled = paginaAtual === totalPaginas;
+    btnProximo.addEventListener('click', () => {
+        if (paginaAtual < totalPaginas) {
+            paginaAtual++;
+            renderizarProdutos();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    paginacaoContainer.appendChild(btnProximo);
+}
 
-// Renderizar produtos iniciais
-renderProducts();
+// Mostrar estado vazio
+function mostrarEstadoVazio() {
+    produtosContainer.innerHTML = `
+        <div class="empty-state">
+            <h3>Nenhum produto encontrado</h3>
+            <p>Tente ajustar os filtros de busca</p>
+        </div>
+    `;
+}
+
+// Mostrar/ocultar loading
+function mostrarLoading(mostrar) {
+    loadingElement.style.display = mostrar ? 'flex' : 'none';
+}
+
+// Mostrar erro
+function mostrarErro(mensagem) {
+    produtosContainer.innerHTML = `
+        <div class="empty-state">
+            <h3>Erro ao carregar produtos</h3>
+            <p>${mensagem}</p>
+            <button class="btn btn-primary" onclick="carregarProdutos()">Tentar Novamente</button>
+        </div>
+    `;
+}
