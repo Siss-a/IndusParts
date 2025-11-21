@@ -2,8 +2,8 @@ const form = document.getElementById('loginForm');
 form.addEventListener('submit', async (r) => {
     r.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha_hash').value;
+    const email = document.getElementById('emailLogin').value;
+    const senha = document.getElementById('senhaLogin').value;
 
     if (!email || !senha) {
         alert("Por favor, preencha todos os campos.");

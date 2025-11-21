@@ -24,12 +24,12 @@
             <form id="loginForm" onsubmit="fazerLogin(event)">
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email">
+                    <input type="email" id="emailLogin" placeholder="seu@email.com" required autocomplete="email">
                 </div>
 
                 <div class="form-group">
                     <label for="senha">Senha</label>
-                    <input type="password" id="senha_hash" placeholder="••••••••" required
+                    <input type="password" id="senhaLogin" placeholder="••••••••" required
                         autocomplete="current-password">
                 </div>
 
@@ -64,13 +64,19 @@
 
                                 <div class="mb-2">
                                     <label for="emailNewUser" class="form-label visually-hidden">E-mail</label>
-                                    <input type="email" class="form-control" name="email" id="email"
+                                    <input type="email" class="form-control" name="email" id="emailCadastro"
                                         placeholder="E-mail">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="passwdNewUser" class="form-label visually-hidden">Senha</label>
+                                    <input type="password" class="form-control" name="passwd" id="senhaCadastro"
+                                        placeholder="Senha">
                                 </div>
 
                                 <div class="mb-2">
                                     <label for="cnpjNewUser" class="form-label">CNPJ</label>
-                                    <input type="tel" class="form-control" name="telefone" id="cnpj"
+                                    <input type="number" class="form-control" name="cnpj" id="cnpj"
                                         placeholder="00.000.000/0000-00">
                                 </div>
 
@@ -78,12 +84,6 @@
                                     <label class="form-label visually-hidden">Telefone</label>
                                     <input type="tel" class="form-control" name="telefone" id="telefone"
                                         placeholder="Telefone">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="passwdNewUser" class="form-label visually-hidden">Senha</label>
-                                    <input type="password" class="form-control" name="passwd" id="senha_hash"
-                                        placeholder="Senha">
                                 </div>
                             </div>
 

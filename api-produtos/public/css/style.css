@@ -1,5 +1,5 @@
 :root {
-    --azul-mais-escuro: #012F6D ;
+    --azul-mais-escuro: #012F6D;
     --azul-escuro: #144272;
     --azul: ;
     --azul-claro: ;
@@ -50,7 +50,7 @@
         font-size: 14px;
     }
 
-    a{
+    a {
         text-decoration: none;
         color: var(--azul-escuro);
         font-weight: 600;
@@ -146,7 +146,7 @@
     }
 
     @media (max-width: 576px) {
-        .login-container{
+        .login-container {
             border: none;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 80vw;

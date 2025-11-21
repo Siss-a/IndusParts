@@ -3,8 +3,10 @@ form.addEventListener('submit', async (r) => {
     r.preventDefault(); /* Previnir reload da pagina depois do submit */
 
     const usuario = document.getElementById('nome_social').value;
-    const senha = document.getElementById('senha_hash').value;
-    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senhaCadastro').value;
+    const email = document.getElementById('emailCadastro').value;
+    const cnpj = document.getElementById('cnpj').value;
+    const telefone = document.getElementById('telefone').value;
 
     const res = await fetch('/api/auth/registrar', {
         method: 'POST',
