@@ -13,6 +13,6 @@ form.addEventListener('submit', async (r) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ usuario, senha, email })
+        body: JSON.stringify({ nome_social: usuario, senha: senha, email: email, cnpj: cnpj, telefone: telefone })
     });
 });  

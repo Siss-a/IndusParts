@@ -81,7 +81,7 @@ class UsuarioModel {
                 email: dadosUsuario.email,
                 cnpj: dadosUsuario.cnpj,
                 telefone: dadosUsuario.telefone,
-                senha: senhaHash
+                senha_hash: senhaHash
             };
 
             return await create('usuarios', dadosComHash);
@@ -95,8 +95,8 @@ class UsuarioModel {
     static async atualizar(id, dadosUsuario) {
         try {
             // Se a senha foi fornecida, fazer hash
-            if (dadosUsuario.senha) {
-                dadosUsuario.senha_hash = await hashPassword(dadosUsuario.senha);
+            if (dadosUsuario.senha_hash) {
+                dadosUsuario.senha_hash = await hashPassword(dadosUsuario.senha_hash);
             }
 
             return await update('usuarios', dadosUsuario, `id = ${id}`);
