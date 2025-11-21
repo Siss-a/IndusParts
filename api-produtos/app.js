@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
             infoCriptografia: 'GET /api/criptografia/info',
-            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario'
+            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario /api/auth/registrar'
         }
     });
 });

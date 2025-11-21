@@ -4,12 +4,12 @@ import { JWT_CONFIG } from '../config/jwt.js';
 
 // Controller para operações de autenticação
 class AuthController {
-    
+
     // POST /auth/login - Fazer login
     static async login(req, res) {
         try {
             const { email, senha_hash } = req.body;
-            
+
             // Validações básicas
             if (!email || email.trim() === '') {
                 return res.status(400).json({
@@ -18,7 +18,7 @@ class AuthController {
                     mensagem: 'O email é obrigatório'
                 });
             }
-    
+
             if (!senha_hash || senha_hash.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
@@ -39,7 +39,7 @@ class AuthController {
 
             // Verificar credenciais
             const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha_hash);
-            
+
             if (!usuario) {
                 return res.status(401).json({
                     sucesso: false,
@@ -50,8 +50,8 @@ class AuthController {
 
             // Gerar token JWT
             const token = jwt.sign(
-                { 
-                    id: usuario.id, 
+                {
+                    id: usuario.id,
                     email: usuario.email,
                     cnpj: usuario.cnpj
                 },
@@ -66,7 +66,7 @@ class AuthController {
                     token,
                     usuario: {
                         id: usuario.id,
-                        nome_social: usuario.nome_social_social,
+                        nome_social: usuario.nome_social,
                         email: usuario.email
                     }
                 }
@@ -84,8 +84,8 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            const { nome_social, email, senha_hash, cnpj, telefone } = req.body;
-            
+            const { nome_social, email, senha_hash, cnpj, telefone /*, tipo */} = req.body;
+
             // Validações básicas
             if (!nome_social || nome_social.trim() === '') {
                 return res.status(400).json({
@@ -110,6 +110,16 @@ class AuthController {
                     mensagem: 'A senha é obrigatória'
                 });
             }
+
+            if (!cnpj || cnpj.trim() === '') {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'CNPJ obrigatório',
+                    mensagem: 'O CNPJ é obrigatório'
+                });
+            }
+
+
 
             // Validações de formato
             if (nome_social.length < 2) {
@@ -146,8 +156,8 @@ class AuthController {
             }
 
             // Verificar se o email já existe
-            const usuarioExistente = await UsuarioModel.buscarPorEmail(email);
-            if (usuarioExistente) {
+            const emailExistente = await UsuarioModel.buscarPorEmail(email);
+            if (emailExistente) {
                 return res.status(409).json({
                     sucesso: false,
                     erro: 'Email já cadastrado',
@@ -155,17 +165,28 @@ class AuthController {
                 });
             }
 
+            // Verificar se o CNPJ já existe
+            const cnpjExistente = await UsuarioModel.buscarPorCNPJ(cnpj);
+            if (cnpjExistente) {
+                return res.status(409).json({
+                    sucesso: false,
+                    erro: 'CNPJ já cadastrado',
+                    mensagem: 'Este CNPJ já está cadastrado'
+                });
+            }
+
             // Preparar dados do usuário
             const dadosUsuario = {
                 nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
-                senha_hash: senha_hash,
-                tipo: tipo || 'comum'
+                senha_hash: senha_hash, // Será criptografada no Model
+                cnpj: cnpj.replace(/[^\d]/g, ''), // Remove formatação
+                telefone: telefone || null
             };
 
             // Criar usuário
             const usuarioId = await UsuarioModel.criar(dadosUsuario);
-            
+
             res.status(201).json({
                 sucesso: true,
                 mensagem: 'Usuário registrado com sucesso',
@@ -173,7 +194,8 @@ class AuthController {
                     id: usuarioId,
                     nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
-                    tipo: dadosUsuario.tipo
+                    cnpj: dadosUsuario.cnpj
+                    /* tipo: dadosUsuario.tipo */
                 }
             });
         } catch (error) {
@@ -186,9 +208,9 @@ class AuthController {
         }
     }
 
-    
 
-  
+
+
 }
 
 export default AuthController;
