@@ -339,5 +339,11 @@ class UsuarioController {
             });
         }
     }
+<<<<<<< HEAD
 
 }
+=======
+    
+}
+export default UsuarioController
+>>>>>>> e85e4b330b3f868dada719efa7f30148e5ec91a4
