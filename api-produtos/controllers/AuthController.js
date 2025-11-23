@@ -4,12 +4,12 @@ import { JWT_CONFIG } from '../config/jwt.js';
 
 // Controller para operações de autenticação
 class AuthController {
-    
+
     // POST /auth/login - Fazer login
     static async login(req, res) {
         try {
             const { email, senha } = req.body;
-            
+
             // Validações básicas
             if (!email || email.trim() === '') {
                 return res.status(400).json({
@@ -18,12 +18,12 @@ class AuthController {
                     mensagem: 'O email é obrigatório'
                 });
             }
-    
+
             if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
-                    mensagem: 'A senha é obrigatória'
+                    mensagem: 'A Senha é obrigatória'
                 });
             }
 
@@ -39,7 +39,7 @@ class AuthController {
 
             // Verificar credenciais
             const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha);
-            
+
             if (!usuario) {
                 return res.status(401).json({
                     sucesso: false,
@@ -50,10 +50,10 @@ class AuthController {
 
             // Gerar token JWT
             const token = jwt.sign(
-                { 
-                    id: usuario.id, 
+                {
+                    id: usuario.id,
                     email: usuario.email,
-                    tipo: usuario.tipo 
+                    tipo: usuario.tipo
                 },
                 JWT_CONFIG.secret,
                 { expiresIn: JWT_CONFIG.expiresIn }
@@ -66,9 +66,8 @@ class AuthController {
                     token,
                     usuario: {
                         id: usuario.id,
-                        nome: usuario.nome,
-                        email: usuario.email,
-                        tipo: usuario.tipo
+                        nome_social: usuario.nome_social,
+                        email: usuario.email
                     }
                 }
             });
@@ -85,14 +84,14 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            const { nome, email, senha, tipo } = req.body;
-            
+            const { nome_social, email, senha, cnpj, telefone /*, tipo */} = req.body;
+
             // Validações básicas
-            if (!nome || nome.trim() === '') {
+            if (!nome_social || nome_social.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Nome obrigatório',
-                    mensagem: 'O nome é obrigatório'
+                    erro: 'Nome social obrigatório',
+                    mensagem: 'O nome social é obrigatório'
                 });
             }
 
@@ -112,20 +111,30 @@ class AuthController {
                 });
             }
 
-            // Validações de formato
-            if (nome.length < 2) {
+            if (!cnpj || cnpj.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Nome muito curto',
-                    mensagem: 'O nome deve ter pelo menos 2 caracteres'
+                    erro: 'CNPJ obrigatório',
+                    mensagem: 'O CNPJ é obrigatório'
                 });
             }
 
-            if (nome.length > 255) {
+
+
+            // Validações de formato
+            if (nome_social.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Nome muito longo',
-                    mensagem: 'O nome deve ter no máximo 255 caracteres'
+                    erro: 'nome_social muito curto',
+                    mensagem: 'O nome_social deve ter pelo menos 2 caracteres'
+                });
+            }
+
+            if (nome_social.length > 255) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'nome_social muito longo',
+                    mensagem: 'O nome_social deve ter no máximo 255 caracteres'
                 });
             }
 
@@ -138,17 +147,17 @@ class AuthController {
                 });
             }
 
-            if (senha.length < 6) {
+            if (senha.length < 8) {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: 'Senha muito curta',
-                    mensagem: 'A senha deve ter pelo menos 6 caracteres'
+                    erro: 'senha muito curta',
+                    mensagem: 'A senha deve ter pelo menos 8 caracteres'
                 });
             }
 
             // Verificar se o email já existe
-            const usuarioExistente = await UsuarioModel.buscarPorEmail(email);
-            if (usuarioExistente) {
+            const emailExistente = await UsuarioModel.buscarPorEmail(email);
+            if (emailExistente) {
                 return res.status(409).json({
                     sucesso: false,
                     erro: 'Email já cadastrado',
@@ -156,25 +165,37 @@ class AuthController {
                 });
             }
 
+            // Verificar se o CNPJ já existe
+            const cnpjExistente = await UsuarioModel.buscarPorCNPJ(cnpj);
+            if (cnpjExistente) {
+                return res.status(409).json({
+                    sucesso: false,
+                    erro: 'CNPJ já cadastrado',
+                    mensagem: 'Este CNPJ já está cadastrado'
+                });
+            }
+
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome: nome.trim(),
+                nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
-                senha: senha,
-                tipo: tipo || 'comum'
+                senha: senha, 
+                cnpj: cnpj.replace(/[^\d]/g, ''),
+                telefone: telefone || null
             };
 
             // Criar usuário
             const usuarioId = await UsuarioModel.criar(dadosUsuario);
-            
+
             res.status(201).json({
                 sucesso: true,
                 mensagem: 'Usuário registrado com sucesso',
                 dados: {
                     id: usuarioId,
-                    nome: dadosUsuario.nome,
+                    nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
-                    tipo: dadosUsuario.tipo
+                    cnpj: dadosUsuario.cnpj
+                    /* tipo: dadosUsuario.tipo */
                 }
             });
         } catch (error) {
@@ -186,10 +207,6 @@ class AuthController {
             });
         }
     }
-
-    
-
-  
 }
 
 export default AuthController;

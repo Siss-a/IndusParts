@@ -2,8 +2,8 @@
 -- Data: 2025-11-18
 -- Descrição: Criação inicial do banco de dados
 
-CREATE DATABASE IF NOT EXISTS produtos_api;
+CREATE DATABASE IF NOT EXISTS indusparts;
 
 -- Usar o banco de dados criado
-USE produtos_api;
+USE indusparts;
 

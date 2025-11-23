@@ -2,7 +2,7 @@
 -- Data: 2025-11-18
 -- Descrição: Tabela para armazenar os itens dos pedidos realizados
 
-USE produtos_api;
+USE indusparts;
 
 -- Tabela de Itens do Pedido (opcional, mas recomendada)
 CREATE TABLE pedido_itens (
