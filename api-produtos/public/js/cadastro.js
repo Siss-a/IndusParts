@@ -15,7 +15,7 @@ form.addEventListener('submit', async (r) => {
         },
         body: JSON.stringify({
             nome_social: usuario,
-            senha_hash: senha,
+            senha: senha,
             email: email,
             cnpj: cnpj,
             telefone: telefone
