@@ -6,4 +6,3 @@ CREATE DATABASE IF NOT EXISTS indusparts;
 
 -- Usar o banco de dados criado
 USE indusparts;
-

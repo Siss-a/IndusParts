@@ -12,7 +12,7 @@ import criptografiaRotas from './routes/criptografiaRotas.js';
 import usuarioRotas from './routes/usuarioRotas.js';
 
 // Importar middlewares
-import { logMiddleware } from './middlewares/logMiddleware.js';
+// import { logMiddleware } from './middlewares/logMiddleware.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 
 // Carregar variáveis do arquivo .env
@@ -45,11 +45,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware para log de requisições (salva no banco de dados)
-app.use(logMiddleware);
+// app.use(logMiddleware);
 
 // Rotas de Frontend (páginas estáticas)
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'public', 'html' ,'login.html'));
 }); 
 
 // Rotas da API
