@@ -10,6 +10,48 @@
   padding: 0;
 }
 
+.header {
+    position: fixed;
+    top: 0;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 12px 20px;
+    transition: box-shadow 0.3s ease;
+    z-index: 999 !important;
+  }
+
+  .header.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .titulo {
+    transition: ease 0.3s;
+  }
+
+  .titulo:hover {
+    transition: ease 0.3s;
+    transform: scale(1.03);
+  }
+
+  .icones .btn-header {
+    background: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 10px;
+    font-size: 22px;
+    transition: 0.2s ease;
+  }
+
+  .icones .btn-header:hover {
+    background: #e0ebff;
+    transform: translateY(-2px);
+  }
+
+  .icones .btn-header:active {
+    transform: scale(0.95);
+  }
+
+
 .login {
   body {
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
@@ -578,9 +620,30 @@
   }
 }
 
-.dashboard {
-  /* Bem vindo ao meu caos */
 
+  /* ======== HOME ======== */
+
+
+
+.home {
+  
+  @font-face {
+    font-family: "Helvetica";
+    src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    transition: 0.2s ease;
+  }
+
+  /* HEADER */
+
+  
+}
+
+.dashboard {
   @font-face {
     font-family: "Helvetica";
     src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
