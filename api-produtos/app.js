@@ -50,7 +50,7 @@ app.use(logMiddleware);
 // Rotas de Frontend (páginas estáticas)
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
+}); 
 
 // Rotas da API
 app.use('/api/auth', authRotas);
