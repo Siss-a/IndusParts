@@ -12,23 +12,21 @@
 
 <body>
     <main>
-
         <div class="login-container">
             <div class="logo">
                 <h1>Login</h1>
-                <!-- <p>Gestão Empresarial Integrada</p> -->
             </div>
 
             <div id="alertContainer"></div>
 
             <form id="loginForm" onsubmit="fazerLogin(event)">
                 <div class="form-group">
-                    <label for="email">E-mail</label>
+                    <label for="emailLogin">E-mail</label>
                     <input type="email" id="emailLogin" placeholder="seu@email.com" required autocomplete="email">
                 </div>
 
                 <div class="form-group">
-                    <label for="senha">Senha</label>
+                    <label for="senhaLogin">Senha</label>
                     <input type="password" id="senhaLogin" placeholder="••••••••" required
                         autocomplete="current-password">
                 </div>
@@ -39,10 +37,11 @@
             </form>
 
             <div class="footer-text">
-                <a class="forgot" data-bs-toggle="modal" data-bs-target="#exampleModal">Não tem uma conta?</a>
+                <a href="#" class="forgot" data-bs-toggle="modal" data-bs-target="#exampleModal">Não tem uma conta?</a>
             </div>
         </div>
 
+        <!-- Modal de Cadastro -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -51,53 +50,50 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                     </div>
 
-                    <form action="#" method="post" id="cadastroForm">
+                    <form id="cadastroForm" onsubmit="registrarNovoUsuario(event)">
                         <div class="modal-body">
                             <div class="register-modal">
                                 <h3>Insira os dados da empresa</h3>
 
                                 <div class="mb-2">
-                                    <label for="nomeNewUser" class="form-label">Nome Social</label>
+                                    <label for="nome_social" class="form-label">Nome Social</label>
                                     <input type="text" class="form-control" name="nome" id="nome_social"
-                                        placeholder="Nome Social">
+                                        placeholder="Nome Social" required>
                                 </div>
 
                                 <div class="mb-2">
-                                    <label for="emailNewUser" class="form-label">E-mail</label>
+                                    <label for="emailCadastro" class="form-label">E-mail</label>
                                     <input type="email" class="form-control" name="email" id="emailCadastro"
-                                        placeholder="E-mail">
+                                        placeholder="E-mail" required>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="passwdNewUser" class="form-label">Senha</label>
+                                    <label for="senhaCadastro" class="form-label">Senha</label>
                                     <input type="password" class="form-control" name="passwd" id="senhaCadastro"
-                                        placeholder="Senha">
+                                        placeholder="Senha" required>
                                 </div>
 
                                 <div class="mb-2">
-                                    <label for="cnpjNewUser" class="form-label">CNPJ</label>
+                                    <label for="cnpj" class="form-label">CNPJ</label>
                                     <input type="text" class="form-control" name="cnpj" id="cnpj"
-                                        placeholder="00.000.000/0000-00">
+                                        placeholder="00.000.000/0000-00" required>
                                 </div>
 
                                 <div class="mb-2">
-                                    <label class="form-label">Telefone</label>
+                                    <label for="telefone" class="form-label">Telefone</label>
                                     <input type="tel" class="form-control" name="telefone" id="telefone"
-                                        placeholder="Telefone">
+                                        placeholder="Telefone" required>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="modal-footer justify-content-between">
-                                <button type="submit" class="login-block-enter btn"
-                                    onclick="registrarNovoUsuario()">Registrar</button>
-                            </div>
-
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="login-block-enter btn">Registrar</button>
                         </div>
                     </form>
                 </div>
             </div>
-
-
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
