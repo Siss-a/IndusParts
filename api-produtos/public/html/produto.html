@@ -12,14 +12,16 @@
 
 <body>
   <div class="container bg-white rounded-3 shadow-sm p-4 mb-1" style="width: 90%">
-    <!-- Produto Principal -->
 
+
+    <!-- Produto Principal -->
     <div class="row mb-5 product-row">
       <!-- Galeria de Imagens -->
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="gallery-wrap">
-          <!-- Miniaturas -->
-          <div class="thumbnails order-2 order-md-1 ">
+      <!-- col-12 no mobile e col-md-6 no desktop -->
+      <div class="col-12 col-md-6 mb-4 mb-lg-0">
+        <div class="gallery-wrap d-flex flex-column flex-md-row">
+          <!-- Miniaturas (no celular ficam abaixo por causa do order) -->
+          <div class="thumbnails order-2 order-md-1 d-flex flex-row flex-md-column">
             <div class="thumbnail-img active" data-index="0">
               <img src="../cat.jpg" alt="Miniatura 1" />
             </div>
@@ -35,14 +37,17 @@
           </div>
 
           <!-- Imagem Principal -->
+           <!-- order 1 faz com que apareca primeiro  -->
           <div class="main-image-container flex-grow-1 order-1 order-md-2">
-            <img class="main-image" src="../cat.jpg" alt="Imagem principal do produto" />
+            <img class="main-image img-fluid" src="../cat.jpg" alt="Imagem principal do produto" />
           </div>
         </div>
       </div>
 
       <!-- Informações do Produto -->
-      <div class="col-lg-6 product-info">
+      <!-- col-12 para ter 100% de width no mobile e col-md-6 no desktop -->
+      <!-- order é para forçar a posição entre colunas -->
+      <div class="col-12 col-md-6 product-info">
         <span class="brand-badge mb-3 d-inline-block">Tramontina</span>
 
         <h1 class="product-title">Alicate Universal Profissional</h1>
@@ -51,7 +56,6 @@
 
         <ul class="specs-list list-unstyled mb-4" style="min-height: 27vh;">
           <li><strong>Marca:</strong> <span class="text-muted">Hada Labo Tokyo</span></li>
-
         </ul>
 
         <div class="mb-4">
@@ -72,6 +76,10 @@
         </div>
       </div>
     </div>
+
+
+
+
 
     <!-- Produtos Relacionados -->
     <div class="mb-5">
