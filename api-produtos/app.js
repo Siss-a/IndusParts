@@ -42,9 +42,15 @@ app.use(express.urlencoded({ extended: true }));
 
 //  Servir arquivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware para log de requisições (salva no banco de dados)
 app.use(logMiddleware);
+
+// Rotas de Frontend (páginas estáticas)
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
