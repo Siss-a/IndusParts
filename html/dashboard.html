@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>IndusParts</title>
+  <!-- bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- style -->
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Icones -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- icones tb -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <header class="d-flex align-items-center justify-content-between header">
+    <a class="text-decoration-none" href="">
+      <h1 class="fs-4 titulo"><span style="color: rgb(26, 115, 232) !important; ;">Indus</span><span
+          style="color: black;">Parts</span></h1>
+    </a>
+
+    <div class="d-flex align-items-center gap-2 icones">
+      <a href="#">
+        <button class="material-icons btn-header">search</button>
+      </a>
+      <a href="#">
+        <button class="material-icons btn-header">help_outline</button>
+      </a>
+      <a href="/html/testeee.html">
+        <button class="material-icons btn-header">apps</button>
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== LAYOUT: usa o grid do Bootstrap corretamente ===== -->
+  <div class="layout m-0">
+    <div style="width: 280px;">
+      <!-- Nav: 12 col no mobile, 2 col a partir do md -->
+      <nav class="col-12 col-md-2">
+        <button class="ativo" data-alvo="inicio">
+          <i class="bi bi-house-door"></i> <span class="ms-1">Início</span>
+        </button>
+        <button data-alvo="info">
+          <i class="bi bi-person"></i> <span class="ms-1">Informações pessoais</span>
+        </button>
+        <button data-alvo="privacidade" class="borda-inferior">
+          <i class="bi bi-shield-lock"></i> <span class="ms-1">Dados e privacidade</span>
+        </button>
+        <button data-alvo="sobre">
+          <i class="bi bi-info-circle"></i> <span class="ms-1">Sobre</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- MAIN: ocupa 12 col no mobile e 10 no md+ -->
+    <main class="m1 col-12 col-md-10 row m-0">
+
+      <!-- cada seção ocupa 12 colunas dentro do main -->
+      <div id="inicio" class="col-12 col-md-10 conteudo ativo container pt-3">
+        <header class="foto">
+          <div class="perfil">
+            <img src="/imagens/ftpadrao.jpg" alt="Foto de perfil">
+          </div>
+        </header>
+
+        <div class="infos1 col-12 col-md-8">
+          <h1 class="t1">Bem-vindo, (nome da empresa)</h1>
+          <p class="">Gerencie suas informações, privacidade e segurança para que a IndusParts funcione melhor para
+            você.<a href="#">Saiba mais ?</a></p>
+        </div>
+
+        <div class="col-12 col-md-12 d-flex justify-content-center">
+          <div class="row bloco d-flex justify-content-center">
+            <!-- Card 1 -->
+            <div class="col-12 col-md-6 col-lg-4  painel d-flex flex-column mb-3 ">
+              <!-- Bloco de texto + imagem -->
+              <div class="d-flex align-items-center longinho ">
+                <!-- Texto -->
+                <div style="flex: 1;">
+                  <h5>Manuntenção Agendada</h5>
+                  <p class="desc">
+                    Essa manutenção tem como foco a melhoria da performance e estabilidade geral do sistema,
+                    na madrugada do sábado (02/01/2027) às 05:00h (Horário de Brasília).
+                  </p>
+                </div>
+              </div>
+
+              <!-- Imgaem Botão/texto embaixo -->
+
+              <div style="flex: 0 0 auto;" class="d-flex justify-content-center">
+                <img src="/imagens/manutencao.jpg" style="width: 219px; height: 100%; "
+                  alt="">
+              </div>
+              <div class=" desce d-flex w-100" style="border-top: 1px solid #e0e0e0; ;">
+                <h6 class="longinho"><a href="#">O que acontecerá durante a
+                    manutenção?</a></h6>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-12 col-md-6 col-lg-4 painel d-flex flex-column mb-3 ">
+              <!-- Bloco de texto + imagem -->
+              <div class="d-flex align-items-center longinho ">
+                <!-- Texto -->
+                <div style="flex: 1;">
+                  <h5>Privacidade e <br>personalização</h5>
+                  <p class="desc">
+                    Veja os dados na sua Conta da IndusParts e escolha qual atividade será salva para personalizar sua
+                    experiência no Google
+                  </p>
+                </div>
+
+                <!-- Imagem -->
+                <div style="flex: 0 0 auto;">
+                  <img
+                    src="/imagens/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png"
+                    alt="">
+                </div>
+              </div>
+
+              <!-- Botão/texto embaixo -->
+              <div class=" desce d-flex w-100" style="border-top: 1px solid #e0e0e0; ;">
+                <h6 class="longinho"><a href="#">Gerenciar seus dados e sua
+                    privacidade</a></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" d-flex align-items-center justify-content-center icones">
+          <div class="plargo">
+            <div class="d-flex" style="width: 100%;">
+              <!-- Bloco de texto + imagem -->
+              <div class="d-flex align-items-center longinho" style="width: 50%;">
+                <!-- Texto -->
+                <div style="flex: 1;">
+                  <h5>Status geral da plataforma</h5>
+                  <p class="desc">
+                    Estamos melhorando a plataforma! Veja o que mudou nesta atualização…
+                  </p>
+                </div>
+              </div>
+
+              <!-- Imgaem Botão/texto embaixo -->
+              <div class="w-50 d-flex align-items-center justify-content-center">
+                <div style="flex: 0 0 auto;" class="d-flex justify-content-center">
+                  <img src="/imagens/simbolo.png" alt=""
+                    style="width: 100px;  height: auto;">
+                </div>
+              </div>
+            </div>
+            <div class="d-flex w-100" style="border-top: 1px solid #e0e0e0;">
+              <h6 class="longinho"><a href="#">O que mudou? </a></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="info" class="col-12 col-md-10 conteudo container">
+
+        <header class="teste1 w-100 d-flex justify-content-center flex-direction-column mt-1">
+          <h2>Informações Pessoais</h2>
+          <p class="desc">Informações sobre você e suas preferências nos Serviços da IndusParts</p>
+        </header>
+
+        <div class="b1">
+          <!-- BLOCO 1 -->
+          <div class="bloco1">
+            <div class="texto">
+              <h4>Informações do seu perfil nos Serviços da IndusParts</h4>
+              <p class="desc">
+                Informações pessoais e opções de gerenciamento. Você pode deixar algumas dessas informações, como
+                detalhes de contato,
+                visíveis para outras pessoas de modo a facilitar o contato delas com você.
+              </p>
+            </div>
+
+            <div class="imagem d-flex justify-content-center">
+              <img class="ft1" src="/imagens/Design sem nome.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO 2 -->
+        <main class="m2">
+          <div class="bloco2 col-12 col-md-10">
+
+            <div class="info-card w-100" role="region" aria-label="Informações básicas">
+
+              <div class="card-header">
+                <h4>Informações básicas</h4>
+                <p class="small text-muted">
+                  Algumas informações podem estar visíveis para outras pessoas que estejam usando os serviços da
+                  IndusParts.
+                  <a href="#">Saiba mais?</a>
+                </p>
+              </div>
+
+              <!-- FOTO -->
+              <div class="info-row align-items-center">
+                <div class="info-label">Foto do perfil</div>
+                <div class="info-value avatar-wrap">
+                  <img class="avatar" src="/imagens/ftpadrao.jpg"
+                    alt="Foto do perfil de Gabriel">
+                </div>
+              </div>
+
+              <hr class="m-0">
+
+              <!-- Nome -->
+              <a class="info-row link-row" href="#" role="button">
+                <div class="info-label">Nome</div>
+                <div class="info-value">Gabriel <i class="bi bi-chevron-right"></i></div>
+              </a>
+
+              <hr class="m-0">
+
+              <!-- Data de nascimento -->
+              <a class="info-row link-row" href="#" role="button">
+                <div class="info-label">Data de nascimento</div>
+                <div class="info-value">13/02/2008 <i class="bi bi-chevron-right"></i></div>
+              </a>
+
+              <hr class="m-0">
+
+              <!-- Gênero -->
+              <a class="info-row link-row" href="#" role="button">
+                <div class="info-label">Gênero</div>
+                <div class="info-value">Masculino <i class="bi bi-chevron-right"></i></div>
+              </a>
+
+            </div>
+
+            <!-- Outra tabela com dados de contato -->
+
+            <div class="info-card w-100" role="region" aria-label="Informações básicas">
+              <div class="card-header">
+                <h4>Informações de contato</h4>
+              </div>
+
+              <!-- email -->
+              <a class="info-row link-row" href="#" role="button">
+                <div class="info-label">E-mail</div>
+                <div class="info-value">gabriel@gmail.com <i class="bi bi-chevron-right"></i></div>
+              </a>
+
+              <hr class="m-0">
+
+              <!-- Telefone -->
+              <a class="info-row link-row" href="#" role="button">
+                <div class="info-label">Telefone</div>
+                <div class="info-value">+55 11 964901224 <i class="bi bi-chevron-right"></i></div>
+              </a>
+
+              <hr class="m-0">
+
+              <!-- Mais opções -->
+              <a class="info-row link-row" href="#" role="button">
+                <div class="info-label">Mais opções</div>
+                <div class="info-value"> <i class="bi bi-chevron-right"></i></div>
+              </a>
+            </div>
+
+            <!-- painel larguinho -->
+
+            <div style="width: 100%;" class=" col-12 col-md-10 d-flex align-items-center justify-content-center icones">
+              <div class="plargo2 ">
+                <div class="d-flex" style="width: 100%;">
+                  <!-- Bloco de texto + imagem -->
+                  <div class="d-flex align-items-center longinho" style="width: 50%;">
+                    <!-- Texto -->
+                    <div style="flex: 1;">
+                      <h5>Escolha o que as outras pessoas podem ver</h5>
+                      <p class="desc">
+                        Gerencie suas informações pessoais e controle quem poderá vê-las quando você usar o perfil da
+                        sua principal Conta do Google nos nossos serviços Saiba mais
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Imgaem Botão/texto embaixo -->
+                  <div class="w-50 d-flex align-items-center justify-content-center">
+                    <div style="flex: 1;" class="popis d-flex justify-content-center">
+                      <img class="ft2" src="/imagens/fotinha.png" alt=""
+                        style="max-width: 100%;  height: auto;">
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex w-100" style="border-top: 1px solid #e0e0e0;">
+                  <h6 class="longinho2"><a href="#">Acessar a pagina "Sobre mim"</a></h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- DADOS E PRIVACIDADE -->
+
+      <div id="privacidade" class="col-12 conteudo container">
+        <main class="m3 container">
+          <header class="teste1 w-100 d-flex justify-content-center flex-direction-column mt-1">
+            <h2>Dados e Privacidade</h2>
+            <p>Gerencie suas configurações de segurança e privacidade.</p>
+          </header>
+
+          <div class="col-12 col-md-12 d-flex justify-content-center">
+            <div class="row bloco d-flex justify-content-center">
+
+              <!-- Card 1 - Atualização -->
+              <div class="col-12 col-md-6 col-lg-4 painel d-flex flex-column mb-3">
+                <div class="d-flex align-items-center longinho">
+                  <div style="flex: 1; padding-bottom: 0;">
+                    <h5>Backup e Exportação</h5>
+                    <p class="desc">
+                      Baixe uma cópia completa de todas as informações armazenadas em sua conta, incluindo
+                      histórico, permissões, arquivos e configurações. Tudo em formato seguro e compatível.
+                    </p>
+                  </div>
+                  <div style="flex: 0 0 auto;" class="d-flex justify-content-center">
+                    <img src="/imagens/backup.png"
+                      style="max-width: 100px; padding-left: 10px; height: 100%;" alt="">
+                  </div>
+                </div>
+
+
+                <div class="desce d-flex w-100" style="border-top: 1px solid #e0e0e0;">
+                  <h6 class="longinho"><a href="#">Exportar dados agora</a></h6>
+                </div>
+              </div>
+
+              <!-- Card 2 - Privacidade -->
+              <div class="col-12 col-md-6 col-lg-4 painel d-flex flex-column mb-3">
+                <div class="d-flex align-items-center longinho">
+                  <div style="flex: 1;">
+                    <h5>Controle de Privacidade</h5>
+                    <p class="desc">
+                      Consulte quais dados sua conta armazena, revise autorizações e escolha
+                      como suas informações serão usadas para melhorar sua experiência.
+                    </p>
+                  </div>
+
+                  <div style="flex: 0 0 auto;">
+                    <img src="/imagens/pessoa.png" style="width: 90px; padding-left: 10px;"
+                      alt="">
+                  </div>
+                </div>
+
+                <div class="desce d-flex w-100" style="border-top: 1px solid #e0e0e0;">
+                  <h6 class="longinho"><a href="#">Gerenciar dados e configurações</a></h6>
+                </div>
+              </div>
+
+
+              <div class="teste2 d-flex w-100 justify-content-center">
+                <!-- Card 4 - Permissões e Aplicativos -->
+                <div class="col-12 col-md-6 d-flex flex-column justify-content-center painel2 mb-3">
+                  <div class="d-flex align-items-center longinho">
+                    <div style="flex: 1;">
+                      <h5>Permissões de Aplicativos</h5>
+                      <p class="desc">
+                        Acesse a lista de aplicações e integrações que possuem acesso à sua conta.
+                        Revogue permissões ou bloqueie serviços que você não quer mais manter conectados.
+                      </p>
+                    </div>
+
+                    <div style="flex: 0 0 auto;">
+                      <img src="/imagens/permissoes.png" alt="" style="width: 80px;">
+                    </div>
+                  </div>
+
+                  <div class="desce d-flex w-100" style="border-top: 1px solid #e0e0e0;">
+                    <h6 class="longinho"><a href="#">Gerenciar integrações</a></h6>
+                  </div>
+                </div>
+
+              </div>
+              <!-- exclusao de dados -->
+              <div class="teste2 d-flex w-100 justify-content-center">
+
+                <div class="col-12 col-md-8" style=" width: 70%;">
+                  <h4>Deseja apagar seus dados?</h4>
+                  <p class="desc">
+                    Se desejar encerrar sua conta ou remover informações permanentemente, faça a solicitação
+                    e acompanhe o status pelo painel de privacidade.
+                  </p>
+                  <div class="desce d-flex w-100" style="border-top: 1px solid #e0e0e0;">
+                    <h6 class="longinho"><a href="#">Solicitar exclusão</a></h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </main>
+
+
+      </div>
+
+      <div id="sobre" class="col-12 conteudo container mb-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-12 col-md-10 mt-3">
+
+            <h2 class="mb-1">Sobre</h2>
+            <p class="text-muted mb-4">
+              • Versão 2.9
+            </p>
+
+            <!-- Introdução -->
+            <p class="mb-4">
+              A <strong>IndusParts</strong> é uma plataforma criada para modernizar a gestão de peças, dados e cadastros
+              internos, garantindo processos mais rápidos, organizados e seguros. Nosso foco é transformar rotinas
+              operacionais em sistemas eficientes e automáticos.
+            </p>
+
+            <!-- Cards -->
+            <div class="row g-3">
+
+              <!-- Card 1 -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded shadow-sm h-100">
+                  <h5 class="mb-2">Evolução Contínua</h5>
+                  <p class="mb-0">
+                    Cada atualização traz melhorias reais em interface, navegação, desempenho e funcionalidades para
+                    tornar o uso cada vez mais simples e agradável.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded shadow-sm h-100">
+                  <h5 class="mb-2">Experiência Responsiva</h5>
+                  <p class="mb-0">
+                    Totalmente otimizado para computadores, tablets e smartphones, adaptando automaticamente elementos
+                    para garantir acesso e uso confortável em qualquer tela.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded shadow-sm h-100">
+                  <h5 class="mb-2">Segurança e Privacidade</h5>
+                  <p class="mb-0">
+                    Controle de permissões, transparência nos dados e armazenamentos seguros garantem que suas
+                    informações estejam protegidas e sob seu controle.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Card 4 -->
+              <div class="col-12 col-md-6">
+                <div class="p-3 border rounded shadow-sm h-100">
+                  <h5 class="mb-2">Produtividade Máxima</h5>
+                  <p class="mb-0">
+                    Elimina processos manuais, evita retrabalho e centraliza informações em um único lugar, aumentando
+                    eficiência e reduzindo erros.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Rodapé -->
+            <hr class="my-4">
+            <p class="mb-2 fw-semibold">Nosso Compromisso</p>
+            <p class="mb-0">
+              Continuaremos trazendo novas ferramentas e experiências para tornar a IndusParts uma solução cada vez mais
+              moderna, precisa e preparada para o futuro.
+            </p>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="d-flex align-items-center justify-content-center icones">
+        <footer class="">Só você pode ver suas configurações. Você
+          também pode querer revisar as configurações dos seus <a href="#">Dados</a>,
+          e de outros serviços do IndusParts usados com frequência. A IndusParts mantém seus dados privados, seguros e
+          protegidos.
+          <a href="#">Saiba mais</a>
+        </footer>
+      </div>
+    </main>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+    integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const botoes = document.querySelectorAll("nav button");
+    const conteudos = document.querySelectorAll(".conteudo");
+
+    botoes.forEach(botao => {
+      botao.addEventListener("click", () => {
+        botoes.forEach(b => b.classList.remove("ativo"));
+        conteudos.forEach(c => c.classList.remove("ativo"));
+
+        botao.classList.add("ativo");
+        document.getElementById(botao.dataset.alvo).classList.add("ativo");
+
+        // SALVA A ABA ATUAL
+        localStorage.setItem("aba_atual", botao.dataset.alvo);
+      });
+    });
+
+    //  RESTAURA A ABA ANTERIOR
+    window.addEventListener("load", () => {
+      const abaSalva = localStorage.getItem("aba_atual");
+
+      if (abaSalva) {
+        // Remove ativo de tudo
+        document.querySelectorAll("nav button").forEach(b => b.classList.remove("ativo"));
+        document.querySelectorAll(".conteudo").forEach(c => c.classList.remove("ativo"));
+
+        // Ativa a aba salva
+        document.querySelector(`nav button[data-alvo="${abaSalva}"]`).classList.add("ativo");
+        document.getElementById(abaSalva).classList.add("ativo");
+      }
+    });
+
+
+  </script>
+  <!-- header animação -->
+  <script>
+    const header = document.querySelector(".header");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  </script>
+
+</body>
+
+</html>
