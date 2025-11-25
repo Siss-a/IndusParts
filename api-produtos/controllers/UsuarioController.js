@@ -1,9 +1,9 @@
-class UsuarioController{
-       // POST /usuarios - Criar novo usuário (apenas admin)
+class UsuarioController {
+    // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
         try {
             const { nome, email, senha, tipo } = req.body;
-            
+
             // Validações básicas
             if (!nome || nome.trim() === '') {
                 return res.status(400).json({
@@ -83,7 +83,7 @@ class UsuarioController{
 
             // Criar usuário
             const usuarioId = await UsuarioModel.criar(dadosUsuario);
-            
+
             res.status(201).json({
                 sucesso: true,
                 mensagem: 'Usuário criado com sucesso',
@@ -109,7 +109,7 @@ class UsuarioController{
         try {
             const { id } = req.params;
             const { nome, email, senha, tipo } = req.body;
-            
+
             // Validação do ID
             if (!id || isNaN(id)) {
                 return res.status(400).json({
@@ -131,7 +131,7 @@ class UsuarioController{
 
             // Preparar dados para atualização
             const dadosAtualizacao = {};
-            
+
             if (nome !== undefined) {
                 if (nome.trim() === '') {
                     return res.status(400).json({
@@ -159,7 +159,7 @@ class UsuarioController{
                         mensagem: 'Formato de email inválido'
                     });
                 }
-                
+
                 // Verificar se o email já está em uso por outro usuário
                 const usuarioComEmail = await UsuarioModel.buscarPorEmail(email);
                 if (usuarioComEmail && usuarioComEmail.id !== parseInt(id)) {
@@ -169,7 +169,7 @@ class UsuarioController{
                         mensagem: 'Este email já está sendo usado por outro usuário'
                     });
                 }
-                
+
                 dadosAtualizacao.email = email.trim().toLowerCase();
             }
 
@@ -199,7 +199,7 @@ class UsuarioController{
 
             // Atualizar usuário
             const resultado = await UsuarioModel.atualizar(id, dadosAtualizacao);
-            
+
             res.status(200).json({
                 sucesso: true,
                 mensagem: 'Usuário atualizado com sucesso',
@@ -221,7 +221,7 @@ class UsuarioController{
     static async excluirUsuario(req, res) {
         try {
             const { id } = req.params;
-            
+
             // Validação do ID
             if (!id || isNaN(id)) {
                 return res.status(400).json({
@@ -243,7 +243,7 @@ class UsuarioController{
 
             // Excluir usuário
             const resultado = await UsuarioModel.excluir(id);
-            
+
             res.status(200).json({
                 sucesso: true,
                 mensagem: 'Usuário excluído com sucesso',
@@ -264,7 +264,7 @@ class UsuarioController{
     static async obterPerfil(req, res) {
         try {
             const usuario = await UsuarioModel.buscarPorId(req.usuario.id);
-            
+
             if (!usuario) {
                 return res.status(404).json({
                     sucesso: false,
@@ -296,7 +296,7 @@ class UsuarioController{
             // Obter parâmetros de paginação da query string
             const pagina = parseInt(req.query.pagina) || 1;
             const limite = parseInt(req.query.limite) || 10;
-            
+
             // Validações
             if (pagina < 1) {
                 return res.status(400).json({
@@ -305,7 +305,7 @@ class UsuarioController{
                     mensagem: 'A página deve ser um número maior que zero'
                 });
             }
-            
+
             const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
             if (limite < 1 || limite > limiteMaximo) {
                 return res.status(400).json({
@@ -314,9 +314,9 @@ class UsuarioController{
                     mensagem: `O limite deve ser um número entre 1 e ${limiteMaximo}`
                 });
             }
-            
+
             const resultado = await UsuarioModel.listarTodos(pagina, limite);
-            
+
             // Remover senha de todos os usuários
             const usuariosSemSenha = resultado.usuarios.map(({ senha, ...usuario }) => usuario);
 
@@ -339,5 +339,6 @@ class UsuarioController{
             });
         }
     }
-    
 }
+
+export default UsuarioController;

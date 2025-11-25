@@ -3,33 +3,10 @@ import { create, read, update, deleteRecord, comparePassword, hashPassword, getC
 // Model para operações com usuários
 class UsuarioModel {
     // Listar todos os usuários (com paginação)
-    // SE QUISER O PAGINATION, HABILITE OS PARAMETROS, E SE VIRE NO RESTO
-    static async listarTodos(/*pagina = 1, limite = 10*/) {
+    static async listarTodos() {
         try {
-            const response = await read("usuarios")
-            return response
-            // const offset = (pagina - 1) * limite;
-
-            // // Buscar usuários com paginação (usando prepared statements para segurança)
-            // const connection = await getConnection();
-            // try {
-            //     const sql = 'SELECT * FROM usuarios ORDER BY id DESC LIMIT ? OFFSET ?';
-            //     const [usuarios] = await connection.query(sql, [limite, offset]);
-
-            //     // Contar total de registros
-            //     const [totalResult] = await connection.execute('SELECT COUNT(*) as total FROM usuarios');
-            //     const total = totalResult[0].total;
-
-            //     return {
-            //         usuarios,
-            //         total,
-            //         pagina,
-            //         limite,
-            //         totalPaginas: Math.ceil(total / limite)
-            //     };
-            // } finally {
-            //     connection.release();
-            // }
+            const response = await read("usuarios");
+            return response;
         } catch (error) {
             console.error('Erro ao listar usuários:', error);
             throw error;
@@ -74,7 +51,7 @@ class UsuarioModel {
     static async criar(dadosUsuario) {
         try {
             // Hash da senha antes de salvar
-            const senhaHash = await hashPassword(dadosUsuario.senha_hash);
+            const senhaHash = await hashPassword(dadosUsuario.senha);
 
             const dadosComHash = {
                 nome_social: dadosUsuario.nome_social,
@@ -95,8 +72,9 @@ class UsuarioModel {
     static async atualizar(id, dadosUsuario) {
         try {
             // Se a senha foi fornecida, fazer hash
-            if (dadosUsuario.senha_hash) {
-                dadosUsuario.senha_hash = await hashPassword(dadosUsuario.senha_hash);
+            if (dadosUsuario.senha) {
+                dadosUsuario.senha_hash = await hashPassword(dadosUsuario.senha);
+                delete dadosUsuario.senha;
             }
 
             return await update('usuarios', dadosUsuario, `id = ${id}`);

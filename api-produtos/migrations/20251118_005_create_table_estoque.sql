@@ -2,7 +2,7 @@
 -- Data: 2025-11-18
 -- Descrição: Tabela para armazenar estoque de produtos
 
-USE produtos_api;
+USE indusparts;
 
 -- Tabela de Estoque
 CREATE TABLE estoque (
