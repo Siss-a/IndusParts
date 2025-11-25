@@ -2,7 +2,8 @@
   --azul-mais-escuro: #012F6D;
   --azul-escuro: #144272;
   --azul: ;
-  --azul-claro: ;
+  --bege: color: rgb(167, 118, 96);
+  --azul-claro: rgb(26, 115, 232) ;
 }
 
 * {
@@ -658,15 +659,32 @@
     flex: 1;
     justify-self: center;
     min-width: 0;
-    width: 80%;
+    width: 90%;
   }
 
   .bloco2 {
     width: 100%;
   }
-}
 
-.card {
+  .btl{
+    width: 50%;
+    display: flex;
+    align-items: self-end;
+    justify-content:end;
+    margin-bottom: 15px;
+  }
+
+  .botao{
+    height: 42px;
+    width: 170px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+
+  }
+
+ .card {
   max-width: 330px;
   width: 100%;
 }
@@ -682,6 +700,11 @@
   justify-self: center;
   justify-content: end;
 }
+/* velocidade do carrossel */
+.carousel-item {
+  transition: transform 0.7s ease; /* mais lento */
+}
+
 
 .carousel-control-prev,
 .carousel-control-next {
@@ -691,7 +714,7 @@
   margin: 0;
    width: 30px;   
   height: 30px;
-  background-color: rgb(0, 80, 184);
+  background-color: var(--azul-claro);
   border-radius: 50%;
 }
 
@@ -717,6 +740,32 @@
   gap: 10px;
   margin-top: 10px;
 }
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .bloco {
+    flex-direction: column;
+    align-items: start;
+  .btl{
+    width: 100%;
+    justify-content: left;
+    margin-bottom: 15px;
+    margin-top:15px ;
+  }
+  
+}
+
+
+
+
+}
+
+
 
 
 

@@ -19,102 +19,140 @@
 
 <body>
 
-    <header>
-        <div class="d-flex align-items-center justify-content-between ">
-            <a class="text-decoration-none" href="">
-                <h1 class="fs-4 titulo"><span
-                        style="color: rgb(26, 115, 232) !important; font-size: 35px ;">Indus</span><span
-                        style="color: black;">Parts</span></h1>
+    <header class="d-flex flex-column gap-2 p-2">
+        <div class="d-flex align-items-center justify-content-between w-100">
+
+
+            <!-- LOGO -->
+            <a class="text-decoration-none" href="#">
+                <h1 class="fs-2 titulo">
+                    <span class="fs-2" style="color: var(--azul-claro);">Indus</span><span
+                        style="color: black;" class="fs-2">Parts</span>
+                </h1>
             </a>
-            <!-- aqui tem que colocar o botao do carrinho e o botão de login -->
-            <div class="d-flex align-items-center gap-2 icones">
-                <a href="#">
-                    <button class="material-icons btn-header">search</button>
-                </a>
-                <a href="#">
-                    <button class="material-icons btn-header">help_outline</button>
-                </a>
-                <a href="#">
-                    <button class="material-icons btn-header">apps</button>
-                </a>
+
+            <!-- ÍCONES NO MOBILE/LAPTOP (Carrinho + Conta + Menu) -->
+            <div class="d-flex align-items-center gap-2 d-lg-none icones">
+                <a href="#"><button class="material-icons btn-header">shopping_cart</button></a>
+                <a href="#"><button class="material-icons btn-header">person</button></a>
+
+                <!-- Botão Hamburguer -->
+                <button class="material-icons btn-header" data-bs-toggle="collapse" data-bs-target="#menuMobile">
+                    menu
+                </button>
+            </div>
+
+            <!-- ÍCONES NO DESKTOP -->
+            <div class="d-none d-lg-flex align-items-center gap-2 icones">
+                <a href="#"><button class="material-icons btn-header">shopping_cart</button></a>
+                <a href="#"><button class="material-icons btn-header">person</button></a>
+            </div>
+
+
+        </div>
+
+        <!-- LINKS DO MENU (DESKTOP) -->
+
+        <div class="d-none d-lg-flex gap-4">
+            <a href="#">Ferramentas</a>
+            <a href="#">Serviços</a>
+            <a href="#">Apoios</a>
+        </div>
+
+        <!-- MENU MOBILE QUE ABRE AO CLICAR -->
+
+        <div id="menuMobile" class="collapse d-lg-none">
+            <div class="d-flex flex-column gap-2 mt-2">
+                <a href="#">Ferramentas</a>
+                <a href="#">Serviços</a>
+                <a href="#">Apoios</a>
+            </div>
+        </div>
+    </header>
+
+
+
+    <main class="">
+        <div class="bloco d-flex">
+            <div>
+                <p class="fs-5" style="color: rgb(167, 118, 96);"><strong>Manufacturing Wellness</strong></p>
+                <h1>Cortando gastos na raiz — veja como</h1>
+            </div>
+            <div class="btl">
+                <button class="botao">Veja nosso guia</button>
             </div>
         </div>
 
-        <div class="d-flex gap-5">
-            <a href="#">ferramentas</a>
-            <a href="#">serviços</a>
-            <a href="#">apoios</a>
-        </div>
-
-    </header>
-
-    <main class=" col-12 col-md-12">
-        <div class="bloco">
-            <p>aqui a gente faz algo</p>
-            <h1>E VC NOS DA DOINHEIRO</h1>
-        </div>
-
-        <div class="bloco2 bg-danger">
+        <div class="bloco2">
             <div class="d-flex justify-content-center"><img style=" width: 100%;" src="../imagens/index/biafoto.webp"
                     alt="foto de algo">
             </div>
         </div>
+
         <div class="bloco" style="border-bottom: 1px solid #e0e0e0;padding-bottom: 50px;">
             <h4 class="pt-4 pb-4">Nossos produtos mais populares</h4>
-            <div id="produtosCarousel" class="carousel slide" >
 
+            <div id="produtosCarousel" class="carousel slide">
                 <div class="carousel-inner">
                     <!-- SLIDE 1 -->
                     <div class="carousel-item active">
                         <div class="row justify-content-center">
 
-                            <div class="col-12 col-md-3">
+                            <a href="" class="col-12 col-md-3">
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 1</h4>
+                                        <h4 class="card-text">Produto 8</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
 
-                            <div class="col-12 col-md-3">
+                            <a href="" class="col-12 col-md-3">
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 2</h4>
+                                        <h4 class="card-text">Produto 8</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
 
-                            <div class="col-12 col-md-3">
+                            <a href="" class="col-12 col-md-3">
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 3</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti numquam
-                                            nemo sunt recusandae expedita quo cumque quisquam beatae laudantium.
-                                            Nostrum, nulla aspernatur. Ea enim voluptas, sit assumenda at quod sint?</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3">
-                                <div class="card">
-                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
-                                    <div class="card-body">
-                                        <h4 class="card-text">Produto 4</h4>
+                                        <h4 class="card-text">Produto 8</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
+
+                            <a href="" class="col-12 col-md-3">
+                                <div class="card">
+                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                    <div class="card-body">
+                                        <h4 class="card-text">Produto 8</h4>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
 
                         </div>
                     </div>
@@ -123,62 +161,68 @@
                     <div class="carousel-item">
                         <div class="row justify-content-center">
 
-                            <div class="col-12 col-md-3">
-                                <div class="card">
-                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
-                                    <div class="card-body">
-                                        <h4 class="card-text">Produto 5</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3">
-                                <div class="card">
-                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
-                                    <div class="card-body">
-                                        <h4 class="card-text">Produto 6</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3">
-                                <div class="card">
-                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
-                                    <div class="card-body">
-                                        <h4 class="card-text">Produto 7</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3">
+                            <a href="" class="col-12 col-md-3">
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
                                         <h4 class="card-text">Produto 8</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
+
+                            <a href="" class="col-12 col-md-3">
+                                <div class="card">
+                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                    <div class="card-body">
+                                        <h4 class="card-text">Produto 8</h4>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="" class="col-12 col-md-3">
+                                <div class="card">
+                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                    <div class="card-body">
+                                        <h4 class="card-text">Produto 8</h4>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="" class="col-12 col-md-3">
+                                <div class="card">
+                                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                    <div class="card-body">
+                                        <h4 class="card-text">Produto 8</h4>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
+                                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio
+                                            ab
+                                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Botões -->
-
-
             </div>
 
+
+            
             <div class="d-flex gap-1 mt-3 separador">
                 <button class="carousel-control-prev" type="button" data-bs-target="#produtosCarousel"
                     data-bs-slide="prev">
@@ -190,6 +234,27 @@
                     <span class="carousel-control-next-icon"></span>
                 </button>
             </div>
+
+            <h4 class="pt-4 pb-4">Notícias e insights</h4>
+
+
+            <div class="col-12 col-md-3 col-sm-3">
+                <div class="card">
+                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                    <div class="card-body">
+                        <a href="">
+                            <h4 class="card-text">Produto 1</h4>
+                        </a>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
+                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
+                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
         </div>
     </main>
