@@ -705,7 +705,7 @@
   }
 
   .card-img-top {
-    max-height: 175px;
+    max-height: 200px;
     height: 100%;
   }
 
@@ -770,6 +770,7 @@
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
   }
+  
 
   /* cada card ocupa boa parte da tela (ajuste 85% / 90% se quiser) */
   .mobile-scroll .card-link {
