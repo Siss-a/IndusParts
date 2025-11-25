@@ -3,7 +3,7 @@
   --azul-escuro: #144272;
   --azul: ;
   --bege: color: rgb(167, 118, 96);
-  --azul-claro: rgb(26, 115, 232) ;
+  --azul-claro: rgb(26, 115, 232);
 }
 
 * {
@@ -668,26 +668,26 @@
   }
 
   @media (max-width:425px) {
-    .banner1{
+    .banner1 {
       width: 200%;
     }
   }
 
   @media (min-width:768px) {
-    .banner1{
+    .banner1 {
       width: 100%;
     }
   }
 
-  .btl{
+  .btl {
     width: 50%;
     display: flex;
     align-items: self-end;
-    justify-content:end;
+    justify-content: end;
     margin-bottom: 15px;
   }
 
-  .botao{
+  .botao {
     height: 42px;
     width: 170px;
     background-color: black;
@@ -697,798 +697,801 @@
 
   }
 
- .card {
-  max-width: 330px;
-  width: 100%;
-}
-
-.card-img-top {
-  max-height: 230px;
-  height: 100%;
-  
-}
-
-.separador {
-  max-width: 2000px;
-  width: 90%;
-  justify-self: center;
-  justify-content: end;
-}
-/* velocidade do carrossel */
-.carousel-item {
-  transition: transform 0.7s ease; /* mais lento */
-}
-
-
-.carousel-control-prev,
-.carousel-control-next {
-  position: static !important;
-  /* remove posição absoluta */
-  width: auto;
-  margin: 0;
-   width: 30px;   
-  height: 30px;
-  background-color: var(--azul-claro);
-  border-radius: 50%;
-}
-
-/* tamanho da seta dentro do botao */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  width: 20px;   /* tamanho desejado */
-  height: 20px;  /* tamanho desejado */
-}
-
-
-.card-body {
-
-  min-height: 150px;
-  max-height: 150px;
-
-}
-
-.carousel-controls-custom {
-  display: flex;
-  justify-content: flex-end;
-  /* direita */
-  gap: 10px;
-  margin-top: 10px;
-}
-
-
-
-.mobile-scroll {
-  gap: 1rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-}
-
-/* cada card ocupa boa parte da tela (ajuste 85% / 90% se quiser) */
-.mobile-scroll .card-link {
-  flex: 0 0 86%;      /* largura do card em relação à viewport */
-  max-width: 86%;
-  scroll-snap-align: center;
-  text-decoration: none;
-}
-
-/* mantém o card com altura completa do conteúdo */
-.mobile-scroll .card {
-  height: 100%;
-}
-
-/* esconder scrollbar (opcional) */
-.mobile-scroll::-webkit-scrollbar {
-  display: none;
-}
-.mobile-scroll {
-  -ms-overflow-style: none;  /* IE/Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-
-/* se quiser garantir que controles do carousel desktop não apareçam no mobile */
-@media (max-width: 991.98px) {
-  #produtosCarousel .carousel-control-prev,
-  #produtosCarousel .carousel-control-next,
-  #produtosCarousel .carousel-indicators {
-    display: none !important;
-  }
-}
-
-
-
-
-
-
-@media (max-width: 768px) {
-  .bloco {
-    flex-direction: column;
-    align-items: start;
-  .btl{
+  .card {
+    max-width: 330px;
     width: 100%;
-    justify-content: left;
-    margin-bottom: 15px;
-    margin-top:15px ;
-  }
-  
-}
-
-
-
-
-}
-
-
-
-
-
-
-/* DASHBOARD */
-
-
-.dashboard {
-  @font-face {
-    font-family: "Helvetica";
-    src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+    max-height:300px ;
+    height: 100%;
   }
 
+  .card-img-top {
+    max-height: 175px;
+    height: 100%;
+  }
 
+  .card-body{
+    max-height: 150px;
+    height: 100%;
+  }
 
-  * {
-    transition: 0.2s ease;
+  .separador {
+    max-width: 2000px;
+    width: 90%;
+    justify-self: center;
+    justify-content: end;
+  }
+
+  /* velocidade do carrossel */
+  .carousel-item {
+    transition: transform 0.7s ease;
+    /* mais lento */
   }
 
 
-  a {
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: static !important;
+    /* remove posição absoluta */
+    width: auto;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    background-color: var(--azul-claro);
+    border-radius: 50%;
+  }
+
+  /* tamanho da seta dentro do botao */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 20px;
+    /* tamanho desejado */
+    height: 20px;
+    /* tamanho desejado */
+  }
+
+
+  .card-body {
+    min-height: 150px;
+    max-height: 150px;
+  }
+
+  .carousel-controls-custom {
+    display: flex;
+    justify-content: flex-end;
+    /* direita */
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .mobile-scroll {
+    gap: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+  }
+
+  /* cada card ocupa boa parte da tela (ajuste 85% / 90% se quiser) */
+  .mobile-scroll .card-link {
+    flex: 0 0 86%;
+    /* largura do card em relação à viewport */
+    max-width: 86%;
+    scroll-snap-align: center;
     text-decoration: none;
   }
 
-  body {
-    margin: 0;
-    font-family: "Helvetica", sans-serif;
+  /* mantém o card com altura completa do conteúdo */
+  .mobile-scroll .card {
+    height: 100%;
   }
 
-  /* layout principal */
-
-  .layout {
-    display: flex;
-    flex-direction: row;
-  }
-
-  /* ===== NAV ===== */
-
-  /* animação no botao */
-  nav button.ativo {
-    transition: 0.25s ease;
-    transform: translateX(2px);
-  }
-
-  nav {
-    min-height: 100vh;
-    min-width: 280px;
-    max-width: 280px;
-
-    position: fixed;
-
-    padding-top: 9vh;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  nav button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 90%;
-    margin: 0 auto;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    font-size: 15px;
-    padding: 10px 15px;
-    border-radius: 5px;
-    color: #3c4043;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.1s ease;
-  }
-
-  nav button i {
-    font-size: 18px;
-    color: #5f6368;
-    transition: color 0.25s ease;
-  }
-
-  nav button.ativo {
-    background: linear-gradient(90deg, #e9f1ff, #f5f9ff);
-    font-weight: 600;
-    color: #1a73e8;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    box-shadow: inset 4px 0 0 #1a73e8;
-  }
-
-  nav button.ativo i {
-    color: #1a73e8;
-  }
-
-  .borda-inferior {
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  /* HEADER */
-
-  .header {
-    position: fixed;
-    top: 0;
-    background-color: #ffffff;
-    width: 100%;
-    padding: 12px 20px;
-    transition: box-shadow 0.3s ease;
-    z-index: 999 !important;
-  }
-
-  .header.scrolled {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .titulo {
-    transition: ease 0.3s;
-  }
-
-  .titulo:hover {
-    transition: ease 0.3s;
-    transform: scale(1.03);
-  }
-
-  .icones .btn-header {
-    background: #ffffff;
-    border-radius: 10px;
-    border: none;
-    padding: 6px 10px;
-    font-size: 22px;
-    transition: 0.2s ease;
-  }
-
-  .icones .btn-header:hover {
-    background: #e0ebff;
-    transform: translateY(-2px);
-  }
-
-  .icones .btn-header:active {
-    transform: scale(0.95);
-  }
-
-  /* ===== MAIN ===== */
-
-  .m1 {
-    padding-top: 6vh;
-    flex: 1;
-    min-width: 0;
-    width: 100%;
-  }
-
-  /* ===== CONTEUDOS ===== */
-
-  .conteudo {
+  /* esconder scrollbar (opcional) */
+  .mobile-scroll::-webkit-scrollbar {
     display: none;
   }
 
-  .conteudo.ativo {
-    display: block;
-    width: 100%;
-    /* padding-left: 0; */
-    height: auto;
+  .mobile-scroll {
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
-  .t1 {
-    font-size: 1.8rem;
-  }
+  /* se quiser garantir que controles do carousel desktop não apareçam no mobile */
+  @media (max-width: 991.98px) {
 
-  /* ===== FOTO ===== */
-
-  .foto {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .perfil {
-    position: relative;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: linear-gradient(135deg, #0047ab, #ffcc00);
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
-  }
-
-  .perfil img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    transition: opacity 0.3s ease;
-  }
-
-  /* ===== INICIO ===== */
-
-  .infos1 {
-    width: 100%;
-    text-align: center;
-    margin-top: 15px;
-    color: #202124;
-  }
-
-  .infos1 h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .infos1 h2 span {
-    color: #1a73e8;
-  }
-
-  .infos1 p {
-    font-size: 0.95rem;
-    color: #5f6368;
-  }
-
-  .infos1 a {
-    color: #1a73e8;
-    text-decoration: none;
-  }
-
-  .infos1 a:hover {
-    text-decoration: underline;
-  }
-
-  .bloco {
-    width: 100%;
-    /* ocupa toda a largura disponível */
-    max-width: 1200px;
-    /* opcional: limita a largura máxima */
-    /* centraliza a .bloco */
-    display: flex;
-    flex-wrap: wrap;
-    /* permite que os cards quebrem linha */
-    gap: 20px;
-    /* espaço entre os cards */
-    /* centraliza os cards na linha */
-  }
-
-  .painel {
-    flex: 1 1 300px;
-    /* ocupa mínimo 300px, cresce se houver espaço */
-    max-width: 406px;
-    height: auto;
-    /* deixa a altura flexível se necessário */
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .painel2 {
-    flex: 1 1 300px;
-    max-width: 830px;
-    height: auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .longinho {
-    padding: 20px;
-  }
-
-  .desc {
-    font-size: 0.95rem;
-    color: #5f6368
-  }
-
-  .desce {
-    margin-top: auto;
-  }
-
-  .plargo {
-    width: 830px;
-    min-height: 90px;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e0e0e0;
-  }
-
-  /* ========== INFORMAÇÕES PESSOAIS ========== */
-
-  .teste1 {
-    text-align: center;
-    flex-direction: column;
-  }
-
-  .m2 {
-    /* display: flex; */
-    flex-direction: column;
-  }
-
-  /* Container dos blocos */
-  .b1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  /* ===== BLOCO 1 ===== */
-  .bloco1 {
-    display: flex;
-    width: 75%;
-    padding: 20px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* texto do bloco 1 */
-  .bloco1 .texto {
-    width: 55%;
-  }
-
-  /* imagem do bloco 1 */
-  .ft1 {
-    width: 260px;
-    height: auto;
-    object-fit: cover;
-  }
-
-  /* ===== BLOCO 2 ===== */
-
-
-  .bloco2 {
-    width: 75%;
-    margin: 10px auto 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  /* Card infos básicas */
-  .info-card {
-    max-width: 920px;
-    width: 100%;
-    border-radius: 8px;
-    padding: 18px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e9e9e9;
-  }
-
-  /* Cabeçalho */
-  .info-card .card-header h3 {
-    margin: 0 0 6px 0;
-    font-weight: 600;
-  }
-
-  .info-card .card-header p {
-    margin: 0 0 10px 0;
-    font-size: 0.95rem;
-  }
-
-  /* Linha (label + value) */
-  .info-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px 6px;
-  }
-
-  /* Label */
-  .info-label {
-    flex: 0 0 200px;
-    color: #6c6c6c;
-    font-size: 0.95rem;
-  }
-
-  /* Value */
-  .info-value {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    font-size: 1rem;
-    color: #222;
-  }
-
-  /* Avatar */
-  .avatar-wrap {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  }
-
-  /* Linhas clicáveis */
-  .link-row {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-  }
-
-  .link-row:hover {
-    background: #f8f9fb;
-  }
-
-  /* Setinha */
-  .info-value i.bi {
-    color: #8a8a8a;
-    font-size: 1.05rem;
-  }
-
-  /* Divider */
-  .info-card hr {
-    border: none;
-    border-top: 1px solid #eee;
-  }
-
-  .plargo2 {
-    width: 920px;
-    min-height: 90px;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e0e0e0;
-  }
-
-  .longinho2 {
-    padding: 10px;
-
-  }
-
-  @media (max-width: 1669px) {
-    .plargo2 {
-      width: 920px;
+    #produtosCarousel .carousel-control-prev,
+    #produtosCarousel .carousel-control-next,
+    #produtosCarousel .carousel-indicators {
+      display: none !important;
     }
   }
 
-
-  /* ===== RESPONSIVIDADE ===== */
 
   @media (max-width: 768px) {
-
-    .bloco1 {
+    .bloco {
       flex-direction: column;
-      text-align: center;
-      width: 95%;
+      align-items: start;
+
+      .btl {
+        width: 100%;
+        justify-content: left;
+        margin-bottom: 15px;
+        margin-top: 15px;
+      }
+
     }
 
-    .bloco1 .texto {
-      width: 100%;
-    }
-
-    .ft1 {
-      width: 80%;
-      max-width: 300px;
-    }
-
-    .bloco2 {
-      width: 95%;
-    }
-
-    .info-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    .info-label {
-      flex: none;
-      width: 100%;
-    }
-
-    .info-value {
-      justify-content: flex-start;
-      width: 100%;
-    }
-
-    .avatar {
-      width: 72px;
-      height: 72px;
-    }
   }
 
-  /* ========== DADOS E PRIVACIDADE ========== */
 
 
 
+  /* DASHBOARD */
 
-  /* ========== FOOTER ========== */
 
-  footer {
-    width: 830px;
-    margin-top: 40px;
-    font-size: 0.95rem;
-    color: #5f6368;
-    text-align: center;
-    padding: 0 20px 20px 20px;
-  }
+  .dashboard {
+    @font-face {
+      font-family: "Helvetica";
+      src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
 
-  /* ========== RESPOSIVIDADE ========== */
 
-  @media (max-width: 1131px) {
 
-    nav {
-      min-height: 10px !important;
-      min-width: 100% !important;
-      max-width: 100% !important;
-      height: 60px !important;
-      position: fixed;
-      padding-top: 0 !important;
+    * {
+      transition: 0.2s ease;
+    }
 
-      position: fixed;
-      top: 50px;
-      left: 0;
 
+    a {
+      text-decoration: none;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Helvetica", sans-serif;
+    }
+
+    /* layout principal */
+
+    .layout {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-
-      background: #fff;
-      border-bottom: 1px solid #ccc;
-      z-index: 999;
     }
-  }
 
-  @media (max-width: 1170px) {
+    /* ===== NAV ===== */
+
+    /* animação no botao */
+    nav button.ativo {
+      transition: 0.25s ease;
+      transform: translateX(2px);
+    }
 
     nav {
-      min-height: 10px !important;
-      min-width: 100% !important;
-      max-width: 100% !important;
-      height: 60px !important;
-      padding-top: 0 !important;
+      min-height: 100vh;
+      min-width: 280px;
+      max-width: 280px;
 
       position: fixed;
-      top: 50px;
-      left: 0;
 
+      padding-top: 9vh;
       display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-
-      background: #fff;
-      border-bottom: 1px solid #ccc;
-      z-index: 999;
+      flex-direction: column;
+      gap: 4px;
     }
 
     nav button {
-      width: auto;
-      min-height: 60px;
-      padding-bottom: 5px;
-      ;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 90%;
+      margin: 0 auto;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      color: #3c4043;
+      transition: background-color 0.25s ease, color 0.25s ease, transform 0.1s ease;
     }
 
-    .botao-inferior {
-      border-bottom: none !important;
+    nav button i {
+      font-size: 18px;
+      color: #5f6368;
+      transition: color 0.25s ease;
     }
 
     nav button.ativo {
-      background: none !important;
+      background: linear-gradient(90deg, #e9f1ff, #f5f9ff);
       font-weight: 600;
-      color: #1a73e8 !important;
-      box-shadow: none !important;
-      border-bottom-left-radius: 5px !important;
-      border-bottom-right-radius: 5px !important;
-      border-bottom: 3px solid #1a73e8 !important;
-
+      color: #1a73e8;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      box-shadow: inset 4px 0 0 #1a73e8;
     }
 
-    /* Cor dos ícones */
     nav button.ativo i {
-      color: #1a73e8 !important;
+      color: #1a73e8;
     }
 
-    .layout {
-      flex-direction: column;
-      /* NAV em cima, MAIN embaixo */
+    .borda-inferior {
+      border-bottom: 1px solid #e0e0e0;
     }
+
+    /* HEADER */
+
+    .header {
+      position: fixed;
+      top: 0;
+      background-color: #ffffff;
+      width: 100%;
+      padding: 12px 20px;
+      transition: box-shadow 0.3s ease;
+      z-index: 999 !important;
+    }
+
+    .header.scrolled {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .titulo {
+      transition: ease 0.3s;
+    }
+
+    .titulo:hover {
+      transition: ease 0.3s;
+      transform: scale(1.03);
+    }
+
+    .icones .btn-header {
+      background: #ffffff;
+      border-radius: 10px;
+      border: none;
+      padding: 6px 10px;
+      font-size: 22px;
+      transition: 0.2s ease;
+    }
+
+    .icones .btn-header:hover {
+      background: #e0ebff;
+      transform: translateY(-2px);
+    }
+
+    .icones .btn-header:active {
+      transform: scale(0.95);
+    }
+
+    /* ===== MAIN ===== */
 
     .m1 {
-      width: 100% !important;
+      padding-top: 6vh;
       flex: 1;
-      padding-top: 110px !important;
-    }
-  }
-
-  @media (max-width: 700px) {
-
-    nav {
-      overflow-x: auto;
-      /* habilita scroll horizontal */
-      white-space: nowrap;
-      /* impede que os botões quebrem linha */
-      gap: 8px;
-      padding: 10px 5px;
-
-      /* remove scrollbar do Chrome */
-      scrollbar-width: none;
-      /* Firefox */
+      min-width: 0;
+      width: 100%;
     }
 
-    nav::-webkit-scrollbar {
+    /* ===== CONTEUDOS ===== */
+
+    .conteudo {
       display: none;
-      /* Chrome */
     }
 
-    nav button {
-      flex: 0 0 auto;
-      /* os botões passam a ter largura fixa e não quebram */
+    .conteudo.ativo {
+      display: block;
+      width: 100%;
+      /* padding-left: 0; */
+      height: auto;
     }
 
-    .botao-inferior {
-      border-bottom: none !important;
+    .t1 {
+      font-size: 1.8rem;
     }
-  }
+
+    /* ===== FOTO ===== */
+
+    .foto {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .perfil {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0047ab, #ffcc00);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .perfil img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ===== INICIO ===== */
+
+    .infos1 {
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+      color: #202124;
+    }
+
+    .infos1 h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .infos1 h2 span {
+      color: #1a73e8;
+    }
+
+    .infos1 p {
+      font-size: 0.95rem;
+      color: #5f6368;
+    }
+
+    .infos1 a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+
+    .infos1 a:hover {
+      text-decoration: underline;
+    }
+
+    .bloco {
+      width: 100%;
+      /* ocupa toda a largura disponível */
+      max-width: 1200px;
+      /* opcional: limita a largura máxima */
+      /* centraliza a .bloco */
+      display: flex;
+      flex-wrap: wrap;
+      /* permite que os cards quebrem linha */
+      gap: 20px;
+      /* espaço entre os cards */
+      /* centraliza os cards na linha */
+    }
+
+    .painel {
+      flex: 1 1 300px;
+      /* ocupa mínimo 300px, cresce se houver espaço */
+      max-width: 406px;
+      height: auto;
+      /* deixa a altura flexível se necessário */
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .painel2 {
+      flex: 1 1 300px;
+      max-width: 830px;
+      height: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .longinho {
+      padding: 20px;
+    }
+
+    .desc {
+      font-size: 0.95rem;
+      color: #5f6368
+    }
+
+    .desce {
+      margin-top: auto;
+    }
+
+    .plargo {
+      width: 830px;
+      min-height: 90px;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      border: 1px solid #e0e0e0;
+    }
+
+    /* ========== INFORMAÇÕES PESSOAIS ========== */
+
+    .teste1 {
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .m2 {
+      /* display: flex; */
+      flex-direction: column;
+    }
+
+    /* Container dos blocos */
+    .b1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* ===== BLOCO 1 ===== */
+    .bloco1 {
+      display: flex;
+      width: 75%;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* texto do bloco 1 */
+    .bloco1 .texto {
+      width: 55%;
+    }
+
+    /* imagem do bloco 1 */
+    .ft1 {
+      width: 260px;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* ===== BLOCO 2 ===== */
 
 
+    .bloco2 {
+      width: 75%;
+      margin: 10px auto 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
 
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
+    /* Card infos básicas */
+    .info-card {
+      max-width: 920px;
+      width: 100%;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e9e9e9;
+    }
 
-  .teste2 {
-    gap: 20px;
-  }
+    /* Cabeçalho */
+    .info-card .card-header h3 {
+      margin: 0 0 6px 0;
+      font-weight: 600;
+    }
 
+    .info-card .card-header p {
+      margin: 0 0 10px 0;
+      font-size: 0.95rem;
+    }
 
-  @media (max-width: 450px) {
+    /* Linha (label + value) */
+    .info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 6px;
+    }
 
-    .infos1 h1,
-    p {
+    /* Label */
+    .info-label {
+      flex: 0 0 200px;
+      color: #6c6c6c;
+      font-size: 0.95rem;
+    }
+
+    /* Value */
+    .info-value {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      font-size: 1rem;
+      color: #222;
+    }
+
+    /* Avatar */
+    .avatar-wrap {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Linhas clicáveis */
+    .link-row {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .link-row:hover {
+      background: #f8f9fb;
+    }
+
+    /* Setinha */
+    .info-value i.bi {
+      color: #8a8a8a;
       font-size: 1.05rem;
     }
-  }
 
-  @media (max-width: 480px) {
-
-    h1,
-    h2,
-    h3 {
-      font-size: 90%;
+    /* Divider */
+    .info-card hr {
+      border: none;
+      border-top: 1px solid #eee;
     }
-  }
 
-  @media (max-width: 660px) {
-    .plargo {
-      max-width: 406px;
-      margin-top: 20px;
+    .plargo2 {
+      width: 920px;
+      min-height: 90px;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      border: 1px solid #e0e0e0;
     }
+
+    .longinho2 {
+      padding: 10px;
+
+    }
+
+    @media (max-width: 1669px) {
+      .plargo2 {
+        width: 920px;
+      }
+    }
+
+
+    /* ===== RESPONSIVIDADE ===== */
+
+    @media (max-width: 768px) {
+
+      .bloco1 {
+        flex-direction: column;
+        text-align: center;
+        width: 95%;
+      }
+
+      .bloco1 .texto {
+        width: 100%;
+      }
+
+      .ft1 {
+        width: 80%;
+        max-width: 300px;
+      }
+
+      .bloco2 {
+        width: 95%;
+      }
+
+      .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .info-label {
+        flex: none;
+        width: 100%;
+      }
+
+      .info-value {
+        justify-content: flex-start;
+        width: 100%;
+      }
+
+      .avatar {
+        width: 72px;
+        height: 72px;
+      }
+    }
+
+    /* ========== DADOS E PRIVACIDADE ========== */
+
+
+
+
+    /* ========== FOOTER ========== */
+
+    footer {
+      width: 830px;
+      margin-top: 40px;
+      font-size: 0.95rem;
+      color: #5f6368;
+      text-align: center;
+      padding: 0 20px 20px 20px;
+    }
+
+    /* ========== RESPOSIVIDADE ========== */
+
+    @media (max-width: 1131px) {
+
+      nav {
+        min-height: 10px !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 60px !important;
+        position: fixed;
+        padding-top: 0 !important;
+
+        position: fixed;
+        top: 50px;
+        left: 0;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+
+        background: #fff;
+        border-bottom: 1px solid #ccc;
+        z-index: 999;
+      }
+    }
+
+    @media (max-width: 1170px) {
+
+      nav {
+        min-height: 10px !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 60px !important;
+        padding-top: 0 !important;
+
+        position: fixed;
+        top: 50px;
+        left: 0;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+
+        background: #fff;
+        border-bottom: 1px solid #ccc;
+        z-index: 999;
+      }
+
+      nav button {
+        width: auto;
+        min-height: 60px;
+        padding-bottom: 5px;
+        ;
+      }
+
+      .botao-inferior {
+        border-bottom: none !important;
+      }
+
+      nav button.ativo {
+        background: none !important;
+        font-weight: 600;
+        color: #1a73e8 !important;
+        box-shadow: none !important;
+        border-bottom-left-radius: 5px !important;
+        border-bottom-right-radius: 5px !important;
+        border-bottom: 3px solid #1a73e8 !important;
+
+      }
+
+      /* Cor dos ícones */
+      nav button.ativo i {
+        color: #1a73e8 !important;
+      }
+
+      .layout {
+        flex-direction: column;
+        /* NAV em cima, MAIN embaixo */
+      }
+
+      .m1 {
+        width: 100% !important;
+        flex: 1;
+        padding-top: 110px !important;
+      }
+    }
+
+    @media (max-width: 700px) {
+
+      nav {
+        overflow-x: auto;
+        /* habilita scroll horizontal */
+        white-space: nowrap;
+        /* impede que os botões quebrem linha */
+        gap: 8px;
+        padding: 10px 5px;
+
+        /* remove scrollbar do Chrome */
+        scrollbar-width: none;
+        /* Firefox */
+      }
+
+      nav::-webkit-scrollbar {
+        display: none;
+        /* Chrome */
+      }
+
+      nav button {
+        flex: 0 0 auto;
+        /* os botões passam a ter largura fixa e não quebram */
+      }
+
+      .botao-inferior {
+        border-bottom: none !important;
+      }
+    }
+
+
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .teste2 {
+      gap: 20px;
+    }
+
+
+    @media (max-width: 450px) {
+
+      .infos1 h1,
+      p {
+        font-size: 1.05rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      h1,
+      h2,
+      h3 {
+        font-size: 90%;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .plargo {
+        max-width: 406px;
+        margin-top: 20px;
+      }
+    }
+
   }
-
-
 }
