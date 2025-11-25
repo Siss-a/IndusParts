@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="crudprodutos">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INDUSPARTS - Gestão de Estoque</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <span class="logo-text">INDUSPARTS</span>
+                </div>
+                <p class="subtitle">Gestão completa de estoque e materiais</p>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <i class="fas fa-sliders-h filter-icon"></i>
+                    </div>
+                    <button class="btn btn-add">
+                        <i class="fas fa-plus"></i> Adicionar material
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>CÓDIGO</th>
+                                <th>NOME</th>
+                                <th>DESCRIÇÃO</th>
+                                <th>ESPECIFICAÇÕES</th>
+                                <th>PREÇO</th>
+                                <th>ESTOQUE</th>
+                                <th>CATEGORIA</th>
+                                <th>FORNECEDOR</th>
+                                <th>IMAGEM</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AI-75378</td>
+                                <td>Parafuso</td>
+                                <td>O parafuso de aço inoxidável M8 x 50mm é um elemento de fixação resistente e durável, ideal para aplicações em estruturas metálicas, madeira e equipamentos industriais. Fabricado em aço inoxidável de alta qualidade, oferece excelente resistência à corrosão, garantindo maior vida útil mesmo em ambientes úmidos ou expostos às intempéries.</td>
+                                <td>Parafuso sextavado externo, Parafuso sextavado interno (Allen), Parafuso para madeira, Parafuso autoatarraxante, Parafuso rosca máquina, Parafuso soberba, Parafuso Phillips, Parafuso de fenda, Parafuso Torx.</td>
+                                <td>$250,00</td>
+                                <td>
+                                    <span class="badge-fixacao">
+                                        <i class="fas fa-circle" style="font-size: 6px;"></i>
+                                        Fixação
+                                    </span>
+                                </td>
+                                <td>Makita</td>
+                                <td>
+                                    <span class="upload-badge">
+                                        upload... <i class="fas fa-chevron-down"></i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge-ativo">Ativo</span>
+                                </td>
+                            </tr>
+                            
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
