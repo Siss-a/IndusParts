@@ -338,6 +338,7 @@ class UsuarioController{
                 mensagem: 'Não foi possível listar os usuários'
             });
         }
-    }
-    
+    }  
 }
+
+export default UsuarioController;
