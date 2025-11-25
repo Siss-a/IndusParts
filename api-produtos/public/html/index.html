@@ -26,8 +26,8 @@
             <!-- LOGO -->
             <a class="text-decoration-none" href="#">
                 <h1 class="fs-2 titulo">
-                    <span class="fs-2" style="color: var(--azul-claro);">Indus</span><span
-                        style="color: black;" class="fs-2">Parts</span>
+                    <span class="fs-2" style="color: var(--azul-claro);">Indus</span><span style="color: black;"
+                        class="fs-2">Parts</span>
                 </h1>
             </a>
 
@@ -83,8 +83,8 @@
             </div>
         </div>
 
-        <div class="bloco2">
-            <div class="d-flex justify-content-center"><img style=" width: 100%;" src="../imagens/index/biafoto.webp"
+        <div class="bloco2 col-12 col-sm-12 col-md-12">
+            <div class="d-flex justify-content-center"><img class="banner1" src="../imagens/index/biafoto.webp"
                     alt="foto de algo">
             </div>
         </div>
@@ -92,7 +92,92 @@
         <div class="bloco" style="border-bottom: 1px solid #e0e0e0;padding-bottom: 50px;">
             <h4 class="pt-4 pb-4">Nossos produtos mais populares</h4>
 
-            <div id="produtosCarousel" class="carousel slide">
+
+
+            <!-- SCROLLER MOBILE: aparece só em telas pequenas -->
+            <div class="mobile-scroll d-flex d-lg-none">
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 1</h4>
+                            <p>Descrição curta do produto 1.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 2</h4>
+                            <p>Descrição curta do produto 2.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- repete para cada card -->
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 3</h4>
+                            <p>Descrição curta do produto 3.</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 4</h4>
+                            <p>Descrição curta do produto 4.</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 5</h4>
+                            <p>Descrição curta do produto 5.</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 6</h4>
+                            <p>Descrição curta do produto 6.</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 7</h4>
+                            <p>Descrição curta do produto 7</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="" class="card-link">
+                    <div class="card">
+                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text">Produto 8</h4>
+                            <p>Descrição curta do produto 8.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+
+            <div id="produtosCarousel" class="d-none d-lg-block carousel slide">
+                <!-- esse d-none d-lg-block faz com que todo o carrossel abaixo
+                não apareça em telas menores que o tamanho lg -->
                 <div class="carousel-inner">
                     <!-- SLIDE 1 -->
                     <div class="carousel-item active">
@@ -102,7 +187,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 1</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -116,7 +201,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 2</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -130,7 +215,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 3</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -144,7 +229,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 4</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -165,7 +250,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 5</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -179,7 +264,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 6</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -193,7 +278,7 @@
                                 <div class="card">
                                     <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
                                     <div class="card-body">
-                                        <h4 class="card-text">Produto 8</h4>
+                                        <h4 class="card-text">Produto 7</h4>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
                                             accusantium laudantium quia adipisci optio, dolorem animi laborum odio
                                             ab
@@ -222,8 +307,10 @@
             </div>
 
 
-            
-            <div class="d-flex gap-1 mt-3 separador">
+            <!-- botoes -->
+
+
+            <div class="d-none d-lg-flex gap-1 mt-3 separador">
                 <button class="carousel-control-prev" type="button" data-bs-target="#produtosCarousel"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -235,22 +322,11 @@
                 </button>
             </div>
 
+
             <h4 class="pt-4 pb-4">Notícias e insights</h4>
 
 
-            <div class="col-12 col-md-3 col-sm-3">
-                <div class="card">
-                    <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
-                    <div class="card-body">
-                        <a href="">
-                            <h4 class="card-text">Produto 1</h4>
-                        </a>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel magni
-                            accusantium laudantium quia adipisci optio, dolorem animi laborum odio ab
-                            eos nemo obcaecati magnam corporis est molestiae. Explicabo, amet id?</p>
-                    </div>
-                </div>
-            </div>
+            bla bla bla
 
 
 

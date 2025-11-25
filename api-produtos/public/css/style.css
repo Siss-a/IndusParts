@@ -605,7 +605,7 @@
     top: 0;
     justify-self: center;
     background-color: #ffffff;
-    width: 80%;
+    width: 90%;
     padding: 12px 20px;
     transition: box-shadow 0.3s ease;
     z-index: 999 !important;
@@ -664,6 +664,19 @@
 
   .bloco2 {
     width: 100%;
+
+  }
+
+  @media (max-width:425px) {
+    .banner1{
+      width: 200%;
+    }
+  }
+
+  @media (min-width:768px) {
+    .banner1{
+      width: 100%;
+    }
   }
 
   .btl{
@@ -690,13 +703,14 @@
 }
 
 .card-img-top {
-  max-height: 290px;
+  max-height: 230px;
   height: 100%;
+  
 }
 
 .separador {
   max-width: 2000px;
-  width: 96%;
+  width: 90%;
   justify-self: center;
   justify-content: end;
 }
@@ -741,6 +755,46 @@
   margin-top: 10px;
 }
 
+
+
+.mobile-scroll {
+  gap: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+/* cada card ocupa boa parte da tela (ajuste 85% / 90% se quiser) */
+.mobile-scroll .card-link {
+  flex: 0 0 86%;      /* largura do card em relação à viewport */
+  max-width: 86%;
+  scroll-snap-align: center;
+  text-decoration: none;
+}
+
+/* mantém o card com altura completa do conteúdo */
+.mobile-scroll .card {
+  height: 100%;
+}
+
+/* esconder scrollbar (opcional) */
+.mobile-scroll::-webkit-scrollbar {
+  display: none;
+}
+.mobile-scroll {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* se quiser garantir que controles do carousel desktop não apareçam no mobile */
+@media (max-width: 991.98px) {
+  #produtosCarousel .carousel-control-prev,
+  #produtosCarousel .carousel-control-next,
+  #produtosCarousel .carousel-indicators {
+    display: none !important;
+  }
+}
 
 
 
