@@ -1,7 +1,7 @@
 import express from 'express';
-/* import AuthController from '../controllers/AuthController.js'; */
-import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.js';
+// import AuthController from '../controllers/AuthController.js';
 import UsuarioController from '../controllers/UsuarioController.js';
+import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -27,4 +27,3 @@ router.options('/:id', (req, res) => {
 });
 
 export default router;
-
