@@ -4,14 +4,14 @@ import { create, read, update, deleteRecord, comparePassword, hashPassword, getC
 class UsuarioModel {
     // Listar todos os usuários (com paginação)
     static async listarTodos() {
-    try {
-        const response = await read("usuarios");
-        return response;
-    } catch (error) {
-        console.error('Erro ao listar usuários:', error);
-        throw error;
+        try {
+            const response = await read("usuarios");
+            return response;
+        } catch (error) {
+            console.error('Erro ao listar usuários:', error);
+            throw error;
+        }
     }
-}
 
     // Buscar usuário por ID
     static async buscarPorId(id) {

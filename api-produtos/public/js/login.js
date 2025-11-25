@@ -17,4 +17,7 @@ form.addEventListener('submit', async (r) => {
         },
         body: JSON.stringify({ email, senha })
     })
+    if (res.ok) {
+        window.location.href = "/dashboard";
+    }
 })

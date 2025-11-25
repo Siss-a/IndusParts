@@ -11,19 +11,21 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  @font-face {
+    font-family: "Helvetica";
+    src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
 }
 
 .login {
   body {
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: red;
   }
 
   .login-container {
@@ -110,12 +112,19 @@ h1, h2, h3, h4, h5, h6 {
 
   .btn:active {
     transform: translateY(0);
+    color: white;
   }
 
   .btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+  }
+
+  .box-cadastro{
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 30px 30px;
+    border-radius: 10px;
   }
 
   .alert {
@@ -583,17 +592,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dashboard {
-  /* Bem vindo ao meu caos */
-
-  @font-face {
-    font-family: "Helvetica";
-    src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-
-
   * {
     transition: 0.2s ease;
   }

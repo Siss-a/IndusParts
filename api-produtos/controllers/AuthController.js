@@ -119,8 +119,6 @@ class AuthController {
                 });
             }
 
-
-
             // Validações de formato
             if (nome_social.length < 2) {
                 return res.status(400).json({

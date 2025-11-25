@@ -49,8 +49,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Rotas de Frontend (páginas estáticas)
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html' ,'login.html'));
-}); 
+    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
+});
+app.get('/cadastro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
+});
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);

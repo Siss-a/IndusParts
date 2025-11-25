@@ -1,7 +1,7 @@
 const form = document.getElementById('cadastroForm');
 /* mandando informacoes (valores) para o backend */
 form.addEventListener('submit', async (r) => {
-    r.preventDefault(); /* Previnir reload da pagina depois do submit */
+    r.preventDefault();
 
     const usuario = document.getElementById('nome_social').value;
     const senha = document.getElementById('senhaCadastro').value;
@@ -11,9 +11,7 @@ form.addEventListener('submit', async (r) => {
 
     const res = await fetch('/api/auth/registrar', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             nome_social: usuario,
             senha: senha,
@@ -22,7 +20,31 @@ form.addEventListener('submit', async (r) => {
             telefone: telefone
         })
     });
+
+    const dados = await res.json();
+
+    if (res.ok) {
+        mostrarAlerta("Usuário registrado com sucesso!", "success");
+
+        // aguarda 1.5 segundos e redireciona
+        setTimeout(() => {
+            window.location.href = "/dashboard";
+        }, 1500);
+    } else {
+        mostrarAlerta(dados.error || "Erro desconhecido ao registrar usuário.", "danger");
+    }
 });
+
+function mostrarAlerta(mensagem, tipo = "success") {
+    const container = document.getElementById("alertContainer");
+
+    container.innerHTML = `
+        <div class="alert alert-${tipo} alert-dismissible fade show mt-2" role="alert">
+            ${mensagem}
+        </div>
+    `;
+}
+
 
 /* Máscaras */
 // Máscara CNPJ
