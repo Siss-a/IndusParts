@@ -666,6 +666,55 @@
   }
 }
 
+.card {
+  max-width: 330px;
+  width: 100%;
+}
+
+.card-img-top {
+  max-height: 290px;
+  height: 100%;
+}
+
+.separador {
+  max-width: 2000px;
+  width: 96%;
+  justify-self: center;
+  justify-content: end;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: static !important;
+  /* remove posição absoluta */
+  width: auto;
+  margin: 0;
+  padding: 3px;
+  background-color: rgb(0, 80, 184);
+  border-radius: 50%;
+}
+
+.card-body {
+
+  min-height: 150px;
+  max-height: 150px;
+
+}
+
+.carousel-controls-custom {
+  display: flex;
+  justify-content: flex-end;
+  /* direita */
+  gap: 10px;
+  margin-top: 10px;
+}
+
+
+
+
+/* DASHBOARD */
+
+
 .dashboard {
   @font-face {
     font-family: "Helvetica";
