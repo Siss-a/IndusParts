@@ -14,6 +14,7 @@ import usuarioRotas from './routes/usuarioRotas.js';
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import { authMiddleware } from './middlewares/authMiddleware.js';
 
 // Carregar variáveis do arquivo .env
 dotenv.config();
@@ -54,7 +55,7 @@ app.get('/login', (req, res) => {
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
 });
-app.get('/dashboard', (req, res) => {
+app.get('/perfil', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
 

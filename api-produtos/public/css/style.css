@@ -661,8 +661,8 @@ h1, h2, h3, h4, h5, h6 {
     background: linear-gradient(90deg, #e9f1ff, #f5f9ff);
     font-weight: 600;
     color: #1a73e8;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
     box-shadow: inset 4px 0 0 #1a73e8;
   }
 
@@ -735,7 +735,6 @@ h1, h2, h3, h4, h5, h6 {
   .conteudo.ativo {
     display: block;
     width: 100%;
-    /* padding-left: 0; */
     height: auto;
   }
 
@@ -1156,10 +1155,9 @@ h1, h2, h3, h4, h5, h6 {
       font-weight: 600;
       color: #1a73e8 !important;
       box-shadow: none !important;
-      border-bottom-left-radius: 5px !important;
-      border-bottom-right-radius: 5px !important;
+      border-bottom-left-radius: 2px !important;
+      border-bottom-right-radius: 2px !important;
       border-bottom: 3px solid #1a73e8 !important;
-
     }
 
     /* Cor dos ícones */
