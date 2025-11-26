@@ -119,6 +119,14 @@ class AuthController {
                 });
             }
 
+            if (!telefone || telefone.trim() === '') {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Telefone obrigatório',
+                    mensagem: 'O telefone é obrigatório'
+                });
+            }
+
             // Validações de formato
             if (nome_social.length < 2) {
                 return res.status(400).json({
@@ -179,7 +187,7 @@ class AuthController {
                 email: email.trim().toLowerCase(),
                 senha: senha, 
                 cnpj: cnpj.replace(/[^\d]/g, ''),
-                telefone: telefone || null
+                telefone: telefone.replace(/[^\d]/g, '') || null
             };
 
             // Criar usuário

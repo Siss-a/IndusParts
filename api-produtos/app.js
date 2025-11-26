@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
 import criptografiaRotas from './routes/criptografiaRotas.js';
-import usuarioRotas from './routes/usuarioRotas.js';
+import adminRotas from './routes/adminRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -63,17 +63,18 @@ app.get('/perfil', authMiddleware, (req, res) => {
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/criptografia', criptografiaRotas);
-app.use('/api/usuarios', usuarioRotas);
+app.use('/api/admin', adminRotas);
 
 // Rota raiz
 app.get('/', (req, res) => {
     res.json({
         sucesso: true,
-        mensagem: 'API de Produtos - Sistema de Gestão',
+        mensagem: 'IndusParts - Sistema de venda de produtos industriais',
         versao: '1.0.0',
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
+            usuarios: '/api/admin',
             criptografia: '/api/criptografia'
         },
         documentacao: {

@@ -39,49 +39,39 @@ window.addEventListener("scroll", () => {
     }
 });
 
-/* Integração para o backend */
+/* Carregar dados do usuário */
 /* window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
-    // Se não tem token, redireciona para login
+
     if (!token) {
-        alert('Você precisa fazer login primeiro!');
-        window.location.href = '/login.html';
+        window.location.href = '/login';
         return;
     }
 
-    // Se tem token, tenta buscar dados
     try {
-        const res = await fetch('/api/auth/perfil', {
+        const res = await fetch('api/auth/perfil', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`, // ← Envia o token
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${token}`,
+                'Content-type': 'application/json'
             }
         });
 
-        // Se o token está inválido/expirado (401)
         if (res.status === 401) {
-            alert('Sessão expirada. Faça login novamente.');
             localStorage.removeItem('token');
-            window.location.href = '/login.html';
+            window.location.href = '/login';
             return;
         }
 
-        if (!res.ok) {
-            throw new Error('Erro ao carregar dados');
-        }
+        const resposta = await res.json(); //transforma em objeto JavaScript
+        const usuario = resposta.dados
 
-        const resultado = await res.json();
-        const usuario = resultado.dados;
-
-        // Atualiza a página com os dados
-        document.getElementById('nomeUsuarioInicio').textContent = usuario.nome_social;
-        document.getElementById('emailUsuario').textContent = usuario.email;
-        document.getElementById('telefoneUsuario').textContent = usuario.telefone;
-        document.getElementById('cnpjUsuario').textContent = usuario.cnpj;
+        document.getElementById('nomeEmpresa').innerText = usuario.nome_social;
+        document.getElementById('cnpjEmpresa').innerText = usuario.cnpj;
+        document.getElementById('emailEmpresa').innerText = usuario.email;
+        document.getElementById('telefoneEmpresa').innerText = usuario.telefone;
 
     } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao carregar dados do usuário.');
+        console.error('Erro ao carregar dados do usuário:', error);
     }
 }); */
