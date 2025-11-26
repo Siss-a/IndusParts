@@ -664,19 +664,12 @@
 
   .bloco2 {
     width: 100%;
-
   }
 
-  @media (max-width:425px) {
-    .banner1 {
-      width: 200%;
-    }
-  }
-
-  @media (min-width:768px) {
-    .banner1 {
-      width: 100%;
-    }
+  .banner1 {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 
   .btl {
@@ -687,6 +680,7 @@
     margin-bottom: 15px;
   }
 
+  /* BOTÃO */
   .botao {
     height: 42px;
     width: 170px;
@@ -694,111 +688,114 @@
     color: white;
     border-radius: 5px;
     border: none;
-
   }
 
+  /* CARD */
   .card {
-    max-width: 330px;
+    max-width: 280px;
     width: 100%;
-    max-height:300px ;
+    max-height: 300px;
     height: 100%;
+    border: none;
   }
 
+  /* IMG DO CARD */
   .card-img-top {
     max-height: 200px;
     height: 100%;
   }
 
-  .card-body{
+  /* TEXTO DO CARD */
+  .card-body {
+    min-height: 150px;
     max-height: 150px;
-    height: 100%;
   }
 
+  /* ZERAR MARGENS ANTIGAS */
+  .produto,
+  .card {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* SEPARADOR */
   .separador {
-    max-width: 2000px;
-    width: 90%;
+    max-width: 1200px;
+    width: 100%;
     justify-self: center;
     justify-content: end;
   }
 
-  /* velocidade do carrossel */
+  /* VELOCIDADE DO CARROSSEL */
   .carousel-item {
     transition: transform 0.7s ease;
-    /* mais lento */
   }
 
-
+  /* CONTROLES DO CARROSSEL */
   .carousel-control-prev,
   .carousel-control-next {
     position: static !important;
-    /* remove posição absoluta */
-    width: auto;
-    margin: 0;
     width: 30px;
     height: 30px;
     background-color: var(--azul-claro);
     border-radius: 50%;
   }
 
-  /* tamanho da seta dentro do botao */
+  /* ÍCONES */
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
     width: 20px;
-    /* tamanho desejado */
     height: 20px;
-    /* tamanho desejado */
   }
 
-
-  .card-body {
-    min-height: 150px;
-    max-height: 150px;
-  }
-
+  /* CONTROLES CUSTOM */
   .carousel-controls-custom {
     display: flex;
     justify-content: flex-end;
-    /* direita */
     gap: 10px;
     margin-top: 10px;
   }
 
+  /* SCROLL MOBILE */
   .mobile-scroll {
-    gap: 1rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    gap: 0;
   }
-  
 
-  /* cada card ocupa boa parte da tela (ajuste 85% / 90% se quiser) */
+  /* ==== DISTÂNCIA PADRONIZADA ENTRE CARDS ==== */
   .mobile-scroll .card-link {
-    flex: 0 0 86%;
-    /* largura do card em relação à viewport */
-    max-width: 86%;
-    scroll-snap-align: center;
+    flex: 0 0 auto;
+    /* não força tamanho fixo */
+    margin-right: 25px;
+    /* espaçamento padronizado */
+    scroll-snap-align: start;
     text-decoration: none;
   }
 
-  /* mantém o card com altura completa do conteúdo */
+  /* remove margin no último item (evita espaço extra no fim) */
+  .mobile-scroll .card-link:last-child {
+    margin-right: 0;
+  }
+
+  /* GARANTIR QUE O CARD CLICÁVEL TENHA ALTURA */
   .mobile-scroll .card {
     height: 100%;
   }
 
-  /* esconder scrollbar (opcional) */
+  /* ESCONDER SCROLLBAR */
   .mobile-scroll::-webkit-scrollbar {
     display: none;
   }
 
   .mobile-scroll {
     -ms-overflow-style: none;
-    /* IE/Edge */
     scrollbar-width: none;
-    /* Firefox */
   }
 
-  /* se quiser garantir que controles do carousel desktop não apareçam no mobile */
+  /* REMOVER CONTROLES EM TELAS PEQUENAS */
   @media (max-width: 991.98px) {
 
     #produtosCarousel .carousel-control-prev,
@@ -808,25 +805,21 @@
     }
   }
 
-
+  /* AJUSTES MOBILE */
   @media (max-width: 768px) {
     .bloco {
       flex-direction: column;
-      align-items: start;
+      align-items: flex-start;
+    }
 
-      .btl {
-        width: 100%;
-        justify-content: left;
-        margin-bottom: 15px;
-        margin-top: 15px;
-      }
-
+    .btl {
+      width: 100%;
+      justify-content: left;
+      margin-bottom: 15px;
+      margin-top: 15px;
     }
 
   }
-
-
-
 
   /* DASHBOARD */
 
