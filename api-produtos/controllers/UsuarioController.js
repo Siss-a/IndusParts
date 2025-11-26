@@ -1,3 +1,5 @@
+import UsuarioModel from '../models/UsuarioModel.js';
+
 class UsuarioController {
     // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {

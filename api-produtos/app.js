@@ -55,7 +55,7 @@ app.get('/login', (req, res) => {
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
 });
-app.get('/perfil', /* authMiddleware, */ (req, res) => {
+app.get('/perfil', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
 
@@ -112,4 +112,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-

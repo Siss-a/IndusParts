@@ -40,7 +40,7 @@ window.addEventListener("scroll", () => {
 });
 
 /* Carregar dados do usuário */
-/* window.addEventListener('DOMContentLoaded', async () => {
+window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -49,7 +49,7 @@ window.addEventListener("scroll", () => {
     }
 
     try {
-        const res = await fetch('api/auth/perfil', {
+        const res = await fetch('/api/auth/perfil', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -66,12 +66,12 @@ window.addEventListener("scroll", () => {
         const resposta = await res.json(); //transforma em objeto JavaScript
         const usuario = resposta.dados
 
-        document.getElementById('nomeEmpresa').innerText = usuario.nome_social;
         document.getElementById('cnpjEmpresa').innerText = usuario.cnpj;
         document.getElementById('emailEmpresa').innerText = usuario.email;
         document.getElementById('telefoneEmpresa').innerText = usuario.telefone;
+        document.querySelectorAll('.nome-empresa').forEach(el => el.textContent = usuario.nome_social);
 
     } catch (error) {
         console.error('Erro ao carregar dados do usuário:', error);
     }
-}); */
+});
