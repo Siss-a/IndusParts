@@ -26,6 +26,7 @@ form.addEventListener('submit', async (e) => {
 
     if (res.ok) {
         mostrarAlerta(dados.mensagem || "Usuário registrado com sucesso!", "success");
+        localStorage.setItem('token', dados.dados.token);
 
         setTimeout(() => {
             window.location.href = "/perfil";

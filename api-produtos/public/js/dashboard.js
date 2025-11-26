@@ -14,21 +14,6 @@ botoes.forEach(botao => {
     });
 });
 
-//  RESTAURA A ABA ANTERIOR
-window.addEventListener("load", () => {
-    const abaSalva = localStorage.getItem("aba_atual");
-
-    if (abaSalva) {
-        // Remove ativo de tudo
-        document.querySelectorAll("nav button").forEach(b => b.classList.remove("ativo"));
-        document.querySelectorAll(".conteudo").forEach(c => c.classList.remove("ativo"));
-
-        // Ativa a aba salva
-        document.querySelector(`nav button[data-alvo="${abaSalva}"]`).classList.add("ativo");
-        document.getElementById(abaSalva).classList.add("ativo");
-    }
-});
-
 const header = document.querySelector(".header");
 
 window.addEventListener("scroll", () => {
