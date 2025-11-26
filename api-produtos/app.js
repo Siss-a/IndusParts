@@ -55,7 +55,7 @@ app.get('/login', (req, res) => {
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
 });
-app.get('/perfil', authMiddleware, (req, res) => {
+app.get('/perfil', /* authMiddleware, */ (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
 
