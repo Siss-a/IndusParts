@@ -586,7 +586,7 @@
 
 
 .home {
-
+  
   @font-face {
     font-family: "Helvetica";
     src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
@@ -818,21 +818,62 @@
       margin-bottom: 15px;
       margin-top: 15px;
     }
-
   }
 
+
+
+   .lugar{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+  .painel{
+    width: 300px;
+    height: 600px;
+    border: 1px solid gray;
+  }
+
+  .foto{
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .texto{
+    height: 20%;
+    background-color:  #e9e2d59c;
+    border-top: 1px solid gray;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
   /* DASHBOARD */
 
-
-  .dashboard {
+ .dashboard {
     @font-face {
       font-family: "Helvetica";
       src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
       font-weight: normal;
       font-style: normal;
     }
-
-
 
     * {
       transition: 0.2s ease;
@@ -1487,5 +1528,4 @@
       }
     }
 
-  }
-}
+  } 
