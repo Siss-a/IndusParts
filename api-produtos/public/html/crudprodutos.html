@@ -1,80 +1,119 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="crudprodutos">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INDUSPARTS - Gestão de Estoque</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css" />
+    <title>Indusparts - Gestão de Produtos</title>
+    
 </head>
 <body>
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="logo-section">
-                    <div class="logo-icon">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                    <span class="logo-text">INDUSPARTS</span>
-                </div>
-                <p class="subtitle">Gestão completa de estoque e materiais</p>
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <i class="fas fa-sliders-h filter-icon"></i>
-                    </div>
-                    <button class="btn btn-add">
-                        <i class="fas fa-plus"></i> Adicionar material
-                    </button>
-                </div>
-
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>CÓDIGO</th>
-                                <th>NOME</th>
-                                <th>DESCRIÇÃO</th>
-                                <th>ESPECIFICAÇÕES</th>
-                                <th>PREÇO</th>
-                                <th>ESTOQUE</th>
-                                <th>CATEGORIA</th>
-                                <th>FORNECEDOR</th>
-                                <th>IMAGEM</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>AI-75378</td>
-                                <td>Parafuso</td>
-                                <td>O parafuso de aço inoxidável M8 x 50mm é um elemento de fixação resistente e durável, ideal para aplicações em estruturas metálicas, madeira e equipamentos industriais. Fabricado em aço inoxidável de alta qualidade, oferece excelente resistência à corrosão, garantindo maior vida útil mesmo em ambientes úmidos ou expostos às intempéries.</td>
-                                <td>Parafuso sextavado externo, Parafuso sextavado interno (Allen), Parafuso para madeira, Parafuso autoatarraxante, Parafuso rosca máquina, Parafuso soberba, Parafuso Phillips, Parafuso de fenda, Parafuso Torx.</td>
-                                <td>$250,00</td>
-                                <td>
-                                    <span class="badge-fixacao">
-                                        <i class="fas fa-circle" style="font-size: 6px;"></i>
-                                        Fixação
-                                    </span>
-                                </td>
-                                <td>Makita</td>
-                                <td>
-                                    <span class="upload-badge">
-                                        upload... <i class="fas fa-chevron-down"></i>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge-ativo">Ativo</span>
-                                </td>
-                            </tr>
-                            
-                    </table>
-                </div>
+    <h1>Sistema de Gestão de Produtos - Indusparts</h1>
+   
+    <!-- Seção de Cadastro de Produto -->
+    <div>
+        <h2>Cadastrar Novo Produto</h2>
+        <form id="formCadastro">
+            <div>
+                <label>Nome do Produto:</label>
+                <input type="text" id="nome" name="nome" required>
             </div>
+           
+            <div>
+                <label>Descrição:</label>
+                <textarea id="descricao" name="descricao"></textarea>
+            </div>
+           
+            <div>
+                <label>Preço:</label>
+                <input type="number" id="preco" name="preco" step="0.01" required>
+            </div>
+           
+            <div>
+                <label>Categoria:</label>
+                <input type="text" id="id_categoria" name="id_categoria" value="Geral">
+            </div>
+           
+            <div>
+                <label>Fornecedor:</label>
+                <input type="text" id="fornecedor" name="fornecedor" required>
+            </div>
+           
+            <div>
+                <label>Tipo:</label>
+                <input type="text" id="tipo" name="tipo" required>
+            </div>
+           
+            <div>
+                <label>Especificações:</label>
+                <textarea id="especificacoes" name="especificacoes"></textarea>
+            </div>
+           
+            <div>
+                <label>Imagem:</label>
+                <input type="file" id="imagem" name="imagem" accept="image/*">
+            </div>
+           
+            <button type="submit">Cadastrar Produto</button>
+        </form>
+        <div id="mensagemCadastro"></div>
+    </div>
+   
+    <hr>
+   
+    <!-- Seção de Listagem de Produtos -->
+    <div>
+        <h2>Lista de Produtos</h2>
+       
+        <div>
+            <label>Página:</label>
+            <input type="number" id="pagina" value="1" min="1">
+           
+            <label>Itens por página:</label>
+            <input type="number" id="limite" value="10" min="1" max="100">
+           
+            <button onclick="carregarProdutos()">Buscar</button>
         </div>
+       
+        <div id="infoPaginacao"></div>
+        <div id="listaProdutos"></div>
+    </div>
+   
+    <hr>
+   
+    <!-- Seção de Edição de Produto -->
+    <div id="secaoEdicao" style="display:none;">
+        <h2>Editar Produto</h2>
+        <form id="formEdicao">
+            <input type="hidden" id="edit_id">
+           
+            <div>
+                <label>Nome:</label>
+                <input type="text" id="edit_nome">
+            </div>
+           
+            <div>
+                <label>Descrição:</label>
+                <textarea id="edit_descricao"></textarea>
+            </div>
+           
+            <div>
+                <label>Preço:</label>
+                <input type="number" id="edit_preco" step="0.01">
+            </div>
+           
+            <div>
+                <label>Nova Imagem (opcional):</label>
+                <input type="file" id="edit_imagem" accept="image/*">
+            </div>
+           
+            <button type="submit">Salvar Alterações</button>
+            <button type="button" onclick="cancelarEdicao()">Cancelar</button>
+        </form>
+        <div id="mensagemEdicao"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/produto.js"></script>
+
 </body>
 </html>
+

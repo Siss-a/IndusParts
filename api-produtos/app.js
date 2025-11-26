@@ -58,7 +58,7 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
 app.get('/crud-produtos', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.jsx'));
+    res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
 });
 
 // Rotas da API

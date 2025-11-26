@@ -68,7 +68,7 @@ export const logMiddleware = async (req, res, next) => {
             finalLogData.usuario_id = req.usuario.id;
         }
         
-        // Capturar dados da resposta (limitado para evitar logs muito grandes)
+        // Capturar dados da resposta (lim'itado para evitar logs muito grandes)
         if (res.statusCode >= 400) {
             finalLogData.dados_resposta = {
                 error: true,

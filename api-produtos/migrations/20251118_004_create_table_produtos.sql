@@ -12,5 +12,8 @@ CREATE TABLE produtos (
     img VARCHAR(255),
     ativo BOOLEAN DEFAULT TRUE,
     id_categoria INT,
+      fornecedor VARCHAR(255),
+    tipo VARCHAR(50),
+    especificacoes TEXT,
     FOREIGN KEY (id_categoria) REFERENCES categorias(id)
 );
