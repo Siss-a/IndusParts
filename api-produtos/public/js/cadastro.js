@@ -52,6 +52,19 @@ function mostrarAlerta(mensagem, tipo = "success") {
     }, 4000);
 }
 
+/* Se quiser usar o estilo do css
+function mostrarAlerta(mensagem, tipo = "success") {
+    const alertContainer = document.getElementById('alertContainer');
+
+    const classe = tipo === "success" ? "alert-success" : "alert-error";
+
+    alertContainer.innerHTML = `
+        <div class="alert ${classe} show">
+            ${mensagem}
+        </div>
+    `;
+}
+*/
 
 /* Máscara de CNPJ */
 document.getElementById('cnpj').addEventListener('input', function (e) {
