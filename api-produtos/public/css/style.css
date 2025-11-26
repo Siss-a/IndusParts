@@ -245,21 +245,16 @@ h1, h2, h3, h4, h5, h6 {
     margin: 1rem 0;
   }
 
-  .old-price {
-    font-size: 1.2rem;
-    color: #a0aec0;
-    text-decoration: line-through;
-    margin-right: 10px;
-  }
+  
 
-  .discount-badge {
+  /* .discount-badge {
     background-color: #48bb78;
     color: white;
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
-  }
+  } */
 
   .btn-add-cart {
     background-color: var(--azul-escuro);
