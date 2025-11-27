@@ -20,14 +20,14 @@ router.put('/produtos/:id', authMiddleware, adminMiddleware, ProdutoController.a
 router.delete('/produtos/:id', authMiddleware, adminMiddleware, ProdutoController.excluir);
 
 // Rotas OPTIONS para CORS (preflight requests)
-router.options('/', (req, res) => {
+router.options('/usuarios', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.sendStatus(200);
 });
 
-router.options('/:id', (req, res) => {
+router.options('/usuarios/:id', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');

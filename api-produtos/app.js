@@ -9,15 +9,11 @@ import { fileURLToPath } from 'url';
 import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
 import criptografiaRotas from './routes/criptografiaRotas.js';
-<<<<<<< HEAD
-import usuarioRotas from './routes/usuarioRotas.js';
 //
 import carrinhoRotas from "./routes/carrinhoRotas.js";
 import pedidoRotas from "./routes/pedidoRotas.js";
 
-=======
 import adminRotas from './routes/adminRotas.js';
->>>>>>> origin/main
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -66,19 +62,19 @@ app.get('/cadastro', (req, res) => {
 app.get('/perfil', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
+app.get('/crud-produtos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/criptografia', criptografiaRotas);
-<<<<<<< HEAD
-app.use('/api/usuarios', usuarioRotas);
-//
 app.use("/api/carrinho", carrinhoRotas);
 app.use("/api/pedidos", pedidoRotas);
-=======
 app.use('/api/admin', adminRotas);
->>>>>>> origin/main
+//
+
 
 // Rota raiz
 app.get('/', (req, res) => {

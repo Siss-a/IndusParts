@@ -1,13 +1,10 @@
-<<<<<<< HEAD
-=======
 import UsuarioModel from '../models/UsuarioModel.js';
 
->>>>>>> origin/main
 class UsuarioController {
     // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
         try {
-            const { nome, email, senha, tipo } = req.body;
+            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
 
             // Validações básicas
             if (!nome || nome.trim() === '') {
@@ -80,9 +77,11 @@ class UsuarioController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome: nome.trim(),
+                nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
-                senha: senha,
+                senha: senha, 
+                cnpj: cnpj.replace(/[^\d]/g, ''),
+                telefone: telefone.replace(/[^\d]/g, '') || null,
                 tipo: tipo || 'comum'
             };
 
@@ -94,8 +93,10 @@ class UsuarioController {
                 mensagem: 'Usuário criado com sucesso',
                 dados: {
                     id: usuarioId,
-                    nome: dadosUsuario.nome,
+                    nome: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
+                    cnpj: dadosUsuario.cnpj,
+                    telefone: dadosUsuario.telefone,
                     tipo: dadosUsuario.tipo
                 }
             });
@@ -113,7 +114,7 @@ class UsuarioController {
     static async atualizarUsuario(req, res) {
         try {
             const { id } = req.params;
-            const { nome, email, senha, tipo } = req.body;
+            const { nome, email, senha, telefone, tipo } = req.body;
 
             // Validação do ID
             if (!id || isNaN(id)) {
@@ -344,17 +345,6 @@ class UsuarioController {
             });
         }
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-}
-=======
-    
-}
-export default UsuarioController
->>>>>>> e85e4b330b3f868dada719efa7f30148e5ec91a4
-=======
-}
+}   
 
 export default UsuarioController;
->>>>>>> origin/main
