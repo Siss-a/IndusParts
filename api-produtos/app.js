@@ -114,7 +114,7 @@ app.use(errorMiddleware);
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Acesse: http://localhost:${PORT}`);
-    console.log(`API de Produtos - Sistema de Gestão`);
+    console.log(`API de Produtos Industriais - IndusParts`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
 
