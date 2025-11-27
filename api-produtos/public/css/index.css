@@ -5,6 +5,14 @@
  font-style: normal;
 }
 
+:root {
+  --azul-mais-escuro: #012F6D;
+  --azul-escuro: #144272;
+  --azul: ;
+  --bege: color: rgb(167, 118, 96);
+  --azul-claro: rgb(26, 115, 232);
+}
+
 * {
     transition: 0.2s ease;
     font-family: "Helvetica", sans-serif;
@@ -230,8 +238,6 @@ main {
         margin-top: 15px;
     }
 }
-
-
 
 .lugar {
     width: 100%;
