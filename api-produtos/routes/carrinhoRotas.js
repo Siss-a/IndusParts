@@ -12,7 +12,6 @@ router.get("/",authMiddleware, CarrinhoController.verCarrinho);
 
 // Adicionar item
 router.post("/item", authMiddleware, CarrinhoController.adicionarItem);
-router.post("/add", authMiddleware, CarrinhoController.adicionar);
 
 // Atualizar quantidade
 router.put("/item/:id_item", authMiddleware, CarrinhoController.atualizarQuantidade);

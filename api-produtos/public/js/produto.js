@@ -91,20 +91,24 @@ addBtn.dataset.produtoId = produto.id;
     }
 }
 
-//importa addToCart
-import { addToCart } from "./cartManager.js";
 
 // Botão "Adicionar ao carrinho" com evento
-document.getElementById("addToCart").addEventListener("click", () => {
-    const produto = {
-        id: window.produtoId,
-        nome: titleEl.textContent,
-        preco: parseFloat(priceEl.textContent.replace("R$ ", "").replace(",", ".")),
-        imagem: mainImageEl.src
-    };
+document.getElementById("addToCart").addEventListener("click", async () => {
+    const id_produto = window.produtoId;
 
-    addToCart(produto);
-    alert("Produto adicionado ao carrinho!");
+    const res = await fetch("http://localhost:3000/carrinho/item", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_produto, quantidade: 1 })
+    });
+
+    const data = await res.json();
+
+    if (data.sucesso) {
+        alert("Produto adicionado ao carrinho!");
+    } else {
+        alert("Erro: " + data.mensagem);
+    }
 });
 
 
