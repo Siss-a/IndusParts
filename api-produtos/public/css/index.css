@@ -1,22 +1,71 @@
 @font-face {
- font-family: "Helvetica";
- src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
- font-weight: normal;
- font-style: normal;
+    font-family: "Helvetica";
+    src: url("../helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helv";
+    src: url("../helvetica-255/Helvetica-Oblique.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
 }
 
 :root {
-  --azul-mais-escuro: #012F6D;
-  --azul-escuro: #144272;
-  --azul: ;
-  --bege: color: rgb(167, 118, 96);
-  --azul-claro: rgb(26, 115, 232);
+    --azul-mais-escuro: #012F6D;
+    --azul-escuro: #144272;
+    --azul: #0000ff;
+    --bege: rgb(167, 118, 96);
+    --azul-claro: rgb(26, 115, 232);
 }
+
+.poing{
+    font-family: "Helv", sans-serif;
+}
+
+.link-hover {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 4px;
+}
+
+.link-hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: rgb(167, 118, 96);
+  transition: width 0.3s ease;
+}
+
+.link-hover:hover::after {
+  width: 100%;
+}
+
+
 
 * {
     transition: 0.2s ease;
     font-family: "Helvetica", sans-serif;
 }
+
+.container {
+    max-width: 100%;
+    width: 90%;
+}
+
+p {
+    margin-bottom: 0 !important;
+    margin-top: 15px !important;
+}
+
+h1 {
+    margin-bottom: 15px !important;
+}
+
 
 /* HEADER */
 
@@ -36,7 +85,6 @@ header {
 }
 
 .titulo {
-
     transition: ease 0.3s;
 }
 
@@ -63,16 +111,13 @@ header {
     transform: scale(0.95);
 }
 
-a {
+header a {
+    color: black !important;
     text-decoration: none;
-    color: black;
 }
+
 
 /* main */
-
-main {
-    padding-top: 5vh;
-}
 
 .bloco {
     flex: 1;
@@ -103,31 +148,55 @@ main {
 .botao {
     height: 42px;
     width: 170px;
-    background-color: black;
+    background-color: var(--bege);
     color: white;
     border-radius: 5px;
     border: none;
 }
 
+.aumento{
+    transition: 0.4s ease;
+}
+.aumento:hover{
+    transition: 0.4s ease;
+    transform: scale(1.05);
+}
+
 /* CARD */
 .card {
-    max-width: 280px;
+    max-width: 300px !important;
     width: 100%;
     max-height: 300px;
     height: 100%;
+    border: none !important;
     border: none;
 }
 
 /* IMG DO CARD */
 .card-img-top {
-    max-height: 200px;
-    height: 100%;
+    width: 100%;
+    height: 169px;
+    /* altura fixa */
+    object-fit: cover;
+    border-radius: 0 !important;
 }
 
 /* TEXTO DO CARD */
 .card-body {
-    min-height: 150px;
-    max-height: 150px;
+    text-align: start;
+    height: 100%;
+    margin-top: 10px !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+.card-body p {
+    margin: 0 !important;
+    font-size: 15px;
+}
+
+.card-body h4 {
+    color: var(--bege);
+    
 }
 
 /* ZERAR MARGENS ANTIGAS */
@@ -135,6 +204,7 @@ main {
 .card {
     margin: 0;
     padding: 0;
+    border-radius: 0 !important;
 }
 
 /* SEPARADOR */
@@ -142,8 +212,23 @@ main {
     max-width: 1200px;
     width: 100%;
     justify-self: center;
+    margin: 0;
     justify-content: end;
 }
+
+.line{
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 40px;
+}
+
+@media (max-width:767px) {
+    .line{
+        padding-top: 5px;
+        border-bottom: none;
+        border-top: 1px solid #e0e0e0;
+    }
+}
+
 
 /* VELOCIDADE DO CARROSSEL */
 .carousel-item {
@@ -154,9 +239,7 @@ main {
 .carousel-control-prev,
 .carousel-control-next {
     position: static !important;
-    width: 30px;
-    height: 30px;
-    background-color: var(--azul-claro);
+    margin: 0;
     border-radius: 50%;
 }
 
@@ -165,14 +248,8 @@ main {
 .carousel-control-next-icon {
     width: 20px;
     height: 20px;
-}
-
-/* CONTROLES CUSTOM */
-.carousel-controls-custom {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
+    background-color: var(--bege) !important;
+    border-radius: 50%;    
 }
 
 /* SCROLL MOBILE */
@@ -181,14 +258,13 @@ main {
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    gap: 0;
 }
 
 /* ==== DISTÂNCIA PADRONIZADA ENTRE CARDS ==== */
 .mobile-scroll .card-link {
     flex: 0 0 auto;
     /* não força tamanho fixo */
-    margin-right: 25px;
+    margin-right: 20px;
     /* espaçamento padronizado */
     scroll-snap-align: start;
     text-decoration: none;
@@ -262,4 +338,21 @@ main {
     height: 20%;
     background-color: #e9e2d59c;
     border-top: 1px solid gray;
+}
+
+/* Botões externos personalizados */
+.btn-carousel {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* Agora os ícones ficam bonitos */
+.btn-carousel .carousel-control-prev-icon,
+.btn-carousel .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+    background-color: var(--azul-claro);
+    border-radius: 50%;
 }

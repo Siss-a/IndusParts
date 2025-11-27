@@ -2,34 +2,31 @@
 <html lang="pt-br" class="home">
 
 <head>
+    <title>IndusParts</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="../css/index.css">
+    <!-- icones e bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <!-- Icones -->
-
-    <!-- Link css geral -->
-    <link rel="stylesheet" href="../css/style.css">
-    <!-- link css exclusivo -->
-    <link rel="stylesheet" href="../css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- icones tb -->
+    <script src="https://kit.fontawesome.com/fefb6d759c.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
 
-    <header class="d-flex flex-column gap-2 p-2">
+    <header class="container d-flex flex-column gap-2 p-2">
         <div class="d-flex align-items-center justify-content-between w-100">
-
 
             <!-- LOGO -->
             <a class="text-decoration-none" href="#">
                 <h1 class="fs-2 titulo">
-                    <span class="fs-2" style="color: black;">Indus</span><span style="color: black;"
-                        class="fs-2">Parts</span>
+                    <span class="fs-2" style="color: var(--bege);">Indus</span><span style="color:black;"
+                        class="fs-4">Parts</span>
                 </h1>
             </a>
 
@@ -50,24 +47,23 @@
                 <a href="#"><button class="material-icons btn-header">person</button></a>
             </div>
 
-
         </div>
 
         <!-- LINKS DO MENU (DESKTOP) -->
 
         <div class="d-none d-lg-flex gap-4">
-            <a href="#">Produtos</a>
-            <a href="#">Serviços</a>
-            <a href="#">Apoios</a>
+            <a href="#" class="link-hover">Produtos</a>
+                <a href="#" class="link-hover">Serviços</a>
+                <a href="#" class="link-hover">Apoios</a>
         </div>
 
         <!-- MENU MOBILE QUE ABRE AO CLICAR -->
 
         <div id="menuMobile" class="collapse d-lg-none">
             <div class="d-flex flex-column gap-2 mt-2">
-                <a href="#">Ferramentas</a>
-                <a href="#">Serviços</a>
-                <a href="#">Apoios</a>
+                <a href="#" class="link-hover">Produtos</a>
+                <a href="#" class="link-hover">Serviços</a>
+                <a href="#" class="link-hover">Apoios</a>
             </div>
         </div>
     </header>
@@ -75,13 +71,13 @@
 
 
     <main class="">
-        <div class="bloco d-flex">
+        <div class="container d-flex">
             <div>
-                <p class="fs-5" style="color: rgb(167, 118, 96);"><strong>Manufacturing Wellness</strong></p>
-                <h1>Cortando gastos na raiz — veja como</h1>
+                <p class="fs-5" style="color: var(--bege) !important;"><strong>Manufacturing Wellness</strong></p>
+                <h1 class="fs-2">Qualidade em cada peça — veja você mesmo</h1>
             </div>
             <div class="btl">
-                <button class="botao">Veja nosso guia</button>
+                <button class="botao aumento">Veja nossos produtos</button>
             </div>
         </div>
 
@@ -92,30 +88,30 @@
         </div>
 
 
-        <div class="bloco" style="border-bottom: 1px solid #e0e0e0;padding-bottom: 50px;">
+        <div class="bloco">
             <div class="container">
-                <h4 class="pt-4 pb-4">Nossos produtos mais populares</h4>
+                <h4 class="poing pt-4 pb-4 aumento">Nossos produtos mais populares</h4>
 
 
 
                 <!-- SCROLLER MOBILE: aparece só em telas pequenas -->
-                <div class="mobile-scroll d-flex d-lg-none" style="height: 39vh;">
+                <div class="mobile-scroll d-flex d-md-none" style="height: 39vh;">
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/produtos/makita/makita.webp" class="card-img-top">
+                            <img src="../imagens/produtos/brocas/altaPerf/brocaAltaPerf.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 1</h4>
-                                <p>Descrição curta do produto 1.</p>
+                                <h4 class="card-text">CoroDrill® DE10</h4>
+                                <p>A broca com ponta intercambiável para furação de alto volume.</p>
                             </div>
                         </div>
                     </a>
 
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/pinca/pincaER.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 2</h4>
-                                <p>Descrição curta do produto 2.</p>
+                                <h4 class="card-text">Pinça ER</h4>
+                                <p>Componente para fixar ferramentas em máquinas, garantindo precisão e segurança.</p>
                             </div>
                         </div>
                     </a>
@@ -123,62 +119,62 @@
                     <!-- repete para cada card -->
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/bucha/buchaCilindrica.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 3</h4>
-                                <p>Descrição curta do produto 3.</p>
+                                <h4 class="card-text">Pino Minifix</h4>
+                                <p>Utilizado em sistemas de montagem rápida de móveis.</p>
                             </div>
                         </div>
                     </a>
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/parafusadeira/miniparaf.webp" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 4</h4>
-                                <p>Descrição curta do produto 4.</p>
+                                <h4 class="card-text">Mini Parafusadeira</h4>
+                                <p>Leve e compacta, perfeita para a sua mobilidade.</p>
                             </div>
                         </div>
                     </a>
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/pastilhas/past.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 5</h4>
-                                <p>Descrição curta do produto 5.</p>
+                                <h4 class="card-text">CoroCut® 2</h4>
+                                <p>Pastilha para perfilamento.</p>
                             </div>
                         </div>
                     </a>
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/pastilhas/pfres.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 6</h4>
-                                <p>Descrição curta do produto 6.</p>
+                                <h4 class="card-text">CoroMill 345</h4>
+                                <p>Pastilha para o fresamento.</p>
                             </div>
                         </div>
                     </a>
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/haste/haste.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 7</h4>
-                                <p>Descrição curta do produto 7</p>
+                                <h4 class="card-text">Haste Cilindrica</h4>
+                                <p>Haste Cilindrica para a CoroChuck 970.</p>
                             </div>
                         </div>
                     </a>
                     <a href="" class="card-link">
                         <div class="card">
-                            <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                            <img src="../imagens/produtos/alargador/al1.png" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">Produto 8</h4>
-                                <p>Descrição curta do produto 8.</p>
+                                <h4 class="card-text">Alargador CoroReamer</h4>
+                                <p>Alargador CoroReamer 435 inteiriço de metal duro.</p>
                             </div>
                         </div>
                     </a>
                 </div>
 
                 <!-- Carrossel normal  -->
-                <div id="produtosCarousel" class="d-none d-lg-block carousel slide">
+                <div id="produtosCarousel" class="d-none d-md-block carousel slide">
                     <div class="carousel-inner">
 
                         <!-- SLIDE 1 -->
@@ -187,40 +183,43 @@
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/produtos/makita/makita.webp" class="card-img-top">
+                                        <img src="../imagens/produtos/brocas/altaPerf/brocaAltaPerf.png"
+                                            class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 1</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text "> CoroDrill® DE10 </h4>
+                                            <p>A broca com ponta intercambiável para furação de alto volume.</p>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/simbolo.png" class="card-img-top">
+                                        <img src="../imagens/produtos/pinca/pincaER.png" class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 2</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">Pinça ER</h4>
+                                            <p>Componente para fixar ferramentas em máquinas, garantindo precisão e
+                                                segurança.</p>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/backup.png" class="card-img-top">
+                                        <img src="../imagens/produtos/bucha/buchaCilindrica.png" class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 3</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">Pino Minifix</h4>
+                                            <p>Utilizado em sistemas de montagem rápida de móveis.</p>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                        <img src="../imagens/produtos/parafusadeira/miniparaf.webp"
+                                            class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 4</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">Mini Parafusadeira</h4>
+                                            <p>Leve e compacta, perfeita para a sua mobilidade.</p>
                                         </div>
                                     </a>
                                 </div>
@@ -234,40 +233,40 @@
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                        <img src="../imagens/produtos/pastilhas/past.png" class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 5</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">CoroCut® 2</h4>
+                                            <p>Pastilha para perfilamento.</p>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                        <img src="../imagens/produtos/pastilhas/pfres.png" class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 6</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">CoroMill 345</h4>
+                                            <p>Pastilha para o fresamento.</p>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                        <img src="../imagens/produtos/haste/haste.png" class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 7</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">Haste Cilindrica</h4>
+                                            <p>Haste Cilindrica para a CoroChuck 970.</p>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="col-12 col-md-3">
                                     <a href="" class="card h-100 text-decoration-none">
-                                        <img src="../imagens/dashboard/ftpadrao.jpg" class="card-img-top">
+                                        <img src="../imagens/produtos/alargador/al1.png" class="card-img-top">
                                         <div class="card-body">
-                                            <h4 class="card-text">Produto 8</h4>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                                            <h4 class="card-text">Alargador CoroReamer</h4>
+                                            <p>Alargador CoroReamer 435 inteiriço de metal duro.</p>
                                         </div>
                                     </a>
                                 </div>
@@ -277,59 +276,46 @@
                 </div>
 
                 <!-- botoes -->
-                <div class="d-none d-lg-flex gap-1 mt-3 separador">
-                    <button class="carousel-control-prev" type="button" data-bs-target="#produtosCarousel"
-                        data-bs-slide="prev">
+                <div class="d-none d-md-flex mt-3 separador gap-2">
+                    <button class="btn-carousel" data-bs-target="#produtosCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </button>
 
-                    <button class="carousel-control-next" type="button" data-bs-target="#produtosCarousel"
-                        data-bs-slide="next">
+                    <button class="btn-carousel" data-bs-target="#produtosCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </button>
                 </div>
 
-                <h4 class="pt-4 pb-4">Notícias e insights</h4>
-                <div class="d-flex lugar">
+                <div class="line"></div>
 
-                    <div class="painel">
-                        <div class="foto"><img
-                                src="../imagens/dashboard/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png"
-                                alt=""></div>
-                        <div class="texto">
-                            <h4>Nova broca com ponta intercambiavel</h4>
-                            <p>Descubra CoroDrill® DE10: Usinagem de furos de alto volume dominada</p>
-                        </div>
-                    </div>
-                    <div class="painel">
-                        <div class="foto"><img
-                                src="../imagens/dashboard/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png"
-                                alt=""></div>
-                        <div class="texto">
-                            <h4>Nova broca com ponta intercambiavel</h4>
-                            <p>Descubra CoroDrill® DE10: Usinagem de furos de alto volume dominada</p>
-                        </div>
-                    </div>
-                    <div class="painel">
-                        <div class="foto"><img
-                                src="../imagens/dashboard/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png"
-                                alt=""></div>
-                        <div class="texto">
-                            <h4>Nova broca com ponta intercambiavel</h4>
-                            <p>Descubra CoroDrill® DE10: Usinagem de furos de alto volume dominada</p>
-                        </div>
-                    </div>
-                    <div class="painel">
-                        <div class="foto"><img
-                                src="../imagens/dashboard/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png"
-                                alt=""></div>
-                        <div class="texto">
-                            <h4>Nova broca com ponta intercambiavel</h4>
-                            <p>Descubra CoroDrill® DE10: Usinagem de furos de alto volume dominada</p>
-                        </div>
-                    </div>
 
-                </div>
+                <!-- area legal -->
+                <section class="py-5">
+                    <div class="container">
+                        <h2 class="poing text-center mb-5 aumento">Por que escolher a IndusParts?</h2>
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-4">
+                                <i class="fa-solid fa-truck-fast fa-3x mb-3 aumento" style="color: var(--bege) !important;"></i>
+                                <h5 class="fw-bold">Entrega Expressa</h5>
+                                <p>Receba seu lote no mesmo dia, garantindo agilidade e produtividade a tempo.</p>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <i class="fa-solid fa-certificate fa-3x mb-3 aumento"
+                                    style="color: var(--bege) !important;"></i>
+                                <h5 class="fw-bold">Garantia extendida!</h5>
+                                <p>Peças selecionadas possuem garantia de até 6 meses, garantindo mais segurança para
+                                    você.</p>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <i class="fa-solid fa-tools fa-3x mb-3 aumento  " style="color: var(--bege) !important;"></i>
+                                <h5 class="fw-bold">Nossos produtos</h5>
+                                <p>Soluções em peças industriais com agilidade, qualidade e atendimento especializado.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="line"></div>
             </div>
         </div>
     </main>
@@ -338,22 +324,56 @@
 
 
 
-    <div class="container">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-            </ul>
-            <p class="text-center text-body-secondary">© 2025 Company, Inc</p>
-        </footer>
-    </div>
+    <!-- Footer -->
+    <div class="container mt-5">
+        <footer class="">
+            <div class="row justify-content-between">
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>IndusParts</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="index.html" class="nav-link p-0 text-body-secondary"
+                                style="color: rgb(129, 129, 129) !important;">Home</a></li>
+                        <li class="nav-item mb-2"><a href="pagProdutos.html" class="nav-link p-0 text-body-secondary"
+                                style="color: rgb(129, 129, 129) !important;">Produtos</a></li>
+                        <li class="nav-item mb-2"><a href="login.html" class="nav-link p-0 text-body-secondary"
+                                style="color: rgb(129, 129, 129) !important;">Login</a></li>
+                        <li class="nav-item mb-2"><a href="https://wa.me/5511964901224"
+                                class="nav-link p-0 text-body-secondary"
+                                style="color: rgb(129, 129, 129) !important;">Ajuda</a></li>
+                    </ul>
+                </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+                <div class="col-md-6 offset-md-1 mb-3">
+                    <form>
+                        <h5>Se inscreva no nosso newsletter</h5>
+                        <p>Fique por dentro de todas as nossas novidades !</p>
+                        <div class="d-flex flex-column flex-sm-row w-100 gap-2"> <label for="newsletter1"
+                                class="visually-hidden">Endereço de e-mail</label> <input id="newsletter1" type="email"
+                                class="form-control" placeholder="Endereço de e-mail"> <button
+                                class="btn btn-primary border-1" type="button"
+                                style="background-color:var(--bege) !important; width: auto; border-color: rgb(185, 185, 185)">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                <p>© 2025 IndusParts | Agilidade, foco e resultado!</p>
+                <ul class="list-unstyled d-flex">
+                    <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Instagram"><svg class="bi"
+                                width="24" height="24">
+                                <use xlink:href="#instagram"></use>
+                            </svg></a></li>
+                    <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Facebook"><svg class="bi"
+                                width="24" height="24" aria-hidden="true">
+                                <use xlink:href="#facebook"></use>
+                            </svg></a></li>
+                </ul>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
