@@ -2,7 +2,7 @@
 -- Data: 2025-11-18
 -- Descrição: Tabela para armazenar produtos do sistema
 
-USE produtos_api;
+USE indusparts;
 
 -- Tabela de Produtos
 CREATE TABLE produtos (

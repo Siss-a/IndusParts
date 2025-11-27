@@ -1,5 +1,5 @@
 {
-  "name": "api-produtos",
+  "name": "IndusParts",
   "version": "1.0.0",
   "description": "API RESTful para gestão de produtos com Node.js, Express e MySQL",
   "main": "app.js",
@@ -19,7 +19,7 @@
     "upload",
     "produtos"
   ],
-  "author": "Professor - Curso Técnico em Desenvolvimento de Sistemas",
+  "author": "Beatriz Gonçalves, Gabriel Lourencetti, Larissa Klarosk",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

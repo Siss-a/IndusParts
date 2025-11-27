@@ -3,7 +3,7 @@ import { JWT_CONFIG } from '../config/jwt.js';
 
 // Middleware de autenticação JWT
 const authMiddleware = (req, res, next) => {
-    try {
+    try { 
         // Verificar se o header Authorization existe
         const authHeader = req.headers.authorization;
         

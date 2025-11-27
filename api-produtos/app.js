@@ -14,10 +14,12 @@ import usuarioRotas from './routes/usuarioRotas.js';
 import carrinhoRotas from "./routes/carrinhoRotas.js";
 import pedidoRotas from "./routes/pedidoRotas.js";
 
+import adminRotas from './routes/adminRotas.js';
 
 // Importar middlewares
-import { logMiddleware } from './middlewares/logMiddleware.js';
+// import { logMiddleware } from './middlewares/logMiddleware.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import { authMiddleware } from './middlewares/authMiddleware.js';
 
 // Carregar variáveis do arquivo .env
 dotenv.config();
@@ -46,9 +48,21 @@ app.use(express.urlencoded({ extended: true }));
 
 //  Servir arquivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware para log de requisições (salva no banco de dados)
-app.use(logMiddleware);
+// app.use(logMiddleware);
+
+// Rotas de Frontend (páginas estáticas)
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
+});
+app.get('/cadastro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
+});
+app.get('/perfil', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
@@ -58,16 +72,18 @@ app.use('/api/usuarios', usuarioRotas);
 //
 app.use("/api/carrinho", carrinhoRotas);
 app.use("/api/pedidos", pedidoRotas);
+app.use('/api/admin', adminRotas);
 
 // Rota raiz
 app.get('/', (req, res) => {
     res.json({
         sucesso: true,
-        mensagem: 'API de Produtos - Sistema de Gestão',
+        mensagem: 'IndusParts - Sistema de venda de produtos industriais',
         versao: '1.0.0',
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
+            usuarios: '/api/admin',
             criptografia: '/api/criptografia'
         },
         documentacao: {
@@ -80,7 +96,7 @@ app.get('/', (req, res) => {
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
             infoCriptografia: 'GET /api/criptografia/info',
-            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario'
+            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario /api/auth/registrar'
         }
     });
 });
@@ -105,4 +121,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-
