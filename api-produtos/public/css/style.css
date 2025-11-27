@@ -127,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
   }
 
-  /* .alert {
+  .alert {
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -149,7 +149,7 @@ h1, h2, h3, h4, h5, h6 {
     background: #fee2e2;
     color: #991b1b;
     border-left: 4px solid #ef4444;
-  } */
+  }
 
   .footer-text {
     text-align: center;

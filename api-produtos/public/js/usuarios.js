@@ -1,4 +1,4 @@
-/* Carregar dados do usuário */
+/* Verificar ADMIN antes de carregar a página */
 window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
@@ -12,19 +12,28 @@ window.addEventListener('DOMContentLoaded', async () => {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-type': 'application/json'
+                'Content-Type': 'application/json'
             }
         });
 
-        if (res.status === 401) {
-            localStorage.removeItem('token');
-            window.location.href = '/login';
+        // Se o middleware do backend bloquear → não é admin
+        if (res.status === 401 || res.status === 403) {
+            alert("Acesso restrito aos administradores.");
+            window.location.href = '/perfil';
             return;
         }
+
+        // usuário é admin → continua a página normalmente
+        const resposta = await res.json();
+        console.log("Admin confirmado:", resposta);
+
     } catch (error) {
-        console.error('Erro ao carregar dados do usuário:', error);
+        console.error("Erro ao validar administrador:", error);
+        localStorage.removeItem("token");
+        window.location.href = "/login";
     }
 });
+
 
 const form = document.getElementById('formCadastro')
 

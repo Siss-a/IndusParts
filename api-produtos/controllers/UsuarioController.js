@@ -77,7 +77,7 @@ class UsuarioController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome_social: nome_social.trim(),
+                nome: nome.trim(),
                 email: email.trim().toLowerCase(),
                 senha: senha, 
                 cnpj: cnpj.replace(/[^\d]/g, ''),

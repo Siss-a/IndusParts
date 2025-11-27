@@ -54,7 +54,7 @@ class UsuarioModel {
             const senhaHash = await hashPassword(dadosUsuario.senha);
 
             const dadosComHash = {
-                nome_social: dadosUsuario.nome_social,
+                nome_social: dadosUsuario.nome,
                 email: dadosUsuario.email,
                 cnpj: dadosUsuario.cnpj,
                 telefone: dadosUsuario.telefone,
