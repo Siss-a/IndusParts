@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import UsuarioModel from '../models/UsuarioModel.js';
+
+>>>>>>> origin/main
 class UsuarioController {
     // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
@@ -340,6 +345,7 @@ class UsuarioController {
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 }
 =======
@@ -347,3 +353,8 @@ class UsuarioController {
 }
 export default UsuarioController
 >>>>>>> e85e4b330b3f868dada719efa7f30148e5ec91a4
+=======
+}
+
+export default UsuarioController;
+>>>>>>> origin/main
