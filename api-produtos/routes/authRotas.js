@@ -35,5 +35,3 @@ router.options('/perfil', (req, res) => {
 });
 
 export default router;
-
-

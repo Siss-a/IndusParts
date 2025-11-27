@@ -14,7 +14,6 @@ import adminRotas from './routes/adminRotas.js';
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
-import { authMiddleware } from './middlewares/authMiddleware.js';
 
 // Carregar variáveis do arquivo .env
 dotenv.config();
@@ -58,12 +57,19 @@ app.get('/cadastro', (req, res) => {
 app.get('/perfil', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
+app.get('/crud-produtos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
+});
+app.get('/crud-usuarios', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
-app.use('/api/criptografia', criptografiaRotas);
 app.use('/api/admin', adminRotas);
+//
+
 
 // Rota raiz
 app.get('/', (req, res) => {
@@ -74,8 +80,7 @@ app.get('/', (req, res) => {
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
-            usuarios: '/api/admin',
-            criptografia: '/api/criptografia'
+            admin: '/api/admin',
         },
         documentacao: {
             login: 'POST /api/auth/login',
@@ -86,8 +91,10 @@ app.get('/', (req, res) => {
             criarProduto: 'POST /api/produtos',
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
-            infoCriptografia: 'GET /api/criptografia/info',
-            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario /api/auth/registrar'
+            listarUsuarios: 'GET /api/admin/usuarios',
+            criarUsuario: 'POST /api/admin/usuarios',
+            atualizarUsuario: 'PUT /api/admin/usuarios/:id',
+            excluirUsuario: 'DELETE /api/admin/usuarios/:id'
         }
     });
 });
@@ -107,7 +114,7 @@ app.use(errorMiddleware);
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Acesse: http://localhost:${PORT}`);
-    console.log(`API de Produtos - Sistema de Gestão`);
+    console.log(`API de Produtos Industriais - IndusParts`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
 
