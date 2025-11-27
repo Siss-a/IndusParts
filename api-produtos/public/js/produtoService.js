@@ -11,6 +11,12 @@ window.ProdutoService = {
     async buscar(id) {
         // GET com ID do produto
         const r = await fetch(`api/produtos/${id}`);
-        return r.json();
+        const resposta = await r.json();
+
+        if (!r.ok || !resposta.sucesso) {
+            throw new Error(resposta.mensagem || 'Erro ao buscar produto');
+        }
+
+        return resposta.dados;
     }
 };
