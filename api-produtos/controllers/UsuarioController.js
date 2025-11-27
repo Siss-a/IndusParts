@@ -4,7 +4,7 @@ class UsuarioController {
     // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
         try {
-            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
+            const { nome, email, senha, cnpj, telefone, tipo } = req.body;
 
             // Validações básicas
             if (!nome || nome.trim() === '') {

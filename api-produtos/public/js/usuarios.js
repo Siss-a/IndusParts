@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const res = await fetch('/api/admin', {
+        const res = await fetch('/api/admin/usuarios', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

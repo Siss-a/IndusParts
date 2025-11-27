@@ -15,44 +15,34 @@
         <form id="formCadastro">
             <div>
                 <label>Nome da Empresa:</label>
-                <input type="text" id="nome" name="nome" required>
+                <input type="text" id="nome_social" name="nome_social" required>
             </div>
-           
+
             <div>
                 <label>Senha: </label>
-                <input id="descricao" name="descricao"></textarea>
+                <input type="password" id="senhaCadastro" name="senha" required>
             </div>
-           
+
             <div>
                 <label>Email: </label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
+                <input type="email" id="emailCadastro" name="email" required>
             </div>
-           
+
             <div>
                 <label>CNPJ:</label>
-                <input type="text" id="id_categoria" name="id_categoria" value="Geral">
+                <input type="text" name="cnpj" id="cnpj" required>
             </div>
-           
+
             <div>
                 <label>Telefone:</label>
-                <input type="text" id="fornecedor" name="fornecedor" required>
+                <input type="tel" name="telefone" id="telefone" required>
             </div>
-           
+
             <div>
                 <label>Tipo:</label>
                 <input type="text" id="tipo" name="tipo" required>
             </div>
-           
-            <div>
-                <label>Especificações:</label>
-                <textarea id="especificacoes" name="especificacoes"></textarea>
-            </div>
-           
-            <div>
-                <label>Imagem:</label>
-                <input type="file" id="imagem" name="imagem" accept="image/*">
-            </div>
-           
+            
             <button type="submit">Cadastrar Usuário</button>
         </form>
         <div id="mensagemCadastro"></div>
