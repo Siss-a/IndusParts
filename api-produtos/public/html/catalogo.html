@@ -1,104 +1,38 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="catalogo">
+<html lang="pt-BR" class="catalogo1">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IndusParts</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8" />
+    <title>Catálogo</title>
+    <link rel="stylesheet" href="../css/style.css" />
 </head>
+
 <body>
-    <div class="container-fluid py-4">
-        <div class="row">
-            <!-- Filtro Desktop (Sidebar) -->
-            <div class="col-lg-3 desktop-filter">
-                <div class="filter-sidebar">
-                    <div class="filter-title">Oq foi Pesquisado</div>
-                    <div id="searchResults" class="mb-3">0 resultados</div>
-                    
-                    <div class="filter-section">
-                        <h6>Preço</h6>
-                        <button class="filter-btn" onclick="setMinPrice()">Mínimo</button>
-                        <button class="filter-btn" onclick="setMaxPrice()">Máximo</button>
-                    </div>
 
-                    <div class="filter-section">
-                        <h6>Categorias</h6>
-                        <button class="filter-btn category-filter" data-category="Mig 130">Mig 130</button>
-                        <button class="filter-btn category-filter" data-category="Mig 130">Mig 130</button>
-                        <button class="filter-btn category-filter" data-category="Mig 130">Mig 130</button>
-                        <button class="filter-btn category-filter" data-category="Mig 130">Mig 130</button>
-                        <button class="filter-btn category-filter" data-category="Mig 130">Mig 130</button>
-                        <button class="filter-btn category-filter" data-category="Mig 130">Mig 130</button>
-                    </div>
+    <h1>Catálogo de Produtos</h1>
 
-                    <div class="price-display" id="priceDisplay">R$523,99</div>
-                </div>
-            </div>
+    <input type="text" id="pesquisa" placeholder="Buscar produto..." />
 
-            <!-- Área de Produtos -->
-            <div class="col-lg-9">
-                <!-- Botão Filtro Mobile + Barra de Pesquisa -->
-                <div class="d-lg-none mb-3">
-                    <button class="btn btn-primary w-100 mb-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
-                        <i class="fas fa-filter"></i> Filtros
-                    </button>
-                </div>
+    <select id="filtroCategoria">
+        <option value="">Todas categorias</option>
+        <option value="eletronicos">Eletrônicos</option>
+        <option value="roupas">Roupas</option>
+        <option value="outros">Outros</option>
+    </select>
 
-                <div class="search-bar">
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Pesquisar produtos...">
-                        <button class="btn btn-primary" type="button" onclick="searchProducts()">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                    </div>
-                </div>
+    <select id="filtroPreco">
+        <option value="">Todos preços</option>
+        <option value="0-50">Até 50</option>
+        <option value="50-200">50 a 200</option>
+        <option value="200-99999">Acima de 200</option>
+    </select>
 
-                <!-- Grid de Produtos -->
-                <div class="row" id="productsGrid">
-                    <!-- Os produtos serão carregados aqui -->
-                </div>
+    <div id="listaProdutos"></div>
 
-                <div id="noResults" class="no-results" style="display: none;">
-                    <i class="fas fa-inbox fa-3x mb-3"></i>
-                    <p>Nenhum produto encontrado</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- JS -->
+    <script src="/js/utils.js"></script>
+    <script src="/js/produtoService.js"></script>
+    <script src="/js/components.js"></script>
+    <script src="/js/catalogo.js"></script>
 
-    <!-- Offcanvas para Filtros Mobile -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Filtros</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="filter-title">Oq foi Pesquisado</div>
-            <div id="searchResultsMobile" class="mb-3">0 resultados</div>
-            
-            <div class="filter-section">
-                <h6>Preço</h6>
-                <button class="filter-btn" onclick="setMinPrice()">Mínimo</button>
-                <button class="filter-btn" onclick="setMaxPrice()">Máximo</button>
-            </div>
-
-            <div class="filter-section">
-                <h6>Categorias</h6>
-                <button class="filter-btn category-filter-mobile" data-category="Mig 130">Mig 130</button>
-                <button class="filter-btn category-filter-mobile" data-category="Mig 130">Mig 130</button>
-                <button class="filter-btn category-filter-mobile" data-category="Mig 130">Mig 130</button>
-                <button class="filter-btn category-filter-mobile" data-category="Mig 130">Mig 130</button>
-                <button class="filter-btn category-filter-mobile" data-category="Mig 130">Mig 130</button>
-                <button class="filter-btn category-filter-mobile" data-category="Mig 130">Mig 130</button>
-            </div>
-
-            <div class="price-display" id="priceDisplayMobile">R$523,99</div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/catalogo.js"></script>
 </body>
 </html>

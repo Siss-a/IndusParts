@@ -170,6 +170,81 @@
         }
     }
 }
+
+.catalogo1{
+  /* Reset básico */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Barra de pesquisa e filtros */
+#pesquisa, 
+#filtroCategoria, 
+#filtroPreco {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Layout dos filtros */
+#pesquisa {
+    width: 250px;
+}
+
+#filtroCategoria, 
+#filtroPreco {
+    width: 180px;
+}
+
+/* Container de produtos */
+#listaProdutos {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+/* Card de produto */
+.produto {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.produto:hover {
+    transform: scale(1.03);
+}
+
+/* Nome do produto */
+.produto h2 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #222;
+}
+
+/* Preço */
+.produto p {
+    font-size: 16px;
+    color: #007b5e;
+    font-weight: bold;
+}
+
+}
 /*GERAL*/
 * {
   margin: 0px;

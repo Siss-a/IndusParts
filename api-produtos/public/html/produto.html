@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="produto">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Carregando...</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <div class="container bg-white rounded-3 shadow-sm p-4 mb-1" style="width: 90%">
+
+    <!-- Produto Principal -->
+    <div class="row mb-5 product-row">
+
+      <!-- Galeria -->
+      <div class="col-12 col-md-6 mb-4">
+        <div class="gallery-wrap d-flex flex-column flex-md-row">
+
+          <!-- Miniaturas -->
+          <div id="thumbnails" class="thumbnails order-2 order-md-1 d-flex flex-row flex-md-column">
+            <!-- Miniaturas virão via JS -->
+          </div>
+
+          <!-- Imagem Principal -->
+          <div class="main-image-container flex-grow-1 order-1 order-md-2">
+            <img id="mainImage" class="main-image img-fluid" src="" alt="Imagem do produto" />
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Informações -->
+      <div class="col-12 col-md-6 product-info">
+
+        <span id="brand" class="brand-badge mb-3 d-inline-block">Carregando...</span>
+
+        <h1 id="title" class="product-title">Carregando...</h1>
+
+        <div id="price" class="price mb-3">R$ 0,00</div>
+
+        <ul id="specs" class="specs-list list-unstyled mb-4" style="min-height: 27vh;">
+          <!-- Especificações via JS -->
+        </ul>
+
+        <!-- Botão CArrinho -->
+        <div class="d-grid gap-2 d-md-flex">
+          <button class="btn btn-add-cart flex-grow-1" id="addToCart">
+            <i class="bi bi-cart-plus me-2"></i>Adicionar ao Carrinho
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Descrição -->
+    <div class="mb-5">
+      <h2 class="section-title">Descrição do Produto</h2>
+      <p id="descricao" class="text-muted lead">Carregando descrição...</p>
+    </div>
+
+  </div>
+
+  <!-- JS -->
+<script src="../js/produtoService.js"></script>
+<script src="../js/produto.js"></script>
+
+</body>
+</html>
