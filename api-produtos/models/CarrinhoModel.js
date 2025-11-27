@@ -2,6 +2,7 @@
 import { getConnection } from "../config/database.js";
 
 class CarrinhoModel {
+  //pega o carrinho do usuário ou cria um se ele não tiver
   static async getOrCreateCarrinho(id_usuario) {
     const connection = await getConnection();
     try {
@@ -9,6 +10,7 @@ class CarrinhoModel {
         "SELECT * FROM carrinhos WHERE id_usuario = ?",
         [id_usuario]
       );
+      //verifica quantos elementos existem no array e se diferente de 0 retorna o primeiro elemento
       if (rows.length) return rows[0];
 
       const [result] = await connection.execute(
@@ -24,6 +26,7 @@ class CarrinhoModel {
   static async listarItens(id_carrinho) {
     const connection = await getConnection();
     try {
+      //lista os campos do carrinho
       const [rows] = await connection.execute(
         `SELECT ci.id AS id_item, ci.id_produto, ci.quantidade, ci.preco_unitario,
                 p.nome, p.img, p.descricao
@@ -38,6 +41,7 @@ class CarrinhoModel {
     }
   }
 
+  //adiciona itens ao carrinho 
   static async adicionarItem(id_carrinho, id_produto, quantidade, preco_unitario) {
     const connection = await getConnection();
     try {
@@ -71,6 +75,7 @@ class CarrinhoModel {
     const connection = await getConnection();
     try {
       if (quantidade <= 0) {
+        //deleta do carrinho se for menor que 0 a quantidade
         const [res] = await connection.execute(
           "DELETE FROM carrinho_itens WHERE id = ?",
           [id_item]
@@ -88,6 +93,7 @@ class CarrinhoModel {
     }
   }
 
+  //Remover item do carrinho
   static async removerItem(id_item) {
     const connection = await getConnection();
     try {
@@ -101,6 +107,7 @@ class CarrinhoModel {
     }
   }
 
+  //apaga todos os itens do carrinho(que tem o msm id do carrinho)
   static async limparCarrinho(id_carrinho) {
     const connection = await getConnection();
     try {
@@ -114,6 +121,7 @@ class CarrinhoModel {
     }
   }
 
+  //multiplica a quantidade pelo preço unitário 
   static async calcularTotal(id_carrinho) {
     const connection = await getConnection();
     try {

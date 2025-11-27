@@ -17,6 +17,8 @@ const thumbnailsEl = document.getElementById("thumbnails");
 const descricaoEl = document.getElementById("descricao");
 const pageTitleEl = document.getElementById("pageTitle");
 
+
+
 // Busca produto da API
 async function carregarProduto() {
 
@@ -34,6 +36,11 @@ async function carregarProduto() {
         priceEl.textContent = `R$ ${produto.preco.toFixed(2)}`;
         descricaoEl.textContent = produto.descricao || "Sem descrição";
         pageTitleEl.textContent = produto.nome;
+
+        //botaão para adicionar no carrinho
+const addBtn = document.getElementById("addToCart");
+addBtn.dataset.produtoId = produto.id;
+
 
         // Imagem principal
         const imgUrl = produto.imagem

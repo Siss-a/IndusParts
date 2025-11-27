@@ -2,7 +2,7 @@
 import CarrinhoModel from "../models/CarrinhoModel.js";
 
 class CarrinhoController {
-  // GET /carrinho  -> retorna itens do carrinho do usuário logado
+  // GET /carrinho => retorna itens do carrinho do usuário logado
   static async verCarrinho(req, res) {
     try {
       const id_usuario = req.user.id;
@@ -26,9 +26,11 @@ class CarrinhoController {
       const id_usuario = req.user.id;
       const { id_produto, quantidade = 1 } = req.body;
 
+      //verifica se o campo existe e se é um número válido.
       if (!id_produto || isNaN(id_produto)) {
         return res.status(400).json({ sucesso:false, mensagem: "id_produto inválido" });
       }
+      //impede que a quantidade seja zero ou negativa
       if (quantidade <= 0) {
         return res.status(400).json({ sucesso:false, mensagem: "quantidade inválida" });
       }

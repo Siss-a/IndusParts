@@ -88,5 +88,4 @@ document.getElementById("limpar").onclick = () => {
     renderCart();
 };
 
-// Inicializa
 renderCart();
