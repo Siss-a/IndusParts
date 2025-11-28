@@ -9,10 +9,10 @@ import { fileURLToPath } from 'url';
 import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
 import criptografiaRotas from './routes/criptografiaRotas.js';
-import usuarioRotas from './routes/usuarioRotas.js';
+import adminRotas from './routes/adminRotas.js';
 
 // Importar middlewares
-import { logMiddleware } from './middlewares/logMiddleware.js';
+// import { logMiddleware } from './middlewares/logMiddleware.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 
 // Carregar variáveis do arquivo .env
@@ -42,26 +42,45 @@ app.use(express.urlencoded({ extended: true }));
 
 //  Servir arquivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware para log de requisições (salva no banco de dados)
-app.use(logMiddleware);
+// app.use(logMiddleware);
+
+// Rotas de Frontend (páginas estáticas)
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
+});
+app.get('/cadastro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
+});
+app.get('/perfil', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
+});
+app.get('/crud-produtos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
+});
+app.get('/crud-usuarios', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
-app.use('/api/criptografia', criptografiaRotas);
-app.use('/api/usuarios', usuarioRotas);
+app.use('/api/admin', adminRotas);
+//
+
 
 // Rota raiz
 app.get('/', (req, res) => {
     res.json({
         sucesso: true,
-        mensagem: 'API de Produtos - Sistema de Gestão',
+        mensagem: 'IndusParts - Sistema de venda de produtos industriais',
         versao: '1.0.0',
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
-            criptografia: '/api/criptografia'
+            admin: '/api/admin',
         },
         documentacao: {
             login: 'POST /api/auth/login',
@@ -72,8 +91,10 @@ app.get('/', (req, res) => {
             criarProduto: 'POST /api/produtos',
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
-            infoCriptografia: 'GET /api/criptografia/info',
-            cadastrarUsuario: 'POST /api/criptografia/cadastrar-usuario /api/auth/registrar'
+            listarUsuarios: 'GET /api/admin/usuarios',
+            criarUsuario: 'POST /api/admin/usuarios',
+            atualizarUsuario: 'PUT /api/admin/usuarios/:id',
+            excluirUsuario: 'DELETE /api/admin/usuarios/:id'
         }
     });
 });
@@ -93,9 +114,8 @@ app.use(errorMiddleware);
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Acesse: http://localhost:${PORT}`);
-    console.log(`API de Produtos - Sistema de Gestão`);
+    console.log(`API de Produtos Industriais - IndusParts`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
 
 export default app;
-

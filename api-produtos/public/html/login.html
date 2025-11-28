@@ -12,23 +12,19 @@
 
 <body>
     <main>
-
         <div class="login-container">
             <div class="logo">
                 <h1>Login</h1>
-                <!-- <p>Gestão Empresarial Integrada</p> -->
             </div>
-
-            <div id="alertContainer"></div>
 
             <form id="loginForm" onsubmit="fazerLogin(event)">
                 <div class="form-group">
-                    <label for="email">E-mail</label>
+                    <label for="emailLogin">E-mail</label>
                     <input type="email" id="emailLogin" placeholder="seu@email.com" required autocomplete="email">
                 </div>
 
                 <div class="form-group">
-                    <label for="senha">Senha</label>
+                    <label for="senhaLogin">Senha</label>
                     <input type="password" id="senhaLogin" placeholder="••••••••" required
                         autocomplete="current-password">
                 </div>
@@ -39,72 +35,14 @@
             </form>
 
             <div class="footer-text">
-                <a class="forgot" data-bs-toggle="modal" data-bs-target="#exampleModal">Não tem uma conta?</a>
+                <a href="/cadastro" class="forgot">Não tem uma conta?</a>
             </div>
         </div>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title fs-5" id="registerModalLabel">Cadastre-se</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-
-                    <form action="#" method="post" id="cadastroForm">
-                        <div class="modal-body">
-                            <div class="register-modal">
-                                <h3>Insira os dados da empresa</h3>
-
-                                <div class="mb-2">
-                                    <label for="nomeNewUser" class="form-label visually-hidden">Nome Social</label>
-                                    <input type="text" class="form-control" name="nome" id="nome_social"
-                                        placeholder="Nome Social">
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="emailNewUser" class="form-label visually-hidden">E-mail</label>
-                                    <input type="email" class="form-control" name="email" id="emailCadastro"
-                                        placeholder="E-mail">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="passwdNewUser" class="form-label visually-hidden">Senha</label>
-                                    <input type="password" class="form-control" name="passwd" id="senhaCadastro"
-                                        placeholder="Senha">
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="cnpjNewUser" class="form-label">CNPJ</label>
-                                    <input type="text" class="form-control" name="cnpj" id="cnpj"
-                                        placeholder="00.000.000/0000-00">
-                                </div>
-
-                                <div class="mb-2">
-                                    <label class="form-label visually-hidden">Telefone</label>
-                                    <input type="tel" class="form-control" name="telefone" id="telefone"
-                                        placeholder="Telefone">
-                                </div>
-                            </div>
-
-                            <div class="modal-footer justify-content-between">
-                                <button type="submit" class="login-block-enter btn"
-                                    onclick="registrarNovoUsuario()">Registrar</button>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script src="../js/cadastro.js"></script>
     <script src="../js/login.js"></script>
 </body>
-
 </html>

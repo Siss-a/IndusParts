@@ -1,11 +1,13 @@
-class UsuarioController{
-       // POST /usuarios - Criar novo usuário (apenas admin)
+import UsuarioModel from '../models/UsuarioModel.js';
+
+class UsuarioController {
+    // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
         try {
-            const { nome, email, senha, tipo } = req.body;
-            
+            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
+
             // Validações básicas
-            if (!nome || nome.trim() === '') {
+            if (!nome_social || nome_social.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome obrigatório',
@@ -30,7 +32,7 @@ class UsuarioController{
             }
 
             // Validações de formato
-            if (nome.length < 2) {
+            if (nome_social.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome muito curto',
@@ -38,7 +40,7 @@ class UsuarioController{
                 });
             }
 
-            if (nome.length > 255) {
+            if (nome_social.length > 255) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome muito longo',
@@ -63,6 +65,22 @@ class UsuarioController{
                 });
             }
 
+            if (!cnpj || cnpj.trim() === '') {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'CNPJ obrigatório',
+                    mensagem: 'O CNPJ é obrigatório'
+                });
+            }
+
+            if (!telefone || telefone.trim() === '') {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Telefone obrigatório',
+                    mensagem: 'O telefone é obrigatório'
+                });
+            }
+
             // Verificar se o email já existe
             const usuarioExistente = await UsuarioModel.buscarPorEmail(email);
             if (usuarioExistente) {
@@ -75,22 +93,26 @@ class UsuarioController{
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome: nome.trim(),
+                nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
                 senha: senha,
+                cnpj: cnpj.replace(/[^\d]/g, ''),
+                telefone: telefone.replace(/[^\d]/g, ''),
                 tipo: tipo || 'comum'
             };
 
             // Criar usuário
             const usuarioId = await UsuarioModel.criar(dadosUsuario);
-            
+
             res.status(201).json({
                 sucesso: true,
                 mensagem: 'Usuário criado com sucesso',
                 dados: {
                     id: usuarioId,
-                    nome: dadosUsuario.nome,
+                    nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
+                    cnpj: dadosUsuario.cnpj,
+                    telefone: dadosUsuario.telefone,
                     tipo: dadosUsuario.tipo
                 }
             });
@@ -108,8 +130,8 @@ class UsuarioController{
     static async atualizarUsuario(req, res) {
         try {
             const { id } = req.params;
-            const { nome, email, senha, tipo } = req.body;
-            
+            const { nome_social, email, senha, telefone, tipo } = req.body;
+
             // Validação do ID
             if (!id || isNaN(id)) {
                 return res.status(400).json({
@@ -131,23 +153,23 @@ class UsuarioController{
 
             // Preparar dados para atualização
             const dadosAtualizacao = {};
-            
-            if (nome !== undefined) {
-                if (nome.trim() === '') {
+
+            if (nome_social !== undefined) {
+                if (nome_social.trim() === '') {
                     return res.status(400).json({
                         sucesso: false,
                         erro: 'Nome inválido',
                         mensagem: 'O nome não pode estar vazio'
                     });
                 }
-                if (nome.length < 2) {
+                if (nome_social.length < 2) {
                     return res.status(400).json({
                         sucesso: false,
                         erro: 'Nome muito curto',
                         mensagem: 'O nome deve ter pelo menos 2 caracteres'
                     });
                 }
-                dadosAtualizacao.nome = nome.trim();
+                dadosAtualizacao.nome_social = nome_social.trim();
             }
 
             if (email !== undefined) {
@@ -159,7 +181,7 @@ class UsuarioController{
                         mensagem: 'Formato de email inválido'
                     });
                 }
-                
+
                 // Verificar se o email já está em uso por outro usuário
                 const usuarioComEmail = await UsuarioModel.buscarPorEmail(email);
                 if (usuarioComEmail && usuarioComEmail.id !== parseInt(id)) {
@@ -169,7 +191,7 @@ class UsuarioController{
                         mensagem: 'Este email já está sendo usado por outro usuário'
                     });
                 }
-                
+
                 dadosAtualizacao.email = email.trim().toLowerCase();
             }
 
@@ -199,7 +221,7 @@ class UsuarioController{
 
             // Atualizar usuário
             const resultado = await UsuarioModel.atualizar(id, dadosAtualizacao);
-            
+
             res.status(200).json({
                 sucesso: true,
                 mensagem: 'Usuário atualizado com sucesso',
@@ -221,7 +243,7 @@ class UsuarioController{
     static async excluirUsuario(req, res) {
         try {
             const { id } = req.params;
-            
+
             // Validação do ID
             if (!id || isNaN(id)) {
                 return res.status(400).json({
@@ -243,7 +265,7 @@ class UsuarioController{
 
             // Excluir usuário
             const resultado = await UsuarioModel.excluir(id);
-            
+
             res.status(200).json({
                 sucesso: true,
                 mensagem: 'Usuário excluído com sucesso',
@@ -264,7 +286,7 @@ class UsuarioController{
     static async obterPerfil(req, res) {
         try {
             const usuario = await UsuarioModel.buscarPorId(req.usuario.id);
-            
+
             if (!usuario) {
                 return res.status(404).json({
                     sucesso: false,
@@ -296,7 +318,7 @@ class UsuarioController{
             // Obter parâmetros de paginação da query string
             const pagina = parseInt(req.query.pagina) || 1;
             const limite = parseInt(req.query.limite) || 10;
-            
+
             // Validações
             if (pagina < 1) {
                 return res.status(400).json({
@@ -305,7 +327,7 @@ class UsuarioController{
                     mensagem: 'A página deve ser um número maior que zero'
                 });
             }
-            
+
             const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
             if (limite < 1 || limite > limiteMaximo) {
                 return res.status(400).json({
@@ -314,9 +336,9 @@ class UsuarioController{
                     mensagem: `O limite deve ser um número entre 1 e ${limiteMaximo}`
                 });
             }
-            
+
             const resultado = await UsuarioModel.listarTodos(pagina, limite);
-            
+
             // Remover senha de todos os usuários
             const usuariosSemSenha = resultado.usuarios.map(({ senha, ...usuario }) => usuario);
 
@@ -339,5 +361,6 @@ class UsuarioController{
             });
         }
     }
-    
 }
+
+export default UsuarioController;

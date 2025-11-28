@@ -10,11 +10,18 @@ form.addEventListener('submit', async (r) => {
         return;
     }
 
-    const res = await fetch('api/auth/login', {
+    const res = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha })
-    })
+    });
+
+    const dados = await res.json();
+
+    if (res.ok) {
+        localStorage.setItem('token', dados.dados.token);
+        window.location.href = "/perfil";
+    } else {
+        console.log(dados);
+    }
 })

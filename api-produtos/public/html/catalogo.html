@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="catalogo1">
+<head>
+    <meta charset="UTF-8" />
+    <title>Catálogo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+
+    <h1>Catálogo de Produtos</h1>
+
+    <input type="text" id="pesquisa" placeholder="Buscar produto..." />
+
+    <select id="filtroCategoria">
+        <option value="">Todas categorias</option>
+        <option value="eletronicos">Eletrônicos</option>
+        <option value="roupas">Roupas</option>
+        <option value="outros">Outros</option>
+    </select>
+
+    <select id="filtroPreco">
+        <option value="">Todos preços</option>
+        <option value="0-50">Até 50</option>
+        <option value="50-200">50 a 200</option>
+        <option value="200-99999">Acima de 200</option>
+    </select>
+
+    <div id="listaProdutos"></div>
+
+    <!-- JS -->
+    <script src="/js/utils.js"></script>
+    <script src="/js/produtoService.js"></script>
+    <script src="/js/components.js"></script>
+    <script src="/js/catalogo.js"></script>
+
+</body>
+</html>

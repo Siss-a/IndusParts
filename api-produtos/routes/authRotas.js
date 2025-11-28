@@ -1,6 +1,6 @@
 import express from 'express';
 import AuthController from '../controllers/AuthController.js';
-import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 import UsuarioController from '../controllers/UsuarioController.js';
 
 const router = express.Router();
@@ -35,5 +35,3 @@ router.options('/perfil', (req, res) => {
 });
 
 export default router;
-
-
