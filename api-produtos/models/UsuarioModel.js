@@ -3,10 +3,29 @@ import { create, read, update, deleteRecord, comparePassword, hashPassword, getC
 // Model para operações com usuários
 class UsuarioModel {
     // Listar todos os usuários (com paginação)
-    static async listarTodos() {
+    // Listar todos os usuários (com paginação)
+    static async listarTodos(pagina = 1, limite = 10) {
         try {
-            const response = await read("usuarios");
-            return response;
+            const offset = (pagina - 1) * limite;
+
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT SQL_CALC_FOUND_ROWS * FROM usuarios LIMIT ? OFFSET ?",
+                [limite, offset]
+            );
+
+            const [[{ 'FOUND_ROWS()': total }]] = await conn.query("SELECT FOUND_ROWS()");
+
+            // Remover senha_hash
+            const usuariosSemSenha = rows.map(({ senha_hash, ...usuario }) => usuario);
+
+            return {
+                usuarios: usuariosSemSenha,
+                pagina,
+                limite,
+                total,
+                totalPaginas: Math.ceil(total / limite)
+            };
         } catch (error) {
             console.error('Erro ao listar usuários:', error);
             throw error;

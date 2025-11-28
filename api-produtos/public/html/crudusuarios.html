@@ -50,7 +50,6 @@
         </form>
         <div id="mensagemCadastro"></div>
     </div>
-
     <hr>
 
     <!-- Seção de Listagem de Usuários -->
@@ -64,11 +63,25 @@
             <label>Itens por página:</label>
             <input type="number" id="limite" value="10" min="1" max="100">
 
-            <button onclick="carregarUsuários()">Buscar</button>
+            <button onclick="carregarUsuarios()">Buscar</button>
         </div>
 
         <div id="infoPaginacao"></div>
-        <div id="listaUsuários"></div>
+
+        <!-- Agora existe a tabela -->
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome Social</th>
+                    <th>Email</th>
+                    <th>CNPJ</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="listaUsuarios"></tbody>
+        </table>
     </div>
 
     <hr>
@@ -76,32 +89,34 @@
     <!-- Seção de Edição de Usuário -->
     <div id="secaoEdicao" style="display:none;">
         <h2>Editar Usuário</h2>
+
         <form id="formEdicao">
             <input type="hidden" id="edit_id">
 
             <div>
-                <label>Nome:</label>
-                <input type="text" id="edit_nome">
+                <label>Nome da Empresa:</label>
+                <input type="text" id="edit_nome_social" required>
             </div>
 
             <div>
-                <label>Descrição:</label>
-                <textarea id="edit_descricao"></textarea>
+                <label>Email:</label>
+                <input type="email" id="edit_email" required>
             </div>
 
             <div>
-                <label>Preço:</label>
-                <input type="number" id="edit_preco" step="0.01">
+                <label>CNPJ:</label>
+                <input type="text" id="edit_cnpj" required>
             </div>
 
             <div>
-                <label>Nova Imagem (opcional):</label>
-                <input type="file" id="edit_imagem" accept="image/*">
+                <label>Telefone:</label>
+                <input type="tel" id="edit_telefone" required>
             </div>
 
             <button type="submit">Salvar Alterações</button>
             <button type="button" onclick="cancelarEdicao()">Cancelar</button>
         </form>
+
         <div id="mensagemEdicao"></div>
     </div>
 
