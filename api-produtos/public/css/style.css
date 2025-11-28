@@ -1,8 +1,7 @@
   :root {
     --azul-mais-escuro: #012F6D;
     --azul-escuro: #144272;
-    --azul: ;
-    --bege: color: rgb(167, 118, 96);
+    --bege: rgb(167, 118, 96);
     --azul-claro: rgb(26, 115, 232);
   }
 
@@ -27,6 +26,11 @@
 
 
   .login {
+
+
+
+
+
     body {
       min-height: 100vh;
       display: flex;
@@ -39,9 +43,9 @@
       background: white;
       padding: 40px;
       border-radius: 5px;
-      /* box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); */
-      box-shadow: -40px -20px 0px var(--azul-escuro);
-      border: solid var(--azul-escuro);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: -40px -20px 0px  rgb(150, 106, 85);
+      border: solid 2px rgb(150, 106, 85);
       max-width: 450px;
       width: 100%;
       width: 90vh;
@@ -53,7 +57,7 @@
     }
 
     .logo h1 {
-      color: var(--azul-escuro);
+      color: rgb(150, 106, 85);
       font-size: 32px;
       margin-bottom: 10px;
     }
@@ -65,7 +69,7 @@
 
     a {
       text-decoration: none;
-      color: var(--azul-escuro);
+      color: rgb(167, 118, 96);
       font-weight: 600;
       cursor: pointer;
     }
@@ -93,8 +97,8 @@
 
     .form-group input:focus {
       outline: none;
-      border-color: var(--azul-escuro);
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color:rgb(167, 118, 96);
+      box-shadow: 0 0 0 3px rgb(167, 118, 96);
     }
 
     .btn {
@@ -102,7 +106,7 @@
       padding: 15px;
       border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg, #4a5db3 0%, #270946 100%);
+      background: linear-gradient(135deg, rgb(167, 118, 96) 0%,rgb(199, 158, 139));
       color: white;
       font-size: 16px;
       font-weight: 600;
@@ -114,7 +118,7 @@
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 10px 25px rgb(167, 118, 96);
     }
 
     .btn:active {

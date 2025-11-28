@@ -20,7 +20,7 @@ form.addEventListener('submit', async (r) => {
 
     if (res.ok) {
         localStorage.setItem('token', dados.dados.token);
-        window.location.href = "/perfil";
+        window.location.href = "/index";
     } else {
         console.log(dados);
     }
