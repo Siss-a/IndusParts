@@ -69,6 +69,9 @@ app.get('/home', (req, res) => {
 app.get('/catalogo', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
 });
+app.get('/carrinho', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
