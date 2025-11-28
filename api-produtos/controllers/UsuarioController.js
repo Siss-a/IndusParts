@@ -4,7 +4,7 @@ class UsuarioController {
     // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
         try {
-            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
+            const { nome_social, email, senha, tipo, telefone, cnpj } = req.body;
 
             // Validações básicas
             if (!nome_social || nome_social.trim() === '') {
@@ -28,6 +28,14 @@ class UsuarioController {
                     sucesso: false,
                     erro: 'Senha obrigatória',
                     mensagem: 'A senha é obrigatória'
+                });
+            }
+
+            if (!cnpj || cnpj.trim() === '') {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'CNPJ obrigatório',
+                    mensagem: 'O CNPJ é obrigatório'
                 });
             }
 
@@ -65,22 +73,6 @@ class UsuarioController {
                 });
             }
 
-            if (!cnpj || cnpj.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'CNPJ obrigatório',
-                    mensagem: 'O CNPJ é obrigatório'
-                });
-            }
-
-            if (!telefone || telefone.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Telefone obrigatório',
-                    mensagem: 'O telefone é obrigatório'
-                });
-            }
-
             // Verificar se o email já existe
             const usuarioExistente = await UsuarioModel.buscarPorEmail(email);
             if (usuarioExistente) {
@@ -96,8 +88,8 @@ class UsuarioController {
                 nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
                 senha: senha,
-                cnpj: cnpj.replace(/[^\d]/g, ''),
-                telefone: telefone.replace(/[^\d]/g, ''),
+                telefone: telefone,
+                cnpj: cnpj,
                 tipo: tipo || 'comum'
             };
 
@@ -111,8 +103,8 @@ class UsuarioController {
                     id: usuarioId,
                     nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
-                    cnpj: dadosUsuario.cnpj,
                     telefone: dadosUsuario.telefone,
+                    cnpj: dadosUsuario.cnpj,
                     tipo: dadosUsuario.tipo
                 }
             });
@@ -130,7 +122,7 @@ class UsuarioController {
     static async atualizarUsuario(req, res) {
         try {
             const { id } = req.params;
-            const { nome_social, email, senha, telefone, tipo } = req.body;
+            const { nome_social, email, senha, tipo } = req.body;
 
             // Validação do ID
             if (!id || isNaN(id)) {
@@ -361,6 +353,42 @@ class UsuarioController {
             });
         }
     }
+
+    static async buscarUsuario(req, res) {
+        try {
+            const id = req.params.id;
+
+            if (!id || isNaN(id)) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: "ID inválido"
+                });
+            }
+
+            const usuario = await UsuarioModel.buscarPorId(id);
+
+            if (!usuario) {
+                return res.status(404).json({
+                    sucesso: false,
+                    erro: "Usuário não encontrado"
+                });
+            }
+
+            delete usuario.senha_hash; // nunca retornar a hash
+
+            return res.json({
+                sucesso: true,
+                dados: usuario
+            });
+
+        } catch (error) {
+            console.error("Erro ao buscar usuário:", error);
+            res.status(500).json({
+                sucesso: false,
+                erro: "Erro interno do servidor"
+            });
+        }
+    }
 }
 
-export default UsuarioController;
+export default UsuarioController

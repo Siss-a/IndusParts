@@ -3,29 +3,24 @@ import { create, read, update, deleteRecord, comparePassword, hashPassword, getC
 // Model para operações com usuários
 class UsuarioModel {
     // Listar todos os usuários (com paginação)
+    // Listar todos os usuários (com paginação)
     static async listarTodos(pagina = 1, limite = 10) {
         try {
             const offset = (pagina - 1) * limite;
 
-            const connection = await getConnection();
-
-            // Buscar usuários com LIMIT e OFFSET
-            const [usuarios] = await connection.execute(
-                `SELECT id, nome_social, email, cnpj, telefone, tipo 
-             FROM usuarios 
-             LIMIT ? OFFSET ?`,
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT SQL_CALC_FOUND_ROWS * FROM usuarios LIMIT ? OFFSET ?",
                 [limite, offset]
             );
 
-            // Buscar total de usuários
-            const [totalResultado] = await connection.execute(
-                `SELECT COUNT(*) AS total FROM usuarios`
-            );
+            const [[{ 'FOUND_ROWS()': total }]] = await conn.query("SELECT FOUND_ROWS()");
 
-            const total = totalResultado[0].total;
+            // Remover senha_hash
+            const usuariosSemSenha = rows.map(({ senha_hash, ...usuario }) => usuario);
 
             return {
-                usuarios,
+                usuarios: usuariosSemSenha,
                 pagina,
                 limite,
                 total,
@@ -36,7 +31,6 @@ class UsuarioModel {
             throw error;
         }
     }
-
 
     // Buscar usuário por ID
     static async buscarPorId(id) {
@@ -83,8 +77,7 @@ class UsuarioModel {
                 email: dadosUsuario.email,
                 cnpj: dadosUsuario.cnpj,
                 telefone: dadosUsuario.telefone,
-                senha_hash: senhaHash,
-                tipo: dadosUsuario.tipo
+                senha_hash: senhaHash
             };
 
             return await create('usuarios', dadosComHash);

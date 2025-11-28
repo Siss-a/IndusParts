@@ -9,6 +9,7 @@ const router = express.Router();
 
 // Rotas de usuários
 router.get('/usuarios', authMiddleware, adminMiddleware, UsuarioController.listarUsuarios);
+router.get('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.buscarUsuario);
 router.post('/usuarios', authMiddleware, adminMiddleware, UsuarioController.criarUsuario);
 router.put('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.atualizarUsuario);
 router.delete('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.excluirUsuario);
