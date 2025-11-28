@@ -56,4 +56,5 @@ form.addEventListener('submit', async (e) => {
             cnpj: cnpj,
             telefone: telefone
         })
-    })})
+    })
+});
