@@ -37,6 +37,8 @@ app.use(cors({
     optionsSuccessStatus: 200 // Responder com 200 para requisições OPTIONS
 }));
 
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
