@@ -10,7 +10,6 @@ import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
 import criptografiaRotas from './routes/criptografiaRotas.js';
 import adminRotas from './routes/adminRotas.js';
-import crudProdutosRoutes from './routes/crudProdutosRoutes.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -80,8 +79,7 @@ app.get('/carrinho', (req, res) => {
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/admin', adminRotas);
-app.use('/api/crud-produtos', crudProdutosRoutes);
-//
+
 
 
 // Rota raiz
