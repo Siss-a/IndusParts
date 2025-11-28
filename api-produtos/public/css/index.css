@@ -102,8 +102,17 @@ header {
     transition: 0.2s ease;
 }
 
+
+
+
+
+
+
+
+
+
 .icones .btn-header:hover {
-    background: #e0ebff;
+    background: rgba(167, 119, 96, 0.171);
     transform: translateY(-2px);
 }
 
