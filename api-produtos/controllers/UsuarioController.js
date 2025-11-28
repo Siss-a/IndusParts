@@ -1,10 +1,8 @@
-import UsuarioModel from '../models/UsuarioModel.js';
-
 class UsuarioController {
     // POST /usuarios - Criar novo usuário (apenas admin)
     static async criarUsuario(req, res) {
         try {
-            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
+            const { nome, email, senha, tipo } = req.body;
 
             // Validações básicas
             if (!nome || nome.trim() === '') {
@@ -65,22 +63,6 @@ class UsuarioController {
                 });
             }
 
-            if (!cnpj || cnpj.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'CNPJ obrigatório',
-                    mensagem: 'O CNPJ é obrigatório'
-                });
-            }
-
-            if (!telefone || telefone.trim() === '') {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Telefone obrigatório',
-                    mensagem: 'O telefone é obrigatório'
-                });
-            }
-
             // Verificar se o email já existe
             const usuarioExistente = await UsuarioModel.buscarPorEmail(email);
             if (usuarioExistente) {
@@ -93,11 +75,9 @@ class UsuarioController {
 
             // Preparar dados do usuário
             const dadosUsuario = {
-                nome_social: nome_social.trim(),
+                nome: nome.trim(),
                 email: email.trim().toLowerCase(),
                 senha: senha,
-                cnpj: cnpj.replace(/[^\d]/g, ''),
-                telefone: telefone.replace(/[^\d]/g, ''),
                 tipo: tipo || 'comum'
             };
 
@@ -111,8 +91,6 @@ class UsuarioController {
                     id: usuarioId,
                     nome: dadosUsuario.nome,
                     email: dadosUsuario.email,
-                    cnpj: dadosUsuario.cnpj,
-                    telefone: dadosUsuario.telefone,
                     tipo: dadosUsuario.tipo
                 }
             });
@@ -130,7 +108,7 @@ class UsuarioController {
     static async atualizarUsuario(req, res) {
         try {
             const { id } = req.params;
-            const { nome, email, senha, telefone, tipo } = req.body;
+            const { nome, email, senha, tipo } = req.body;
 
             // Validação do ID
             if (!id || isNaN(id)) {
@@ -361,6 +339,7 @@ class UsuarioController {
             });
         }
     }
-}
 
-export default UsuarioController;
+}
+    
+export default UsuarioController

@@ -3,40 +3,15 @@ import { create, read, update, deleteRecord, comparePassword, hashPassword, getC
 // Model para operações com usuários
 class UsuarioModel {
     // Listar todos os usuários (com paginação)
-    static async listarTodos(pagina = 1, limite = 10) {
+    static async listarTodos() {
         try {
-            const offset = (pagina - 1) * limite;
-
-            const connection = await getConnection();
-
-            // Buscar usuários com LIMIT e OFFSET
-            const [usuarios] = await connection.execute(
-                `SELECT id, nome_social, email, cnpj, telefone, tipo 
-             FROM usuarios 
-             LIMIT ? OFFSET ?`,
-                [limite, offset]
-            );
-
-            // Buscar total de usuários
-            const [totalResultado] = await connection.execute(
-                `SELECT COUNT(*) AS total FROM usuarios`
-            );
-
-            const total = totalResultado[0].total;
-
-            return {
-                usuarios,
-                pagina,
-                limite,
-                total,
-                totalPaginas: Math.ceil(total / limite)
-            };
+            const response = await read("usuarios");
+            return response;
         } catch (error) {
             console.error('Erro ao listar usuários:', error);
             throw error;
         }
     }
-
 
     // Buscar usuário por ID
     static async buscarPorId(id) {
@@ -83,8 +58,7 @@ class UsuarioModel {
                 email: dadosUsuario.email,
                 cnpj: dadosUsuario.cnpj,
                 telefone: dadosUsuario.telefone,
-                senha_hash: senhaHash,
-                tipo: dadosUsuario.tipo
+                senha_hash: senhaHash
             };
 
             return await create('usuarios', dadosComHash);
