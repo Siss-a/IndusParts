@@ -1,5 +1,5 @@
 /* Verificar ADMIN antes de carregar a página */
-window.addEventListener('DOMContentLoaded', async () => {
+/* window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         window.location.href = "/login";
     }
 });
-
+ */
 
 const form = document.getElementById('formCadastro')
 

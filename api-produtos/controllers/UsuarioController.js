@@ -122,7 +122,7 @@ class UsuarioController {
     static async atualizarUsuario(req, res) {
         try {
             const { id } = req.params;
-            const { nome_social, email, senha, tipo } = req.body;
+            const { nome_social, email, senha, telefone, tipo } = req.body;
 
             // Validação do ID
             if (!id || isNaN(id)) {
