@@ -1,8 +1,8 @@
 -- Migration: Criar tabela usuarios
--- Data: 2025-11-18
+-- Data: 2025-11-23
 -- Descrição: Tabela para armazenar usuários do sistema
 
-USE produtos_api;
+USE indusparts;
 
 
 -- Tabela de Usuários/Empresas
@@ -13,17 +13,6 @@ CREATE TABLE usuarios (
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
     cnpj VARCHAR(18) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    telefone VARCHAR(20)
+    telefone VARCHAR(20),
+    tipo ENUM('admin', 'comum') DEFAULT 'comum' NOT NULL
 );
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,7 +8,7 @@ class AuthController {
     // POST /auth/login - Fazer login
     static async login(req, res) {
         try {
-            const { email, senha_hash } = req.body;
+            const { email, senha } = req.body;
 
             // Validações básicas
             if (!email || email.trim() === '') {
@@ -19,7 +19,7 @@ class AuthController {
                 });
             }
 
-            if (!senha_hash || senha_hash.trim() === '') {
+            if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
@@ -38,7 +38,7 @@ class AuthController {
             }
 
             // Verificar credenciais
-            const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha_hash);
+            const usuario = await UsuarioModel.verificarCredenciais(email.trim(), senha);
 
             if (!usuario) {
                 return res.status(401).json({
@@ -53,7 +53,7 @@ class AuthController {
                 {
                     id: usuario.id,
                     email: usuario.email,
-                    cnpj: usuario.cnpj
+                    tipo: usuario.tipo
                 },
                 JWT_CONFIG.secret,
                 { expiresIn: JWT_CONFIG.expiresIn }
@@ -84,7 +84,7 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            const { nome_social, email, senha_hash, cnpj, telefone /*, tipo */} = req.body;
+            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
 
             // Validações básicas
             if (!nome_social || nome_social.trim() === '') {
@@ -103,7 +103,7 @@ class AuthController {
                 });
             }
 
-            if (!senha_hash || senha_hash.trim() === '') {
+            if (!senha || senha.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha obrigatória',
@@ -119,7 +119,13 @@ class AuthController {
                 });
             }
 
-
+            if (!telefone || telefone.trim() === '') {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Telefone obrigatório',
+                    mensagem: 'O telefone é obrigatório'
+                });
+            }
 
             // Validações de formato
             if (nome_social.length < 2) {
@@ -147,11 +153,11 @@ class AuthController {
                 });
             }
 
-            if (senha_hash.length < 6) {
+            if (senha.length < 8) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'senha muito curta',
-                    mensagem: 'A senha deve ter pelo menos 6 caracteres'
+                    mensagem: 'A senha deve ter pelo menos 8 caracteres'
                 });
             }
 
@@ -179,9 +185,10 @@ class AuthController {
             const dadosUsuario = {
                 nome_social: nome_social.trim(),
                 email: email.trim().toLowerCase(),
-                senha_hash: senha_hash, // Será criptografada no Model
-                cnpj: cnpj.replace(/[^\d]/g, ''), // Remove formatação
-                telefone: telefone || null
+                senha: senha, 
+                cnpj: cnpj.replace(/[^\d]/g, ''),
+                telefone: telefone.replace(/[^\d]/g, '') || null,
+                tipo: tipo || 'comum'
             };
 
             // Criar usuário
@@ -194,8 +201,9 @@ class AuthController {
                     id: usuarioId,
                     nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
-                    cnpj: dadosUsuario.cnpj
-                    /* tipo: dadosUsuario.tipo */
+                    cnpj: dadosUsuario.cnpj,
+                    telefone: dadosUsuario.telefone,
+                    tipo: dadosUsuario.tipo
                 }
             });
         } catch (error) {
@@ -207,11 +215,6 @@ class AuthController {
             });
         }
     }
-
-
-
-
 }
 
 export default AuthController;
-
