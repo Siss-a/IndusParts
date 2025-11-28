@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         });
 
         // Se o middleware do backend bloquear → não é admin
-        if (res.status === 401 || res.status === 403) {
+        if (res.status === 403) {
             alert("Acesso restrito aos administradores.");
             window.location.href = '/perfil';
             return;

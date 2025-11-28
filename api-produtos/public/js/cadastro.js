@@ -4,6 +4,7 @@ const form = document.getElementById('cadastroForm');
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+
     const usuario = document.getElementById('nome_social').value;
     const senha = document.getElementById('senhaCadastro').value;
     const email = document.getElementById('emailCadastro').value;
