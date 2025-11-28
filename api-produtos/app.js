@@ -6,9 +6,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Importar rotas
-import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
 import adminRotas from './routes/adminRotas.js';
+import usuariosRotas from './routes/usuariosRotas.js'
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -73,6 +73,7 @@ app.get('/catalogo', (req, res) => {
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/admin', adminRotas);
+app.use('/api/usuarios', usuariosRotas);
 //
 
 

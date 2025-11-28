@@ -8,20 +8,9 @@ import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.j
 
 const router = express.Router();
 
-// Rotas de usuários
-router.get('/usuarios', authMiddleware, adminMiddleware, UsuarioController.listarUsuarios);
-router.get('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.buscarUsuario);
-router.post('/usuarios', authMiddleware, adminMiddleware, UsuarioController.criarUsuario);
-router.put('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.atualizarUsuario);
-router.delete('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.excluirUsuario);
-
-// Rotas de produtos
-router.get('/produtos', authMiddleware, adminMiddleware, ProdutoController.listarTodos);
-router.post('/produtos', authMiddleware, adminMiddleware, uploadImagem.single('imagem'), ProdutoController.criarProduto);
-router.post('/produtos/upload', authMiddleware, adminMiddleware, uploadImagem.single('imagem'), ProdutoController.uploadImagem);
-router.put('/produtos/:id', authMiddleware, adminMiddleware, uploadImagem.single('imagem'), ProdutoController.atualizar);
-router.delete('/produtos/:id', authMiddleware, adminMiddleware, ProdutoController.excluir);
-
+//Rotas de usuários comum
+router.get('/produtos', ProdutoController.listarTodos);
+router.get('/produtos/:id', ProdutoController.buscarPorId);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/usuarios', (req, res) => {
@@ -46,11 +35,11 @@ router.options('/produtos', (req, res) => {
 });
 
 
-router.options('/produtos/upload', (req, res) => {
+router.options('/upload', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.sendStatus(200);
+    res.status(200).send();
 });
 
 

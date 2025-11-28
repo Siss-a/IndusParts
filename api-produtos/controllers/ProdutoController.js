@@ -12,7 +12,7 @@ class ProdutoController {
     // GET /produtos - Listar todos os produtos (com paginação)
     static async listarTodos(req, res) {
         try {
-           
+
             let pagina = parseInt(req.query.pagina) || 1;
             let limite = parseInt(req.query.limite) || 10;
 
@@ -42,16 +42,16 @@ class ProdutoController {
 
             const offset = (pagina - 1) * limite;
 
-            const resultado = await ProdutoModel.listarTodos(limite, offset); 
+            const resultado = await ProdutoModel.listarTodos(limite, offset);
 
             res.status(200).json({
                 sucesso: true,
                 dados: resultado.produtos,
                 paginacao: {
-                    pagina: resultado.pagina, 
-                    limite: resultado.limite, 
-                    total: resultado.total,   
-                    totalPaginas: resultado.totalPaginas 
+                    pagina: resultado.pagina,
+                    limite: resultado.limite,
+                    total: resultado.total,
+                    totalPaginas: resultado.totalPaginas
                 }
             });
         } catch (error) {
@@ -103,7 +103,7 @@ class ProdutoController {
     }
 
     // POST /produtos - Criar novo produto
-    static async criar(req, res) {
+    static async criarProduto(req, res) {
         try {
             const { nome, descricao, preco, categoria } = req.body;
 

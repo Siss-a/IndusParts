@@ -1,35 +1,37 @@
-// Função para obter o token do localStorage
-function getToken() {
+/* window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
+
     if (!token) {
-        alert('Você precisa estar logado para acessar esta página');
         window.location.href = '/login';
-        return null;
-    }
-    return token;
-}
-
-// Função para fazer requisições autenticadas
-async function fetchWithAuth(url, options = {}) {
-    const token = getToken();
-    if (!token) return null;
-
-    const headers = {
-        'Authorization': `Bearer ${token}`,
-        ...options.headers
-    };
-
-    const response = await fetch(url, { ...options, headers });
-    
-    if (response.status === 401) {
-        alert('Sessão expirada. Faça login novamente.');
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-        return null;
+        return;
     }
 
-    return response;
-}
+    try {
+        const res = await fetch('/api/admin/produtos', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Se o middleware do backend bloquear → não é admin
+        if (res.status === 401 || res.status === 403) {
+            alert("Acesso restrito aos administradores.");
+            window.location.href = '/perfil';
+            return;
+        }
+
+        // usuário é admin → continua a página normalmente
+        const resposta = await res.json();
+        console.log("Admin confirmado:", resposta);
+
+    } catch (error) {
+        console.error("Erro ao validar administrador:", error);
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    } 
+}); */
 
 // Objeto que guarda os filtros aplicados pelo usuário (igual ao catálogo)
 const filtros = {
@@ -53,39 +55,45 @@ function debounce(fn, delay = 300) {
 document.getElementById('formCadastro').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token")
+
     const formData = new FormData();
     formData.append('nome', document.getElementById('nome').value);
     formData.append('descricao', document.getElementById('descricao').value);
     formData.append('preco', document.getElementById('preco').value);
     formData.append('categoria', document.getElementById('id_categoria').value);
-    
+
     const imagemFile = document.getElementById('imagem').files[0];
     if (imagemFile) {
         formData.append('imagem', imagemFile);
     }
 
     try {
-        const response = await fetchWithAuth('/api/crud-produtos', {
+        const response = await fetch('/api/admin/produtos', {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: formData
         });
+
 
         if (!response) return;
 
         const dados = await response.json();
 
         if (response.ok) {
-            document.getElementById('mensagemCadastro').innerHTML = 
+            document.getElementById('mensagemCadastro').innerHTML =
                 `<p style="color: green;">✅ ${dados.mensagem}</p>`;
             document.getElementById('formCadastro').reset();
             carregarProdutos(); // Recarrega a lista
         } else {
-            document.getElementById('mensagemCadastro').innerHTML = 
+            document.getElementById('mensagemCadastro').innerHTML =
                 `<p style="color: red;">❌ Erro: ${dados.mensagem || dados.erro}</p>`;
         }
     } catch (error) {
         console.error('Erro ao cadastrar produto:', error);
-        document.getElementById('mensagemCadastro').innerHTML = 
+        document.getElementById('mensagemCadastro').innerHTML =
             `<p style="color: red;">❌ Erro ao cadastrar produto</p>`;
     }
 });
@@ -97,7 +105,7 @@ async function carregarProdutos() {
 
     try {
         // Buscar todos os produtos
-        const response = await fetchWithAuth(`/api/crud-produtos?pagina=${filtros.pagina}&limite=${filtros.limite}`);
+        const response = await fetchWithAuth(`/api/admin/produtos?pagina=${filtros.pagina}&limite=${filtros.limite}`);
         if (!response) return;
 
         const dados = await response.json();
@@ -106,7 +114,7 @@ async function carregarProdutos() {
             let produtos = dados.dados;
 
             // Aplicar filtros localmente (igual ao catálogo)
-            
+
             // Filtro por texto (busca no nome)
             if (filtros.texto) {
                 produtos = produtos.filter(p =>
@@ -116,7 +124,7 @@ async function carregarProdutos() {
 
             // Filtro por categoria
             if (filtros.categoria) {
-                produtos = produtos.filter(p => 
+                produtos = produtos.filter(p =>
                     p.categoria && p.categoria.toLowerCase() === filtros.categoria.toLowerCase()
                 );
             }
@@ -162,41 +170,50 @@ async function carregarProdutos() {
                 </div>
             `).join('');
         } else {
-            listaProdutos.innerHTML = 
+            listaProdutos.innerHTML =
                 `<p style="color: red;">❌ Erro ao carregar produtos: ${dados.mensagem}</p>`;
         }
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
-        listaProdutos.innerHTML = 
+        listaProdutos.innerHTML =
             `<p style="color: red;">❌ Erro ao carregar produtos</p>`;
     }
 }
 
 // Editar produto
-window.editarProduto = async function(id) {
+window.editarProduto = async function (id) {
     try {
-        const response = await fetchWithAuth(`/api/crud-produtos/${id}`);
-        if (!response) return;
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`/api/admin/produtos/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         const dados = await response.json();
-
-        if (response.ok) {
-            const produto = dados.dados;
-            
-            document.getElementById('edit_id').value = produto.id;
-            document.getElementById('edit_nome').value = produto.nome;
-            document.getElementById('edit_descricao').value = produto.descricao || '';
-            document.getElementById('edit_preco').value = produto.preco;
-            document.getElementById('edit_categoria').value = produto.categoria || '';
-            
-            document.getElementById('secaoEdicao').style.display = 'block';
-            document.getElementById('secaoEdicao').scrollIntoView({ behavior: 'smooth' });
+        if (!response.ok) {
+            alert('❌ Erro ao buscar produto');
+            return;
         }
+
+        const produto = dados.dados;
+
+        document.getElementById('edit_id').value = produto.id;
+        document.getElementById('edit_nome').value = produto.nome;
+        document.getElementById('edit_descricao').value = produto.descricao || '';
+        document.getElementById('edit_preco').value = produto.preco;
+        document.getElementById('edit_categoria').value = produto.categoria || '';
+        document.getElementById('secaoEdicao').style.display = 'block';
+        document.getElementById('secaoEdicao').scrollIntoView({ behavior: 'smooth' });
+
     } catch (error) {
         console.error('Erro ao buscar produto:', error);
         alert('❌ Erro ao carregar dados do produto');
     }
 };
+
 
 // Salvar edição
 document.getElementById('formEdicao').addEventListener('submit', async (e) => {
@@ -204,19 +221,19 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
 
     const id = document.getElementById('edit_id').value;
     const formData = new FormData();
-    
+
     formData.append('nome', document.getElementById('edit_nome').value);
     formData.append('descricao', document.getElementById('edit_descricao').value);
     formData.append('preco', document.getElementById('edit_preco').value);
     formData.append('categoria', document.getElementById('edit_categoria').value);
-    
+
     const imagemFile = document.getElementById('edit_imagem').files[0];
     if (imagemFile) {
         formData.append('imagem', imagemFile);
     }
 
     try {
-        const response = await fetchWithAuth(`/api/crud-produtos/${id}`, {
+        const response = await fetchWithAuth(`/api/admin/produtos/${id}`, {
             method: 'PUT',
             body: formData
         });
@@ -226,38 +243,38 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
         const dados = await response.json();
 
         if (response.ok) {
-            document.getElementById('mensagemEdicao').innerHTML = 
+            document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: green;">✅ ${dados.mensagem}</p>`;
             setTimeout(() => {
                 cancelarEdicao();
                 carregarProdutos();
             }, 1500);
         } else {
-            document.getElementById('mensagemEdicao').innerHTML = 
+            document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: red;">❌ Erro: ${dados.mensagem || dados.erro}</p>`;
         }
     } catch (error) {
         console.error('Erro ao atualizar produto:', error);
-        document.getElementById('mensagemEdicao').innerHTML = 
+        document.getElementById('mensagemEdicao').innerHTML =
             `<p style="color: red;">❌ Erro ao atualizar produto</p>`;
     }
 });
 
 // Cancelar edição
-window.cancelarEdicao = function() {
+window.cancelarEdicao = function () {
     document.getElementById('secaoEdicao').style.display = 'none';
     document.getElementById('formEdicao').reset();
     document.getElementById('mensagemEdicao').innerHTML = '';
 };
 
 // Excluir produto
-window.excluirProduto = async function(id) {
+window.excluirProduto = async function (id) {
     if (!confirm('⚠️ Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita!')) {
         return;
     }
 
     try {
-        const response = await fetchWithAuth(`/api/crud-produtos/${id}`, {
+        const response = await fetchWithAuth(`/api/admin/produtos/${id}`, {
             method: 'DELETE'
         });
 
