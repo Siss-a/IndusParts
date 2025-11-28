@@ -354,6 +354,41 @@ class UsuarioController {
         }
     }
 
+    static async buscarUsuario(req, res) {
+        try {
+            const id = req.params.id;
+
+            if (!id || isNaN(id)) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: "ID inválido"
+                });
+            }
+
+            const usuario = await UsuarioModel.buscarPorId(id);
+
+            if (!usuario) {
+                return res.status(404).json({
+                    sucesso: false,
+                    erro: "Usuário não encontrado"
+                });
+            }
+
+            delete usuario.senha_hash; // nunca retornar a hash
+
+            return res.json({
+                sucesso: true,
+                dados: usuario
+            });
+
+        } catch (error) {
+            console.error("Erro ao buscar usuário:", error);
+            res.status(500).json({
+                sucesso: false,
+                erro: "Erro interno do servidor"
+            });
+        }
+    }
 }
 
 export default UsuarioController
