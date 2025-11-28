@@ -63,6 +63,12 @@ app.get('/crud-produtos', (req, res) => {
 app.get('/crud-usuarios', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
 });
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+});
+app.get('/catalogo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
