@@ -7,7 +7,7 @@ class UsuarioController {
             const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
 
             // Validações básicas
-            if (!nome || nome.trim() === '') {
+            if (!nome_social || nome_social.trim() === '') {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome obrigatório',
@@ -32,7 +32,7 @@ class UsuarioController {
             }
 
             // Validações de formato
-            if (nome.length < 2) {
+            if (nome_social.length < 2) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome muito curto',
@@ -40,7 +40,7 @@ class UsuarioController {
                 });
             }
 
-            if (nome.length > 255) {
+            if (nome_social.length > 255) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Nome muito longo',
@@ -109,7 +109,7 @@ class UsuarioController {
                 mensagem: 'Usuário criado com sucesso',
                 dados: {
                     id: usuarioId,
-                    nome: dadosUsuario.nome,
+                    nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
                     cnpj: dadosUsuario.cnpj,
                     telefone: dadosUsuario.telefone,
@@ -130,7 +130,7 @@ class UsuarioController {
     static async atualizarUsuario(req, res) {
         try {
             const { id } = req.params;
-            const { nome, email, senha, telefone, tipo } = req.body;
+            const { nome_social, email, senha, telefone, tipo } = req.body;
 
             // Validação do ID
             if (!id || isNaN(id)) {
@@ -154,22 +154,22 @@ class UsuarioController {
             // Preparar dados para atualização
             const dadosAtualizacao = {};
 
-            if (nome !== undefined) {
-                if (nome.trim() === '') {
+            if (nome_social !== undefined) {
+                if (nome_social.trim() === '') {
                     return res.status(400).json({
                         sucesso: false,
                         erro: 'Nome inválido',
                         mensagem: 'O nome não pode estar vazio'
                     });
                 }
-                if (nome.length < 2) {
+                if (nome_social.length < 2) {
                     return res.status(400).json({
                         sucesso: false,
                         erro: 'Nome muito curto',
                         mensagem: 'O nome deve ter pelo menos 2 caracteres'
                     });
                 }
-                dadosAtualizacao.nome = nome.trim();
+                dadosAtualizacao.nome_social = nome_social.trim();
             }
 
             if (email !== undefined) {
