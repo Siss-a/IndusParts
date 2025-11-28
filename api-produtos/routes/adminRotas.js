@@ -17,11 +17,11 @@ router.delete('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioControlle
 
 // Rotas de produtos
 router.get('/produtos', authMiddleware, adminMiddleware, ProdutoController.listarTodos);
+router.get('/produtos/:id', authMiddleware, adminMiddleware, ProdutoController.buscarPorId);
 router.post('/produtos', authMiddleware, adminMiddleware, uploadImagem.single('imagem'), ProdutoController.criarProduto);
 router.post('/produtos/upload', authMiddleware, adminMiddleware, uploadImagem.single('imagem'), ProdutoController.uploadImagem);
 router.put('/produtos/:id', authMiddleware, adminMiddleware, uploadImagem.single('imagem'), ProdutoController.atualizar);
 router.delete('/produtos/:id', authMiddleware, adminMiddleware, ProdutoController.excluir);
-
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/usuarios', (req, res) => {
@@ -33,18 +33,17 @@ router.options('/usuarios', (req, res) => {
 
 router.options('/usuarios/:id', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.sendStatus(200);
 });
 
 router.options('/produtos', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).send();
+    res.sendStatus(200);
 });
-
 
 router.options('/produtos/upload', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -53,12 +52,12 @@ router.options('/produtos/upload', (req, res) => {
     res.sendStatus(200);
 });
 
-
 router.options('/produtos/:id', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).send();
+    res.sendStatus(200);
 });
+
 
 export default router;

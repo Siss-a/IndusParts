@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 
 // Criar diretório de uploads se não existir
-const uploadsDir = path.join(__dirname, '..', 'uploads');
+const uploadsDir = path.join(__dirname, '..', 'uploads', 'imagens');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
