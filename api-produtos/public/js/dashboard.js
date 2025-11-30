@@ -28,10 +28,10 @@ window.addEventListener("scroll", () => {
 window.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
 
-  /* if (!token) {
+  if (!token) {
         window.location.href = '/login';
         return;
-    } */
+    }
 
   try {
     const res = await fetch("/api/auth/perfil", {
@@ -42,11 +42,11 @@ window.addEventListener("DOMContentLoaded", async () => {
       },
     });
 
-    /*  if (res.status === 401) {
+     if (res.status === 401) {
              localStorage.removeItem('token');
              window.location.href = '/login';
              return;
-         } */
+         }
 
     const resposta = await res.json(); //transforma em objeto JavaScript
     const usuario = resposta.dados;

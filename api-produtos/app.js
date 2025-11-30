@@ -80,8 +80,6 @@ app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/admin', adminRotas);
 
-
-
 // Rota raiz
 app.get('/', (req, res) => {
     res.json({
