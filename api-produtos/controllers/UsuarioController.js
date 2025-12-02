@@ -202,6 +202,10 @@ class UsuarioController {
                 dadosAtualizacao.tipo = tipo;
             }
 
+            if (telefone !== undefined) {
+                dadosAtualizacao.telefone = telefone;
+            }
+
             // Verificar se há dados para atualizar
             if (Object.keys(dadosAtualizacao).length === 0) {
                 return res.status(400).json({

@@ -25,7 +25,37 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 
 // Middlewares globais
-app.use(helmet()); // Segurança HTTP
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            scriptSrcElem: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.googleapis.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.gstatic.com"
+            ],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"]
+        }
+    }
+}));
 
 // Configuração CORS global
 app.use(cors({

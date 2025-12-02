@@ -97,7 +97,7 @@
         <hr>
 
         <!-- Modal de Edição de Usuário -->
-        <div class="modal fade" id="modalEdicao" style="background-color: red;" tabindex="-1">
+        <div class="modal fade" id="modalEdicao" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
 
@@ -125,7 +125,14 @@
                                 <input type="text" id="edit_telefone" class="form-control" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <div class="mb-2">
+                                <label class="form-label" for="tipo">Tipo:</label>
+                                <select id="editTipo" class="form-control" required>
+                                    <option value="comum">Comum</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btnSalvarEdicao">Salvar</button>
                         </form>
                     </div>
 
