@@ -1,67 +1,109 @@
-// models/PedidoModel.js
-import { getConnection } from "../config/database.js";
+import { create, read, update, deleteRecord, getConnection } from '../config/database.js';
 
 class PedidoModel {
-  static async criarPedidoComItens(id_usuario, endereco, itens) {
-    const connection = await getConnection();
-    try {
-      await connection.beginTransaction();
 
-      // gerar número de pedido simples (ex: PED-20251127-1234) - você pode customizar
-      const numeroPedido = `PED-${Date.now()}`;
+    // Criar pedido completo
+    static async criarPedido(usuarioId, total, status = "pendente") {
+        try {
+            return await create('pedidos', {
+                usuario_id: usuarioId,
+                total,
+                status,
+                data_criacao: new Date()
+            });
 
-      const [resPedido] = await connection.execute(
-        "INSERT INTO pedidos (numero_pedido, id_cliente_empresa, endereco) VALUES (?, ?, ?)",
-        [numeroPedido, id_usuario, endereco]
-      );
-      const id_pedido = resPedido.insertId;
-
-      // inserir itens
-      const insertPromises = itens.map(item =>
-        connection.execute(
-          "INSERT INTO pedido_itens (id_pedido, id_produto, quantidade, preco_unitario) VALUES (?, ?, ?, ?)",
-          [id_pedido, item.id_produto, item.quantidade, item.preco_unitario]
-        )
-      );
-
-      await Promise.all(insertPromises);
-
-      await connection.commit();
-
-      return { id_pedido, numeroPedido };
-    } catch (err) {
-      await connection.rollback();
-      throw err;
-    } finally {
-      connection.release();
+        } catch (error) {
+            console.error("Erro ao criar pedido:", error);
+            throw error;
+        }
     }
-  }
 
-  static async buscarPorId(id_pedido) {
-    const connection = await getConnection();
-    try {
-      const [pedidoRows] = await connection.execute(
-        "SELECT * FROM pedidos WHERE id = ?",
-        [id_pedido]
-      );
-      if (!pedidoRows.length) return null;
+    // Adicionar item ao pedido
+    static async adicionarItem(pedidoId, produtoId, quantidade, precoUnitario) {
+        try {
+            const subtotal = quantidade * precoUnitario;
 
-      const pedido = pedidoRows[0];
+            return await create('pedidos_itens', {
+                pedido_id: pedidoId,
+                produto_id: produtoId,
+                quantidade,
+                preco_unitario: precoUnitario,
+                subtotal
+            });
 
-      const [itens] = await connection.execute(
-        `SELECT pi.id, pi.id_produto, pi.quantidade, pi.preco_unitario, p.nome, p.img
-         FROM pedido_itens pi
-         JOIN produtos p ON p.id = pi.id_produto
-         WHERE pi.id_pedido = ?`,
-        [id_pedido]
-      );
-
-      pedido.itens = itens;
-      return pedido;
-    } finally {
-      connection.release();
+        } catch (error) {
+            console.error("Erro ao adicionar item ao pedido:", error);
+            throw error;
+        }
     }
-  }
+
+    // Buscar pedido + itens pelo ID
+    static async buscarPorId(pedidoId) {
+        try {
+            const conn = await getConnection();
+
+            // Pedido
+            const [pedidoRows] = await conn.query(
+                "SELECT * FROM pedidos WHERE id = ?",
+                [pedidoId]
+            );
+
+            if (pedidoRows.length === 0) return null;
+
+            const pedido = pedidoRows[0];
+
+            // Itens
+            const [itensRows] = await conn.query(
+                `SELECT i.*, p.nome, p.descricao, p.imagem
+                   FROM pedidos_itens i
+                   JOIN produtos p ON i.produto_id = p.id
+                  WHERE i.pedido_id = ?`,
+                [pedidoId]
+            );
+
+            return {
+                ...pedido,
+                itens: itensRows
+            };
+
+        } catch (error) {
+            console.error("Erro ao buscar pedido:", error);
+            throw error;
+        }
+    }
+
+    // Listar pedidos do usuário
+    static async listarPorUsuario(usuarioId) {
+        try {
+            const conn = await getConnection();
+
+            const [rows] = await conn.query(
+                "SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY data_criacao DESC",
+                [usuarioId]
+            );
+
+            return rows;
+
+        } catch (error) {
+            console.error("Erro ao listar pedidos:", error);
+            throw error;
+        }
+    }
+
+    // Atualizar status (ex: pago, enviado, cancelado...)
+    static async atualizarStatus(pedidoId, status) {
+        try {
+            return await update(
+                'pedidos',
+                { status },
+                `id = ${pedidoId}`
+            );
+
+        } catch (error) {
+            console.error("Erro ao atualizar status do pedido:", error);
+            throw error;
+        }
+    }
 }
 
 export default PedidoModel;

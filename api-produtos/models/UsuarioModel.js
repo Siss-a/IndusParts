@@ -1,9 +1,7 @@
 import { create, read, update, deleteRecord, comparePassword, hashPassword, getConnection } from '../config/database.js';
 
-// Model para operações com usuários
 class UsuarioModel {
-    // Listar todos os usuários (com paginação)
-    // Listar todos os usuários (com paginação)
+
     static async listarTodos(pagina = 1, limite = 10) {
         try {
             const offset = (pagina - 1) * limite;
@@ -16,7 +14,6 @@ class UsuarioModel {
 
             const [[{ 'FOUND_ROWS()': total }]] = await conn.query("SELECT FOUND_ROWS()");
 
-            // Remover senha_hash
             const usuariosSemSenha = rows.map(({ senha_hash, ...usuario }) => usuario);
 
             return {
@@ -32,10 +29,14 @@ class UsuarioModel {
         }
     }
 
-    // Buscar usuário por ID
     static async buscarPorId(id) {
         try {
-            const rows = await read('usuarios', `id = ${id}`);
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT * FROM usuarios WHERE id = ?",
+                [id]
+            );
+            conn.release();
             return rows[0] || null;
         } catch (error) {
             console.error('Erro ao buscar usuário por ID:', error);
@@ -43,10 +44,14 @@ class UsuarioModel {
         }
     }
 
-    // Buscar usuário por email
     static async buscarPorEmail(email) {
         try {
-            const rows = await read('usuarios', `email = '${email}'`);
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT * FROM usuarios WHERE email = ?",
+                [email]
+            );
+            conn.release();
             return rows[0] || null;
         } catch (error) {
             console.error('Erro ao buscar usuário por email:', error);
@@ -57,7 +62,12 @@ class UsuarioModel {
     static async buscarPorCNPJ(cnpj) {
         try {
             const cnpjLimpo = cnpj.replace(/[^\d]/g, '');
-            const rows = await read('usuarios', `cnpj = '${cnpjLimpo}'`);
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT * FROM usuarios WHERE cnpj = ?",
+                [cnpjLimpo]
+            );
+            conn.release();
             return rows[0] || null;
         }
         catch (error) {
@@ -66,10 +76,8 @@ class UsuarioModel {
         }
     }
 
-    // Criar novo usuário
     static async criar(dadosUsuario) {
         try {
-            // Hash da senha antes de salvar
             const senhaHash = await hashPassword(dadosUsuario.senha);
 
             const dadosComHash = {
@@ -87,33 +95,45 @@ class UsuarioModel {
         }
     }
 
-    // Atualizar usuário
     static async atualizar(id, dadosUsuario) {
         try {
-            // Se a senha foi fornecida, fazer hash
             if (dadosUsuario.senha) {
                 dadosUsuario.senha_hash = await hashPassword(dadosUsuario.senha);
                 delete dadosUsuario.senha;
             }
 
-            return await update('usuarios', dadosUsuario, `id = ${id}`);
+            const conn = await getConnection();
+            const set = Object.keys(dadosUsuario)
+                .map(column => `${column} = ?`)
+                .join(', ');
+
+            const sql = `UPDATE usuarios SET ${set} WHERE id = ?`;
+            const values = [...Object.values(dadosUsuario), id];
+
+            const [result] = await conn.execute(sql, values);
+            conn.release();
+            return result.affectedRows;
         } catch (error) {
             console.error('Erro ao atualizar usuário:', error);
             throw error;
         }
     }
 
-    // Excluir usuário
     static async excluir(id) {
         try {
-            return await deleteRecord('usuarios', `id = ${id}`);
+            const conn = await getConnection();
+            const [result] = await conn.execute(
+                "DELETE FROM usuarios WHERE id = ?",
+                [id]
+            );
+            conn.release();
+            return result.affectedRows;
         } catch (error) {
             console.error('Erro ao excluir usuário:', error);
             throw error;
         }
     }
 
-    // Verificar credenciais de login
     static async verificarCredenciais(email, senha) {
         try {
             const usuario = await this.buscarPorEmail(email);
@@ -128,7 +148,6 @@ class UsuarioModel {
                 return null;
             }
 
-            // Retornar usuário sem a senha
             const { senha_hash: _, ...usuarioSemSenha } = usuario;
             return usuarioSemSenha;
         } catch (error) {

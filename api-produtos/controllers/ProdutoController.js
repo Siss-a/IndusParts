@@ -1,387 +1,297 @@
 import ProdutoModel from '../models/ProdutoModel.js';
-import { fileURLToPath } from 'url';
-import path from 'path';
-import { removerArquivoAntigo } from '../middlewares/uploadMiddleware.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Controller para operações com produtos
 class ProdutoController {
 
-    // GET /produtos - Listar todos os produtos (com paginação)
-    static async listarTodos(req, res) {
-        try {
-           
-            let pagina = parseInt(req.query.pagina) || 1;
-            let limite = parseInt(req.query.limite) || 10;
+  // POST /produtos
+  static async criarProduto(req, res) {
+    try {
+      const { nome, descricao, id_categoria, fornecedor, tipo, especificacoes, ativo } = req.body;
 
-            if (pagina <= 0) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Página inválida',
-                    mensagem: 'A página deve ser um número maior que zero'
-                });
-            }
-            if (limite <= 0) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Limite inválido',
-                    mensagem: 'O limite deve ser um número maior que zero'
-                });
-            }
+      // Validações básicas
+      if (!nome?.trim()) {
+        return res.status(400).json({ sucesso: false, erro: 'Nome obrigatório' });
+      }
 
-            const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
-            if (limite > limiteMaximo) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Limite inválido',
-                    mensagem: `O limite deve ser um número entre 1 e ${limiteMaximo}`
-                });
-            }
+      if (!descricao?.trim()) {
+        return res.status(400).json({ sucesso: false, erro: 'Descrição obrigatória' });
+      }
 
-            const offset = (pagina - 1) * limite;
+      if (!id_categoria) {
+        return res.status(400).json({ sucesso: false, erro: 'Categoria obrigatória' });
+      }
 
-            const resultado = await ProdutoModel.listarTodos(limite, offset); 
+      if (!fornecedor?.trim()) {
+        return res.status(400).json({ sucesso: false, erro: 'Fornecedor obrigatório' });
+      }
 
-            res.status(200).json({
-                sucesso: true,
-                dados: resultado.produtos,
-                paginacao: {
-                    pagina: resultado.pagina, 
-                    limite: resultado.limite, 
-                    total: resultado.total,   
-                    totalPaginas: resultado.totalPaginas 
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao listar produtos:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível listar os produtos'
-            });
-        }
+      if (!tipo?.trim()) {
+        return res.status(400).json({ sucesso: false, erro: 'Tipo obrigatório' });
+      }
+
+      if (!especificacoes?.trim()) {
+        return res.status(400).json({ sucesso: false, erro: 'Especificações obrigatórias' });
+      }
+
+      // Nome duplicado
+      const produtoExistente = await ProdutoModel.buscarPorNome(nome.trim());
+      if (produtoExistente) {
+        return res.status(409).json({ sucesso: false, erro: 'Produto já cadastrado' });
+      }
+
+      // Converter ativo para boolean
+      let valorAtivo = true;
+      if (typeof ativo === "boolean") {
+        valorAtivo = ativo;
+      } else if (typeof ativo === "string") {
+        valorAtivo = ativo.toLowerCase() === "true";
+      }
+
+      const imagem = req.file ? `/uploads/produtos/${req.file.filename}` : null;
+
+      // Dados finalizados
+      const dadosProduto = {
+        nome: nome.trim(),
+        descricao: descricao.trim(),
+        id_categoria,
+        fornecedor: fornecedor.trim().toLowerCase(),
+        tipo: tipo.trim(),
+        especificacoes: especificacoes.trim(),
+        ativo: valorAtivo,
+        imagem
+      };
+
+      const produtoId = await ProdutoModel.criar(dadosProduto);
+
+      return res.status(201).json({
+        sucesso: true,
+        mensagem: 'Produto criado com sucesso',
+        dados: { id: produtoId, ...dadosProduto }
+      });
+
+    } catch (error) {
+      console.error('Erro ao criar produto:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro interno ao criar produto' });
     }
+  }
 
-    // GET /produtos/:id - Buscar produto por ID
-    static async buscarPorId(req, res) {
-        try {
-            const { id } = req.params;
+  // PUT /produtos/:id
+  static async atualizarProduto(req, res) {
+    try {
+      const { id } = req.params;
 
-            // Validação básica do ID
-            if (!id || isNaN(id)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'ID inválido',
-                    mensagem: 'O ID deve ser um número válido'
-                });
-            }
+      if (!id || isNaN(id)) {
+        return res.status(400).json({ sucesso: false, erro: 'ID inválido' });
+      }
 
-            const produto = await ProdutoModel.buscarPorId(id);
+      const existente = await ProdutoModel.buscarPorId(id);
 
-            if (!produto) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Produto não encontrado',
-                    mensagem: `Produto com ID ${id} não foi encontrado`
-                });
-            }
+      if (!existente) {
+        return res.status(404).json({ sucesso: false, erro: 'Produto não encontrado' });
+      }
 
-            res.status(200).json({
-                sucesso: true,
-                dados: produto
-            });
-        } catch (error) {
-            console.error('Erro ao buscar produto:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível buscar o produto'
-            });
+      const { nome, descricao, id_categoria, fornecedor, tipo, especificacoes, ativo } = req.body;
+      const dadosAtualizacao = {};
+
+      if (nome !== undefined) {
+        if (!nome.trim()) {
+          return res.status(400).json({ sucesso: false, erro: 'Nome inválido' });
         }
-    }
-
-    // POST /produtos - Criar novo produto
-    static async criar(req, res) {
-        try {
-            const { nome, descricao, preco, categoria } = req.body;
-
-            // Validações manuais - coletar todos os erros
-            const erros = [];
-
-            // Validar nome
-            if (!nome || nome.trim() === '') {
-                erros.push({
-                    campo: 'nome',
-                    mensagem: 'Nome é obrigatório'
-                });
-            } else {
-                if (nome.trim().length < 3) {
-                    erros.push({
-                        campo: 'nome',
-                        mensagem: 'O nome deve ter pelo menos 3 caracteres'
-                    });
-                }
-
-                if (nome.trim().length > 255) {
-                    erros.push({
-                        campo: 'nome',
-                        mensagem: 'O nome deve ter no máximo 255 caracteres'
-                    });
-                }
-            }
-
-            // Validar preço
-            if (!preco || isNaN(preco) || preco <= 0) {
-                erros.push({
-                    campo: 'preco',
-                    mensagem: 'Preço deve ser um número positivo'
-                });
-            }
-
-            // Se houver erros, retornar todos de uma vez
-            if (erros.length > 0) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Dados inválidos',
-                    detalhes: erros
-                });
-            }
-
-            // Preparar dados do produto
-            const dadosProduto = {
-                nome: nome.trim(),
-                descricao: descricao ? descricao.trim() : null,
-                preco: parseFloat(preco),
-                categoria: categoria ? categoria.trim() : 'Geral'
-            };
-
-            // Adicionar imagem se foi enviada
-            if (req.file) {
-                dadosProduto.imagem = req.file.filename;
-            }
-
-            const produtoId = await ProdutoModel.criar(dadosProduto);
-
-            res.status(201).json({
-                sucesso: true,
-                mensagem: 'Produto criado com sucesso',
-                dados: {
-                    id: produtoId,
-                    ...dadosProduto
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao criar produto:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível criar o produto'
-            });
+        const duplicado = await ProdutoModel.buscarPorNome(nome.trim());
+        if (duplicado && duplicado.id !== Number(id)) {
+          return res.status(409).json({ sucesso: false, erro: 'Produto já cadastrado' });
         }
-    }
+        dadosAtualizacao.nome = nome.trim();
+      }
 
-    // PUT /produtos/:id - Atualizar produto
-    static async atualizar(req, res) {
-        try {
-            const { id } = req.params;
-            const { nome, descricao, preco, categoria } = req.body;
-
-            // Validação do ID
-            if (!id || isNaN(id)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'ID inválido',
-                    mensagem: 'O ID deve ser um número válido'
-                });
-            }
-
-            // Verificar se o produto existe
-            const produtoExistente = await ProdutoModel.buscarPorId(id);
-            if (!produtoExistente) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Produto não encontrado',
-                    mensagem: `Produto com ID ${id} não foi encontrado`
-                });
-            }
-
-            // Preparar dados para atualização
-            const dadosAtualizacao = {};
-
-            if (nome !== undefined) {
-                if (nome.trim() === '') {
-                    return res.status(400).json({
-                        sucesso: false,
-                        erro: 'Nome inválido',
-                        mensagem: 'O nome não pode estar vazio'
-                    });
-                }
-                dadosAtualizacao.nome = nome.trim();
-            }
-
-            if (preco !== undefined) {
-                if (isNaN(preco) || preco <= 0) {
-                    return res.status(400).json({
-                        sucesso: false,
-                        erro: 'Preço inválido',
-                        mensagem: 'O preço deve ser um número maior que zero'
-                    });
-                }
-                dadosAtualizacao.preco = parseFloat(preco);
-            }
-
-            if (descricao !== undefined) {
-                dadosAtualizacao.descricao = descricao ? descricao.trim() : null;
-            }
-
-            if (categoria !== undefined) {
-                dadosAtualizacao.categoria = categoria ? categoria.trim() : 'Geral';
-            }
-
-            // Adicionar nova imagem se foi enviada
-            if (req.file) {
-                // Remover imagem antiga se existir
-                if (produtoExistente.imagem) {
-                    await removerArquivoAntigo(produtoExistente.imagem, 'imagem');
-                }
-                dadosAtualizacao.imagem = req.file.filename;
-            }
-
-            // Verificar se há dados para atualizar
-            if (Object.keys(dadosAtualizacao).length === 0) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Nenhum dado para atualizar',
-                    mensagem: 'Forneça pelo menos um campo para atualizar'
-                });
-            }
-
-            const resultado = await ProdutoModel.atualizar(id, dadosAtualizacao);
-
-            res.status(200).json({
-                sucesso: true,
-                mensagem: 'Produto atualizado com sucesso',
-                dados: {
-                    linhasAfetadas: resultado.affectedRows || 1
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao atualizar produto:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível atualizar o produto'
-            });
+      if (descricao !== undefined) {
+        if (!descricao.trim()) {
+          return res.status(400).json({ sucesso: false, erro: 'Descrição inválida' });
         }
-    }
+        dadosAtualizacao.descricao = descricao.trim();
+      }
 
-    // DELETE /produtos/:id - Excluir produto
-    static async excluir(req, res) {
-        try {
-            const { id } = req.params;
-
-            // Validação do ID
-            if (!id || isNaN(id)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'ID inválido',
-                    mensagem: 'O ID deve ser um número válido'
-                });
-            }
-
-            // Verificar se o produto existe
-            const produtoExistente = await ProdutoModel.buscarPorId(id);
-            if (!produtoExistente) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Produto não encontrado',
-                    mensagem: `Produto com ID ${id} não foi encontrado`
-                });
-            }
-
-            // Remover imagem do produto se existir
-            if (produtoExistente.imagem) {
-                await removerArquivoAntigo(produtoExistente.imagem, 'imagem');
-            }
-
-            const resultado = await ProdutoModel.excluir(id);
-
-            res.status(200).json({
-                sucesso: true,
-                mensagem: 'Produto excluído com sucesso',
-                dados: {
-                    linhasAfetadas: resultado || 1
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao excluir produto:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível excluir o produto'
-            });
+      if (id_categoria !== undefined) {
+        if (!id_categoria) {
+          return res.status(400).json({ sucesso: false, erro: 'Categoria inválida' });
         }
-    }
+        dadosAtualizacao.id_categoria = id_categoria;
+      }
 
-    // POST /produtos/upload - Upload de imagem para produto
-    static async uploadImagem(req, res) {
-        try {
-            const { produto_id } = req.body;
-
-            // Validações básicas
-            if (!produto_id || isNaN(produto_id)) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'ID de produto inválido',
-                    mensagem: 'O ID do produto é obrigatório e deve ser um número válido'
-                });
-            }
-
-            if (!req.file) {
-                return res.status(400).json({
-                    sucesso: false,
-                    erro: 'Imagem não fornecida',
-                    mensagem: 'É necessário enviar uma imagem'
-                });
-            }
-
-            // Verificar se o produto existe
-            const produtoExistente = await ProdutoModel.buscarPorId(produto_id);
-            if (!produtoExistente) {
-                return res.status(404).json({
-                    sucesso: false,
-                    erro: 'Produto não encontrado',
-                    mensagem: `Produto com ID ${produto_id} não foi encontrado`
-                });
-            }
-
-            // Remover imagem antiga se existir
-            if (produtoExistente.imagem) {
-                await removerArquivoAntigo(produtoExistente.imagem, 'imagem');
-            }
-
-            // Atualizar produto com a nova imagem
-            await ProdutoModel.atualizar(produto_id, { imagem: req.file.filename });
-
-            res.status(200).json({
-                sucesso: true,
-                mensagem: 'Imagem enviada com sucesso',
-                dados: {
-                    nomeArquivo: req.file.filename,
-                    caminho: `/uploads/imagens/${req.file.filename}`
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao fazer upload de imagem:', error);
-            res.status(500).json({
-                sucesso: false,
-                erro: 'Erro interno do servidor',
-                mensagem: 'Não foi possível fazer upload da imagem'
-            });
+      if (fornecedor !== undefined) {
+        if (!fornecedor.trim()) {
+          return res.status(400).json({ sucesso: false, erro: 'Fornecedor inválido' });
         }
+        dadosAtualizacao.fornecedor = fornecedor.trim().toLowerCase();
+      }
+
+      if (tipo !== undefined) {
+        if (!tipo.trim()) {
+          return res.status(400).json({ sucesso: false, erro: 'Tipo inválido' });
+        }
+        dadosAtualizacao.tipo = tipo.trim();
+      }
+
+      if (especificacoes !== undefined) {
+        if (!especificacoes.trim()) {
+          return res.status(400).json({ sucesso: false, erro: 'Especificações inválidas' });
+        }
+        dadosAtualizacao.especificacoes = especificacoes.trim();
+      }
+
+      if (ativo !== undefined) {
+        if (typeof ativo === "boolean") {
+          dadosAtualizacao.ativo = ativo;
+        } else if (typeof ativo === "string") {
+          dadosAtualizacao.ativo = ativo.toLowerCase() === "true";
+        } else {
+          return res.status(400).json({
+            sucesso: false,
+            erro: 'O campo ativo deve ser true ou false'
+          });
+        }
+      }
+
+      await ProdutoModel.atualizar(id, dadosAtualizacao);
+
+      return res.json({
+        sucesso: true,
+        mensagem: "Produto atualizado com sucesso",
+        dados: dadosAtualizacao
+      });
+
+    } catch (error) {
+      console.error('Erro ao atualizar produto:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro interno ao atualizar produto' });
     }
+  }
+
+  // DELETE /produtos/:id
+  static async excluirProduto(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({ sucesso: false, erro: 'ID inválido' });
+      }
+
+      const existente = await ProdutoModel.buscarPorId(id);
+
+      if (!existente) {
+        return res.status(404).json({ sucesso: false, erro: 'Produto não encontrado' });
+      }
+
+      await ProdutoModel.excluir(id);
+
+      return res.json({ sucesso: true, mensagem: 'Produto excluído com sucesso' });
+
+    } catch (error) {
+      console.error('Erro ao excluir produto:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro interno ao excluir produto' });
+    }
+  }
+
+  //GET sem paginação
+  static async listar(req, res) {
+    const dados = await ProdutoModel.listar();
+    res.json(dados);
+  }
+
+  // GET /produtos
+  static async listarProdutos(req, res) {
+    try {
+      const pagina = parseInt(req.query.pagina) || 1;
+      const limite = parseInt(req.query.limite) || 10;
+
+      const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
+
+      if (pagina < 1) {
+        return res.status(400).json({ sucesso: false, erro: 'Página inválida' });
+      }
+
+      if (limite < 1 || limite > limiteMaximo) {
+        return res.status(400).json({ sucesso: false, erro: 'Limite inválido' });
+      }
+
+      const resultado = await ProdutoModel.listarTodos(pagina, limite);
+
+      return res.json({
+        sucesso: true,
+        dados: resultado.produtos,
+        paginacao: {
+          pagina: resultado.pagina,
+          limite: resultado.limite,
+          total: resultado.total,
+          totalPaginas: resultado.totalPaginas
+        }
+      });
+
+    } catch (error) {
+      console.error('Erro ao listar produtos:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro interno ao listar produtos' });
+    }
+  }
+
+  // GET /produtos/:id
+  static async buscarProduto(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({ sucesso: false, erro: 'ID inválido' });
+      }
+
+      const produto = await ProdutoModel.buscarPorId(id);
+
+      if (!produto) {
+        return res.status(404).json({ sucesso: false, erro: 'Produto não encontrado' });
+      }
+
+      return res.json({ sucesso: true, dados: produto });
+
+    } catch (error) {
+      console.error('Erro ao buscar produto:', error);
+      return res.status(500).json({ sucesso: false, erro: 'Erro interno ao buscar produto' });
+    }
+  }
+
+  // GET /produtos/buscar/nome
+  static async buscarPorNome(req, res) {
+    try {
+      const { valor } = req.query;
+
+      if (!valor || !valor.trim()) {
+        return res.status(400).json({ sucesso: false, erro: "Nome inválido" });
+      }
+
+      const produtos = await ProdutoModel.buscarPorNome(valor.trim());
+
+      return res.json({ sucesso: true, dados: produtos });
+
+    } catch (error) {
+      console.error("Erro ao buscar por nome:", error);
+      return res.status(500).json({ sucesso: false, erro: "Erro interno ao buscar por nome" });
+    }
+  }
+
+  // GET /produtos/buscar/categoria
+  static async buscarPorCategoria(req, res) {
+    try {
+      const { valor } = req.query;
+
+      if (!valor || !valor.trim()) {
+        return res.status(400).json({ sucesso: false, erro: "Categoria inválida" });
+      }
+
+      const produtos = await ProdutoModel.buscarPorCategoria(valor.trim());
+
+      return res.json({ sucesso: true, dados: produtos });
+
+    } catch (error) {
+      console.error("Erro ao buscar por categoria:", error);
+      return res.status(500).json({ sucesso: false, erro: "Erro interno ao buscar por categoria" });
+    }
+  }
+
 }
 
 export default ProdutoController;
