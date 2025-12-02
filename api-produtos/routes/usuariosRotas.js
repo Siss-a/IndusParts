@@ -1,16 +1,20 @@
 import express from 'express';
 import UsuarioController from '../controllers/UsuarioController.js';
 import ProdutoController from '../controllers/ProdutoController.js';
-import { uploadImagem } from '../middlewares/uploadMiddleware.js';
 
 // Importacão dos middlewares
 import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
+router.use(adminMiddleware)
 
-//Rotas de usuários comum
-router.get('/produtos', ProdutoController.listarTodos);
-router.get('/produtos/:id', ProdutoController.buscarPorId);
+
+// Rotas de usuários
+router.get('/usuarios', authMiddleware, adminMiddleware, UsuarioController.listarUsuarios);
+router.get('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.buscarUsuario);
+router.post('/usuarios', authMiddleware, adminMiddleware, UsuarioController.criarUsuario);
+router.put('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.atualizarUsuario);
+router.delete('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.excluirUsuario);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/usuarios', (req, res) => {
@@ -22,32 +26,9 @@ router.options('/usuarios', (req, res) => {
 
 router.options('/usuarios/:id', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.sendStatus(200);
-});
-
-router.options('/produtos', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).send();
-});
-
-
-router.options('/upload', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).send();
-});
-
-
-router.options('/produtos/:id', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).send();
+    res.sendStatus(200);
 });
 
 export default router;

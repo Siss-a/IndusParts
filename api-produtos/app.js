@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import authRotas from './routes/authRotas.js';
 import adminRotas from './routes/adminRotas.js';
 import usuariosRotas from './routes/usuariosRotas.js'
+import produtoRotas from './routes/produtoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
