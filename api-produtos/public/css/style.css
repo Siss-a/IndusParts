@@ -1,8 +1,7 @@
   :root {
     --azul-mais-escuro: #012F6D;
     --azul-escuro: #144272;
-    --azul: ;
-    --bege: color: rgb(167, 118, 96);
+    --bege: rgb(167, 118, 96);
     --azul-claro: rgb(26, 115, 232);
   }
 
@@ -27,6 +26,11 @@
 
 
   .login {
+
+
+
+
+
     body {
       min-height: 100vh;
       display: flex;
@@ -40,7 +44,7 @@
       padding: 40px;
       border-radius: 5px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      box-shadow: -40px -20px 0px rgb(150, 106, 85);
+      box-shadow: -40px -20px 0px  rgb(150, 106, 85);
       border: solid 2px rgb(150, 106, 85);
       max-width: 450px;
       width: 100%;
@@ -95,6 +99,8 @@
       outline: none;
       border-color: rgb(167, 118, 96);
       box-shadow: 0 0 0 3px rgb(167, 118, 96);
+      border-color:rgb(167, 118, 96);
+      box-shadow: 0 0 0 3px rgb(167, 118, 96);
     }
 
     .btn {
@@ -102,7 +108,7 @@
       padding: 15px;
       border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg, rgb(167, 118, 96) 0%, rgb(199, 158, 139));
+      background: linear-gradient(135deg, rgb(167, 118, 96) 0%,rgb(199, 158, 139));
       color: white;
       font-size: 16px;
       font-weight: 600;
@@ -606,6 +612,65 @@
     }
 
 
+
+
+
+
+    .apps-container {
+      position: relative;
+      display: inline-block;
+      transition: 0.5s ease;
+    }
+
+    .apps-menu {
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      width: 150px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+      opacity: 0;
+      transform: scale(0.9);
+      transform-origin: top right;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+      display: flex;
+      flex-direction: column;
+
+      pointer-events: none;
+      /* evita clicar enquanto fechado */
+    }
+
+    .apps-menu.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+
+    .apps-menu a {
+      padding: 8px;
+      text-decoration: none;
+      color: black;
+      border-radius: 6px;
+      transition: 0.2s;
+    }
+
+    .apps-menu a:hover {
+      background: rgb(230, 230, 230);
+    }
+
+
+
+
+
+
+
     a {
       text-decoration: none;
     }
@@ -781,12 +846,12 @@
       height: 110px;
       border-radius: 50%;
       overflow: hidden;
-      background: linear-gradient(135deg, #0047ab, #ffcc00);
+      
       padding: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
       transition: transform 0.3s ease;
     }
 

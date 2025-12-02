@@ -66,6 +66,8 @@ app.use(cors({
     optionsSuccessStatus: 200 // Responder com 200 para requisições OPTIONS
 }));
 
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -91,6 +93,15 @@ app.get('/crud-produtos', (req, res) => {
 });
 app.get('/crud-usuarios', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
+});
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+});
+app.get('/catalogo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+});
+app.get('/carrinho', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
 });
 app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
