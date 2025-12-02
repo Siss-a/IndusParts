@@ -18,8 +18,7 @@
    Base
 ========================= */
 body {
-  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  
   background-color: var(--bg-light);
   color: var(--text-dark);
   line-height: 1.6;
@@ -148,6 +147,16 @@ textarea.form-control {
 .paginacao .form-group {
   flex-grow: 1;
   min-width: 180px;
+}
+/* =========================
+   tabela
+========================= */
+
+.tabela {
+  width: 100%;
+  border: 3px solid var(--border-light);
+  color: var(--secondary-color);
+  margin-top: 1vh;
 }
 
 /* =========================

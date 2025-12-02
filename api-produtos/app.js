@@ -6,10 +6,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Importar rotas
-import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
-import criptografiaRotas from './routes/criptografiaRotas.js';
-import adminRotas from './routes/adminRotas.js';
+import usuariosRotas from './routes/usuariosRotas.js'
+import produtoRotas from './routes/produtoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -26,7 +25,37 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 
 // Middlewares globais
-app.use(helmet()); // Segurança HTTP
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            scriptSrcElem: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.googleapis.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.gstatic.com"
+            ],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"]
+        }
+    }
+}));
 
 // Configuração CORS global
 app.use(cors({
@@ -74,11 +103,18 @@ app.get('/catalogo', (req, res) => {
 app.get('/carrinho', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
 });
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+});
+app.get('/catalogo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
-app.use('/api/admin', adminRotas);
+app.use('/api/usuarios', usuariosRotas);
+
 
 // Rota raiz
 app.get('/', (req, res) => {
@@ -89,7 +125,7 @@ app.get('/', (req, res) => {
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
-            admin: '/api/admin',
+            usuarios: '/api/usuarios',
         },
         documentacao: {
             login: 'POST /api/auth/login',
@@ -100,10 +136,10 @@ app.get('/', (req, res) => {
             criarProduto: 'POST /api/produtos',
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
-            listarUsuarios: 'GET /api/admin/usuarios',
-            criarUsuario: 'POST /api/admin/usuarios',
-            atualizarUsuario: 'PUT /api/admin/usuarios/:id',
-            excluirUsuario: 'DELETE /api/admin/usuarios/:id'
+            listarUsuarios: 'GET /api/usuarios',
+            criarUsuario: 'POST /api/usuarios',
+            atualizarUsuario: 'PUT /api/usuarios/:id',
+            excluirUsuario: 'DELETE /api/usuarios/:id'
         }
     });
 });

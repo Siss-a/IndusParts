@@ -97,6 +97,8 @@
 
     .form-group input:focus {
       outline: none;
+      border-color: rgb(167, 118, 96);
+      box-shadow: 0 0 0 3px rgb(167, 118, 96);
       border-color:rgb(167, 118, 96);
       box-shadow: 0 0 0 3px rgb(167, 118, 96);
     }

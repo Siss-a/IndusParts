@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const res = await fetch('/api/admin/usuarios', {
+        const res = await fetch('/api/usuarios', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -34,55 +34,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-
-const form = document.getElementById('formCadastro')
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const token = localStorage.getItem("token");
-
-    const usuario = document.getElementById('nome_social').value;
-    const senha = document.getElementById('senhaCadastro').value;
-    const email = document.getElementById('emailCadastro').value;
-    const cnpj = document.getElementById('cnpj').value;
-    const telefone = document.getElementById('telefone').value;
-    const tipo = document.getElementById('tipo').value;
-
-    try {
-        const res = await fetch('/api/admin/usuarios', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nome_social: usuario,
-                senha: senha,
-                email: email,
-                cnpj: cnpj,
-                telefone: telefone,
-                tipo: tipo
-            })
-        });
-
-        const resposta = await res.json();
-
-        if (!res.ok) {
-            alert(resposta.erro || "Erro ao cadastrar usuário");
-            return;
-        }
-
-        alert("Usuário cadastrado com sucesso!");
-        form.reset(); // limpa o formulário
-        carregarUsuarios(); // atualiza a lista
-
-    } catch (e) {
-        console.error("Erro ao cadastrar:", e);
-        alert("Erro ao cadastrar usuário");
-    }
-});
-
 // Listar usuarios e paginação
 async function carregarUsuarios() {
     const token = localStorage.getItem("token");
@@ -91,9 +42,12 @@ async function carregarUsuarios() {
     const limite = document.getElementById("limite").value;
 
     try {
-        const res = await fetch(`/api/admin/usuarios?pagina=${pagina}&limite=${limite}`, {
+        const res = await fetch(`/api/usuarios?pagina=${pagina}&limite=${limite}`, {
             method: "GET",
-            headers: { "Authorization": "Bearer " + token }
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         });
 
         // verifica se resposta é JSON antes de usar
@@ -139,8 +93,8 @@ function montarTabelaUsuarios(lista) {
             <td>${usuario.telefone}</td>
 
             <td>
-                <button onclick="editarUsuario(${usuario.id})">Editar</button>
-                <button onclick="excluirUsuario(${usuario.id})" style="color:red;">Excluir</button>
+                <button class="btn btn-sm btn-warning btn-editar" data-id="${usuario.id}">Editar</button>
+                <button class="btn-excluir" data-id="${usuario.id}" style="color:red;">Excluir</button>
             </td>
         `;
 
@@ -148,77 +102,179 @@ function montarTabelaUsuarios(lista) {
     });
 }
 
-//Formulario de edição
-async function editarUsuario(id) {
-    const token = localStorage.getItem("token");
+/* CADASTRO DE USUÁRIOS */
+const form = document.getElementById('formCadastro')
 
-    try {
-        const res = await fetch(`/api/admin/usuarios/${id}`, {
-            method: "GET",
-            headers: { "Authorization": "Bearer " + token }
-        });
-
-        const usuario = await res.json();
-
-        document.getElementById("edit_nome_social").value = usuario.nome_social;
-        document.getElementById("edit_email").value = usuario.email;
-        document.getElementById("edit_cnpj").value = usuario.cnpj;
-        document.getElementById("edit_telefone").value = usuario.telefone;
-
-        document.getElementById("secaoEdicao").style.display = "block";
-
-    } catch (e) {
-        console.error("Erro ao buscar usuário:", e);
-        alert("Erro ao carregar dados do usuário");
-    }
-}
-
-// Salvar edicao
-const formEdicao = document.getElementById("formEdicao");
-
-formEdicao.addEventListener("submit", async (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    const id = document.getElementById("edit_id").value;
 
-    const dados = {
-        nome_social: document.getElementById("edit_nome_social").value,
-        email: document.getElementById("edit_email").value,
-        cnpj: document.getElementById("edit_cnpj").value,
-        telefone: document.getElementById("edit_telefone").value
-    };
+    const usuario = document.getElementById('nome_social').value;
+    const senha = document.getElementById('senhaCadastro').value;
+    const email = document.getElementById('emailCadastro').value;
+    const cnpj = document.getElementById('cnpj').value;
+    const telefone = document.getElementById('telefone').value;
+    const tipo = document.getElementById('tipo').value;
 
     try {
-        const res = await fetch(`/api/admin/usuarios/${id}`, {
-            method: "PUT",
+        const res = await fetch('/api/usuarios', {
+            method: 'POST',
             headers: {
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dados)
+            body: JSON.stringify({
+                nome_social: usuario,
+                senha: senha,
+                email: email,
+                cnpj: cnpj,
+                telefone: telefone,
+                tipo: tipo
+            })
         });
 
         const resposta = await res.json();
 
         if (!res.ok) {
-            alert(resposta.erro || "Erro ao atualizar");
+            alert(resposta.erro || "Erro ao cadastrar usuário");
             return;
         }
 
-        alert("Usuário atualizado com sucesso!");
-        document.getElementById("secaoEdicao").style.display = "none";
-
-        carregarUsuarios();
+        alert("Usuário cadastrado com sucesso!");
+        form.reset(); // limpa o formulário
+        carregarUsuarios(); // atualiza a lista
 
     } catch (e) {
-        console.error("Erro ao atualizar:", e);
-        alert("Erro ao salvar alterações");
+        console.error("Erro ao cadastrar:", e);
+        alert("Erro ao cadastrar usuário");
     }
 });
+
+/* EDIÇÃO */
+let usuarioAtual = null; // objeto carregado para edição
+
+// Quando clicar no botão editar ↓
+async function editarUsuario(id) {
+    console.log("Editar usuario com id:", id);
+
+    const token = localStorage.getItem("token");
+
+    // Buscar dados do usuário
+    const res = await fetch(`/api/usuarios/${id}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const body = await res.json();
+
+    if (!body.sucesso) {
+        alert("Erro ao carregar usuário");
+        return;
+    }
+
+    usuarioAtual = body.dados; // guarda original para comparar
+    console.log("Usuário carregado:", usuarioAtual);
+
+    // Preencher campos no modal
+    document.getElementById("edit_nome_social").value = usuarioAtual.nome_social;
+    document.getElementById("edit_email").value = usuarioAtual.email;
+    document.getElementById("edit_telefone").value = usuarioAtual.telefone;
+    document.getElementById("editTipo").value = usuarioAtual.tipo;
+
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById("modalEdicao"));
+    modal.show();
+}
+
+/* SALVAR EDIÇÃO */
+const salvarEdicao = document.getElementById("btnSalvarEdicao");
+salvarEdicao.addEventListener("click", async () => {
+    try {
+        if (!usuarioAtual || !usuarioAtual.id) {
+            alert("Nenhum usuário carregado para edição.");
+            return;
+        }
+
+        console.log("Salvar edição para usuário id:", usuarioAtual.id);
+        const token = localStorage.getItem("token");
+        const id = usuarioAtual.id;
+
+        const novoNome = document.getElementById("edit_nome_social")?.value.trim() ?? "";
+        const novoEmail = document.getElementById("edit_email")?.value.trim() ?? "";
+        const novoTelefone = document.getElementById("edit_telefone")?.value.trim() ?? "";
+        const novoTipo = document.getElementById("editTipo")?.value ?? "";
+
+        let campoEditado = {};
+
+        if (novoNome && novoNome !== usuarioAtual.nome_social) {
+            campoEditado.nome_social = novoNome;
+        }
+        if (novoEmail && novoEmail !== usuarioAtual.email) {
+            campoEditado.email = novoEmail;
+        }
+        if (novoTelefone && novoTelefone !== usuarioAtual.telefone) {
+            campoEditado.telefone = novoTelefone;
+        }
+        if (novoTipo && novoTipo !== usuarioAtual.tipo) {
+            campoEditado.tipo = novoTipo;
+        }
+
+        if (Object.keys(campoEditado).length === 0) {
+            alert("Nenhuma alteração detectada.");
+            return;
+        }
+
+        console.log("Edição enviada:", campoEditado);
+
+        // Fazer a requisição e tratar status HTTP corretamente
+        const res = await fetch(`/api/usuarios/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(campoEditado)
+        });
+
+        // tenta ler json de forma segura
+        let resposta;
+        try {
+            resposta = await res.json();
+        } catch (err) {
+            console.error("Resposta inválida ao atualizar:", err);
+            alert("Resposta inválida do servidor ao atualizar.");
+            return;
+        }
+
+        if (!res.ok) {
+            console.error("Erro na atualização:", resposta);
+            alert(resposta.erro || resposta.mensagem || "Erro ao atualizar usuário");
+            return;
+        }
+
+        // sucesso
+        alert("Usuário atualizado com sucesso!");
+
+        // fechar modal corretamente (não criar novo)
+        const modalEl = document.getElementById("modalEdicao");
+        const modalInst = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modalInst.hide();
+
+        // atualizar tabela
+        carregarUsuarios();
+    } catch (error) {
+        console.error("Erro ao salvar edição:", error);
+        alert("Erro ao atualizar usuário (verifique console/network).");
+    }
+});
+
+
 // Cancelar edição
 function cancelarEdicao() {
-    document.getElementById("secaoEdicao").style.display = "none";
+    bootstrap.Modal.getInstance(document.getElementById("modalEdicao")).hide();
 }
 
 // Excluir usuario
@@ -228,7 +284,7 @@ async function excluirUsuario(id) {
     const token = localStorage.getItem("token");
 
     try {
-        const res = await fetch(`/api/admin/usuarios/${id}`, {
+        const res = await fetch(`/api/usuarios/${id}`, {
             method: "DELETE",
             headers: { "Authorization": "Bearer " + token }
         });
@@ -248,3 +304,81 @@ async function excluirUsuario(id) {
         alert("Erro ao excluir usuário");
     }
 }
+
+// Mascara CNPJ
+document.getElementById("cnpj").addEventListener("input", function (e) {
+    let value = e.target.value.replace(/\D/g, "");
+
+    if (value.length > 14) value = value.slice(0, 14);
+
+    e.target.value = value
+        .replace(/(\d{2})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1/$2")
+        .replace(/(\d{4})(\d)/, "$1-$2");
+});
+
+// Mascara Telefone Fixo
+function mascaraTelefone(input) {
+    let valor = input.value.replace(/\D/g, '');
+
+    // Limita ao máximo internacional: E.164 (15 dígitos)
+    if (valor.length > 15) valor = valor.slice(0, 15);
+
+    let cc = "";   // codigo do país
+    let dd = "";   // codigo da area
+    let pre = "";   // prefixo
+    let su = "";   // sufixo
+
+    // Código do país (de 1 a 3 dígitos)
+    if (valor.length >= 1) cc = valor.substring(0, 1);
+    if (valor.length >= 2 && valor[0] !== "1") cc = valor.substring(0, 2); // países que não começam com 1 têm 2 dígitos
+    if (valor.length >= 3 && valor[0] !== "1" && parseInt(valor.substring(0, 2)) > 55) cc = valor.substring(0, 3); // fallback para países exóticos
+
+    let resto = valor.substring(cc.length);
+
+    // Código de área (2–3 dígitos dependendo do país)
+    if (resto.length >= 2) dd = resto.substring(0, 2);
+
+    // Para EUA e Canadá (country code 1) o DDD tem 3 dígitos:
+    if (cc === "1" && resto.length >= 3) {
+        dd = resto.substring(0, 3);
+    }
+
+    resto = resto.substring(dd.length);
+
+    // Primeira parte (prefixo)
+    if (resto.length > 0) pre = resto.substring(0, 4);
+
+    // Segunda parte (sufixo)
+    if (resto.length > 4) su = resto.substring(4, 8);
+
+    // MONTAGEM DO FORMATO
+    let formatado = `+${cc}`;
+
+    if (dd) formatado += ` (${dd})`;
+    if (pre) formatado += ` ${pre}`;
+    if (su) formatado += `-${su}`;
+
+    input.value = formatado;
+}
+
+// Mascara no cadastro
+document.addEventListener("DOMContentLoaded", () => {
+    mascaraTelefone(document.getElementById("telefone"));
+
+    const telEdicao = document.getElementById("edit_telefone");
+    if (telEdicao) mascaraTelefone(telEdicao);
+});
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("btn-editar")) {
+        const id = e.target.dataset.id;
+        editarUsuario(id);
+    }
+    if (e.target.classList.contains("btn-excluir")) {
+        excluirUsuario(e.target.dataset.id);
+    }
+});
+
+carregarUsuarios();

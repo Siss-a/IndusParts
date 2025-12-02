@@ -30,8 +30,7 @@ async function carregarProduto() {
         }
 
         // Preenche texto
-        titleEl.textContent = produto.nome;
-        brandEl.textContent = produto.categoria || "Sem categoria";
+        titleEl.textContent = produto.nome; "Sem categoria";
         priceEl.textContent = `R$ ${produto.preco.toFixed(2)}`;
         descricaoEl.textContent = produto.descricao || "Sem descrição";
         pageTitleEl.textContent = produto.nome;
