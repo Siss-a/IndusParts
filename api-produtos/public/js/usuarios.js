@@ -1,5 +1,5 @@
 /* Verificar ADMIN antes de carregar a página */
-/* window.addEventListener('DOMContentLoaded', async () => {
+window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -32,7 +32,7 @@
         localStorage.removeItem("token");
         window.location.href = "/login";
     }
-}); */
+});
 
 // Listar usuarios e paginação
 async function carregarUsuarios() {
@@ -44,7 +44,10 @@ async function carregarUsuarios() {
     try {
         const res = await fetch(`/api/usuarios?pagina=${pagina}&limite=${limite}`, {
             method: "GET",
-            headers: { "Authorization": "Bearer " + token }
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         });
 
         // verifica se resposta é JSON antes de usar
@@ -99,6 +102,7 @@ function montarTabelaUsuarios(lista) {
     });
 }
 
+/* CADASTRO DE USUÁRIOS */
 const form = document.getElementById('formCadastro')
 
 form.addEventListener('submit', async (e) => {
@@ -147,7 +151,7 @@ form.addEventListener('submit', async (e) => {
     }
 });
 
-//Formulario de edição
+/* EDIÇÃO */
 let usuarioAtual = null; // objeto carregado para edição
 
 // Quando clicar no botão editar ↓
@@ -172,88 +176,101 @@ async function editarUsuario(id) {
     }
 
     usuarioAtual = body.dados; // guarda original para comparar
-
     console.log("Usuário carregado:", usuarioAtual);
 
     // Preencher campos no modal
-    document.getElementById("edit_nome_social").value = usuarioAtual.nome_social || "";
-    document.getElementById("edit_email").value = usuarioAtual.email || "";
-    document.getElementById("edit_telefone").value = usuarioAtual.telefone || "";
-
-    const selectTipo = document.getElementById("editTipo");
-    selectTipo.value = usuarioAtual.tipo || "comum";
+    document.getElementById("edit_nome_social").value = usuarioAtual.nome_social;
+    document.getElementById("edit_email").value = usuarioAtual.email;
+    document.getElementById("edit_telefone").value = usuarioAtual.telefone;
+    document.getElementById("editTipo").value = usuarioAtual.tipo;
 
     // Mostrar modal
     const modal = new bootstrap.Modal(document.getElementById("modalEdicao"));
     modal.show();
 }
 
-
+/* SALVAR EDIÇÃO */
 const salvarEdicao = document.getElementById("btnSalvarEdicao");
-
 salvarEdicao.addEventListener("click", async () => {
+    try {
+        if (!usuarioAtual || !usuarioAtual.id) {
+            alert("Nenhum usuário carregado para edição.");
+            return;
+        }
 
-    const token = localStorage.getItem("token");
-    const id = usuarioAtual.id;
+        console.log("Salvar edição para usuário id:", usuarioAtual.id);
+        const token = localStorage.getItem("token");
+        const id = usuarioAtual.id;
 
-    // Valores novos
-    const novoNome = document.getElementById("editNome").value.trim();
-    const novoEmail = document.getElementById("editEmail").value.trim();
-    const novoTelefone = document.getElementById("editTelefone").value.trim();
-    const novoTipo = document.getElementById("editTipo").value;
+        const novoNome = document.getElementById("edit_nome_social")?.value.trim() ?? "";
+        const novoEmail = document.getElementById("edit_email")?.value.trim() ?? "";
+        const novoTelefone = document.getElementById("edit_telefone")?.value.trim() ?? "";
+        const novoTipo = document.getElementById("editTipo")?.value ?? "";
 
-    let payload = {};
+        let campoEditado = {};
 
-    // Comparar antes de enviar
-    if (novoNome !== usuarioAtual.nome_social) {
-        payload.nome_social = novoNome;
-    }
+        if (novoNome && novoNome !== usuarioAtual.nome_social) {
+            campoEditado.nome_social = novoNome;
+        }
+        if (novoEmail && novoEmail !== usuarioAtual.email) {
+            campoEditado.email = novoEmail;
+        }
+        if (novoTelefone && novoTelefone !== usuarioAtual.telefone) {
+            campoEditado.telefone = novoTelefone;
+        }
+        if (novoTipo && novoTipo !== usuarioAtual.tipo) {
+            campoEditado.tipo = novoTipo;
+        }
 
-    if (novoEmail !== usuarioAtual.email) {
-        payload.email = novoEmail;
-    }
+        if (Object.keys(campoEditado).length === 0) {
+            alert("Nenhuma alteração detectada.");
+            return;
+        }
 
-    if (novoTelefone !== usuarioAtual.telefone) {
-        payload.telefone = novoTelefone;
-    }
+        console.log("Edição enviada:", campoEditado);
 
-    if (novoTipo !== usuarioAtual.tipo) {
-        payload.tipo = novoTipo;
-    }
+        // Fazer a requisição e tratar status HTTP corretamente
+        const res = await fetch(`/api/usuarios/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(campoEditado)
+        });
 
-    // Se nada mudou, nem chama API
-    if (Object.keys(payload).length === 0) {
-        alert("Nenhuma alteração detectada.");
-        return;
-    }
+        // tenta ler json de forma segura
+        let resposta;
+        try {
+            resposta = await res.json();
+        } catch (err) {
+            console.error("Resposta inválida ao atualizar:", err);
+            alert("Resposta inválida do servidor ao atualizar.");
+            return;
+        }
 
-    console.log("Payload enviado:", payload);
+        if (!res.ok) {
+            console.error("Erro na atualização:", resposta);
+            alert(resposta.erro || resposta.mensagem || "Erro ao atualizar usuário");
+            return;
+        }
 
-    // Enviar alteração
-    const res = await fetch(`/api/usuarios/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-    });
-
-    const body = await res.json();
-
-    if (body.sucesso) {
+        // sucesso
         alert("Usuário atualizado com sucesso!");
 
-        // fechar modal
-        const modal = new bootstrap.Modal(document.getElementById("modalEdicao"));
-        modal.hide()
+        // fechar modal corretamente (não criar novo)
+        const modalEl = document.getElementById("modalEdicao");
+        const modalInst = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modalInst.hide();
 
-        // opcional atualizar tabela
+        // atualizar tabela
         carregarUsuarios();
-    } else {
-        alert("Erro ao atualizar: " + body.mensagem);
+    } catch (error) {
+        console.error("Erro ao salvar edição:", error);
+        alert("Erro ao atualizar usuário (verifique console/network).");
     }
 });
+
 
 // Cancelar edição
 function cancelarEdicao() {
