@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 
 // Importar rotas
 import authRotas from './routes/authRotas.js';
-import adminRotas from './routes/adminRotas.js';
 import usuariosRotas from './routes/usuariosRotas.js'
 import produtoRotas from './routes/produtoRotas.js';
 
@@ -73,9 +72,7 @@ app.get('/catalogo', (req, res) => {
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
-app.use('/api/admin', adminRotas);
 app.use('/api/usuarios', usuariosRotas);
-//
 
 
 // Rota raiz
@@ -87,7 +84,7 @@ app.get('/', (req, res) => {
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
-            admin: '/api/admin',
+            usuarios: '/api/usuarios',
         },
         documentacao: {
             login: 'POST /api/auth/login',
@@ -98,10 +95,10 @@ app.get('/', (req, res) => {
             criarProduto: 'POST /api/produtos',
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
-            listarUsuarios: 'GET /api/admin/usuarios',
-            criarUsuario: 'POST /api/admin/usuarios',
-            atualizarUsuario: 'PUT /api/admin/usuarios/:id',
-            excluirUsuario: 'DELETE /api/admin/usuarios/:id'
+            listarUsuarios: 'GET /api/usuarios',
+            criarUsuario: 'POST /api/usuarios',
+            atualizarUsuario: 'PUT /api/usuarios/:id',
+            excluirUsuario: 'DELETE /api/usuarios/:id'
         }
     });
 });

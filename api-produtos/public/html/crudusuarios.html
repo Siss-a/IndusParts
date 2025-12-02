@@ -61,8 +61,6 @@
         <!-- Seção de Listagem de Usuários -->
         <div class="section-box">
             <h2>Lista de Usuários</h2>
-
-
             <div class="paginacao d-flex flex-wrap align-items-end mb-3">
 
                 <div class="form-group me-3">
@@ -76,9 +74,9 @@
                 </div>
 
                 <button class="btn btn-primary" onclick="carregarUsuarios()">Buscar</button>
-            </div>  
+            </div>
 
-            <div id="infoPaginacao"  class="message-box d-none"></div>
+            <div id="infoPaginacao" class="message-box d-none"></div>
 
             <!-- Agora existe a tabela -->
             <table border="1" cellpadding="5" cellspacing="0" class="tabela">
@@ -98,42 +96,48 @@
 
         <hr>
 
-        <!-- Seção de Edição de Usuário -->
-        <div id="secaoEdicao" style="display:none;">
-            <h2>Editar Usuário</h2>
+        <!-- Modal de Edição de Usuário -->
+        <div class="modal fade" id="modalEdicao" style="background-color: red;" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-            <form id="formEdicao">
-                <input type="hidden" id="edit_id">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Usuário</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <div>
-                    <label>Nome da Empresa:</label>
-                    <input type="text" id="edit_nome_social" required>
+                    <div class="modal-body">
+                        <form id="formEdicao">
+                            <input type="hidden" id="edit_id">
+
+                            <div class="mb-2">
+                                <label>Nome</label>
+                                <input type="text" id="edit_nome_social" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Email</label>
+                                <input type="email" id="edit_email" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Telefone</label>
+                                <input type="text" id="edit_telefone" class="form-control" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </form>
+                    </div>
+
                 </div>
-
-                <div>
-                    <label>Email:</label>
-                    <input type="email" id="edit_email" required>
-                </div>
-
-                <div>
-                    <label>CNPJ:</label>
-                    <input type="text" id="edit_cnpj" required>
-                </div>
-
-                <div>
-                    <label>Telefone:</label>
-                    <input type="tel" id="edit_telefone" required>
-                </div>
-
-                <button type="submit">Salvar Alterações</button>
-                <button type="button" onclick="cancelarEdicao()">Cancelar</button>
-            </form>
-
-            <div id="mensagemEdicao"></div>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/usuarios.js"></script>
+
+
 
 </body>
 
