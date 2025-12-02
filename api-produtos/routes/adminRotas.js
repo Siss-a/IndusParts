@@ -1,7 +1,7 @@
 import express from 'express';
 import UsuarioController from '../controllers/UsuarioController.js';
 import ProdutoController from '../controllers/ProdutoController.js';
-import { uploadImagem } from '../middlewares/uploadMiddleware.js';
+import { uploadImagem } from '../middlewares/UploadMiddleware.js';
 
 // Importacão dos middlewares
 import { authMiddleware, adminMiddleware } from '../middlewares/AuthMiddleware.js';

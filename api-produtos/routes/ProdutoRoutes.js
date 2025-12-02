@@ -1,11 +1,11 @@
 import express from 'express';
 import ProdutoController from '../controllers/ProdutoController.js';
-import upload from '../middlewares/upload.js';
+import { uploadImagem } from '../middlewares/UploadMiddleware.js';
 
 const router = express.Router();
 
 // CREATE
-router.post('/', upload.single('imagem'), ProdutoController.criarProduto);
+router.post('/', uploadImagem.single('imagem'), ProdutoController.criarProduto);
 
 // READ
 router.get('/buscar/nome', ProdutoController.buscarPorNome);

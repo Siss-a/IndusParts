@@ -1,15 +1,16 @@
 import {
   create,
+  read,
   update,
   deleteRecord,
   getConnection,
 } from "../config/database.js";
 
 class ProdutoModel {
-      // Buscar todos os produtos
-    static async listarTodos() {
-        return await read('produtos');
-    }
+  // Buscar todos os produtos
+  static async listarTodos() {
+    return await read("produtos");
+  }
 
   static async buscarPorId(id) {
     try {
@@ -17,7 +18,6 @@ class ProdutoModel {
       const [rows] = await conn.query("SELECT * FROM produtos WHERE id = ?", [
         id,
       ]);
-      conn.release();
       return rows[0] || null;
     } catch (error) {
       console.error("Erro ao buscar produto:", error);
@@ -61,18 +61,18 @@ class ProdutoModel {
   }
 
   static async criar(dadosProduto) {
-        return await create('produtos', dadosProduto);
-    }
+    return await create("produtos", dadosProduto);
+  }
 
-static async atualizar(id, dadosAtualizados) {
-    return await update('produtos', id, dadosAtualizados);
-}
+// Atualizar produto
+  static async atualizar(id, dadosAtualizados) {
+    return await update("produtos", dadosAtualizados, `id = ${id}`);
+  }
 
-
-   // Deletar um produto pelo ID
-    static async excluir(id) {
-        return await deleteRecord('produtos', `id = ${id}`);
-    }
+  // Deletar um produto pelo ID
+  static async excluir(id) {
+    return await deleteRecord("produtos", `id = ${id}`);
+  }
 
   static async descontarEstoque(produtoId, quantidade) {
     try {
@@ -100,7 +100,6 @@ static async atualizar(id, dadosAtualizados) {
         [quantidade, produtoId]
       );
 
-      
       return true;
     } catch (error) {
       console.error("Erro ao descontar estoque:", error);
@@ -123,7 +122,9 @@ static async atualizar(id, dadosAtualizados) {
   static async contarCategorias() {
     const conn = await getConnection();
     try {
-      const [rows] = await conn.query("SELECT COUNT(*) AS total FROM categorias");
+      const [rows] = await conn.query(
+        "SELECT COUNT(*) AS total FROM categorias"
+      );
       return rows[0].total;
     } finally {
       conn.release();
@@ -131,6 +132,7 @@ static async atualizar(id, dadosAtualizados) {
   }
 
   static async topVendidos(limit) {
+    const conn = await getConnection();
     const [rows] = await conn.query(
       `SELECT p.id, p.nome, SUM(ip.quantidade) AS vendidos
      FROM itens_pedido ip

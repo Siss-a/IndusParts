@@ -158,4 +158,4 @@ export const removerArquivoAntigo = async (nomeArquivo, tipo = 'imagem') => {
     }
 };
 
-export { uploadImagens, uploadArquivos, handleUploadError };
+export const uploadImagem = uploadImagens.single("imagem");
