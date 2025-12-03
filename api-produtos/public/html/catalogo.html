@@ -63,31 +63,106 @@
         </div>
     </header>
 
-    <div class="container mt-2">
+    <main class="container mt-2">
         <div class="coisa">
             <h1>Catálogo de Produtos</h1>
 
             <input type="text" id="pesquisa" placeholder="Buscar produto..." />
 
             <select id="filtroCategoria">
-                <option value="">Todas categorias</option>
-                <option value="eletronicos">Eletrônicos</option>
-                <option value="roupas">Roupas</option>
-                <option value="outros">Outros</option>
+                <option value="">Todos os itens</option>
+                <option value="brocas">Brocas</option>
+                <option value="parafu">Parafusadeiras</option>
+                <option value="pastilhas">Pastilhas</option>
+                <option value="pincas">pinças</option>
             </select>
 
             <select id="filtroPreco">
-                <option value="">Todos preços</option>
+                <option value="">Todos os  preços</option>
                 <option value="0-50">Até 50</option>
                 <option value="50-200">50 a 200</option>
                 <option value="200-99999">Acima de 200</option>
             </select>
         </div>
 
-        <div id="listaProdutos"></div>
+        <div class="">
+            <div class="line"></div>
+
+            <section id="listaProdutos" class="container mt-3"> 
+                <!-- CASO MUDE O FILTRO DE PRODUTOS, AQUI PRECISA MUDAR, BACK END -->
+                <h2 class="poing pt-4 pb-4 aumento">Todos os Produtos</h2>
+
+                <div class="row g-3 justify-content-center">
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="" class="card h-100 text-decoration-none">
+                            <img src="../imagens/produtos/brocas/altaPerf/brocaAltaPerf.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text"> CoroDrill® DE10 </h4>
+                                <p>A broca com ponta intercambiável para furação de alto volume.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="" class="card h-100 text-decoration-none">
+                            <img src="../imagens/produtos/pinca/pincaER.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">Pinça ER</h4>
+                                <p>Componente para fixar ferramentas em máquinas de forma precisa.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="" class="card h-100 text-decoration-none">
+                            <img src="../imagens/produtos/bucha/buchaCilindrica.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">Pino Minifix</h4>
+                                <p>Utilizado em sistemas de montagem rápida de móveis.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="" class="card h-100 text-decoration-none">
+                            <img src="../imagens/produtos/parafusadeira/miniparaf.webp" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">Mini Parafusadeira</h4>
+                                <p>Leve e compacta, perfeita para a sua mobilidade.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="" class="card h-100 text-decoration-none">
+                            <img src="../imagens/produtos/pastilhas/past.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">CoroCut® 2</h4>
+                                <p>Pastilha para perfilamento.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="" class="card h-100 text-decoration-none">
+                            <img src="../imagens/produtos/pastilhas/pfres.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">CoroMill 345</h4>
+                                <p>Pastilha para o fresamento.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </section>
+            <div class="line"></div>
+
+            <section class="py-5">
+        </div>
 
 
-    </div>
+    </main>
     <!-- JS -->
     <script src="/js/utils.js"></script>
     <script src="/js/produtoService.js"></script>
