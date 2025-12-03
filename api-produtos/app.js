@@ -33,8 +33,8 @@ app.use('/api/admin', adminRotas);
 app.use('/api/usuarios', usuariosRotas);
 app.use('/api/carrinho', carrinhoRoutes);
 app.use('/api/pedidos', pedidoRoutes);
-app.use('/categorias', categoriaRoutes);
-app.use("/dashboard", dashboardRoutes);
+app.use('/api/categorias', categoriaRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use('/uploads', express.static('uploads'));
 

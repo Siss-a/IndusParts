@@ -1,16 +1,19 @@
 import express from 'express';
-//import UsuarioController from '../controllers/UsuarioController.js';
-import ProdutoController from '../controllers/ProdutoController.js';
+import UsuarioController from '../controllers/UsuarioController.js';
+import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.js';
 //import { uploadImagem } from '../middlewares/uploadMiddleware.js';
-
-// Importacão dos middlewares
-import { authMiddleware, adminMiddleware } from '../middlewares/AuthMiddleware.js';
 
 const router = express.Router();
 
-//Rotas de usuários comum
-router.get('/produtos', ProdutoController.listarTodos);
-router.get('/produtos/:id', ProdutoController.buscarPorId);
+// Rotas públicas
+router.post('/usuarios', authMiddleware, adminMiddleware, UsuarioController.criarUsuario);
+router.get('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.buscarUsuario);
+router.get('/usuarios', authMiddleware, adminMiddleware, UsuarioController.listarUsuarios);
+router.put('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.atualizarUsuario);
+router.delete('/usuarios/:id', authMiddleware, adminMiddleware, UsuarioController.excluirUsuario);
+
+// Perfil do usuário logado
+router.get('/auth/perfil', authMiddleware, UsuarioController.obterPerfil);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/usuarios', (req, res) => {
