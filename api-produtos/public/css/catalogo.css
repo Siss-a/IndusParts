@@ -1,0 +1,67 @@
+@font-face {
+    font-family: "Helvetica";
+    src: url("../helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helv";
+    src: url("../helvetica-255/Helvetica-Oblique.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    transition: 0.2s ease;
+    font-family: "Helvetica", sans-serif;
+}
+
+/* HEADER */
+
+header {
+    top: 0;
+    justify-self: center;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 12px 20px;
+    transition: box-shadow 0.3s ease;
+    z-index: 999 !important;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.titulo {
+    transition: ease 0.3s;
+}
+
+.titulo:hover {
+    transition: ease 0.3s;
+    transform: scale(1.03);
+}
+
+.icones .btn-header {
+    background: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 10px;
+    font-size: 22px;
+    transition: 0.2s ease;
+}
+
+.icones .btn-header:hover {
+    background: rgba(167, 119, 96, 0.171);
+    transform: translateY(-2px);
+}
+
+.icones .btn-header:active {
+    transform: scale(0.95);
+}
+
+header a {
+    color: black !important;
+    text-decoration: none;
+}
+
