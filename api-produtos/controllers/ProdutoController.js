@@ -220,7 +220,7 @@ class ProdutoController {
   }
 
   // GET /produtos/:id
-  static async buscarProduto(req, res) {
+  static async buscarPorId(req, res) {
     try {
       const { id } = req.params;
 
@@ -290,6 +290,62 @@ class ProdutoController {
     }
   }
 
+  static async uploadImagem(req, res) {
+    try {
+      const { produto_id } = req.body;
+
+      // Validações básicas
+      if (!produto_id || isNaN(produto_id)) {
+        return res.status(400).json({
+          sucesso: false,
+          erro: 'ID de produto inválido',
+          mensagem: 'O ID do produto é obrigatório e deve ser um número válido'
+        });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({
+          sucesso: false,
+          erro: 'Imagem não fornecida',
+          mensagem: 'É necessário enviar uma imagem'
+        });
+      }
+
+      // Verificar se o produto existe
+      const produtoExistente = await ProdutoModel.buscarPorId(produto_id);
+      if (!produtoExistente) {
+        return res.status(404).json({
+          sucesso: false,
+          erro: 'Produto não encontrado',
+          mensagem: `Produto com ID ${produto_id} não foi encontrado`
+        });
+      }
+
+      // Remover imagem antiga se existir
+      if (produtoExistente.imagem) {
+        await removerArquivoAntigo(produtoExistente.imagem, 'imagem');
+      }
+
+      // Atualizar produto com a nova imagem
+      await ProdutoModel.atualizar(produto_id, { imagem: req.file.filename });
+
+      res.status(200).json({
+        sucesso: true,
+        mensagem: 'Imagem enviada com sucesso',
+        dados: {
+          nomeArquivo: req.file.filename,
+          caminho: `/uploads/imagens/${req.file.filename}`
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao fazer upload de imagem:', error);
+      res.status(500).json({
+        sucesso: false,
+        erro: 'Erro interno do servidor',
+        mensagem: 'Não foi possível fazer upload da imagem'
+      });
+    }
+  }
 }
 
 export default ProdutoController;
