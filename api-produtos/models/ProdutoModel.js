@@ -13,6 +13,7 @@ class ProdutoModel {
   }
 
   static async buscarPorId(id) {
+    let conn;
     try {
       const conn = await getConnection();
       const [rows] = await conn.query("SELECT * FROM produtos WHERE id = ?", [
@@ -23,13 +24,14 @@ class ProdutoModel {
       console.error("Erro ao buscar produto:", error);
       throw error;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
   static async buscarPorNome(nome) {
-    const conn = await getConnection();
+    let conn;
     try {
+      const conn = await getConnection();
       const [rows] = await conn.query(
         "SELECT * FROM produtos WHERE nome LIKE ?",
         [`%${nome}%`]
@@ -40,13 +42,14 @@ class ProdutoModel {
       console.error("Erro ao buscar produto por nome:", error);
       throw error;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
   static async buscarPorCategoria(cat) {
-    const conn = await getConnection();
+    let conn;
     try {
+      const conn = await getConnection();
       const [rows] = await conn.query(
         "SELECT * FROM produtos WHERE id_categoria = ?",
         [cat]
@@ -56,7 +59,7 @@ class ProdutoModel {
       console.error("Erro ao buscar produto por categoria:", error);
       throw error;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
@@ -75,6 +78,7 @@ class ProdutoModel {
   }
 
   static async descontarEstoque(produtoId, quantidade) {
+    let conn;
     try {
       const conn = await getConnection();
 
@@ -105,56 +109,64 @@ class ProdutoModel {
       console.error("Erro ao descontar estoque:", error);
       throw error;
     } finally {
-      conn.release();
+      if (conn)conn.release();
     }
   }
 
   static async contarTodos() {
-    const conn = await getConnection();
+    let conn;
     try {
+      const conn = await getConnection();
       const [rows] = await conn.query("SELECT COUNT(*) AS total FROM produtos");
       return rows[0].total;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
   static async contarCategorias() {
-    const conn = await getConnection();
+    let conn;
     try {
+      const conn = await getConnection();
       const [rows] = await conn.query(
         "SELECT COUNT(*) AS total FROM categorias"
       );
       return rows[0].total;
     } finally {
-      conn.release();
+      if (conn) conn.release();
+    }
+  }
+  static async topVendidos(limit) {
+    let conn;
+    try {
+      conn = await getConnection();
+      const [rows] = await conn.query(
+        `SELECT p.id, p.nome, SUM(ip.quantidade) AS vendidos
+         FROM itens_pedido ip
+         JOIN produtos p ON p.id = ip.produto_id
+         GROUP BY p.id
+         ORDER BY vendidos DESC
+         LIMIT ?`,
+        [limit]
+      );
+      return rows;
+    } finally {
+      if (conn) conn.release();
     }
   }
 
-  static async topVendidos(limit) {
-    const conn = await getConnection();
-    const [rows] = await conn.query(
-      `SELECT p.id, p.nome, SUM(ip.quantidade) AS vendidos
-     FROM itens_pedido ip
-     JOIN produtos p ON p.id = ip.produto_id
-     GROUP BY p.id
-     ORDER BY vendidos DESC
-     LIMIT ?`,
-      [limit]
-    );
-    return rows;
-  }
 
   static async estoqueAbaixo(qtde) {
-    const conn = await getConnection();
+    let conn;
     try {
+      conn = await getConnection();
       const [rows] = await conn.query(
         "SELECT * FROM produtos WHERE estoque <= ?",
         [qtde]
       );
       return rows;
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 }
