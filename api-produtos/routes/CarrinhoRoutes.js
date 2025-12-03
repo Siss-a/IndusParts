@@ -1,5 +1,6 @@
 import express from 'express';
 import CarrinhoController from '../controllers/CarrinhoController.js';
+//colocar auth em tudo, import dela tbm
 
 const router = express.Router();
 
