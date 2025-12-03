@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indusparts - Gestão de Usuários</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/crudprodutos.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Seção de Cadastro de Usuário -->
+        <div class="section-box">
+            <h2>Cadastrar nova empresa</h2>
+
+            <form id="formCadastro" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Nome da Empresa:</label>
+                    <input type="text" id="nome_social" name="nome_social" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Senha: </label>
+                    <input type="password" id="senhaCadastro" name="senha" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Email: </label>
+                    <input type="email" id="emailCadastro" name="email" class="form-control" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">CNPJ:</label>
+                    <input type="text" name="cnpj" id="cnpj" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Telefone:</label>
+                    <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="+55 (11) 4444-4444" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="tipo">Tipo:</label>
+                    <select id="tipo" name="tipo" class="form-control" required>
+                        <option value="comum">Comum</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-primary">Cadastrar Usuário</button>
+                </div>
+            </form>
+            <div id="mensagemCadastro" class="message-box d-none mt-3"></div>
+        </div>
+
+        <hr>
+
+        <!-- Seção de Listagem de Usuários -->
+        <div class="section-box">
+            <h2>Lista de Usuários</h2>
+            <div class="paginacao d-flex flex-wrap align-items-end mb-3">
+
+                <div class="form-group me-3">
+                    <label class="form-label">Página:</label>
+                    <input type="number" id="pagina" value="1" min="1" class="form-control">
+                </div>
+
+                <div class="form-group me-3">
+                    <label class="form-label">Itens por página:</label>
+                    <input type="number" id="limite" value="10" min="1" max="100" class="form-control">
+                </div>
+
+                <button class="btn btn-primary" onclick="carregarUsuarios()">Buscar</button>
+            </div>
+
+            <div id="infoPaginacao" class="message-box d-none"></div>
+
+            <!-- Agora existe a tabela -->
+            <table border="1" cellpadding="5" cellspacing="0" class="tabela">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome Social</th>
+                        <th>Email</th>
+                        <th>CNPJ</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaUsuarios"></tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <!-- Modal de Edição de Usuário -->
+        <div class="modal fade" id="modalEdicao" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Usuário</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="formEdicao">
+                            <input type="hidden" id="edit_id">
+
+                            <div class="mb-2">
+                                <label>Nome</label>
+                                <input type="text" id="edit_nome_social" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Email</label>
+                                <input type="email" id="edit_email" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Telefone</label>
+                                <input type="text" id="edit_telefone" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="form-label" for="tipo">Tipo:</label>
+                                <select id="editTipo" class="form-control" required>
+                                    <option value="comum">Comum</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btnSalvarEdicao">Salvar</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/usuarios.js"></script>
+
+
+
+</body>
+
+</html>

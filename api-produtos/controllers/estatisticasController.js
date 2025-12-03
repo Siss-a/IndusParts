@@ -2,15 +2,13 @@ import ProdutoModel from "../models/ProdutoModel.js";
 import UsuarioModel from "../models/UsuarioModel.js";
 import PedidoModel from "../models/PedidoModel.js";
 
-class DashboardController {
+class estatisticasController {
   static async resumo(req, res) {
     try {
       const totalProdutos = await ProdutoModel.contarTodos();
       const totalCategorias = await ProdutoModel.contarCategorias();
       const totalUsuarios = await UsuarioModel.contarUsuarios();
       const totalPedidos = await PedidoModel.contarPedidos();
-      const pedidosMes = await PedidoModel.contarPedidosMes();
-      const faturamentoMes = await PedidoModel.faturamentoMes();
       const maisVendidos = await ProdutoModel.topVendidos(5);
       const estoqueBaixo = await ProdutoModel.estoqueAbaixo(10);
 
@@ -34,4 +32,4 @@ class DashboardController {
   }
 }
 
-export default DashboardController;
+export default estatisticasController;

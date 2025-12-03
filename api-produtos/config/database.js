@@ -104,6 +104,8 @@ async function hashPassword(password) {
     }
 }
 
+export default pool;
+
 export { 
     create, 
     read, 

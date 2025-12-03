@@ -1,19 +1,64 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import dotenv from 'dotenv';
-import authRotas from './routes/AuthRotas.js';
+//import path from 'path';
+//import { fileURLToPath } from 'url';
+
 import produtoRoutes from "./routes/ProdutoRoutes.js";
 import carrinhoRoutes from "./routes/CarrinhoRoutes.js";
 import pedidoRoutes from "./routes/PedidosRoutes.js";
-import adminRotas from "./routes/AdminRotas.js";
-import usuariosRotas from "./routes/UsuarioRotas.js";
+//import usuariosRotas from "./routes/UsuarioRotas.js";
 import categoriaRoutes from './routes/CategoriaRoutes.js';
-import dashboardRoutes from './routes/DashboardRoutes.js'
+//import dashboardRoutes from './routes/DashboardRoutes.js'
 
+// Importar rotas
+import authRotas from './routes/authRotas.js';
+import usuariosRotas from './routes/usuariosRotas.js'
+//import produtoRotas from './routes/produtoRotas.js';
+
+// Importar middlewares
+// import { logMiddleware } from './middlewares/logMiddleware.js';
+//import { errorMiddleware } from './middlewares/errorMiddleware.js';
+
+// Carregar variáveis do arquivo .env
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Middlewares globais
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            scriptSrcElem: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.googleapis.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.gstatic.com"
+            ],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"]
+        }
+    }
+}));
 
 // Configuração CORS global
 app.use(cors({
@@ -29,12 +74,10 @@ app.use(express.json());
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRoutes);
-app.use('/api/admin', adminRotas);
 app.use('/api/usuarios', usuariosRotas);
 app.use('/api/carrinho', carrinhoRoutes);
 app.use('/api/pedidos', pedidoRoutes);
 app.use('/categorias', categoriaRoutes);
-app.use("/dashboard", dashboardRoutes);
 
 app.use('/uploads', express.static('uploads'));
 
@@ -45,6 +88,25 @@ app.get('/', (req, res) => {
         sucesso: true,
         mensagem: 'IndusParts - Sistema de venda de produtos industriais',
         versao: '1.0.0',
+        rotas: {
+            autenticacao: '/api/auth',
+            produtos: '/api/produtos',
+            usuarios: '/api/usuarios',
+        },
+        documentacao: {
+            login: 'POST /api/auth/login',
+            registrar: 'POST /api/auth/registrar',
+            perfil: 'GET /api/auth/perfil',
+            listarProdutos: 'GET /api/produtos',
+            buscarProduto: 'GET /api/produtos/:id',
+            criarProduto: 'POST /api/produtos',
+            atualizarProduto: 'PUT /api/produtos/:id',
+            excluirProduto: 'DELETE /api/produtos/:id',
+            listarUsuarios: 'GET /api/usuarios',
+            criarUsuario: 'POST /api/usuarios',
+            atualizarUsuario: 'PUT /api/usuarios/:id',
+            excluirUsuario: 'DELETE /api/usuarios/:id'
+        }
     });
 });
 

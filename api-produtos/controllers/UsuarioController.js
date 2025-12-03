@@ -65,7 +65,7 @@ class UsuarioController {
                 });
             }
 
-            if (senha.length < 8) {
+            if (senha.length < 6) {
                 return res.status(400).json({
                     sucesso: false,
                     erro: 'Senha muito curta',
@@ -200,6 +200,10 @@ class UsuarioController {
 
             if (tipo !== undefined) {
                 dadosAtualizacao.tipo = tipo;
+            }
+
+            if (telefone !== undefined) {
+                dadosAtualizacao.telefone = telefone;
             }
 
             // Verificar se há dados para atualizar

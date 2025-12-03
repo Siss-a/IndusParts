@@ -34,7 +34,7 @@ class ProdutoController {
 
       // Nome duplicado
       const produtoExistente = await ProdutoModel.buscarPorNome(nome.trim());
-      if (produtoExistente) {
+      if (produtoExistente.length > 0) {
         return res.status(409).json({ sucesso: false, erro: 'Produto já cadastrado' });
       }
 
@@ -53,7 +53,7 @@ class ProdutoController {
         nome: nome.trim(),
         descricao: descricao.trim(),
         id_categoria,
-        fornecedor: fornecedor.trim().toLowerCase(),
+        fornecedor: fornecedor.trim(),
         tipo: tipo.trim(),
         especificacoes: especificacoes.trim(),
         ativo: valorAtivo,
@@ -97,7 +97,7 @@ class ProdutoController {
           return res.status(400).json({ sucesso: false, erro: 'Nome inválido' });
         }
         const duplicado = await ProdutoModel.buscarPorNome(nome.trim());
-        if (duplicado && duplicado.id !== Number(id)) {
+        if (duplicado.length > 0 && duplicado[0].id !== Number(id)) {
           return res.status(409).json({ sucesso: false, erro: 'Produto já cadastrado' });
         }
         dadosAtualizacao.nome = nome.trim();
@@ -190,12 +190,6 @@ class ProdutoController {
     }
   }
 
-  //GET sem paginação
-  static async listar(req, res) {
-    const dados = await ProdutoModel.listar();
-    res.json(dados);
-  }
-
   // GET /produtos
   static async listarProdutos(req, res) {
     try {
@@ -212,17 +206,11 @@ class ProdutoController {
         return res.status(400).json({ sucesso: false, erro: 'Limite inválido' });
       }
 
-      const resultado = await ProdutoModel.listarTodos(pagina, limite);
+      const resultado = await ProdutoModel.listarTodos();
 
       return res.json({
         sucesso: true,
-        dados: resultado.produtos,
-        paginacao: {
-          pagina: resultado.pagina,
-          limite: resultado.limite,
-          total: resultado.total,
-          totalPaginas: resultado.totalPaginas
-        }
+        dados: resultado
       });
 
     } catch (error) {
@@ -232,7 +220,7 @@ class ProdutoController {
   }
 
   // GET /produtos/:id
-  static async buscarProduto(req, res) {
+  static async buscarPorId(req, res) {
     try {
       const { id } = req.params;
 
@@ -275,14 +263,24 @@ class ProdutoController {
 
   // GET /produtos/buscar/categoria
   static async buscarPorCategoria(req, res) {
+
+
     try {
       const { valor } = req.query;
 
       if (!valor || !valor.trim()) {
         return res.status(400).json({ sucesso: false, erro: "Categoria inválida" });
       }
+      const cat = Number(valor);
 
-      const produtos = await ProdutoModel.buscarPorCategoria(valor.trim());
+      if (isNaN(cat)) {
+        return res.status(400).json({
+          sucesso: false,
+          erro: "Categoria deve ser um número"
+        });
+      }
+
+      const produtos = await ProdutoModel.buscarPorCategoria(cat);
 
       return res.json({ sucesso: true, dados: produtos });
 
@@ -292,6 +290,62 @@ class ProdutoController {
     }
   }
 
+  static async uploadImagem(req, res) {
+    try {
+      const { produto_id } = req.body;
+
+      // Validações básicas
+      if (!produto_id || isNaN(produto_id)) {
+        return res.status(400).json({
+          sucesso: false,
+          erro: 'ID de produto inválido',
+          mensagem: 'O ID do produto é obrigatório e deve ser um número válido'
+        });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({
+          sucesso: false,
+          erro: 'Imagem não fornecida',
+          mensagem: 'É necessário enviar uma imagem'
+        });
+      }
+
+      // Verificar se o produto existe
+      const produtoExistente = await ProdutoModel.buscarPorId(produto_id);
+      if (!produtoExistente) {
+        return res.status(404).json({
+          sucesso: false,
+          erro: 'Produto não encontrado',
+          mensagem: `Produto com ID ${produto_id} não foi encontrado`
+        });
+      }
+
+      // Remover imagem antiga se existir
+      if (produtoExistente.imagem) {
+        await removerArquivoAntigo(produtoExistente.imagem, 'imagem');
+      }
+
+      // Atualizar produto com a nova imagem
+      await ProdutoModel.atualizar(produto_id, { imagem: req.file.filename });
+
+      res.status(200).json({
+        sucesso: true,
+        mensagem: 'Imagem enviada com sucesso',
+        dados: {
+          nomeArquivo: req.file.filename,
+          caminho: `/uploads/imagens/${req.file.filename}`
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao fazer upload de imagem:', error);
+      res.status(500).json({
+        sucesso: false,
+        erro: 'Erro interno do servidor',
+        mensagem: 'Não foi possível fazer upload da imagem'
+      });
+    }
+  }
 }
 
 export default ProdutoController;
