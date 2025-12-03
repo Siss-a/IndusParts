@@ -43,12 +43,12 @@ header {
 }
 
 .titulo {
-    transition: ease 0.3s;
+    font-weight: bold;
 }
 
-.titulo:hover {
-    transition: ease 0.3s;
-    transform: scale(1.03);
+.titulo i {
+    /* Destaque o ícone com a cor de ênfase */
+    color: var(--bege); 
 }
 
 .icones .btn-header {
@@ -72,6 +72,20 @@ header {
 header a {
     color: black !important;
     text-decoration: none;
+}
+
+/* No seu CSS */
+.link-hover {
+    color: black !important; /* Cor inicial */
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent; /* Para evitar o "salto" quando o sublinhado aparecer */
+    transition: all 0.2s ease;
+}
+
+.link-hover:hover {
+   
+    border-bottom: 2px solid var(--bege); /* Efeito de sublinhado na cor principal */
 }
 
 /* main */
