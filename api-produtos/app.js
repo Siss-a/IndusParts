@@ -83,17 +83,15 @@ app.get('/crud-usuarios', (req, res) => {
 app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
 });
-app.get('/catalogo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
-});
 app.get('/carrinho', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
 });
-app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
-});
-app.get('/catalogo', (req, res) => {
+
+app.get('/catalogo/:categoria', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+});
+app.get('/produtos/:categoria/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'produto.html'));
 });
 
 // Rotas da API

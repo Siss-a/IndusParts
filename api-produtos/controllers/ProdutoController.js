@@ -1,6 +1,7 @@
 import ProdutoModel from '../models/ProdutoModel.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs/promises'
 import { removerArquivoAntigo } from '../middlewares/uploadMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -74,6 +75,29 @@ class ProdutoController {
         }
     }
 
+    // GET /produtos/categoria/:categoria
+    static async buscarPorCategoria(req, res) {
+        try {
+            const { categoria } = req.params;
+
+            const produtos = await ProdutoModel.buscarPorCategoria(categoria);
+
+            if (!produtos) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Categoria não encontrada',
+                    mensagem: `Produto com categoria ${categoria} não encontrado`
+                });
+            }
+            res.status(200).json({ sucesso: true, dados: produtos });
+        } catch (error) {
+            console.error('Erro ao buscar produtos por categoria:', error);
+            res.status(500).json({ 
+                sucesso: false, 
+                erro: 'Erro interno', 
+                mensagem: 'Não foi possível buscar produtos por categoria' });
+         }
+    }
 
     // POST /produtos
     static async criarProduto(req, res) {
