@@ -1,4 +1,101 @@
-document.addEventListener("DOMContentLoaded", async () => {
+const container = document.getElementById("listarProdutos");
+container.querySelectorAll(".card").forEach(el => el.remove());
+const categoria = ((window.location.pathname).split("/")).pop(); /* pega o utlimo parametro do url */
+let url
+
+if (categoria == "todos") {
+    url = 'api/produtos';
+}
+else {
+    url = `api/produtos/categoria/${categoria}`;
+}
+
+fetch(url) /* informacoes dos produtos */
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+
+        const produtos = data.dados;
+        const barraPesquisa = document.getElementById('pesquisa');
+        renderizarProdutos()
+        contarProdutos()
+
+        function renderizarProdutos() {
+            container.querySelectorAll(".card").forEach(el => el.remove());
+            produtos.forEach(produto => {
+                const card = document.createElement("div");
+                card.className = "card";
+
+                let categoriaProd;
+                switch (produto.categoria) {
+                    case 'Fresas de Usinagem': categoriaProd = 'fresasdeusinagem'; break;
+                    case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    default: categoriaProd = 'todos';
+                }
+
+                card.innerHTML = `
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
+                            <img src="/uploads/imagens/${produto.img}" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">${produto.nome}</h4>
+                                <p>${produto.descricao}</p>
+                            </div>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+                setTimeout(() => (
+                    card.classList.add("show")
+                ))
+            })
+        }
+
+        function filtrarProdutos() {
+
+            container.querySelectorAll(".card").forEach(el => el.remove());
+
+            const valorPesquisa = barraPesquisa.value.toLowerCase().trim();
+            const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().includes(valorPesquisa));
+
+            produtosFiltrados.forEach(produto => {
+                const card = document.createElement("div");
+                card.className = "produto";
+
+                let categoriaProd;
+                switch (produto.categoria) {
+                    case 'Fresas de Usinagem': categoriaProd = 'fresasdeusinagem'; break;
+                    case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    default: categoriaProd = 'todos';
+                }
+
+                card.innerHTML = `
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
+                            <img src="/uploads/imagens/${produto.img}" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text">${produto.nome}</h4>
+                                <p>${produto.descricao}</p>
+                            </div>
+                        </a>
+                    </div>
+                `;
+
+                container.appendChild(card);
+                setTimeout(() => {
+                    card.classList.add("show")
+                }, 20)
+            })
+        }
+        barraPesquisa.addEventListener('input', filtrarProdutos);
+        barraPesquisa.addEventListener('search', contarProdutos);
+
+        function contarProdutos() { }
+    })
+
+/* document.addEventListener("DOMContentLoaded", async () => {
     const listaProdutos = document.getElementById("listaProdutos");
 
     // Objeto que guarda os filtros aplicados pelo usuário
@@ -64,4 +161,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
     carregar();
-});
+}); */

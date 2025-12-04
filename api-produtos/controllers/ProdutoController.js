@@ -1,52 +1,56 @@
 import ProdutoModel from '../models/ProdutoModel.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs/promises'
 import { removerArquivoAntigo } from '../middlewares/uploadMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 class ProdutoController {
-// GET /produtos
-static async listarTodos(req, res) {
-    try {
-        let pagina = parseInt(req.query.pagina) || 1;
-        let limite = parseInt(req.query.limite) || 10;
+    // GET /produtos
+    static async listarTodos(req, res) {
+        try {
+            let pagina = parseInt(req.query.pagina) || 1;
+            let limite = parseInt(req.query.limite) || 10;
 
-        if (pagina <= 0 || limite <= 0) {
-            return res.status(400).json({
-                sucesso: false,
-                erro: 'Parâmetros inválidos'
-            });
-        }
-
-        const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
-        if (limite > limiteMaximo) {
-            return res.status(400).json({
-                sucesso: false,
-                erro: `Limite máximo permitido é ${limiteMaximo}`
-            });
-        }
-
-        const offset = (pagina - 1) * limite;
-        const resultado = await ProdutoModel.listarTodos(limite, offset);
-
-        res.status(200).json({
-            sucesso: true,
-            dados: resultado,  // ✅ Agora retorna { produtos, total, totalPaginas }
-            paginacao: { 
-                pagina, 
-                limite,
-                total: resultado.total,
-                totalPaginas: resultado.totalPaginas
+            if (pagina <= 0 || limite <= 0) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Parâmetros inválidos'
+                });
             }
-        });
 
-    } catch (error) {
-        console.error('Erro ao listar produtos:', error);
-        res.status(500).json({ sucesso: false, erro: 'Erro interno' });
+            const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
+            if (limite > limiteMaximo) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: `Limite máximo permitido é ${limiteMaximo}`
+                });
+            }
+
+            const offset = (pagina - 1) * limite;
+
+            // 🎯 CORREÇÃO AQUI: Desestruturamos a resposta para que ela seja enviada corretamente.
+            // Assumindo que ProdutoModel.listarTodos retorna um objeto: { produtos: [...], total: N, totalPaginas: N }
+            const { produtos, total, totalPaginas } = await ProdutoModel.listarTodos(limite, offset);
+
+            res.status(200).json({
+                sucesso: true,
+                dados: produtos, // ⬅️ Agora retorna APENAS o array de produtos
+                paginacao: {
+                    pagina,
+                    limite,
+                    total: total, // ⬅️ Usamos a variável desestruturada 'total'
+                    totalPaginas: totalPaginas // ⬅️ Usamos a variável desestruturada 'totalPaginas'
+                }
+            });
+
+        } catch (error) {
+            console.error('Erro ao listar produtos:', error);
+            res.status(500).json({ sucesso: false, erro: 'Erro interno' });
+        }
     }
-}
 
     // GET /produtos/:id
     static async buscarPorId(req, res) {
@@ -71,6 +75,29 @@ static async listarTodos(req, res) {
         }
     }
 
+    // GET /produtos/categoria/:categoria
+    static async buscarPorCategoria(req, res) {
+        try {
+            const { categoria } = req.params;
+
+            const produtos = await ProdutoModel.buscarPorCategoria(categoria);
+
+            if (!produtos) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Categoria não encontrada',
+                    mensagem: `Produto com categoria ${categoria} não encontrado`
+                });
+            }
+            res.status(200).json({ sucesso: true, dados: produtos });
+        } catch (error) {
+            console.error('Erro ao buscar produtos por categoria:', error);
+            res.status(500).json({ 
+                sucesso: false, 
+                erro: 'Erro interno', 
+                mensagem: 'Não foi possível buscar produtos por categoria' });
+         }
+    }
 
     // POST /produtos
     static async criarProduto(req, res) {

@@ -41,6 +41,15 @@ class ProdutoModel {
         }
     }
 
+    static async buscarPorCategoria(categoria) {
+        try {
+            return await read ('produtos', `categoria = '${categoria}'`);
+        } catch (error) {
+            console.error('Erro ao buscar produtos por categoria:', error);
+            throw error;
+        }
+    }
+
     // Criar novo produto
     static async criar(dados) {
         try {

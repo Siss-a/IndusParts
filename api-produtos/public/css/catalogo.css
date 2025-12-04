@@ -1,0 +1,255 @@
+@font-face {
+    font-family: "Helvetica";
+    src: url("../helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Helv";
+    src: url("../helvetica-255/Helvetica-Oblique.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    transition: 0.2s ease;
+    font-family: "Helvetica", sans-serif;
+}
+
+:root {
+    --azul-mais-escuro: #012F6D;
+    --azul-escuro: #144272;
+    --azul: #0000ff;
+    --bege: rgb(167, 118, 96);
+    --azul-claro: rgb(26, 115, 232);
+}
+
+/* HEADER */
+
+header {
+    top: 0;
+    justify-self: center;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 12px 20px;
+    transition: box-shadow 0.3s ease;
+    z-index: 999 !important;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.titulo {
+    font-weight: bold;
+}
+
+.titulo i {
+    /* Destaque o ícone com a cor de ênfase */
+    color: var(--bege); 
+}
+
+.icones .btn-header {
+    background: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 10px;
+    font-size: 22px;
+    transition: 0.2s ease;
+}
+
+.icones .btn-header:hover {
+    background: rgba(167, 119, 96, 0.171);
+    transform: translateY(-2px);
+}
+
+.icones .btn-header:active {
+    transform: scale(0.95);
+}
+
+header a {
+    color: black !important;
+    text-decoration: none;
+}
+
+.line{
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 40px;
+}
+
+/* No seu CSS */
+.link-hover {
+    color: black !important; /* Cor inicial */
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent; /* Para evitar o "salto" quando o sublinhado aparecer */
+    transition: all 0.2s ease;
+}
+
+.link-hover:hover {
+   
+    border-bottom: 2px solid var(--bege); /* Efeito de sublinhado na cor principal */
+}
+
+/* main */
+
+/* CARD */
+.card {
+    max-width: 300px !important;
+    /* Limita a largura máxima do card individualmente */
+    width: 100%;
+    max-height: 300px;
+    height: 100%;
+    border: none !important;
+    border: none;
+    transition: 0.4s ease;
+
+    /* ADICIONE ESTA LINHA para a borda */
+    border: 1px solid var(--bege) !important;
+
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    /* OPCIONAL: Adiciona cantos arredondados */
+
+}
+
+.card:hover {
+    /* 1. Translação (Subida) */
+    transform: translateY(-5px);
+    /* 2. Sombra (Dá a impressão de que está mais alto) */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* IMG DO CARD */
+
+.card-img-top {
+    width: 100%;
+    /* MUDANÇA: Removendo a altura fixa para evitar cortes e usando 'contain' */
+    height: 180px;
+    /* Defina uma altura para a área da imagem. Usei 180px para dar espaço. */
+    object-fit: contain;
+    /* Garante que a imagem inteira seja visível e centralizada */
+    border-radius: 0 !important;
+    padding: 5px;
+    /* Adiciona um pequeno padding para afastar a imagem das bordas */
+}
+
+/* TEXTO DO CARD */
+
+.card-body {
+    text-align: start;
+    height: 100%;
+    margin-top: 10px !important;
+    padding: 5px !important;
+    /* MUDANÇA: Aplicando o padding de 5px */
+    border-radius: 0 !important;
+}
+
+.card-body h4 {
+    color: var(--bege);
+}
+
+
+h2{
+    color: var(--bege) !important;
+}
+
+
+/* ============ ESTILIZAÇÃO DA SEÇÃO DE PESQUISA/FILTROS (.coisa) ============= */
+
+
+.coisa {
+    /* Usa flexbox para organizar os elementos: H1, Input e Selects */
+    display: flex;
+    flex-direction: column; /* Começa como coluna para mobile */
+    gap: 15px; /* Espaçamento entre os elementos */
+    padding: 15px 0; /* Espaçamento vertical interno */
+}
+
+/* Alinhamento dos inputs/selects para desktop */
+@media (min-width: 768px) {
+    .coisa {
+        flex-direction: row; /* Muda para linha em telas maiores que 768px */
+        align-items: center;
+        flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha se necessário */
+    }
+    .coisa h1 {
+        /* Garante que o H1 ocupe a largura total no desktop */
+        width: 100%; 
+        margin-bottom: 5px !important;
+    }
+}
+
+/* Título */
+.coisa h1 {
+    color: var(--bege); /* Usa uma das suas cores escuras para o título */
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Campo de Pesquisa (Input) */
+#pesquisa {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; /* Largura total no mobile */
+    /* No desktop, o flexbox se encarrega de dar o espaço */
+}
+
+#pesquisa::placeholder {
+    color: #999;
+}
+
+/* Filtros (Selects) */
+#filtroCategoria,
+#filtroPreco {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    cursor: pointer;
+    
+    /* MANTÉM OS FILTROS EM LARGURA MÁXIMA NO MOBILE */
+    width: 100%; 
+    
+    /* Estiliza o foco para combinar com a cor principal */
+    outline-color: var(--bege);
+}
+
+/* Alinhamento e dimensionamento dos selects no desktop */
+@media (min-width: 768px) {
+    #pesquisa {
+        /* Aumenta a prioridade de crescimento da barra de pesquisa */
+        flex-grow: 1; 
+        max-width: 400px;
+    }
+    #filtroCategoria,
+    #filtroPreco {
+        width: auto; /* Deixa o select ter a largura do conteúdo (ou do padrão do navegador) */
+        min-width: 150px;
+    }
+}
+
+/* Estilo para as opções (opcional, menos controle no CSS) */
+select option {
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* TESTE     */
+
+/* ==================================== */
+/* ESTILOS DE INTERAÇÃO PARA INPUTS E SELECTS */
+/* ==================================== */
+
+/* Estilização quando o mouse passa por cima */
+#pesquisa:hover,
+#filtroCategoria:hover,
+#filtroPreco:hover {
+    border-color: var(--bege); /* Borda fica na cor principal */
+    transition: 0.2s ease;
+}
