@@ -186,9 +186,8 @@ header a {
 /* IMG DO CARD */
 .card-img-top {
     width: 100%;
-    height: 169px;
-    /* altura fixa */
-    object-fit: cover;
+    height: 170px;
+    object-fit: contain;
     border-radius: 0 !important;
 }
 
