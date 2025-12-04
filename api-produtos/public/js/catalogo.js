@@ -1,13 +1,13 @@
-const container = document.getElementById("listarProdutos");
-container.querySelectorAll(".card").forEach(el => el.remove());
+const container = document.getElementById("listaProdutos");
+container.querySelectorAll(".card-produto").forEach(el => el.remove());
 const categoria = ((window.location.pathname).split("/")).pop(); /* pega o utlimo parametro do url */
 let url
 
 if (categoria == "todos") {
-    url = 'api/produtos';
+    url = '/api/produtos';
 }
 else {
-    url = `api/produtos/categoria/${categoria}`;
+    url = `/api/produtos/categoria/${categoria}`;
 }
 
 fetch(url) /* informacoes dos produtos */
@@ -21,10 +21,10 @@ fetch(url) /* informacoes dos produtos */
         contarProdutos()
 
         function renderizarProdutos() {
-            container.querySelectorAll(".card").forEach(el => el.remove());
+            container.querySelectorAll(".card-produto").forEach(el => el.remove());
             produtos.forEach(produto => {
                 const card = document.createElement("div");
-                card.className = "card";
+                card.className = "card-produto";
 
                 let categoriaProd;
                 switch (produto.categoria) {
@@ -54,20 +54,20 @@ fetch(url) /* informacoes dos produtos */
 
         function filtrarProdutos() {
 
-            container.querySelectorAll(".card").forEach(el => el.remove());
+            container.querySelectorAll(".card-produto").forEach(el => el.remove());
 
             const valorPesquisa = barraPesquisa.value.toLowerCase().trim();
             const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().includes(valorPesquisa));
 
             produtosFiltrados.forEach(produto => {
                 const card = document.createElement("div");
-                card.className = "produto";
+                card.className = "card-produto";
 
                 let categoriaProd;
                 switch (produto.categoria) {
                     case 'Fresas de Usinagem': categoriaProd = 'fresasdeusinagem'; break;
                     case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    case 'Fixação': categoriaProd = 'fixacao'; break;
                     default: categoriaProd = 'todos';
                 }
 
@@ -95,7 +95,7 @@ fetch(url) /* informacoes dos produtos */
         function contarProdutos() {
             const valorPesquisa = barraPesquisa.value.toLowerCase().trim();
             const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().includes(valorPesquisa));
-            const quantidadeProd = documentd.getElementById('quantidade-produtos');
+            const quantidadeProd = document.getElementById('quantidade-produtos');
             quantidadeProd.textContent = produtosFiltrados.length;
 
             if (produtosFiltrados.length === 0) {
