@@ -24,13 +24,36 @@ const __dirname = path.dirname(__filename);
 // Configurações do servidor
 const PORT = process.env.PORT || 3000;
 
-// Middlewares globais
-
 app.use(helmet({
-    // Desativa a política de segurança de conteúdo para evitar bloqueio de imagens/scripts
-    contentSecurityPolicy: false,
-    // Permite carregar recursos de origens cruzadas (importante para imagens locais em alguns casos)
-    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            scriptSrcElem: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.googleapis.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.gstatic.com"
+            ],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"]
+        }
+    }
 }));
 
 
