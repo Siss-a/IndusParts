@@ -18,51 +18,33 @@
     <link rel="stylesheet" href="../css/index.css">
 </head>
 
-
 <body>
-    <header class="container d-flex flex-column gap-2 p-2">
-        <div class="d-flex align-items-center justify-content-between w-100">
-            <!-- LOGO -->
-            <a class="text-decoration-none" href="#">
-                <h1 class="fs-3 titulo">
-                    <i style="color: var(--bege);" class="bi bi-gear-fill me-2"></i>IndusParts
-                </h1>
-            </a>
-            <!-- ÍCONES NO MOBILE/LAPTOP (Carrinho + Conta + Menu) -->
-            <div class="d-flex align-items-center gap-2 d-lg-none icones">
-                <a href="#"><button id="btnCarrinhoMobile" class="material-icons btn-header">shopping_cart</button></a>
-                <a href="#"><button id="btnContaMobile" class="material-icons btn-header">person</button></a>
-                <!-- Botão Hamburguer -->
-                <button class="material-icons btn-header" data-bs-toggle="collapse" data-bs-target="#menuMobile">
-                    menu
-                </button>
-            </div>
-            <!-- ÍCONES NO DESKTOP -->
-            <div class="d-none d-lg-flex align-items-center gap-2 icones">
-                <a href="#"><button id="btnCarrinhoDesk" class="material-icons btn-header">shopping_cart</button></a>
-                <a href="#"><button id="btnContaDesk" class="material-icons btn-header">person</button></a>
-            </div>
+    <header class="d-flex flex-column gap-2 p-2" style="width: 90%;">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <!-- LOGO -->
+      <a class="text-decoration-none" href="/home">
+        <h1 class="fs-3 titulo">
+          <i style="color: var(--bege);" class="bi bi-gear-fill me-2"></i>IndusParts
+        </h1>
+      </a>
+      <!-- ÍCONES NO MOBILE/LAPTOP (Carrinho + Conta + Menu) -->
+      <div class="d-flex align-items-center gap-2 d-lg-none icones">
+        <a href="/carrinho"><button id="btnCarrinhoMobile" class="material-icons btn-header">shopping_cart</button></a>
+        <a href="/perfil"><button id="btnContaMobile" class="material-icons btn-header">person</button></a>
+        <a href="/catalogo/todos" id="btnProdutosDesk" class="material-icons btn-header">storefront</a>
+        
+      </div>
+      <!-- ÍCONES NO DESKTOP -->
+      <div class="d-none d-lg-flex align-items-center gap-2 icones">
+        <a href="/carrinho"><button id="btnCarrinhoDesk" class="material-icons btn-header">shopping_cart</button></a>
+        <a href="/perfil"><button id="btnContaDesk" class="material-icons btn-header">person</button></a>
+         <a href="/catalogo/todos" id="btnProdutosDesk" class="material-icons btn-header">storefront</a>
+      </div>
 
-        </div>
+    </div>
 
-        <!-- LINKS DO MENU (DESKTOP) -->
-
-        <div class="d-none d-lg-flex gap-4">
-            <a href="/catalogo" class="link-hover">Produtos</a>
-            <a href="/perfil" class="link-hover">Perfil</a>
-            <a href="/carrinho" class="link-hover">Carrinho</a>
-        </div>
-
-        <!-- MENU MOBILE QUE ABRE AO CLICAR -->
-
-        <div id="menuMobile" class="collapse d-lg-none">
-            <div class="d-flex  flex-column gap-2 mt-2">
-                <a href="/catalogo" class="link-hover">Produtos</a>
-                <a href="/perfil" class="link-hover">Perfil</a>
-                <a href="/carrinho" class="link-hover">Carrinho</a>
-            </div>
-        </div>
-    </header>
+    
+  </header>
 
 
 

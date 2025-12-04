@@ -10,8 +10,65 @@ body {
     background-color: #f8f9fa;
 }
 
+.container {
+    max-width: 100%;
+    width: 90%;
+}
+
+/* HEADER */
+
+header {
+    top: 0;
+    justify-self: center;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 12px 20px;
+    transition: box-shadow 0.3s ease;
+    z-index: 999 !important;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.titulo {
+    transition: ease 0.3s;
+}
+
+.titulo:hover {
+    transition: ease 0.3s;
+    transform: scale(1.03);
+}
+
+.icones .btn-header {
+    background: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 10px;
+    font-size: 22px;
+    transition: 0.2s ease;
+}
+
+.icones .btn-header:hover {
+    background: rgba(167, 119, 96, 0.171);
+    transform: translateY(-2px);
+}
+
+.icones .btn-header:active {
+    transform: scale(0.95);
+}
+
+header a {
+    color: black !important;
+    text-decoration: none;
+}
+
+
+
+
 .navbar {
-    background-color: var(--azul-escuro);
+    background-color: var(--bege);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -27,15 +84,12 @@ body {
 
 .thumbnail-img:hover,
 .thumbnail-img.active {
-    border-color: var(--azul-escuro);
+    border-color: var(--bege);
     transform: scale(1.05);
 }
 
 .main-image-container {
-    background-color: white;
-    border: 2px solid #e9ecef;
-    border-radius: 12px;
-    padding: 40px;
+    border-radius: 12px;  
     min-height: 450px;
     display: flex;
     align-items: center;
@@ -58,7 +112,7 @@ body {
 }
 
 .brand-badge {
-    background-color: var(--azul-escuro);
+    background-color: var(--bege);
     color: white;
     padding: 6px 16px;
     display: inline-block;
@@ -72,14 +126,14 @@ body {
 .product-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #2d3748;
+    color: rgb(116, 91, 67);
     margin: 1rem 0;
 }
 
 .price {
     font-size: 2.5rem;
     font-weight: 700;
-    color: black;
+    color: var(--bege);
     margin: 1rem 0;
 }
 
@@ -95,25 +149,25 @@ body {
   } */
 
 .btn-add-cart {
-    background-color: var(--azul-escuro);
+    background-color: var(--bege);
     color: white;
     padding: 12px 24px;
-    border: none;
+    border: 1px solid var(--bege) !important;
     font-size: 16px;
     font-weight: 600;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    transition: 0.4s ease;
 }
 
 .btn-add-cart:hover {
-    background-color: var(--azul-mais-escuro);
+    background-color: var(--bege);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 61, 122, 0.3);
+    transition: 0.4s ease;
 }
 
 .btn-wishlist {
-    border: 2px solid var(--azul-escuro);
-    color: var(--azul-escuro);
+    border: 2px solid var(--bege);
+    color: var(--bege);
     padding: 12px 24px;
     font-size: 16px;
     font-weight: 600;
@@ -122,20 +176,19 @@ body {
 }
 
 .btn-wishlist:hover {
-    background-color: var(--azul-escuro);
+    background-color: var(--bege);
     color: white;
 }
 
 .specs-list {
-    background-color: #f7fafc;
+    background-color: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
-    border-left: 4px solid var(--azul-escuro);
+    border-left: 4px solid var(--bege);
 }
 
 .specs-list li {
     padding: 8px 0;
-    border-bottom: 1px solid #e2e8f0;
 }
 
 .specs-list li:last-child {
@@ -157,7 +210,7 @@ body {
 .product-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    border-color: var(--azul-escuro);
+    border-color: var(--bege);
 }
 
 .product-card-img {
@@ -182,7 +235,7 @@ body {
 .product-card-title {
     font-size: 0.9rem;
     font-weight: 600;
-    color: #2d3748;
+    color: var(--bege);
     margin-bottom: 8px;
     height: 40px;
     overflow: hidden;
@@ -194,7 +247,7 @@ body {
 .product-card-price {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--azul-escuro);
+    color: var(--bege) !important;
     margin-bottom: 5px;
 }
 
@@ -207,9 +260,9 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 2px solid var(--azul-escuro);
+    border: 2px solid var(--bege);
     background-color: white;
-    color: var(--azul-escuro);
+    color: var(--bege);
     font-size: 18px;
     display: flex;
     align-items: center;
@@ -219,8 +272,8 @@ body {
 }
 
 .carousel-btn:hover {
-    background-color: var(--azul-escuro);
-    color: white;
+    background-color: var(--bege);
+    color: var(--bege);
 }
 
 .info-card {
@@ -252,15 +305,15 @@ body {
 }
 
 .qa-accordion .accordion-button {
-    background-color: #f8f9fa;
-    color: #2d3748;
+    background-color: var(--bege);
+    color: white;
     font-weight: 600;
     padding: 16px 20px;
     border: none;
 }
 
 .qa-accordion .accordion-button:not(.collapsed) {
-    background-color: var(--azul-escuro);
+    background-color: black;
     color: white;
 }
 
@@ -276,10 +329,11 @@ body {
     line-height: 1.6;
 }
 
+
 .section-title {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #755b43;
     margin-bottom: 1.5rem;
     position: relative;
     padding-bottom: 10px;
@@ -292,7 +346,7 @@ body {
     left: 0;
     width: 300px;
     height: 4px;
-    background-color: var(--azul-escuro);
+    background-color: var(--bege);
     border-radius: 2px;
 }
 
@@ -352,23 +406,6 @@ body {
     align-items: center;
 }
 
-/* Miniaturas (coluna vertical em md+) */
-.thumbnails {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: row;
-    align-items: center;
-}
-
-@media(min-width: 768px) {
-    .thumbnails {
-        flex-direction: column;
-        width: 120px;
-    }
-
-    /* largura da coluna de miniaturas */
-}
-
 .thumbnail-img {
     cursor: pointer;
     border: 2px solid transparent;
@@ -378,17 +415,9 @@ body {
 }
 
 .thumbnail-img.active {
-    border-color: #0d6efd;
+    border-color: var(--bege);
 }
 
-.thumbnail-img img {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    max-width: 120px;
-    /* tamanho das miniaturas em mobile/desktop */
-}
 
 @media(min-width: 768px) {
     .thumbnail-img img {
@@ -400,12 +429,22 @@ body {
 /* Imagem principal maior */
 .main-image-container {
     flex: 1 1 auto;
+    
     max-width: 640px;
+    padding: 0 !important;
     /* controlar tamanho da imagem principal */
+}
+
+
+
+.line {
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 40px;
 }
 
 .main-image {
     width: 100%;
+    
     height: auto;
     border-radius: 8px;
     object-fit: contain;

@@ -46,7 +46,6 @@
 }
 
 
-
 * {
     transition: 0.2s ease;
     font-family: "Helvetica", sans-serif;
@@ -101,14 +100,6 @@ header {
     font-size: 22px;
     transition: 0.2s ease;
 }
-
-
-
-
-
-
-
-
 
 
 .icones .btn-header:hover {
