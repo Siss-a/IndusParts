@@ -24,7 +24,7 @@ fetch(url) /* informacoes dos produtos */
             container.querySelectorAll(".card-produto").forEach(el => el.remove());
             produtos.forEach(produto => {
                 const card = document.createElement("div");
-                card.className = "card-produto";
+                card.className = "col-12 col-sm-6 col-md-3";
 
                 let categoriaProd;
                 switch (produto.categoria) {
@@ -35,7 +35,6 @@ fetch(url) /* informacoes dos produtos */
                 }
 
                 card.innerHTML = `
-                    <div class="col-12 col-sm-6 col-md-3">
                         <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
                             <img src="/uploads/imagens/${produto.img}" class="card-img-top">
                             <div class="card-body">
@@ -43,7 +42,6 @@ fetch(url) /* informacoes dos produtos */
                                 <p>${produto.descricao}</p>
                             </div>
                         </a>
-                    </div>
                 `;
                 container.appendChild(card);
                 setTimeout(() => {

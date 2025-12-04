@@ -1,4 +1,12 @@
-const params = new URLSearchParams(window.location.search);
+const id = (window.location.pathname.split("/")).pop();
+const caracteresID = (id.toString()).length;
+
+let codigoProd
+if (caracteresID === 5) {
+    codigoProd = ´000${produto.id}´
+}
+
+/* const params = new URLSearchParams(window.location.search);
 const produtoId = params.get("id");
 
 // Validação para se o ID do produto não for válido
@@ -133,3 +141,4 @@ addBtn.addEventListener("click", function() {
 
 // Inicializa
 carregarProduto();
+ */
