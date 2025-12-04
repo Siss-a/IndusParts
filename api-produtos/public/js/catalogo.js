@@ -38,9 +38,14 @@ fetch(url) /* informacoes dos produtos */
                         <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
                             <img src="/uploads/imagens/${produto.img}" class="card-img-top">
                             <div class="card-body">
-                                <h4 class="card-text">${produto.nome}</h4>
+                                <h4 class="card-text" style="overflow: hidden; height: 30px;">${produto.nome}</h4>
                                 <p>${produto.descricao}</p>
+
                             </div>
+                                <div class="w-100 h-100">
+                                    <p class="preco">R$ ${produto.preco}</p>
+                                </div>
+                            
                         </a>
                 `;
                 container.appendChild(card);

@@ -1,3 +1,11 @@
+  :root {
+    --azul-mais-escuro: #012F6D;
+    --azul-escuro: #144272;
+    --bege: rgb(167, 118, 96);
+    --azul-claro: rgb(26, 115, 232);
+  }
+
+
 /* crudprodutos.css */
 
 /* =========================
@@ -50,6 +58,55 @@ h2 {
   border: 1px solid var(--border-light);
 }
 
+
+
+
+
+
+/* Wrapper de rolagem */
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* Remove quebra feia no mobile */
+.table-scroll table {
+    min-width: 700px; /* valor ideal para manter tudo visível */
+    border-collapse: collapse;
+}
+
+/* Ativa estilo de carrossel só no mobile */
+@media (max-width: 425px) {
+    .table-scroll {
+        -webkit-overflow-scrolling: touch; /* rolagem suave no iPhone */
+        scroll-snap-type: x mandatory;     /* efeito de carrossel */
+        display: block;
+        padding-bottom: 10px;
+    }
+
+    .table-scroll table th,
+    .table-scroll table td {
+        white-space: nowrap; /* evita quebra das células */
+        scroll-snap-align: start;
+    }
+}
+
+.bobo{
+  border: 1px solid var(--bege);
+  transition: 0.5s ease;
+  border-radius: 5px !important;
+}
+
+.bebe{
+  border: 1px solid red !important;
+  transition: 0.5s ease;
+  color:#721c24;
+  border-radius: 5px !important;
+}
+
+
+
 /* =========================
    Formulários
 ========================= */
@@ -59,8 +116,13 @@ h2 {
   margin-bottom: .5rem;
 }
 
+.form-control{
+  cursor: pointer;
+}
+
 .form-control,
 .form-select {
+
   border-radius: 5px;
   border: 1px solid var(--border-light);
   padding: 0.75rem 1rem;
