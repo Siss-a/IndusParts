@@ -53,10 +53,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Servir arquivos estáticos
 
-// NOVO: Rota que mapeia explicitamente /imagens para a pasta public/imagens
-app.use('/imagens', express.static(path.join(__dirname, 'public', 'imagens'))); 
-// Se você tentar acessar /imagens/foto.png, ele vai procurar em public/imagens/foto.png
-
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 

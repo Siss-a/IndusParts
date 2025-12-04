@@ -13,7 +13,6 @@ else {
 fetch(url) /* informacoes dos produtos */
     .then(res => res.json())
     .then(data => {
-        console.log(data);
 
         const produtos = data.dados;
         const barraPesquisa = document.getElementById('pesquisa');
@@ -48,6 +47,38 @@ fetch(url) /* informacoes dos produtos */
                     card.classList.add("show")
                 }, 20)
             })
+        }
+
+
+
+        function contarProdutos() {
+            const valorPesquisa = barraPesquisa.value.toLowerCase().trim();
+            const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().includes(valorPesquisa));
+            const quantidadeProd = document.getElementById('quantidade-produtos');
+            quantidadeProd.textContent = produtosFiltrados.length;
+
+            if (produtosFiltrados.length === 0) {
+                const mensagemAviso = document.getElementById('sem-resultados')
+                if (mensagemAviso) {
+                    mensagemAviso.remove();
+                }
+
+                const mensagem = document.createElement('div');
+                mensagem.id = 'sem-resultados';
+                mensagem.className = 'aviso-sem-resultados';
+                mensagem.innerHTML = `
+                    <h3>Nenhum produto encontrado</h3>
+                    <p> Sua pesquisa "<strong>${barraPesquisa.value}</strong>" não retornou resultados.</p>
+                `
+                container.appendChild(mensagem);
+
+                setTimeout(() => {
+                    mensagem.classList.add("show")
+                }, 20)
+            }
+            if (produtosFiltrados.length > 0) {
+                container.querySelectorAll('.aviso-sem-resultados').forEach(el => el.remove());
+            }
         }
 
         function filtrarProdutos() {
@@ -89,36 +120,6 @@ fetch(url) /* informacoes dos produtos */
         }
         barraPesquisa.addEventListener('input', filtrarProdutos);
         barraPesquisa.addEventListener('search', contarProdutos);
-
-        function contarProdutos() {
-            const valorPesquisa = barraPesquisa.value.toLowerCase().trim();
-            const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().includes(valorPesquisa));
-            const quantidadeProd = document.getElementById('quantidade-produtos');
-            quantidadeProd.textContent = produtosFiltrados.length;
-
-            if (produtosFiltrados.length === 0) {
-                const mensagemAviso = document.getElementById('sem-resultados')
-                if (mensagemAviso) {
-                    mensagemAviso.remove();
-                }
-
-                const mensagem = document.createElement('div');
-                mensagem.id = 'sem-resultados';
-                mensagem.className = 'aviso-sem-resultados';
-                mensagem.innerHTML = `
-                    <h3>Nenhum produto encontrado</h3>
-                    <p> Sua pesquisa "<strong>${barraPesquisa.value}</strong>" não retornou resultados.</p>
-                `
-                container.appendChild(mensagem);
-
-                setTimeout(() => {
-                    mensagem.classList.add("show")
-                }, 20)
-            }
-            if (produtosFiltrados.length > 0) {
-                container.querySelectorAll('.aviso-sem-resultados').forEach(el => el.remove());
-            }
-        }
     }
     )
 

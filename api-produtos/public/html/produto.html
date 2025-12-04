@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alicate Universal - Tramontina</title>
+  <title id="titulo"></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -21,9 +21,9 @@
       <div class="col-12 col-md-6 mb-4 mb-lg-0">
         <div class="gallery-wrap d-flex flex-column flex-md-row">
           <!-- Miniaturas (no celular ficam abaixo por causa do order) -->
-          <div class="thumbnails order-2 order-md-1 d-flex flex-row flex-md-column">
+          <!-- <div class="thumbnails order-2 order-md-1 d-flex flex-row flex-md-column">
             <div class="thumbnail-img active" data-index="0">
-              <img src="./imagens/fotinha.png" alt="Miniatura 1" />
+              <img id="" src="./imagens/fotinha.png" alt="Miniatura 1" />
             </div>
             <div class="thumbnail-img" data-index="1">
               <img src="../bird.jpg" alt="Miniatura 2" />
@@ -34,12 +34,12 @@
             <div class="thumbnail-img" data-index="3">
               <img src="../cat.jpg" alt="Miniatura 4" />
             </div>
-          </div>
+          </div> -->
 
           <!-- Imagem Principal -->
-           <!-- order 1 faz com que apareca primeiro  -->
+          <!-- order 1 faz com que apareca primeiro  -->
           <div class="main-image-container flex-grow-1 order-1 order-md-2">
-            <img class="main-image img-fluid" src="../cat.jpg" alt="Imagem principal do produto" />
+            <img class="main-image img-fluid" id="imagem-produto" alt="Imagem principal do produto" />
           </div>
         </div>
       </div>
@@ -48,25 +48,20 @@
       <!-- col-12 para ter 100% de width no mobile e col-md-6 no desktop -->
       <!-- order é para forçar a posição entre colunas -->
       <div class="col-12 col-md-6 product-info">
-        <span class="brand-badge mb-3 d-inline-block">Tramontina</span>
+        <span class="brand-badge mb-3 d-inline-block" id="fornecedor-produto">Tramontina</span>
 
-        <h1 class="product-title">Alicate Universal Profissional</h1>
+        <h1 class="product-title titulo-produto" id="titulo-produto"></h1>
 
-        <div class="price mb-3">R$523,99</div>
+        <div class="price mb-3" id="preco-produto">R$523,99</div>
 
         <ul class="specs-list list-unstyled mb-4" style="min-height: 27vh;">
-          <li><strong>Marca:</strong> <span class="text-muted">Hada Labo Tokyo</span></li>
+          <li><strong>Marca:</strong> <span class="text-muted" id="marca-produto">Hada Labo Tokyo</span>
+            <p id="descricao-produto">kfhkshjsfjk</p>
+          </li>
         </ul>
 
         <div class="mb-4">
-          <label for="tipo" class="form-label fw-bold">Escolha o tipo:</label>
-          <select id="tipo" class="form-select" style="max-width: 250px">
-            <option value="">Selecione uma opção</option>
-            <option value="universal">Universal</option>
-            <option value="corte">Corte Diagonal</option>
-            <option value="bico">Bico Reto</option>
-            <option value="curvo">Bico Curvo</option>
-          </select>
+          <h4 for="tipo" class="form-label fw-bold">Estoque: <span id="estoque-produto"></span></h4>
         </div>
 
         <div class="d-grid gap-2 d-md-flex">
@@ -89,7 +84,7 @@
           <i class="bi bi-chevron-left"></i>
         </button>
         <div class="carousel-container d-flex gap-3 flex-grow-1 p-5" id="productsCarousel">
-          <div class="product-card">
+          <!-- <div class="product-card">
             <div class="product-card-img">
               <img src="cat.jpg" alt="Alicate de Corte" />
             </div>
@@ -202,7 +197,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <button class="carousel-btn" id="nextBtn">
           <i class="bi bi-chevron-right"></i>
         </button>
@@ -363,8 +358,9 @@
     </div>
   </footer>
 
+  <script src="../js/produto.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+  <!-- <script>
     // Adicionar ao carrinho com animação
     document
       .getElementById("addToCart")
@@ -433,7 +429,7 @@
           this.style.color = "";
         }
       });
-  </script>
+  </script> -->
 </body>
 
 </html>

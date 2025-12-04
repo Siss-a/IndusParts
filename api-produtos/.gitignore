@@ -16,8 +16,8 @@ logs
 *.log
 
 # Arquivos de upload
-# uploads/*
-# !uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
 
 # Arquivos temporários
 .tmp/
