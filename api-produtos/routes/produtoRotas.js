@@ -7,8 +7,9 @@ const router = express.Router();
 
 // Rotas públicas (não precisam de autenticação)
 router.get('/', ProdutoController.listarTodos);
-router.get('/:id', ProdutoController.buscarPorId);
 router.get('/categoria/:categoria', ProdutoController.buscarPorCategoria);
+router.get('/:id', ProdutoController.buscarPorId);
+
 
 // Rotas protegidas (precisam de autenticação)
 router.post('/', authMiddleware,  uploadImagens.single('imagem'), handleUploadError, ProdutoController.criarProduto);
