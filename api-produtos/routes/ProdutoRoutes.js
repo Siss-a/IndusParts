@@ -29,7 +29,7 @@ router.options('/upload', (req, res) => {
 });
 
 router.options('/:id', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-aOrigin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.status(200).send();

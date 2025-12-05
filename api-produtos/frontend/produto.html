@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CRUD Produtos</title>
+  </head>
+  <body>
+    <h1>CRUD Produtos</h1>
+
+    <!-- LISTAR -->
+    <section>
+      <h2>Listar Produtos</h2>
+      <button onclick="listarProdutos()">Carregar</button>
+      <pre id="lista"></pre>
+    </section>
+
+    <hr />
+
+    <!-- CRIAR -->
+    <section>
+      <h2>Criar Produto com Imagem</h2>
+
+      <input type="text" id="nome" placeholder="Nome" /><br />
+      <input type="number" id="preco" placeholder="Preço" /><br />
+      <input type="text" id="descricao" placeholder="Descrição" /><br />
+      <input type="number" id="categoria" placeholder="Categoria" /><br />
+      <input type="text" id="fornecedor" placeholder="Fornecedor" /><br />
+      <input type="text" id="tipo" placeholder="Tipo" /><br />
+      <input
+        type="text"
+        id="especificacoes"
+        placeholder="Especificações"
+      /><br />
+      <label>Imagem:</label><br />
+      <input type="file" name="imagem" accept="image/*" /><br /><br />
+
+      <button onclick="criarProdutoComImagem()">Criar Produto</button>
+
+      <pre id="retornoCriar"></pre>
+    </section>
+
+    <hr />
+
+    <!-- ATUALIZAR -->
+    <section>
+      <h2>Atualizar Produto</h2>
+
+      <input id="updId" type="text" placeholder="ID do produto" /><br /><br />
+      <input id="updNome" type="text" placeholder="Nome" /><br /><br />
+      <input
+        id="updPreco"
+        type="number"
+        step="0.01"
+        placeholder="Preço"
+      /><br /><br />
+      <input
+        id="updDescricao"
+        type="text"
+        placeholder="Descrição"
+      /><br /><br />
+      <input
+        id="updCategoria"
+        type="number"
+        placeholder="ID Categoria"
+      /><br /><br />
+      <input
+        id="updFornecedor"
+        type="text"
+        placeholder="Fornecedor"
+      /><br /><br />
+      <input id="updTipo" type="text" placeholder="Tipo" /><br /><br />
+      <input
+        id="updEspecificacoes"
+        type="text"
+        placeholder="Especificações"
+      /><br /><br />
+      <select id="updAtivo">
+        <option value="true">Ativo</option>
+        <option value="false">Inativo</option></select
+      ><br /><br />
+
+      <label>Nova Imagem (opcional):</label><br />
+      <input type="file" name="imagem" accept="image/*" /><br /><br />
+
+      <button type="submit" onclick="atualizarProduto()">Atualizar</button>
+
+      <pre id="retornoAtualizar"></pre>
+    </section>
+
+    <hr />
+
+    <!-- EXCLUIR -->
+    <section>
+      <h2>Excluir Produto</h2>
+
+      <input type="number" id="del_id" placeholder="ID" /><br />
+      <button onclick="excluirProduto()">Excluir</button>
+      <pre id="retornoExcluir"></pre>
+    </section>
+
+    <hr />
+
+    <!-- BUSCAR NOME -->
+    <section>
+      <h2>Buscar por Nome</h2>
+
+      <input type="text" id="buscar_nome" placeholder="Nome" /><br />
+      <button onclick="buscarPorNome()">Buscar</button>
+      <pre id="retornoBuscaNome"></pre>
+    </section>
+
+    <hr />
+
+    <!-- BUSCAR CATEGORIA -->
+    <section>
+      <h2>Buscar por Categoria</h2>
+
+      <input type="number" id="buscar_cat" placeholder="Categoria" /><br />
+      <button onclick="buscarPorCategoria()">Buscar</button>
+      <pre id="retornoBuscaCat"></pre>
+    </section>
+
+    <script>
+      const API = "http://localhost:3000/produtos";
+
+      document
+        .getElementById("formCriar")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData(e.target);
+
+          const resposta = await fetch("http://localhost:3000/produtos", {
+            method: "POST",
+            body: formData,
+          });
+
+          const dados = await resposta.json();
+          console.log(dados);
+          alert("Produto criado!");
+        });
+
+      async function listarProdutos() {
+        const res = await fetch(API);
+        const data = await res.json();
+        document.querySelector("#lista").textContent = JSON.stringify(
+          data.dados,
+          null,
+          2
+        );
+      }
+
+      async function criarProdutoComImagem() {
+        const form = new FormData();
+        form.append("nome", document.querySelector("#nome").value);
+        form.append("preco", document.querySelector("#preco").value);
+        form.append("descricao", document.querySelector("#descricao").value);
+        form.append("id_categoria", document.querySelector("#categoria").value);
+        form.append("fornecedor", document.querySelector("#fornecedor").value);
+        form.append("tipo", document.querySelector("#tipo").value);
+        form.append(
+          "especificacoes",
+          document.querySelector("#especificacoes").value
+        );
+        form.append("ativo", "true");
+        form.append("imagem", document.querySelector("#imagem").files[0]);
+
+        const res = await fetch(API, { method: "POST", body: form });
+        const data = await res.json();
+
+        document.querySelector("#retornoCriar").textContent = JSON.stringify(
+          data,
+          null,
+          2
+        );
+      }
+
+      async function atualizarProduto() {
+        const id = document.getElementById("updId").value;
+
+        const form = new FormData();
+        form.append("nome", document.getElementById("updNome").value);
+        form.append("preco", document.getElementById("updPreco").value);
+        form.append("descricao", document.getElementById("updDescricao").value);
+        form.append(
+          "id_categoria",
+          document.getElementById("updCategoria").value
+        );
+        form.append(
+          "fornecedor",
+          document.getElementById("updFornecedor").value
+        );
+        form.append("tipo", document.getElementById("updTipo").value);
+        form.append(
+          "especificacoes",
+          document.getElementById("updEspecificacoes").value
+        );
+        form.append("ativo", document.getElementById("updAtivo").value);
+
+        const imagem = document.getElementById("updImagem").files[0];
+        if (imagem) {
+          form.append("imagem", imagem);
+        }
+
+        const res = await fetch(`http://localhost:3000/produtos/${id}`, {
+          method: "PUT",
+          body: form,
+        });
+
+        const data = await res.json();
+        console.log(data);
+      }
+
+      async function excluirProduto() {
+        const id = document.querySelector("#del_id").value;
+
+        const res = await fetch(`${API}/${id}`, { method: "DELETE" });
+        const data = await res.json();
+
+        document.querySelector("#retornoExcluir").textContent = JSON.stringify(
+          data,
+          null,
+          2
+        );
+      }
+
+      async function buscarPorNome() {
+        const nome = document.querySelector("#buscar_nome").value;
+
+        const res = await fetch(`${API}/buscar/nome?valor=${nome}`);
+        const data = await res.json();
+
+        document.querySelector("#retornoBuscaNome").textContent =
+          JSON.stringify(data.dados, null, 2);
+      }
+
+      async function buscarPorCategoria() {
+        const cat = document.querySelector("#buscar_cat").value;
+
+        const res = await fetch(`${API}/buscar/categoria?valor=${cat}`);
+        const data = await res.json();
+
+        document.querySelector("#retornoBuscaCat").textContent = JSON.stringify(
+          data.dados,
+          null,
+          2
+        );
+      }
+    </script>
+  </body>
+</html>
