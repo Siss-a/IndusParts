@@ -96,3 +96,7 @@ try {
 } catch (error) {
     console.error('Erro ao procurar produto', error)
 }
+
+document.getElementById('btn-add-carrinho').onclick = function() {
+    adicionarAoCarrinho(produto.id, 1);
+};

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import authRotas from './routes/authRotas.js';
 import usuariosRotas from './routes/usuariosRotas.js'
 import produtoRotas from './routes/produtoRotas.js';
+import carrinhoRotas from './routes/carrinhoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -117,6 +118,7 @@ app.get('/produtos/:categoria/:id', (req, res) => {
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/usuarios', usuariosRotas);
+app.use('/api/carrinho', carrinhoRotas);
 
 
 // Rota raiz
