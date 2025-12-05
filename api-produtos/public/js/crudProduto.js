@@ -186,8 +186,7 @@ async function carregarProdutos() {
                         <p style="margin: 5px 0;"><strong>ID:</strong> ${produto.id}</p>
                         <p style="margin: 5px 0;"><strong>Fornecedor:</strong> ${produto.fornecedor || 'N/A'}</p>
                         <p style="margin: 5px 0;"><strong>Categoria:</strong> ${produto.categoria || 'N/A'}</p>
-                        <p style="margin: 5px 0;"><strong>Status:</strong>
-                        </p>
+                        <p style="margin: 5px 0;"><strong>Estoque: </strong>${produto.estoque}</p>
                         <p style="margin: 5px 0;"><strong>Descrição:</strong> ${produto.descricao || 'Sem descrição'}</p>
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
