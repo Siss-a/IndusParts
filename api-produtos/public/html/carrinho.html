@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Carrinho</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
+<h1>Meu Carrinho</h1>
 
-<h1>Carrinho de Compras</h1>
-<div id="cartContainer"></div>
+<ul id="lista-carrinho"></ul>
 
-<button id="limpar" style="margin-top:20px;">Limpar Carrinho</button>
+<h2 id="total"></h2>
 
-<script type="module" src="../js/carrinho.js"></script>
-
-</body>
-</html>
+<script src="js/carrinho.js"></script>
+<script>
+    carregarCarrinho();
+</script>
