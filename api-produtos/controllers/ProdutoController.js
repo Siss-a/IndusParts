@@ -1,7 +1,7 @@
 import ProdutoModel from '../models/ProdutoModel.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import fs from 'fs/promises'
+// import fs from 'fs/promises'
 import { removerArquivoAntigo } from '../middlewares/uploadMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -102,7 +102,7 @@ class ProdutoController {
     // POST /produtos
     static async criarProduto(req, res) {
         try {
-            const { nome, descricao, id_categoria, fornecedor, tipo, especificacoes, ativo } = req.body;
+            const { nome, descricao, categoria, fornecedor, estoque, preco/* , especificacoes, ativo  */} = req.body;
 
             const erros = [];
 
@@ -118,11 +118,12 @@ class ProdutoController {
                 nome: nome.trim(),
                 descricao: descricao || null,
                 img: req.file ? req.file.filename : null,
-                id_categoria: id_categoria || null,
+                categoria: categoria || null,
                 fornecedor: fornecedor || null,
-                tipo: tipo || null,
-                especificacoes: especificacoes || null,
-                ativo: ativo ?? true
+                estoque: estoque || null,
+                preco: preco || null
+                // especificacoes: especificacoes || null,
+                // ativo: ativo ?? true
             };
 
             const produtoId = await ProdutoModel.criar(dadosProduto);
