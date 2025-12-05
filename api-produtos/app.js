@@ -24,7 +24,6 @@ const __dirname = path.dirname(__filename);
 // Configurações do servidor
 const PORT = process.env.PORT || 3000;
 
-// Middlewares globais
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -57,6 +56,7 @@ app.use(helmet({
     }
 }));
 
+
 // Configuração CORS global
 app.use(cors({
     origin: '*', // Permitir todas as origens. Ajuste conforme necessário. Ex.: 'http://meufrontend.com'
@@ -72,8 +72,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //  Servir arquivos estáticos
+
+
+// Servir arquivos estáticos
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Middleware para log de requisições (salva no banco de dados)
 // app.use(logMiddleware);
@@ -94,20 +99,18 @@ app.get('/crud-produtos', (req, res) => {
 app.get('/crud-usuarios', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
 });
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
-});
-app.get('/catalogo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
 });
 app.get('/carrinho', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
 });
-app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
-});
-app.get('/catalogo', (req, res) => {
+
+app.get('/catalogo/:categoria', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+});
+app.get('/produtos/:categoria/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'produto.html'));
 });
 
 // Rotas da API

@@ -1,4 +1,4 @@
-import { getConnection } from '../config/database.js';
+import {create, read, update, deleteRecord, getConnection} from '../config/database.js'
 
 class ProdutoModel {
     // Listar todos os produtos com paginação
@@ -37,6 +37,15 @@ class ProdutoModel {
             return rows[0] || null;
         } catch (error) {
             console.error('Erro ao buscar produto por ID:', error);
+            throw error;
+        }
+    }
+
+    static async buscarPorCategoria(categoria) {
+        try {
+            return await read ('produtos', `categoria = '${categoria}'`);
+        } catch (error) {
+            console.error('Erro ao buscar produtos por categoria:', error);
             throw error;
         }
     }
@@ -137,21 +146,6 @@ class ProdutoModel {
             return result.affectedRows > 0;
         } catch (error) {
             console.error('Erro ao excluir produto:', error);
-            throw error;
-        }
-    }
-
-    // Buscar produtos por categoria
-    static async buscarPorCategoria(id_categoria, limite, offset) {
-        try {
-            const db = await getConnection();
-            const [produtos] = await db.query(
-                'SELECT * FROM produtos WHERE id_categoria = ? ORDER BY id DESC LIMIT ? OFFSET ?',
-                [id_categoria, limite, offset]
-            );
-            return produtos;
-        } catch (error) {
-            console.error('Erro ao buscar produtos por categoria:', error);
             throw error;
         }
     }
