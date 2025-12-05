@@ -2,6 +2,7 @@
 --- data: 03/12/25
 
 USE indusparts;
+
 INSERT INTO produtos 
 (nome, preco, descricao, img, fornecedor, categoria, estoque)
 VALUES
