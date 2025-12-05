@@ -42,9 +42,9 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.titulo {
-    font-weight: bold;
-}
+/* .titulo {
+    
+} */
 
 .titulo i {
     /* Destaque o ícone com a cor de ênfase */
@@ -100,7 +100,7 @@ header a {
     max-width: 300px !important;
     /* Limita a largura máxima do card individualmente */
     width: 100%;
-    max-height: 300px;
+    max-height: 380px;
     height: 100%;
     border: none !important;
     border: none;
@@ -141,15 +141,28 @@ header a {
 .card-body {
     text-align: start;
     height: 100%;
+    /* max-height: 10px; */
     margin-top: 10px !important;
-    padding: 5px !important;
     /* MUDANÇA: Aplicando o padding de 5px */
     border-radius: 0 !important;
+
+    /* overflow: hidden; */
 }
 
 .card-body h4 {
     color: var(--bege);
 }
+
+.card-body p{
+    height: 50px;
+    overflow: hidden;
+}
+
+.preco{
+    color: var(--bege);
+    padding-left: 5px;
+}
+
 
 
 h2{

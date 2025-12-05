@@ -1,22 +1,21 @@
 const id = (window.location.pathname.split("/")).pop();
 const caracteresID = (id.toString()).length;
 
+console.log(id)
 const nome = document.getElementById('titulo-produto')
 const preco = document.getElementById('preco-produto')
-const fornecedor = document.getElementById('fornecedor-produto')
 const estoque = document.getElementById('estoque-produto')
 const interesses = document.getElementById('productsCarousel')
 const imagem = document.getElementById('imagem-produto')
 const titulo = document.getElementById('titulo')
 const descricao = document.querySelectorAll(".descricao-produto");
 const codigo = document.getElementById("codigo-produto")
-
-console.log('id: ', id)
+const fornecedor = document.querySelectorAll(".nome-empresa")
 
 let produtoSelecionado
 
 try {
-    await fetch(`/api/produtos/${id}`)
+    fetch(`/api/produtos/${id}`)
         .then(res => res.json())
         .then(data => {
             return data.dados
@@ -53,18 +52,19 @@ try {
                 })
                 .then(produtos => {
                     interesses.innerHTML = ''
-                    produtos.slice(0, 4).forEach(produto => {
+                    produtos.slice(0, 8).forEach(produto => {
                         const card = document.createElement('div')
                         card.className = 'product-card'
 
                         card.innerHTML = `
                             <a href="/produtos/${categoriaProd}/${produto.id}">
                                 <div class="product-card-img">
-                                    <img src="cat.jpg" alt="Alicate de Corte" />
+                                    <img src="/uploads/imagens/${produto.img}" alt="Alicate de Corte" />
                                 </div>
                                 <div class="product-card-body">
-                                    <h3 class="product-card-title">Alicate de Corte Diagonal 8"</h3>
-                                    <div class="product-card-price">R$398,90</div>
+                                    <h3 class="product-card-title">${produto.nome}</h3>
+                                    <div class="product-card-price">${produto.preco}</div>
+                                    
                                     <div class="product-card-rating">
                                         <i class="bi bi-star-fill"></i>
                                         <i class="bi bi-star-fill"></i>
@@ -84,7 +84,7 @@ try {
             nome.innerHTML = `${produto.nome}`
             preco.innerText = `${produto.preco}`
             descricao.forEach(desc => desc.innerText = produto.descricao)
-            fornecedor.innerText = `${produto.fornecedor}`
+            fornecedor.forEach((el) => (el.textContent = produto.fornecedor));
             estoque.innerText = `${produto.estoque}`
             imagem.src = `/uploads/imagens/${produto.img}`
             titulo.innerText = `${produto.nome}`

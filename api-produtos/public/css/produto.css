@@ -1,0 +1,463 @@
+:root {
+    --azul-mais-escuro: #012F6D;
+    --azul-escuro: #144272;
+    --bege: rgb(167, 118, 96);
+    --azul-claro: rgb(26, 115, 232);
+}
+
+
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 100%;
+    width: 90%;
+}
+
+/* HEADER */
+
+header {
+    top: 0;
+    justify-self: center;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 12px 20px;
+    transition: box-shadow 0.3s ease;
+    z-index: 999 !important;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header.scrolled {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.titulo {
+    transition: ease 0.3s;
+}
+
+.titulo:hover {
+    transition: ease 0.3s;
+    transform: scale(1.03);
+}
+
+.icones .btn-header {
+    background: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 10px;
+    font-size: 22px;
+    transition: 0.2s ease;
+}
+
+.icones .btn-header:hover {
+    background: rgba(167, 119, 96, 0.171);
+    transform: translateY(-2px);
+}
+
+.icones .btn-header:active {
+    transform: scale(0.95);
+}
+
+header a {
+    color: black !important;
+    text-decoration: none;
+}
+
+
+
+
+.navbar {
+    background-color: var(--bege);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-img {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.thumbnail-img:hover,
+.thumbnail-img.active {
+    border-color: var(--bege);
+    transform: scale(1.05);
+}
+
+.main-image-container {
+    border-radius: 12px;  
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.05);
+}
+
+.brand-badge {
+    background-color: var(--bege);
+    color: white;
+    padding: 6px 16px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 13px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(116, 91, 67);
+    margin: 1rem 0;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bege);
+    margin: 1rem 0;
+}
+
+
+
+/* .discount-badge {
+    background-color: #48bb78;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  } */
+
+.btn-add-cart {
+    background-color: var(--bege);
+    color: white;
+    padding: 12px 24px;
+    border: 1px solid var(--bege) !important;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: 0.4s ease;
+}
+
+.btn-add-cart:hover {
+    background-color: var(--bege);
+    transform: translateY(-2px);
+    transition: 0.4s ease;
+}
+
+.btn-wishlist {
+    border: 2px solid var(--bege);
+    color: var(--bege);
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-wishlist:hover {
+    background-color: var(--bege);
+    color: white;
+}
+
+.specs-list {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--bege);
+}
+
+.specs-list li {
+    padding: 8px 0;
+}
+
+.specs-list li:last-child {
+    border-bottom: none;
+}
+
+.product-card {
+    min-width: 220px;
+    width: 220px;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--bege);
+}
+
+.product-card-img {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-card-img img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+.product-card-body {
+    padding: 15px;
+}
+
+.product-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--bege);
+    margin-bottom: 8px;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+}
+
+.product-card-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--bege) !important;
+    margin-bottom: 5px;
+}
+
+.product-card-rating {
+    font-size: 0.85rem;
+    color: #fbbf24;
+}
+
+.carousel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--bege);
+    background-color: white;
+    color: var(--bege);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background-color: var(--bege);
+    color: var(--bege);
+}
+
+.info-card {
+    background: linear-gradient(135deg, #e0e7ff 0%, #cfd9e8 100%);
+    padding: 24px;
+    border-radius: 12px;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--azul-escuro);
+    margin-bottom: 16px;
+}
+
+.qa-accordion .accordion-item {
+    border: none;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.qa-accordion .accordion-button {
+    background-color: var(--bege);
+    color: white;
+    font-weight: 600;
+    padding: 16px 20px;
+    border: none;
+}
+
+.qa-accordion .accordion-button:not(.collapsed) {
+    background-color: black;
+    color: white;
+}
+
+.qa-accordion .accordion-button:focus {
+    box-shadow: none;
+    border: none;
+}
+
+.qa-accordion .accordion-body {
+    background-color: white;
+    padding: 20px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #755b43;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 4px;
+    background-color: var(--bege);
+    border-radius: 2px;
+}
+
+.rating {
+    color: #fbbf24;
+    font-size: 1.2rem;
+}
+
+.stock-badge {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .product-title {
+        font-size: 1.5rem;
+    }
+
+    .price {
+        font-size: 2rem;
+    }
+
+    .thumbnail-img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.carousel-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+.thumbnails-wrapper {
+    overflow: hidden;
+}
+
+
+/* Ajustes de tamanho e layout */
+.product-row {
+    align-items: start;
+}
+
+.gallery-wrap {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.thumbnail-img {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.thumbnail-img.active {
+    border-color: var(--bege);
+}
+
+
+@media(min-width: 768px) {
+    .thumbnail-img img {
+        max-width: 100%;
+        height: 100%;
+    }
+}
+
+/* Imagem principal maior */
+.main-image-container {
+    flex: 1 1 auto;
+    
+    max-width: 640px;
+    padding: 0 !important;
+    /* controlar tamanho da imagem principal */
+}
+
+
+
+.line {
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 40px;
+}
+
+.main-image {
+    width: 100%;
+    
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Garante que o conteúdo à direita fique alinhado */
+.product-info {
+    padding-left: 1rem;
+}
+
+@media(min-width: 992px) {
+    .product-info {
+        padding-left: 2rem;
+    }
+}

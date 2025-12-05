@@ -54,9 +54,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("cnpjEmpresa").innerText = usuario.cnpj;
     document.getElementById("emailEmpresa").innerText = usuario.email;
     document.getElementById("telefoneEmpresa").innerText = usuario.telefone;
-    document
-      .querySelectorAll(".nome-empresa")
-      .forEach((el) => (el.textContent = usuario.nome_social));
+    document.querySelectorAll(".nome-empresa").forEach((el) => (el.textContent = usuario.nome_social));
   } catch (error) {
     console.error("Erro ao carregar dados do usuário:", error);
   }

@@ -38,7 +38,8 @@
 
                 <div class="col-md-4">
                     <label class="form-label">Telefone:</label>
-                    <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="+55 (11) 4444-4444" required>
+                    <input type="tel" name="telefone" id="telefone" class="form-control"
+                        placeholder="+55 (11) 4444-4444" required>
                 </div>
 
                 <div class="col-md-4">
@@ -78,25 +79,28 @@
 
             <div id="infoPaginacao" class="message-box d-none"></div>
 
+
+
             <!-- Agora existe a tabela -->
-            <table border="1" cellpadding="5" cellspacing="0" class="tabela">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome Social</th>
-                        <th>Email</th>
-                        <th>CNPJ</th>
-                        <th>Telefone</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaUsuarios"></tbody>
-            </table>
+            <div class="table-scroll">
+                <table border="1" cellpadding="5" cellspacing="0" class="tabela">
+                    <thead class="">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CNPJ</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaUsuarios"></tbody>
+                </table>
+            </div>
         </div>
 
         <hr>
-
-        <!-- Modal de Edição de Usuário -->
+       <!-- Modal de Edição de Usuário -->
         <div class="modal fade" id="modalEdicao" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">

@@ -18,44 +18,14 @@ fetch(url) /* informacoes dos produtos */
         const barraPesquisa = document.getElementById('pesquisa');
         renderizarProdutos()
         contarProdutos()
-
-        function renderizarProdutos() {
-            container.querySelectorAll(".card-produto").forEach(el => el.remove());
-            produtos.forEach(produto => {
-                const card = document.createElement("div");
-                card.className = "col-12 col-sm-6 col-md-3";
-
-                let categoriaProd;
-                switch (produto.categoria) {
-                    case 'Fresas de Usinagem': categoriaProd = 'fresasdeusinagem'; break;
-                    case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
-                    default: categoriaProd = 'todos';
-                }
-
-                card.innerHTML = `
-                        <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
-                            <img src="/uploads/imagens/${produto.img}" class="card-img-top">
-                            <div class="card-body">
-                                <h4 class="card-text">${produto.nome}</h4>
-                                <p>${produto.descricao}</p>
-                            </div>
-                        </a>
-                `;
-                container.appendChild(card);
-                setTimeout(() => {
-                    card.classList.add("show")
-                }, 20)
-            })
-        }
-
-
-
+        
         function contarProdutos() {
             const valorPesquisa = barraPesquisa.value.toLowerCase().trim();
             const produtosFiltrados = produtos.filter(produto => produto.nome.toLowerCase().includes(valorPesquisa));
             const quantidadeProd = document.getElementById('quantidade-produtos');
-            quantidadeProd.textContent = produtosFiltrados.length;
+            quantidadeProd.innerHTML = `
+            <span>${produtosFiltrados.length} produtos encontrados</span>
+            `;
 
             if (produtosFiltrados.length === 0) {
                 const mensagemAviso = document.getElementById('sem-resultados')
@@ -76,9 +46,49 @@ fetch(url) /* informacoes dos produtos */
                     mensagem.classList.add("show")
                 }, 20)
             }
-            if (produtosFiltrados.length > 0) {
+            if(produtosFiltrados.length === 1){
+                quantidadeProd.innerHTML = '<p<<span>1</span> produto encontrado</p>'
+            }
+            if (produtosFiltrados.length >= 2) {
                 container.querySelectorAll('.aviso-sem-resultados').forEach(el => el.remove());
             }
+        }
+
+        function renderizarProdutos() {
+            container.querySelectorAll(".card-produto").forEach(el => el.remove());
+            produtos.forEach(produto => {
+                const card = document.createElement("div");
+                card.className = "col-12 col-sm-6 col-md-3 card-produto";
+
+                let categoriaProd;
+                switch (produto.categoria) {
+                    case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+                    case 'Ferramentas de Furação' : categoriaProd = 'ferramentas-de-furacao'; break;
+                    case 'Fixação' : categoriaProd = 'fixacao'; break;
+                    case 'Cortes' : categoriaProd = 'cortes'; break;
+                    case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    default: categoriaProd = 'todos';
+                }
+
+                card.innerHTML = `
+                        <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
+                            <img src="/uploads/imagens/${produto.img}" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-text" style="overflow: hidden; height: 30px;">${produto.nome}</h4>
+                                <p>${produto.descricao}</p>
+
+                            </div>
+                                <div class="w-100 h-100">
+                                    <p class="preco">R$ ${produto.preco}</p>
+                                </div>
+                        </a>
+                `;
+                container.appendChild(card);
+                setTimeout(() => {
+                    card.classList.add("show")
+                }, 20)
+            })
         }
 
         function filtrarProdutos() {
@@ -90,7 +100,7 @@ fetch(url) /* informacoes dos produtos */
 
             produtosFiltrados.forEach(produto => {
                 const card = document.createElement("div");
-                card.className = "card-produto";
+                card.className = "col-12 col-sm-6 col-md-3 card-produto";
 
                 let categoriaProd;
                 switch (produto.categoria) {
@@ -101,15 +111,17 @@ fetch(url) /* informacoes dos produtos */
                 }
 
                 card.innerHTML = `
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
-                            <img src="/uploads/imagens/${produto.img}" class="card-img-top">
-                            <div class="card-body">
-                                <h4 class="card-text">${produto.nome}</h4>
-                                <p>${produto.descricao}</p>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
+                        <img src="/uploads/imagens/${produto.img}" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text" style="overflow: hidden; height: 30px;">${produto.nome}</h4>
+                            <p>${produto.descricao}</p>
+
+                        </div>
+                        <div class="w-100 h-100">
+                                <p class="preco">R$ ${produto.preco}</p>
+                        </div>
+                    </a>
                 `;
 
                 container.appendChild(card);
@@ -119,7 +131,7 @@ fetch(url) /* informacoes dos produtos */
             })
         }
         barraPesquisa.addEventListener('input', filtrarProdutos);
-        barraPesquisa.addEventListener('search', contarProdutos);
+        barraPesquisa.addEventListener('input', contarProdutos);
     }
     )
 

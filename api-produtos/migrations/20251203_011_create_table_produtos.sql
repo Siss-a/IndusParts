@@ -1,6 +1,6 @@
 --20251203_011_create_table_produtos.sql
 
-use indusparts
+use indusparts;
 
 create table produtos (
     id int primary key not null auto_increment,
