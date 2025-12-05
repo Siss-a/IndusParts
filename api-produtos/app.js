@@ -99,7 +99,7 @@ app.get('/crud-produtos', (req, res) => {
 app.get('/crud-usuarios', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
 });
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
 });
 app.get('/carrinho', (req, res) => {

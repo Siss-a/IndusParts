@@ -1,3 +1,7 @@
+/* const { createElement } = require("react"); */
+
+/* const { createElement } = require("react"); */
+
 function irParaCarrinho() {
   const token = localStorage.getItem("token");
 
@@ -19,11 +23,9 @@ function irParaPerfil() {
 }
 
 // BOTÕES DO CARRINHO
-document
-  .getElementById("btnCarrinhoMobile")
+document.getElementById("btnCarrinhoMobile")
   ?.addEventListener("click", irParaCarrinho);
-document
-  .getElementById("btnCarrinhoDesk")
+document.getElementById("btnCarrinhoDesk")
   ?.addEventListener("click", irParaCarrinho);
 
 // BOTÕES DA CONTA
@@ -37,7 +39,7 @@ document
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     // 1. Busca os produtos do banco
-    const res = await fetch("/api/usuario/produtos", {
+    const res = await fetch("/api/produtos", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -84,11 +86,23 @@ window.addEventListener("DOMContentLoaded", async () => {
       row.className = "row g-3 justify-content-center";
 
       produtos.slice(i, i + chunkSize).forEach(prod => {
+
+        let categoriaProd;
+        switch (prod.categoria) {
+          case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+          case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
+          case 'Fixação': categoriaProd = 'fixacao'; break;
+          case 'Cortes': categoriaProd = 'cortes'; break;
+          case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+          case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+          default: categoriaProd = 'todos';
+        }
+
         const col = document.createElement("div");
         col.className = "col-12 col-md-3";
         col.innerHTML = `
-          <a href="" class="card h-100 text-decoration-none">
-            <img src="${prod.imagem}" class="card-img-top">
+          <a href="/produtos/${categoriaProd}/${prod.id}" class="card h-100 text-decoration-none">
+            <img src="/uploads/imagens/${prod.img}" class="card-img-top">
             <div class="card-body">
               <h4 class="card-text">${prod.nome}</h4>
               <p>${prod.descricao}</p>
@@ -106,3 +120,94 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.error("Erro ao carregar produtos:", error);
   }
 });
+
+/* BIAAAAA
+try {
+  const container = document.getElementById('carrossel')
+  fetch('/api/produtos/')
+    .then(res => res.json())
+    .then(data => {
+      console.log(data.dados)
+      return data.dados
+    })
+    .then(produtos => {
+      container.innerHTML = ''
+      produtos.slice(0, 8).forEach(produto => {
+        console.log(produto)
+        let categoriaProd;
+
+        switch (produto.categoria) {
+          case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+          case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
+          case 'Fixação': categoriaProd = 'fixacao'; break;
+          case 'Cortes': categoriaProd = 'cortes'; break;
+          case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+          case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+          default: categoriaProd = 'todos';
+        }
+
+        
+        const produtoCarousel = createElement('div')
+        produtoCarousel.className = 'col-12 col-md-3'
+
+        produtoCarousel.innerHTML = `
+        <a href="" class="card h-100 text-decoration-none">
+          <img src="/uploads/imagens/${produto.img} class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-text">${produto.nome}testee</h4>
+              <p>A broca com ponta intercambiável para furação de alto volume.</p>
+            </div>
+        </a>
+        `
+      })
+
+      fetch(`/api/produtos/categoria/${produto.categoria}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log(data.dados)
+          return data.dados
+        })
+        .then(produtos => {
+          interesses.innerHTML = ''
+          produtos.slice(0, 8).forEach(produto => {
+            const card = document.createElement('div')
+            card.className = 'product-card'
+
+            card.innerHTML = `
+                            <a href="/produtos/${categoriaProd}/${produto.id}">
+                                <div class="product-card-img">
+                                    <img src="/uploads/imagens/${produto.img}" alt="Alicate de Corte" />
+                                </div>
+                                <div class="product-card-body">
+                                    <h3 class="product-card-title">${produto.nome}</h3>
+                                    <div class="product-card-price">${produto.preco}</div>
+                                    
+                                    <div class="product-card-rating">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                        <span class="text-muted ms-1">(203)</span>
+                                    </div>
+                                </div>
+                            </a>
+                        `
+
+            interesses.appendChild(card)
+          })
+        })
+
+      nome.innerHTML = `${produto.nome}`
+      preco.innerText = `R$${produto.preco}`
+      descricao.forEach(desc => desc.innerText = produto.descricao)
+      fornecedor.forEach((el) => el.textContent = produto.fornecedor);
+      estoque.innerText = `${produto.estoque}`
+      imagem.src = `/uploads/imagens/${produto.img}`
+      titulo.innerText = `${produto.nome}`
+      codigo.innerHTML = codigoProduto;
+      categoria.innerHTML = `${produto.categoria}`
+    })
+} catch (error) {
+  console.error('Erro ao procurar produto', error)
+} */

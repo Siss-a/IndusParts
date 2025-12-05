@@ -11,9 +11,7 @@ const titulo = document.getElementById('titulo');
 const codigo = document.getElementById("codigo-produto");
 const descricao = document.querySelectorAll(".descricao-produto");
 const fornecedor = document.querySelectorAll(".fornecedor-produto");
-const categoria = document.getElementById('categoria-produto')
-
-let produtoSelecionado
+const categoria = document.getElementById('categoria-produto');
 
 try {
     fetch(`/api/produtos/${id}`)
@@ -39,9 +37,12 @@ try {
 
             let categoriaProd;
             switch (produto.categoria) {
-                case 'Fresas de Usinagem': categoriaProd = 'fresasdeusinagem'; break;
-                case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+                case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
                 case 'Fixação': categoriaProd = 'fixacao'; break;
+                case 'Cortes': categoriaProd = 'cortes'; break;
+                case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
                 default: categoriaProd = 'todos';
             }
 
@@ -60,7 +61,7 @@ try {
                         card.innerHTML = `
                             <a href="/produtos/${categoriaProd}/${produto.id}">
                                 <div class="product-card-img">
-                                    <img src="/uploads/imagens/${produto.img}" alt="Alicate de Corte" />
+                                    <img src="/uploads/imagens/${produto.img}" alt="${produto.nome}" />
                                 </div>
                                 <div class="product-card-body">
                                     <h3 class="product-card-title">${produto.nome}</h3>

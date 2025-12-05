@@ -1,4 +1,13 @@
-// ============================================
+window.addEventListener('DOMContentLoaded', async() => {
+    const token = localStorage.getItem('token');
+
+    if(!token){
+        window.location.href = '/login'
+    }
+})
+
+
+/* // ============================================
 // FUNÇÃO AUXILIAR PARA REQUISIÇÕES AUTENTICADAS
 // ============================================
 async function fetchWithAuth(url, options = {}) {
@@ -358,4 +367,4 @@ document.getElementById('btnBuscar')?.addEventListener('click', () => {
 // ============================================
 window.addEventListener('DOMContentLoaded', () => {
     carregarProdutos();
-});
+}); */
