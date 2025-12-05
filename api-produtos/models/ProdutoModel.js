@@ -55,7 +55,7 @@ class ProdutoModel {
         try {
             const db = await getConnection();
             const sql = `
-                INSERT INTO produtos (nome, descricao, img, ativo, id_categoria, fornecedor, tipo, especificacoes)
+                INSERT INTO produtos (nome, preco, descricao, img, ativo, id_categoria, fornecedor, tipo, especificacoes)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
             const values = [
