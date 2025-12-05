@@ -1,20 +1,20 @@
-import {create, read, update, deleteRecord, getConnection} from '../config/database.js'
+import { create, read, update, deleteRecord, getConnection } from '../config/database.js'
 
 class ProdutoModel {
     // Listar todos os produtos com paginação
     static async listarTodos(limite, offset) {
         try {
             const db = await getConnection();
-            
+
             // Buscar produtos
             const [produtos] = await db.query(
                 'SELECT * FROM produtos ORDER BY id DESC LIMIT ? OFFSET ?',
                 [limite, offset]
             );
-            
+
             // Buscar total de registros
             const [total] = await db.query('SELECT COUNT(*) as total FROM produtos');
-            
+
             return {
                 produtos,
                 total: total[0].total,
@@ -43,7 +43,7 @@ class ProdutoModel {
 
     static async buscarPorCategoria(categoria) {
         try {
-            return await read ('produtos', `categoria = '${categoria}'`);
+            return await read('produtos', `categoria = '${categoria}'`);
         } catch (error) {
             console.error('Erro ao buscar produtos por categoria:', error);
             throw error;
@@ -55,18 +55,19 @@ class ProdutoModel {
         try {
             const db = await getConnection();
             const sql = `
-                INSERT INTO produtos (nome, descricao, img, ativo, id_categoria, fornecedor, tipo, especificacoes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            `;
+            INSERT INTO produtos (nome, descricao, img, categoria, fornecedor, especificacoes, preco, estoque)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
             const values = [
                 dados.nome,
-                dados.descricao || null,
-                dados.img || null,
-                dados.ativo ?? true,
-                dados.id_categoria || null,
-                dados.fornecedor || null,
-                dados.tipo || null,
-                dados.especificacoes || null
+                dados.descricao,
+                dados.img,
+                dados.categoria,
+                dados.fornecedor,
+                dados.especificacoes,
+                dados.preco,
+                dados.estoque
             ];
 
             const [result] = await db.query(sql, values);
@@ -77,15 +78,16 @@ class ProdutoModel {
         }
     }
 
+
     // Atualizar produto (UPDATE dinâmico - só campos enviados)
     static async atualizar(id, dados) {
         try {
             const db = await getConnection();
-            
+
             // Construir SQL dinamicamente apenas com campos fornecidos
             const campos = [];
             const valores = [];
-            
+
             if (dados.nome !== undefined) {
                 campos.push('nome = ?');
                 valores.push(dados.nome);
@@ -118,15 +120,15 @@ class ProdutoModel {
                 campos.push('especificacoes = ?');
                 valores.push(dados.especificacoes);
             }
-            
+
             // Se não há campos para atualizar, retorna true
             if (campos.length === 0) {
                 return true;
             }
-            
+
             valores.push(id);
             const sql = `UPDATE produtos SET ${campos.join(', ')} WHERE id = ?`;
-            
+
             const [result] = await db.query(sql, valores);
             return result.affectedRows > 0;
         } catch (error) {

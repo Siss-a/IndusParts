@@ -13,7 +13,7 @@ router.get('/:id', ProdutoController.buscarPorId);
 
 // Rotas protegidas (precisam de autenticação)
 router.post('/', authMiddleware,  uploadImagens.single('imagem'), handleUploadError, ProdutoController.criarProduto);
-router.post('/upload', authMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.uploadImagem);
+// router.post('/upload', authMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.uploadImagem);
 router.put('/atualizar/:id', authMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.atualizar);
 router.delete('/excluir/:id', authMiddleware, ProdutoController.excluir);
 

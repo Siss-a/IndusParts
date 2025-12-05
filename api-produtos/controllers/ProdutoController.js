@@ -92,22 +92,35 @@ class ProdutoController {
             res.status(200).json({ sucesso: true, dados: produtos });
         } catch (error) {
             console.error('Erro ao buscar produtos por categoria:', error);
-            res.status(500).json({ 
-                sucesso: false, 
-                erro: 'Erro interno', 
-                mensagem: 'Não foi possível buscar produtos por categoria' });
-         }
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno',
+                mensagem: 'Não foi possível buscar produtos por categoria'
+            });
+        }
     }
 
     // POST /produtos
     static async criarProduto(req, res) {
         try {
-            const { nome, descricao, categoria, fornecedor, estoque, preco/* , especificacoes, ativo  */} = req.body;
+            const { nome, descricao, categoria, fornecedor, estoque, preco, especificacoes } = req.body;
 
             const erros = [];
 
             if (!nome || nome.trim().length < 3) {
                 erros.push({ campo: 'nome', mensagem: 'Nome deve ter pelo menos 3 caracteres' });
+            }
+
+            if (preco === undefined || preco === null || isNaN(Number(preco))) {
+                erros.push({ campo: 'preco', mensagem: 'Preço é obrigatório e deve ser numérico' });
+            }
+
+            if (estoque === undefined || estoque === null || isNaN(Number(estoque))) {
+                erros.push({ campo: 'estoque', mensagem: 'Estoque é obrigatório e deve ser numérico' });
+            }
+
+            if (!categoria) {
+                erros.push({ campo: 'categoria', mensagem: 'Categoria é obrigatória' });
             }
 
             if (erros.length > 0) {
@@ -116,14 +129,13 @@ class ProdutoController {
 
             const dadosProduto = {
                 nome: nome.trim(),
-                descricao: descricao || null,
+                descricao: descricao ?? null,
                 img: req.file ? req.file.filename : null,
-                categoria: categoria || null,
-                fornecedor: fornecedor || null,
-                estoque: estoque || null,
-                preco: preco || null
-                // especificacoes: especificacoes || null,
-                // ativo: ativo ?? true
+                categoria,
+                fornecedor: fornecedor ?? null,
+                estoque: parseInt(estoque),
+                preco: parseFloat(preco),
+                especificacoes: especificacoes ?? null,
             };
 
             const produtoId = await ProdutoModel.criar(dadosProduto);
@@ -139,6 +151,7 @@ class ProdutoController {
             res.status(500).json({ sucesso: false, erro: 'Erro interno' });
         }
     }
+
 
 
     // PUT /produtos/:id
