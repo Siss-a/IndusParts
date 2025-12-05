@@ -168,21 +168,20 @@ class ProdutoController {
                 return res.status(404).json({ sucesso: false, erro: 'Produto não encontrado' });
             }
 
-            const { nome, descricao, id_categoria, fornecedor, tipo, especificacoes, ativo } = req.body;
+            const { nome, descricao, categoria, fornecedor, tipo, especificacoes, ativo } = req.body;
 
             const dadosAtualizacao = {
                 nome: nome ?? produtoExistente.nome,
                 descricao: descricao ?? produtoExistente.descricao,
-                id_categoria: id_categoria ?? produtoExistente.id_categoria,
+                categoria: categoria ?? produtoExistente.categoria,
                 fornecedor: fornecedor ?? produtoExistente.fornecedor,
                 tipo: tipo ?? produtoExistente.tipo,
                 especificacoes: especificacoes ?? produtoExistente.especificacoes,
-                ativo: ativo ?? produtoExistente.ativo
             };
 
             if (req.file) {
                 if (produtoExistente.img) {
-                    await removerArquivoAntigo(produtoExistente.img, 'imagem');
+                    await removerArquivoAntigo(produtoExistente.img, 'img');
                 }
                 dadosAtualizacao.img = req.file.filename;
             }
@@ -213,7 +212,7 @@ class ProdutoController {
             }
 
             if (produto.img) {
-                await removerArquivoAntigo(produto.img, 'imagem');
+                await removerArquivoAntigo(produto.img, 'img');
             }
 
             await ProdutoModel.excluir(id);
@@ -246,7 +245,7 @@ class ProdutoController {
             }
 
             if (produto.img) {
-                await removerArquivoAntigo(produto.img, 'imagem');
+                await removerArquivoAntigo(produto.img, 'img');
             }
 
             await ProdutoModel.atualizar(produto_id, { img: req.file.filename });

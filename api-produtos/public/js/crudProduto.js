@@ -68,14 +68,14 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
 
     const imagemFile = document.getElementById('imagem').files[0];
     if (imagemFile) {
-        formData.append('imagem', imagemFile);
+        formData.append('img', imagemFile); // <-- CORRIGIDO
     }
 
     const mensagemEl = document.getElementById('mensagemCadastro');
     mensagemEl.innerHTML = '<p style="color: blue;">⏳ Cadastrando produto...</p>';
 
     try {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem("token");
 
         const res = await fetch('/api/produtos', {
             method: 'POST',
@@ -83,29 +83,27 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
                 'Authorization': `Bearer ${token}`
             },
             body: formData
-        })
-
-        if (!res.ok) return;
+        });
 
         const dados = await res.json();
-        console.log(dados)
+        console.log("RESPOSTA API:", dados);
 
-        const erro = await res.json();
-        console.log("ERRO API:", erro);
-
-        if (res.ok && dados.sucesso) {
-            mensagemEl.innerHTML = `<p style="color: green;">✅ ${dados.mensagem || 'Produto cadastrado!'}</p>`;
-            document.getElementById('formCadastro').reset();
-            carregarProdutos();
-            setTimeout(() => mensagemEl.innerHTML = '', 3000);
-        } else {
+        if (!res.ok || !dados.sucesso) {
             mensagemEl.innerHTML = `<p style="color: red;">❌ Erro: ${dados.erro || dados.mensagem}</p>`;
+            return;
         }
+
+        mensagemEl.innerHTML = `<p style="color: green;">✅ Produto cadastrado!</p>`;
+        document.getElementById('formCadastro').reset();
+        carregarProdutos();
+        setTimeout(() => mensagemEl.innerHTML = '', 3000);
+
     } catch (error) {
         console.error('Erro ao cadastrar produto:', error);
         mensagemEl.innerHTML = `<p style="color: red;">❌ Erro ao cadastrar produto</p>`;
     }
 });
+
 
 // ============================================
 // CARREGAR LISTA DE PRODUTOS
