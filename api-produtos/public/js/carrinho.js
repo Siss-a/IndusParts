@@ -1,10 +1,11 @@
 function getToken() {
-    return localStorage.getItem("token"); 
+    return localStorage.getItem("token");
 }
 
 async function adicionarAoCarrinho(produtoId, quantidade) {
     try {
         const token = getToken();
+        if (!token) { alert("Você precisa estar logado!"); return; }
 
         const response = await fetch("http://localhost:3000/api/carrinho/adicionar", {
             method: "POST",
@@ -19,6 +20,7 @@ async function adicionarAoCarrinho(produtoId, quantidade) {
         console.log(data);
 
         alert(data.mensagem || data.erro);
+        carregarCarrinho();
 
     } catch (error) {
         console.error("Erro ao adicionar item:", error);
@@ -28,6 +30,7 @@ async function adicionarAoCarrinho(produtoId, quantidade) {
 async function carregarCarrinho() {
     try {
         const token = getToken();
+        if (!token) { alert("Você precisa estar logado!"); return; }
 
         const response = await fetch("http://localhost:3000/api/carrinho", {
             method: "GET",
@@ -61,6 +64,7 @@ async function carregarCarrinho() {
 async function atualizarQuantidade(produtoId, quantidade) {
     try {
         const token = getToken();
+        if (!token) { alert("Você precisa estar logado!"); return; }
 
         const response = await fetch("http://localhost:3000/api/carrinho/atualizar", {
             method: "PUT",
@@ -73,6 +77,7 @@ async function atualizarQuantidade(produtoId, quantidade) {
 
         const data = await response.json();
         alert(data.mensagem);
+        carregarCarrinho();
 
     } catch (error) {
         console.error("Erro ao atualizar item:", error);
@@ -82,6 +87,7 @@ async function atualizarQuantidade(produtoId, quantidade) {
 async function removerItem(produtoId) {
     try {
         const token = getToken();
+        if (!token) { alert("Você precisa estar logado!"); return; }
 
         const response = await fetch(`http://localhost:3000/api/carrinho/remover/${produtoId}`, {
             method: "DELETE",

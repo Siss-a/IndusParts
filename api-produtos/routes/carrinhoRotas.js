@@ -1,11 +1,18 @@
 import express from 'express';
 import CarrinhoController from '../controllers/CarrinhoController.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
+import cors from 'cors';
 
 const router = express.Router();
 
 // Todas as rotas do carrinho precisam de autenticação
 // O usuário deve estar logado para gerenciar seu carrinho
+
+router.use(cors({
+    origin: '*', // em produção, coloque o domínio do frontend
+    methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 router.post("/adicionar",authMiddleware, CarrinhoController.adicionar);
 router.put("/atualizar",authMiddleware, CarrinhoController.atualizar);
