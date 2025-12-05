@@ -2,9 +2,9 @@ function irParaCarrinho() {
   const token = localStorage.getItem("token");
 
   if (token) {
-    window.location.href = "/carrinho"; // SE ESTIVER LOGADO → carrinho
+    window.location.href = "/carrinho"; // se estiver logado-> carrinho
   } else {
-    window.location.href = "/login"; // SE NÃO → login
+    window.location.href = "/login"; // não está logado -> login
   }
 }
 
@@ -12,18 +12,16 @@ function irParaPerfil() {
   const token = localStorage.getItem("token");
 
   if (token) {
-    window.location.href = "/perfil"; // área do usuário
+    window.location.href = "/"; // área do usuário
   } else {
     window.location.href = "/login"; // precisa logar
   }
 }
 
 // BOTÕES DO CARRINHO
-document
-  .getElementById("btnCarrinhoMobile")
+document.getElementById("btnCarrinhoMobile")
   ?.addEventListener("click", irParaCarrinho);
-document
-  .getElementById("btnCarrinhoDesk")
+document.getElementById("btnCarrinhoDesk")
   ?.addEventListener("click", irParaCarrinho);
 
 // BOTÕES DA CONTA
@@ -36,8 +34,8 @@ document
 
 window.addEventListener("DOMContentLoaded", async () => {
   try {
-    // 1. Busca os produtos do banco
-    const res = await fetch("/api/usuario/produtos", {
+    // Pegar os produtos do banco
+    const res = await fetch("/api/produtos", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -48,23 +46,35 @@ window.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
     const produtos = data.dados; // array de produtos
 
-    // 2. Seleciona os containers
+    // Containers com o carrossel
     const mobileContainer = document.querySelector(".mobile-scroll");
     const carouselInner = document.querySelector("#produtosCarousel .carousel-inner");
 
-    // Limpa conteúdo existente
+    // Limpar conteúdo
     mobileContainer.innerHTML = "";
     carouselInner.innerHTML = "";
 
-    // 3. Preenche o scroller mobile
+    //Preenche o scroller mobile
     produtos.forEach(prod => {
+
+      let categoriaProd;
+      switch (prod.categoria) {
+        case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+        case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
+        case 'Fixação': categoriaProd = 'fixacao'; break;
+        case 'Cortes': categoriaProd = 'cortes'; break;
+        case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+        case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+        default: categoriaProd = 'todos';
+      }
+
       const cardLink = document.createElement("a");
-      cardLink.href = ""; // pode colocar link do produto
+      cardLink.href = `/produtos/${categoriaProd}/${prod.id}`; // link do produto
       cardLink.className = "card-link";
 
       cardLink.innerHTML = `
         <div class="card">
-          <img src="${prod.imagem}" class="card-img-top">
+          <img src="/uploads/imagens/${prod.imagem}" class="card-img-top">
           <div class="card-body">
             <h4 class="card-text">${prod.nome}</h4>
             <p>${prod.descricao}</p>
@@ -84,11 +94,23 @@ window.addEventListener("DOMContentLoaded", async () => {
       row.className = "row g-3 justify-content-center";
 
       produtos.slice(i, i + chunkSize).forEach(prod => {
+
+        let categoriaProd;
+        switch (prod.categoria) {
+          case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+          case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
+          case 'Fixação': categoriaProd = 'fixacao'; break;
+          case 'Cortes': categoriaProd = 'cortes'; break;
+          case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+          case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+          default: categoriaProd = 'todos';
+        }
+
         const col = document.createElement("div");
         col.className = "col-12 col-md-3";
         col.innerHTML = `
-          <a href="" class="card h-100 text-decoration-none">
-            <img src="${prod.imagem}" class="card-img-top">
+          <a href="/produtos/${categoriaProd}/${prod.id}" class="card h-100 text-decoration-none">
+            <img src="/uploads/imagens/${prod.img}" class="card-img-top">
             <div class="card-body">
               <h4 class="card-text">${prod.nome}</h4>
               <p>${prod.descricao}</p>
