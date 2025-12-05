@@ -8,9 +8,6 @@ botoes.forEach((botao) => {
 
     botao.classList.add("ativo");
     document.getElementById(botao.dataset.alvo).classList.add("ativo");
-
-    // SALVA A ABA ATUAL
-    localStorage.setItem("aba_atual", botao.dataset.alvo);
   });
 });
 
@@ -29,9 +26,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-        window.location.href = '/login';
-        return;
-    }
+    window.location.href = '/login';
+    return;
+  }
 
   try {
     const res = await fetch("/api/auth/perfil", {
@@ -42,11 +39,11 @@ window.addEventListener("DOMContentLoaded", async () => {
       },
     });
 
-     if (res.status === 401) {
-             localStorage.removeItem('token');
-             window.location.href = '/login';
-             return;
-         }
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+      return;
+    }
 
     const resposta = await res.json(); //transforma em objeto JavaScript
     const usuario = resposta.dados;
@@ -55,6 +52,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("emailEmpresa").innerText = usuario.email;
     document.getElementById("telefoneEmpresa").innerText = usuario.telefone;
     document.querySelectorAll(".nome-empresa").forEach((el) => (el.textContent = usuario.nome_social));
+
+    /* MASCARAS */
+    const cnpjInput = document.getElementById('cnpjEmpresa');
+    const telefoneInput = document.getElementById('telefoneEmpresa');
+    // Máscara para CNPJ (XX.XXX.XXX/XXXX-XX)
+    Inputmask('99.999.999/9999-99').mask(cnpjInput);
+
+    // Máscara para Telefone (XX) XXXXX-XXXX
+    Inputmask('+99 (99) 9999-9999').mask(telefoneInput);
   } catch (error) {
     console.error("Erro ao carregar dados do usuário:", error);
   }
