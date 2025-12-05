@@ -22,7 +22,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configurações do servidor
+// Configurações do servidora
 const PORT = process.env.PORT || 3000;
 
 app.use(helmet({

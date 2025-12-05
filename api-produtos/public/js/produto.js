@@ -20,6 +20,13 @@ try {
             return data.dados
         })
         .then(produto => {
+
+            produtoAtual = produto;
+
+            document.getElementById('btn-add-carrinho').onclick = function () {
+                adicionarAoCarrinho(produtoAtual.id, 1);
+            };
+
             let codigoProduto
 
             if (caracteresID === 1) {
@@ -96,7 +103,3 @@ try {
 } catch (error) {
     console.error('Erro ao procurar produto', error)
 }
-
-document.getElementById('btn-add-carrinho').onclick = function() {
-    adicionarAoCarrinho(produto.id, 1);
-};
