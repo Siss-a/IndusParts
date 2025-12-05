@@ -63,6 +63,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
     formData.append('descricao', document.getElementById('descricao').value);
     formData.append('preco', document.getElementById('preco').value);
     formData.append('categoria', document.getElementById('categoria').value);
+    formData.append('estoque', document.getElementById('categoria').value);
     formData.append('fornecedor', document.getElementById('fornecedor').value || '');
     formData.append('especificacoes', document.getElementById('especificacoes')?.value || '');
 
@@ -212,7 +213,7 @@ window.editarProduto = async function (id) {
         document.getElementById('edit_id').value = produto.id;
         document.getElementById('edit_nome').value = produto.nome;
         document.getElementById('edit_descricao').value = produto.descricao || '';
-        document.getElementById('edit_id_categoria').value = produto.id_categoria || '';
+        document.getElementById('edit_categoria').value = produto.id_categoria || '';
         document.getElementById('edit_fornecedor').value = produto.fornecedor || '';
         document.getElementById('edit_tipo').value = produto.tipo || '';
         document.getElementById('edit_especificacoes').value = produto.especificacoes || '';

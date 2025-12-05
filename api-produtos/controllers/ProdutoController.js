@@ -168,14 +168,15 @@ class ProdutoController {
                 return res.status(404).json({ sucesso: false, erro: 'Produto não encontrado' });
             }
 
-            const { nome, descricao, categoria, fornecedor, tipo, especificacoes, ativo } = req.body;
+            const { nome, descricao, categoria, fornecedor, estoque, preco,  especificacoes} = req.body;
 
             const dadosAtualizacao = {
                 nome: nome ?? produtoExistente.nome,
                 descricao: descricao ?? produtoExistente.descricao,
                 categoria: categoria ?? produtoExistente.categoria,
                 fornecedor: fornecedor ?? produtoExistente.fornecedor,
-                tipo: tipo ?? produtoExistente.tipo,
+                estoque: estoque ?? produtoExistente.estoque,
+                preco: preco ?? produtoExistente.preco,
                 especificacoes: especificacoes ?? produtoExistente.especificacoes,
             };
 

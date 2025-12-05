@@ -100,26 +100,27 @@ class ProdutoModel {
                 campos.push('img = ?');
                 valores.push(dados.img);
             }
-            if (dados.ativo !== undefined) {
-                campos.push('ativo = ?');
-                valores.push(dados.ativo);
-            }
-            if (dados.id_categoria !== undefined) {
-                campos.push('id_categoria = ?');
-                valores.push(dados.id_categoria);
+            if (dados.categoria !== undefined) {
+                campos.push('categoria = ?');
+                valores.push(dados.categoria);
             }
             if (dados.fornecedor !== undefined) {
                 campos.push('fornecedor = ?');
                 valores.push(dados.fornecedor);
             }
-            if (dados.tipo !== undefined) {
-                campos.push('tipo = ?');
-                valores.push(dados.tipo);
-            }
             if (dados.especificacoes !== undefined) {
                 campos.push('especificacoes = ?');
                 valores.push(dados.especificacoes);
             }
+            if (dados.preco !== undefined) {
+                campos.push('preco = ?');
+                valores.push(dados.preco);
+            }
+            if (dados.estoque !== undefined) {
+                campos.push('estoque = ?');
+                valores.push(dados.estoque);
+            }
+            
 
             // Se não há campos para atualizar, retorna true
             if (campos.length === 0) {
