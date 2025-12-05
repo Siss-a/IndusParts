@@ -7,22 +7,10 @@ const router = express.Router();
 // Todas as rotas do carrinho precisam de autenticação
 // O usuário deve estar logado para gerenciar seu carrinho
 
-// GET /carrinho - Ver itens do carrinho do usuário logado
-router.get('/', authMiddleware, CarrinhoController.verCarrinho);
-
-// POST /carrinho/item - Adicionar item ao carrinho
-// Body: { id_produto, quantidade }
-router.post('/item', authMiddleware, CarrinhoController.adicionarItem);
-
-// PUT /carrinho/item/:id_item - Atualizar quantidade de um item
-// Body: { quantidade }
-router.put('/item/:id_item', authMiddleware, CarrinhoController.atualizarQuantidade);
-
-// DELETE /carrinho/item/:id_item - Remover item específico do carrinho
-router.delete('/item/:id_item', authMiddleware, CarrinhoController.removerItem);
-
-// DELETE /carrinho - Limpar carrinho inteiro do usuário
-router.delete('/', authMiddleware, CarrinhoController.limparCarrinho);
+router.post("/adicionar",authMiddleware, CarrinhoController.adicionar);
+router.put("/atualizar",authMiddleware, CarrinhoController.atualizar);
+router.delete("/remover/:produtoId",authMiddleware, CarrinhoController.remover);
+router.get("/",authMiddleware, CarrinhoController.listar);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/', (req, res) => {
