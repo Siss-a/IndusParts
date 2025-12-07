@@ -62,14 +62,14 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
     formData.append('nome', document.getElementById('nome').value);
     formData.append('descricao', document.getElementById('descricao').value);
     formData.append('preco', document.getElementById('preco').value);
-    formData.append('categoria', document.getElementById('categoria').value);
+    formData.append('categoria', document.getElementById('estoque').value);
     formData.append('estoque', document.getElementById('categoria').value);
     formData.append('fornecedor', document.getElementById('fornecedor').value || '');
     formData.append('especificacoes', document.getElementById('especificacoes')?.value || '');
 
     const imagemFile = document.getElementById('imagem').files[0];
     if (imagemFile) {
-        formData.append('img', imagemFile); // <-- CORRIGIDO
+        formData.append('imagem', imagemFile); 
     }
 
     const mensagemEl = document.getElementById('mensagemCadastro');
@@ -78,7 +78,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
     try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch('/api/produtos', {
+        const res = await fetch('/api/produtos/criar', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

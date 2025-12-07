@@ -51,27 +51,9 @@ class ProdutoModel {
     }
 
     // Criar novo produto
-    static async criar(dados) {
+    static async criar(dadosProduto) {
         try {
-            const db = await getConnection();
-            const sql = `
-            INSERT INTO produtos (nome, descricao, img, categoria, fornecedor, especificacoes, preco, estoque)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-
-            const values = [
-                dados.nome,
-                dados.descricao,
-                dados.img,
-                dados.categoria,
-                dados.fornecedor,
-                dados.especificacoes,
-                dados.preco,
-                dados.estoque
-            ];
-
-            const [result] = await db.query(sql, values);
-            return result.insertId;
+            return await create('produtos', dadosProduto)
         } catch (error) {
             console.error('Erro ao criar produto:', error);
             throw error;
@@ -80,61 +62,12 @@ class ProdutoModel {
 
 
     // Atualizar produto (UPDATE dinâmico - só campos enviados)
-    static async atualizar(id, dados) {
-        try {
-            const db = await getConnection();
-
-            // Construir SQL dinamicamente apenas com campos fornecidos
-            const campos = [];
-            const valores = [];
-
-            if (dados.nome !== undefined) {
-                campos.push('nome = ?');
-                valores.push(dados.nome);
-            }
-            if (dados.descricao !== undefined) {
-                campos.push('descricao = ?');
-                valores.push(dados.descricao);
-            }
-            if (dados.img !== undefined) {
-                campos.push('img = ?');
-                valores.push(dados.img);
-            }
-            if (dados.categoria !== undefined) {
-                campos.push('categoria = ?');
-                valores.push(dados.categoria);
-            }
-            if (dados.fornecedor !== undefined) {
-                campos.push('fornecedor = ?');
-                valores.push(dados.fornecedor);
-            }
-            if (dados.especificacoes !== undefined) {
-                campos.push('especificacoes = ?');
-                valores.push(dados.especificacoes);
-            }
-            if (dados.preco !== undefined) {
-                campos.push('preco = ?');
-                valores.push(dados.preco);
-            }
-            if (dados.estoque !== undefined) {
-                campos.push('estoque = ?');
-                valores.push(dados.estoque);
-            }
-            
-
-            // Se não há campos para atualizar, retorna true
-            if (campos.length === 0) {
-                return true;
-            }
-
-            valores.push(id);
-            const sql = `UPDATE produtos SET ${campos.join(', ')} WHERE id = ?`;
-
-            const [result] = await db.query(sql, valores);
-            return result.affectedRows > 0;
-        } catch (error) {
-            console.error('Erro ao atualizar produto:', error);
-            throw error;
+    static async atualizar(id, dados){
+        try{
+            return await update('produtos', dadosProduto, `id = ${id}`)
+        } catch(err){
+            console.error(`Erro ao atualizar produto:`, err)
+            throw err
         }
     }
 
