@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     })
     .then(produto => {
 
-        produtoAtual = produto;
+        let produtoAtual = produto;
 
         document.getElementById('btn-add-carrinho').onclick = function () {
             adicionarAoCarrinho(produtoAtual.id, 1);

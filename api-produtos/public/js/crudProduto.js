@@ -2,52 +2,36 @@ window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-        window.location.href = '/login'
-    }
-})
-
-async function fetchWithAuth(url, options = {}) {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-        alert('Você precisa estar logado!');
         window.location.href = '/login';
-        return null;
+        return;
     }
-
-    // Se for FormData, não adiciona Content-Type (multipart automático)
-    const headers = options.body instanceof FormData
-        ? { 'Authorization': `Bearer ${token}` }
-        : {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        };
 
     try {
-        const response = await fetch(url, {
-            ...options,
-            headers: { ...headers, ...options.headers }
+        const res = await fetch('/api/usuarios', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         });
 
-        if (response.status === 401) {
-            alert('Sessão expirada. Faça login novamente.');
-            localStorage.removeItem('token');
-            window.location.href = '/login';
-            return null;
-        }
-
-        if (response.status === 403) {
-            alert('Acesso restrito aos administradores.');
+        // Se o middleware do backend bloquear → não é admin
+        if (res.status === 401 || res.status === 403) {
+            alert("Acesso restrito aos administradores.");
             window.location.href = '/perfil';
-            return null;
+            return;
         }
 
-        return response;
+        // usuário é admin → continua a página normalmente
+        const resposta = await res.json();
+        console.log("Admin confirmado:", resposta);
+
     } catch (error) {
-        console.error('Erro na requisição:', error);
-        throw error;
+        console.error("Erro ao validar administrador:", error);
+        localStorage.removeItem("token");
+        window.location.href = "/login";
     }
-}
+});
 
 // ============================================
 // FUNÇÃO DEBOUNCE
@@ -70,52 +54,57 @@ const filtros = {
     limite: 10
 };
 
-// ============================================
-// CADASTRAR NOVO PRODUTO
-// ============================================
+/* CADASTRO DE PRODUTOS */
 document.getElementById('formCadastro').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('nome', document.getElementById('nome').value);
     formData.append('descricao', document.getElementById('descricao').value);
-    formData.append('id_categoria', document.getElementById('id_categoria').value);
-    formData.append('fornecedor', document.getElementById('fornecedor')?.value || '');
-    formData.append('tipo', document.getElementById('tipo')?.value || '');
+    formData.append('preco', document.getElementById('preco').value);
+    formData.append('categoria', document.getElementById('categoria').value);
+    formData.append('estoque', document.getElementById('categoria').value);
+    formData.append('fornecedor', document.getElementById('fornecedor').value || '');
     formData.append('especificacoes', document.getElementById('especificacoes')?.value || '');
-    formData.append('ativo', document.getElementById('ativo')?.checked ?? true);
 
     const imagemFile = document.getElementById('imagem').files[0];
     if (imagemFile) {
-        formData.append('img', imagemFile); //
+        formData.append('img', imagemFile); // <-- CORRIGIDO
     }
 
     const mensagemEl = document.getElementById('mensagemCadastro');
     mensagemEl.innerHTML = '<p style="color: blue;">⏳ Cadastrando produto...</p>';
 
     try {
-        const response = await fetchWithAuth('/api/produtos', {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch('/api/produtos', {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: formData
         });
 
-        if (!response) return;
+        const dados = await res.json();
+        console.log("RESPOSTA API:", dados);
 
-        const dados = await response.json();
-
-        if (response.ok && dados.sucesso) {
-            mensagemEl.innerHTML = `<p style="color: green;">✅ ${dados.mensagem || 'Produto cadastrado!'}</p>`;
-            document.getElementById('formCadastro').reset();
-            carregarProdutos();
-            setTimeout(() => mensagemEl.innerHTML = '', 3000);
-        } else {
+        if (!res.ok || !dados.sucesso) {
             mensagemEl.innerHTML = `<p style="color: red;">❌ Erro: ${dados.erro || dados.mensagem}</p>`;
+            return;
         }
+
+        mensagemEl.innerHTML = `<p style="color: green;">✅ Produto cadastrado!</p>`;
+        document.getElementById('formCadastro').reset();
+        carregarProdutos();
+        setTimeout(() => mensagemEl.innerHTML = '', 3000);
+
     } catch (error) {
         console.error('Erro ao cadastrar produto:', error);
         mensagemEl.innerHTML = `<p style="color: red;">❌ Erro ao cadastrar produto</p>`;
     }
 });
+
 
 // ============================================
 // CARREGAR LISTA DE PRODUTOS
@@ -138,7 +127,6 @@ async function carregarProdutos() {
         });
 
         const dados = await res.json();
-        console.log(dados)
 
         if (!res.ok || !dados.sucesso) {
             listaProdutos.innerHTML = `<p style="color: red;">❌ Erro: ${dados.erro}</p>`;
@@ -225,7 +213,7 @@ window.editarProduto = async function (id) {
         document.getElementById('edit_id').value = produto.id;
         document.getElementById('edit_nome').value = produto.nome;
         document.getElementById('edit_descricao').value = produto.descricao || '';
-        document.getElementById('edit_id_categoria').value = produto.id_categoria || '';
+        document.getElementById('edit_categoria').value = produto.id_categoria || '';
         document.getElementById('edit_fornecedor').value = produto.fornecedor || '';
         document.getElementById('edit_tipo').value = produto.tipo || '';
         document.getElementById('edit_especificacoes').value = produto.especificacoes || '';

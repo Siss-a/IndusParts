@@ -94,10 +94,10 @@ app.get('/cadastro', (req, res) => {
 app.get('/perfil', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
-app.get('/crud-produtos', (req, res) => {
+app.get('/admin/crud-produtos', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
 });
-app.get('/crud-usuarios', (req, res) => {
+app.get('/admin/crud-usuarios', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
 });
 app.get('/', (req, res) => {
