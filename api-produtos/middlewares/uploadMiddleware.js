@@ -1,6 +1,11 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { fileURLtoPath } from 'url';
+
+/* import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -158,4 +163,4 @@ export const removerArquivoAntigo = async (nomeArquivo, tipo = 'imagem') => {
     }
 };
 
-export { uploadImagens, uploadArquivos, handleUploadError };
+export { uploadImagens, uploadArquivos, handleUploadError }; */

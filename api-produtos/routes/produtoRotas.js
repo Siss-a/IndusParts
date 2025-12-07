@@ -6,7 +6,7 @@ import { uploadImagens, handleUploadError } from '../middlewares/uploadMiddlewar
 const router = express.Router();
 
 // Rotas públicas (não precisam de autenticação)
-router.get('/', ProdutoController.listarTodos);
+router.get('/', ProdutoController.listarProdutos);
 router.get('/categoria/:categoria', ProdutoController.buscarPorCategoria);
 router.get('/:id', ProdutoController.buscarPorId);
 
