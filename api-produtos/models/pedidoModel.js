@@ -62,6 +62,27 @@ class PedidoModel {
       connection.release();
     }
   }
+
+    static async listarPorUsuario(id_usuario) {
+    const connection = await getConnection();
+    try {
+      const [pedidos] = await connection.execute(
+        `SELECT p.id, p.numero_pedido, p.endereco, p.criado_em,
+                COUNT(pi.id) as total_itens,
+                SUM(pi.quantidade * pi.preco_unitario) as total
+         FROM pedidos p
+         LEFT JOIN pedido_itens pi ON p.id = pi.id_pedido
+         WHERE p.id_cliente_empresa = ?
+         GROUP BY p.id, p.numero_pedido, p.endereco, p.criado_em
+         ORDER BY p.criado_em DESC`,
+        [id_usuario]
+      );
+
+      return pedidos;
+    } finally {
+      connection.release();
+    }
+  }
 }
 
 export default PedidoModel;

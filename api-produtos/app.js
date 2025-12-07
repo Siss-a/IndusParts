@@ -10,6 +10,7 @@ import authRotas from './routes/authRotas.js';
 import usuariosRotas from './routes/usuariosRotas.js'
 import produtoRotas from './routes/produtoRotas.js';
 import carrinhoRotas from './routes/carrinhoRotas.js';
+import pedidoRotas from './routes/pedidoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -113,12 +114,19 @@ app.get('/catalogo/:categoria', (req, res) => {
 app.get('/produtos/:categoria/:id', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'produto.html'));
 });
+app.get('/checkout', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'checkout.html'));
+});
+app.get('/pedidos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'pedidos.html'));
+});
 
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
 app.use('/api/usuarios', usuariosRotas);
 app.use('/api/carrinho', carrinhoRotas);
+app.use('/api/pedidos', pedidoRotas);
 
 
 // Rota raiz
