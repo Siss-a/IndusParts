@@ -1,4 +1,3 @@
---meio obvio isso aqui
 -- 05/12/25
 
 use indusparts;

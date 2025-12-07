@@ -1,91 +1,101 @@
-// Importa funções (cartManager.js)
-import {
-    getCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getCartTotal
-} from "./cartManager.js";
+function getToken() {
+    return localStorage.getItem("token"); 
+}
 
-const container = document.getElementById("cartContainer");
+async function adicionarAoCarrinho(produtoId, quantidade) {
+    try {
+        const token = getToken();
 
-function renderCart() {
-    // Renderiza carrinho
-    const cart = getCart();
+        const response = await fetch("http://localhost:3000/api/carrinho/adicionar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ produtoId, quantidade })
+        });
 
-    // Se o carrinho estiver vazio, mostra mensagem
-    if (cart.length === 0) {
-        container.innerHTML = "<p>Seu carrinho está vazio.</p>";
-        return;
+        const data = await response.json();
+        console.log(data);
+
+        alert(data.mensagem || data.erro);
+
+    } catch (error) {
+        console.error("Erro ao adicionar item:", error);
     }
-
-    // Limpa o container antes de renderizar
-    container.innerHTML = "";
-
-    cart.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "cart-item";
-
-        div.innerHTML = `
-            <img src="${item.imagem}" width="80">
-            <strong>${item.nome}</strong>
-            <p>Preço: R$ ${item.preco.toFixed(2)}</p>
-
-            <div>
-                <button class="menos" data-id="${item.id}">-</button>
-                <span>${item.quantidade}</span>
-                <button class="mais" data-id="${item.id}">+</button>
-            </div>
-
-            <button class="remover" data-id="${item.id}">Remover</button>
-            <hr>
-        `;
-
-        container.appendChild(div);
-    });
-
-    // Total do carrinho
-    const total = getCartTotal();
-    container.innerHTML += `<h2>Total: R$ ${total.toFixed(2)}</h2>`;
-
-    addEventListeners();
 }
 
-function addEventListeners() {
+async function carregarCarrinho() {
+    try {
+        const token = getToken();
 
-    // Botão de aumentar quantidade
-    document.querySelectorAll(".mais").forEach(btn => {
-        btn.onclick = () => {
-            const id = parseInt(btn.dataset.id);
-            const item = getCart().find(p => p.id === id);
-            updateQuantity(id, item.quantidade + 1);
-            renderCart();
-        };
-    });
+        const response = await fetch("http://localhost:3000/api/carrinho", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
 
-    // Botão de diminuir quantidade
-    document.querySelectorAll(".menos").forEach(btn => {
-        btn.onclick = () => {
-            const id = parseInt(btn.dataset.id);
-            const item = getCart().find(p => p.id === id);
-            updateQuantity(id, item.quantidade - 1);
-            renderCart();
-        };
-    });
+        const data = await response.json();
+        console.log(data);
 
-    // Botão de remover item
-    document.querySelectorAll(".remover").forEach(btn => {
-        btn.onclick = () => {
-            removeFromCart(parseInt(btn.dataset.id));
-            renderCart();
-        };
-    });
+        const lista = document.getElementById("lista-carrinho");
+        lista.innerHTML = "";
+
+        data.dados.itens.forEach(item => {
+            lista.innerHTML += `
+                <li>
+                    ${item.nome} - R$ ${item.preco} x ${item.quantidade}
+                    <button onclick="removerItem(${item.produto_id})">Remover</button>
+                </li>
+            `;
+        });
+
+        document.getElementById("total").innerText = "Total: R$ " + data.dados.total;
+
+    } catch (error) {
+        console.error("Erro ao listar carrinho:", error);
+    }
 }
 
-// Botão de limpar carrinho inteiro
-document.getElementById("limpar").onclick = () => {
-    clearCart();
-    renderCart();
-};
+async function atualizarQuantidade(produtoId, quantidade) {
+    try {
+        const token = getToken();
 
-renderCart();
+        const response = await fetch("http://localhost:3000/api/carrinho/atualizar", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ produtoId, quantidade })
+        });
+
+        const data = await response.json();
+        alert(data.mensagem);
+
+    } catch (error) {
+        console.error("Erro ao atualizar item:", error);
+    }
+}
+
+async function removerItem(produtoId) {
+    try {
+        const token = getToken();
+
+        const response = await fetch(`http://localhost:3000/api/carrinho/remover/${produtoId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        alert(data.mensagem);
+
+        carregarCarrinho();
+
+    } catch (error) {
+        console.error("Erro ao remover item:", error);
+    }
+}

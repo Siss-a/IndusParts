@@ -1,20 +1,20 @@
-import {create, read, update, deleteRecord, getConnection} from '../config/database.js'
+import { create, read, update, deleteRecord, getConnection } from '../config/database.js'
 
 class ProdutoModel {
     // Listar todos os produtos com paginação
     static async listarTodos(limite, offset) {
         try {
             const db = await getConnection();
-            
+
             // Buscar produtos
             const [produtos] = await db.query(
                 'SELECT * FROM produtos ORDER BY id DESC LIMIT ? OFFSET ?',
                 [limite, offset]
             );
-            
+
             // Buscar total de registros
             const [total] = await db.query('SELECT COUNT(*) as total FROM produtos');
-            
+
             return {
                 produtos,
                 total: total[0].total,
@@ -43,7 +43,7 @@ class ProdutoModel {
 
     static async buscarPorCategoria(categoria) {
         try {
-            return await read ('produtos', `categoria = '${categoria}'`);
+            return await read('produtos', `categoria = '${categoria}'`);
         } catch (error) {
             console.error('Erro ao buscar produtos por categoria:', error);
             throw error;
@@ -51,87 +51,23 @@ class ProdutoModel {
     }
 
     // Criar novo produto
-    static async criar(dados) {
+    static async criar(dadosProduto) {
         try {
-            const db = await getConnection();
-            const sql = `
-                INSERT INTO produtos (nome, descricao, img, ativo, id_categoria, fornecedor, tipo, especificacoes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            `;
-            const values = [
-                dados.nome,
-                dados.descricao || null,
-                dados.img || null,
-                dados.ativo ?? true,
-                dados.id_categoria || null,
-                dados.fornecedor || null,
-                dados.tipo || null,
-                dados.especificacoes || null
-            ];
-
-            const [result] = await db.query(sql, values);
-            return result.insertId;
+            return await create('produtos', dadosProduto)
         } catch (error) {
             console.error('Erro ao criar produto:', error);
             throw error;
         }
     }
 
+
     // Atualizar produto (UPDATE dinâmico - só campos enviados)
-    static async atualizar(id, dados) {
-        try {
-            const db = await getConnection();
-            
-            // Construir SQL dinamicamente apenas com campos fornecidos
-            const campos = [];
-            const valores = [];
-            
-            if (dados.nome !== undefined) {
-                campos.push('nome = ?');
-                valores.push(dados.nome);
-            }
-            if (dados.descricao !== undefined) {
-                campos.push('descricao = ?');
-                valores.push(dados.descricao);
-            }
-            if (dados.img !== undefined) {
-                campos.push('img = ?');
-                valores.push(dados.img);
-            }
-            if (dados.ativo !== undefined) {
-                campos.push('ativo = ?');
-                valores.push(dados.ativo);
-            }
-            if (dados.id_categoria !== undefined) {
-                campos.push('id_categoria = ?');
-                valores.push(dados.id_categoria);
-            }
-            if (dados.fornecedor !== undefined) {
-                campos.push('fornecedor = ?');
-                valores.push(dados.fornecedor);
-            }
-            if (dados.tipo !== undefined) {
-                campos.push('tipo = ?');
-                valores.push(dados.tipo);
-            }
-            if (dados.especificacoes !== undefined) {
-                campos.push('especificacoes = ?');
-                valores.push(dados.especificacoes);
-            }
-            
-            // Se não há campos para atualizar, retorna true
-            if (campos.length === 0) {
-                return true;
-            }
-            
-            valores.push(id);
-            const sql = `UPDATE produtos SET ${campos.join(', ')} WHERE id = ?`;
-            
-            const [result] = await db.query(sql, valores);
-            return result.affectedRows > 0;
-        } catch (error) {
-            console.error('Erro ao atualizar produto:', error);
-            throw error;
+    static async atualizar(id, dadosProduto){
+        try{
+            return await update('produtos', dadosProduto, `id = ${id}`)
+        } catch(err){
+            console.error(`Erro ao atualizar produto:`, err)
+            throw err
         }
     }
 
