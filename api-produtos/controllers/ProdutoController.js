@@ -124,10 +124,156 @@ class ProdutoController {
         }
     }
 
+    // POST /api/produtos/criar criar produtos
     static async criarProduto(req, res) {
-        const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
+        try {
+            const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
 
+            const erros = []
+
+            /* validar nome */
+            if (!nome || nome.trim() === '') {
+                erros.push({
+                    campo: 'nome',
+                    mensagem: 'Nome é obrigatório'
+                })
+            } else {
+                if (nome.trim().length < 3) {
+                    erros.push({
+                        campo: 'nome',
+                        mensagem: 'O nome deve ter pelo menos 3 caracteres'
+                    })
+                }
+
+                if (nome.trim().length > 255) {
+                    erros.push({
+                        campo: 'nome',
+                        mensagem: 'O nome não deve ter mais de 255 caracteres'
+                    })
+                }
+            }
+
+
+            /* validar preço */
+            if (!preco || isNaN(preco) || preco <= 0) {
+                erros.push({
+                    campo: 'preco',
+                    mensagem: 'O preço deve ser um  número positivo'
+                })
+            }
+            /* validar estoque */
+            if (estoque < 1 || estoque === 0) {
+                erros.push({
+                    campo: 'estoque',
+                    mensagem: 'Deve ter pelo menos 1 item no estoque'
+                })
+            }
+
+            /* Retornar erros de uma vez */
+            if (erros.length > 0) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Dados inválidos',
+                    detalhes: erros
+                })
+            }
+
+            /* Preparar dados do produto */
+            const dadosProduto = {
+                nome: nome.trim(),
+                preco: parseFloat(preco),
+                categoria: categoria,
+                estoque: estoque,
+                descricao: descricao,
+                fornecedor: fornecedor,
+                especificacoes: especificacoes
+            }
+
+            /* Adicionar imagem */
+            if (req.file) {
+                dadosProduto.img = req.file.filename;
+            }
+
+            const produtoId = await ProdutoModel.criar(dadosProduto);
+
+            res.status(201).json({
+                sucesso: true,
+                mensagem: 'Produto criado com sucesso',
+                dados: {
+                    id: produtoId,
+                    ...dadosProduto
+                }
+            });
+        } catch (error) {
+            console.error('Erro ao criar produto: ', error)
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno do servidor',
+                mensagem: 'Não foi possível criar o produto'
+            });
+        }
+    }
+
+    // DELETE /api/produtos/excluir/:id rota para excluir produtos
+    static async excluirProduto(req, res) {
+        try {
+            const { id, img } = req.params
+            //console.log('Parametros', req.params)
+
+            if (!id || isNaN(id)) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'ID inválido',
+                    mensagem: 'O ID deve ser um número válido'
+                })
+            }
+            if (img) {
+                try {
+                    await fs.unlink(`./uploads/imagens/${img}`)
+                    console.log('Imagem excluída com sucesso')
+                } catch (err) {
+                    console.error('Não foi possível deletar a imagem', err)
+                }
+            }
+
+            await ProdutoModel.excluir(id)
+
+            res.status(200).json({
+                sucesso: true,
+                mensagem: `Produto excluído com sucesso`
+            })
+            return
+        } catch (err) {
+            console.error('Erro ao excluir produto', err)
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno do servidor',
+                mensagem: 'Não foi possível excluir o produto'
+            })
+        }
+    }
+
+    // PUT /api/produtos/atualizar rota para atualizar dados do produto
+    static async atualizarProduto(req, res) {
+        const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
+        console.log('req.body: ', req.body)
+
+        /* Coletar erros */
         const erros = []
+
+        /* Apagar imagem antiga */
+        if (img) {
+            const caminho = path.join('./uploads/imagens', img);
+            try {
+                await fs.unlink(caminho)
+            } catch (err) {
+                if (err.cod === 'ENOENT') {
+                    console.warn('Imagem não encontrada, nada para apagar', caminho)
+                } else {
+                    throw err;
+                }
+            }
+        }
 
         /* validar nome */
         if (!nome || nome.trim() === '') {
@@ -152,7 +298,12 @@ class ProdutoController {
         }
 
         /* validar preço */
-
+        if (!preco || isNaN(preco) || preco <= 0) {
+            erros.push({
+                campo: 'preco',
+                mensagem: 'O preço deve ser um  número positivo'
+            })
+        }
         /* validar estoque */
         if (estoque < 1 || estoque === 0) {
             erros.push({
@@ -160,6 +311,42 @@ class ProdutoController {
                 mensagem: 'Deve ter pelo menos 1 item no estoque'
             })
         }
+
+        /* Retornar erros de uma vez */
+        if (erros.length > 0) {
+            return res.status(400).json({
+                sucesso: false,
+                erro: 'Dados inválidos',
+                detalhes: erros
+            })
+        }
+
+        /* Preparar dados do produto */
+        const dadosProduto = {
+            nome: nome.trim(),
+            preco: parseFloat(preco),
+            categoria: categoria,
+            estoque: estoque,
+            descricao: descricao,
+            fornecedor: fornecedor,
+            especificacoes: especificacoes
+        }
+
+        /* Adicionar imagem */
+        if (req.file) {
+            dadosProduto.img = req.file.filename;
+        }
+
+        const produtoId = await ProdutoModel.atualizar(id, dadosProduto);
+
+        res.status(201).json({
+            sucesso: true,
+            mensagem: 'Produto atualizado com sucesso',
+            dados: {
+                id: produtoId,
+                ...dadosProduto
+            }
+        });
     }
 }
 

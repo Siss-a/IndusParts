@@ -9,9 +9,11 @@ const interesses = document.getElementById('productsCarousel');
 const imagem = document.getElementById('imagem-produto');
 const titulo = document.getElementById('titulo');
 const codigo = document.getElementById("codigo-produto");
+const categoria = document.getElementById('categoria-produto');
+const especificacoes = document.querySelectorAll(".especificacoes-produto");
 const descricao = document.querySelectorAll(".descricao-produto");
 const fornecedor = document.querySelectorAll(".fornecedor-produto");
-const categoria = document.getElementById('categoria-produto');
+
 
 try {
     fetch(`/api/produtos/${id}`)
@@ -86,6 +88,7 @@ try {
             nome.innerHTML = `${produto.nome}`
             preco.innerText = `R$${produto.preco}`
             descricao.forEach(desc => desc.innerText = produto.descricao)
+            especificacoes.forEach(espe => espe.textContent = produto.especificacoes)
             fornecedor.forEach((el) => el.textContent = produto.fornecedor);
             estoque.innerText = `${produto.estoque}`
             imagem.src = `/uploads/imagens/${produto.img}`
