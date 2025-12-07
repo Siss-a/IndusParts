@@ -192,11 +192,11 @@ async function carregarProdutos() {
                     </div>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button onclick="editarProduto(${produto.id})" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
-                        ✏️ Editar
+                    <button class="bobo" onclick="editarProduto(${produto.id})">
+                        Editar
                     </button>
-                    <button onclick="excluirProduto(${produto.id})" style="background-color: #dc3545; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
-                        🗑️ Excluir
+                    <button class="bebe" onclick="excluirProduto(${produto.id})">
+                        Excluir
                     </button>
                 </div>
             </div>
