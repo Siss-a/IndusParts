@@ -128,7 +128,6 @@
             <div id="listaProdutos" class="row gy-3"></div>
         </div>
 
-        <!-- ======================== EDIÇÃO ======================== -->
         <!-- Modal de Edição de Usuário -->
         <div class="modal fade" id="modalEdicao" tabindex="-1">
             <div class="modal-dialog">
@@ -141,23 +140,23 @@
 
                     <div class="modal-body">
                         <form id="formEdicao">
-                            <!-- <input type="hidden" id="edit_id"> -->
+                            <input type="hidden" id="edit_id">
 
                             <div class="eachinput">
                                 <p>Upload da Imagem</p>
                                 <div class="upload_container">
-                                    <input type="file" id="atualiza-img_prod-upload" accept="image/*" required>
+                                    <input type="file" id="editImagem" accept="image/*">
                                 </div>
                             </div>
 
                             <div class="mb-2">
                                 <label>Nome do produto:</label>
-                                <input type="text" id="editNome" class="form-control" required>
+                                <input type="text" id="editNome" class="form-control">
                             </div>
 
                             <div class="mb-2">
                                 <label class="form-label" for="tipo">Categoria:</label>
-                                <select id="editCategoria" class="form-control" required>
+                                <select id="editCategoria" class="form-control">
                                     <option value="calkjs">Categoria tal</option>
                                     <option value="lcjsmalk">Outra categoria</option>
                                 </select>
@@ -165,33 +164,33 @@
 
                             <div class="mb-2">
                                 <label>Estoque:</label>
-                                <input type="number" id="editEstoque" class="form-control" required>
+                                <input type="number" id="editEstoque" class="form-control">
                             </div>
 
                             <div class="mb-2">
                                 <label>Fornecedor</label>
-                                <input type="text" id="editFornecedor" class="form-control" required>
+                                <input type="text" id="editFornecedor" class="form-control">
                             </div>
 
                             <div class="mb-2">
                                 <label>Preço</label>
-                                <input type="number" id="editPreco" class="form-control" required>
+                                <input type="number" id="editPreco" class="form-control">
                             </div>
 
                             <div class="mb-2">
                                 <label>Descrição</label>
-                                <input type="text" id="editDescricao" class="form-control" required>
+                                <input type="text" id="editDescricao" class="form-control">
                             </div>
 
                             <div class="mb-2">
                                 <label>Especificações</label>
-                                <input type="text" id="editDescricao" class="form-control" required>
+                                <input type="text" id="editEspecificacoes" class="form-control">
                             </div>
 
                             <button type="submit" class="btn btn-primary" id="btnSalvarEdicao">Salvar edição</button>
                         </form>
                     </div>
-
+                    <div id="mensagemEdicao"></div>
                 </div>
             </div>
         </div>

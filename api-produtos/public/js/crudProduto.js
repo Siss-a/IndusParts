@@ -78,7 +78,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
     try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch('/api/produtos/criar', {
+        const res = await fetch('/api/produtos', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -87,7 +87,6 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
         });
 
         const dados = await res.json();
-        console.log("RESPOSTA API:", dados);
 
         if (!res.ok || !dados.sucesso) {
             mensagemEl.innerHTML = `<p style="color: red;">❌ Erro: ${dados.erro || dados.mensagem}</p>`;
@@ -227,12 +226,15 @@ async function editarProduto(id) {
         produtoAtual = dados.dados;
         console.log('Produto carregado: ', produtoAtual);
 
-        document.getElementById('edit_nome').value = produtoAtual.nome;
-        document.getElementById('edit_descricao').value = produtoAtual.descricao || '';
+        document.getElementById('edit_id').value = id;
+        document.getElementById('editNome').value = produtoAtual.nome;
+        document.getElementById('editPreco').value = produtoAtual.preco;
+        document.getElementById('editDescricao').value = produtoAtual.descricao || '';
         document.getElementById('editCategoria').value = produtoAtual.categoria || '';
-        document.getElementById('edit_fornecedor').value = produtoAtual.fornecedor || '';
-        document.getElementById('edit_estoque').value = produtoAtual.estoque || '';
-        document.getElementById('edit_especificacoes').value = produtoAtual.especificacoes || '';
+        document.getElementById('editFornecedor').value = produtoAtual.fornecedor || '';
+        document.getElementById('editEstoque').value = produtoAtual.estoque || '';
+        document.getElementById('editEspecificacoes').value = produtoAtual.especificacoes || '';
+        document.getElementById('editImagem')
 
     } catch (error) {
         console.error('Erro ao buscar produto:', error);
@@ -240,44 +242,61 @@ async function editarProduto(id) {
     }
 };
 
+/* Salvar edição */
+const salvarEdicao = document.getElementById("btnSalvarEdicao");
 document.getElementById('formEdicao').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const id = document.getElementById('edit_id').value;
     const formData = new FormData();
 
-    formData.append('nome', document.getElementById('edit_nome').value);
-    formData.append('descricao', document.getElementById('edit_descricao').value);
-    formData.append('categoria', document.getElementById('edit_categoria').value);
-    formData.append('fornecedor', document.getElementById('edit_fornecedor').value);
-    formData.append('tipo', document.getElementById('edit_tipo').value);
-    formData.append('especificacoes', document.getElementById('edit_especificacoes').value);
+    // Captura valores
+    const campos = {
+        nome: document.getElementById('editNome').value.trim(),
+        preco: document.getElementById('editPreco').value,
+        descricao: document.getElementById('editDescricao').value.trim(),
+        categoria: document.getElementById('editCategoria').value.trim(),
+        fornecedor: document.getElementById('editFornecedor').value.trim(),
+        estoque: document.getElementById('editEstoque').value,
+        especificacoes: document.getElementById('editEspecificacoes').value.trim()
+    };
 
-    const imagemFile = document.getElementById('edit_imagem').files[0];
+    // Comparação — só envia os campos alterados
+    Object.keys(campos).forEach(key => {
+        if (campos[key] !== produtoAtual[key] && campos[key] !== "") {
+            formData.append(key, campos[key]);
+        }
+    });
+
+    // Enviar arquivo somente se selecionou
+    const imagemFile = document.getElementById('editImagem').files[0];
     if (imagemFile) {
-        formData.append('img', imagemFile);
+        formData.append("imagem", imagemFile);
     }
 
     try {
-        const response = await fetchWithAuth(`/api/produtos/${id}`, {
-            method: 'PUT',
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`/api/produtos/atualizar/${id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
             body: formData
         });
 
-        if (!response) return;
+        const dados = await res.json();
 
-        const dados = await response.json();
-
-        if (response.ok) {
+        if (res.ok && dados.sucesso) {
             document.getElementById('mensagemEdicao').innerHTML =
-                `<p style="color: green;">✅ ${dados.mensagem}</p>`;
+                `<p style="color: green;">✔️ ${dados.mensagem}</p>`;
             setTimeout(() => {
                 cancelarEdicao();
                 carregarProdutos();
-            }, 1500);
+            }, 1200);
         } else {
             document.getElementById('mensagemEdicao').innerHTML =
-                `<p style="color: red;">❌ Erro: ${dados.mensagem || dados.erro}</p>`;
+                `<p style="color: red;">❌ ${dados.erro || dados.mensagem}</p>`;
         }
     } catch (error) {
         console.error('Erro ao atualizar produto:', error);

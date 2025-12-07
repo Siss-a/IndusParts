@@ -62,7 +62,7 @@ class ProdutoModel {
 
 
     // Atualizar produto (UPDATE dinâmico - só campos enviados)
-    static async atualizar(id, dados){
+    static async atualizar(id, dadosProduto){
         try{
             return await update('produtos', dadosProduto, `id = ${id}`)
         } catch(err){

@@ -12,21 +12,14 @@ router.get('/:id', ProdutoController.buscarPorId);
 
 
 // Rotas protegidas (precisam de autenticação)
-router.post('/criar', authMiddleware, adminMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.criarProduto);
-router.put('/atualizar', authMiddleware, adminMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.atualizarProduto)
+router.post('/', authMiddleware, adminMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.criarProduto);
+router.put('/atualizar/:id', authMiddleware, adminMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.atualizarProduto)
 router.delete('/excluir/:id', authMiddleware, ProdutoController.excluirProduto);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).send();
-});
-
-router.options('/upload', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.status(200).send();
 });
