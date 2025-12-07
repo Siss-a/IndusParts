@@ -142,7 +142,7 @@ function exibirDetalhesPedido(pedido) {
     pedido.itens.forEach(item => {
         itensHTML += `
             <div class="d-flex align-items-center border-bottom pb-3 mb-3">
-                <img src="${item.img || '/uploads/placeholder.jpg'}" 
+                <img src="${item.img || '/uploads/imagens/al1.png'}" 
                      class="img-thumbnail me-3" 
                      style="width: 80px; height: 80px; object-fit: cover;">
                 <div class="flex-grow-1">

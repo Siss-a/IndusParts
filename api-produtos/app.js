@@ -14,7 +14,7 @@ import pedidoRotas from './routes/pedidoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
-import { errorMiddleware } from './middlewares/errorMiddleware.js';
+// import { errorMiddleware } from './middlewares/errorMiddleware.js';
 
 // Carregar variáveis do arquivo .env
 dotenv.config();
@@ -166,8 +166,8 @@ app.use('*', (req, res) => {
     });
 });
 
-// Middleware global de tratamento de erros (deve ser o último)
-app.use(errorMiddleware);
+// // Middleware global de tratamento de erros (deve ser o último)
+// app.use(errorMiddleware);
 
 // Iniciar servidor
 app.listen(PORT, () => {
