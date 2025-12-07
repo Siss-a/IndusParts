@@ -62,14 +62,14 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
     formData.append('nome', document.getElementById('nome').value);
     formData.append('descricao', document.getElementById('descricao').value);
     formData.append('preco', document.getElementById('preco').value);
-    formData.append('categoria', document.getElementById('estoque').value);
-    formData.append('estoque', document.getElementById('categoria').value);
+    formData.append('estoque', document.getElementById('estoque').value);
+    formData.append('categoria', document.getElementById('categoria').value);
     formData.append('fornecedor', document.getElementById('fornecedor').value || '');
     formData.append('especificacoes', document.getElementById('especificacoes')?.value || '');
 
     const imagemFile = document.getElementById('imagem').files[0];
     if (imagemFile) {
-        formData.append('imagem', imagemFile); 
+        formData.append('imagem', imagemFile);
     }
 
     const mensagemEl = document.getElementById('mensagemCadastro');
@@ -106,9 +106,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
 });
 
 
-// ============================================
-// CARREGAR LISTA DE PRODUTOS
-// ============================================
+/* Carregar produtos */
 async function carregarProdutos() {
     const token = localStorage.getItem("token");
 
@@ -180,7 +178,7 @@ async function carregarProdutos() {
                     </div>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button onclick="editarProduto(${produto.id})" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
+                    <button data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id = "${produto.id}" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
                         ✏️ Editar
                     </button>
                     <button onclick="excluirProduto(${produto.id})" style="background-color: #dc3545; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
@@ -195,35 +193,50 @@ async function carregarProdutos() {
     }
 }
 
-// ============================================
-// EDITAR PRODUTO
-// ============================================
-window.editarProduto = async function (id) {
-    try {
-        const response = await fetchWithAuth(`/api/produtos/${id}`); // ✅ Rota corrigida
+const modalEdicao = document.getElementById("modalEdicao");
 
-        const dados = await response.json();
-        if (!response.ok) {
-            alert('❌ Erro ao buscar produto');
+modalEdicao.addEventListener("show.bs.modal", async (event) => {
+    const botao = event.relatedTarget;
+    const id = botao.getAttribute("data-id");
+    await editarProduto(id);
+});
+
+let produtoAtual
+async function editarProduto(id) {
+    console.log('Editar produto de id:', id);
+
+    try {
+        const token = localStorage.getItem('token');
+
+        const res = await fetch(`/api/produtos/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) return alert("Erro ao buscar");
+
+        const dados = await res.json();
+
+        if (!dados.sucesso) {
+            alert('Erro ao carregar produto');
             return;
         }
 
-        const produto = dados.dados;
+        produtoAtual = dados.dados;
+        console.log('Produto carregado: ', produtoAtual);
 
-        document.getElementById('edit_id').value = produto.id;
-        document.getElementById('edit_nome').value = produto.nome;
-        document.getElementById('edit_descricao').value = produto.descricao || '';
-        document.getElementById('edit_categoria').value = produto.id_categoria || '';
-        document.getElementById('edit_fornecedor').value = produto.fornecedor || '';
-        document.getElementById('edit_tipo').value = produto.tipo || '';
-        document.getElementById('edit_especificacoes').value = produto.especificacoes || '';
-
-        document.getElementById('secaoEdicao').style.display = 'block';
-        document.getElementById('secaoEdicao').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('edit_nome').value = produtoAtual.nome;
+        document.getElementById('edit_descricao').value = produtoAtual.descricao || '';
+        document.getElementById('editCategoria').value = produtoAtual.categoria || '';
+        document.getElementById('edit_fornecedor').value = produtoAtual.fornecedor || '';
+        document.getElementById('edit_estoque').value = produtoAtual.estoque || '';
+        document.getElementById('edit_especificacoes').value = produtoAtual.especificacoes || '';
 
     } catch (error) {
         console.error('Erro ao buscar produto:', error);
-        alert('❌ Erro ao carregar dados do produto');
+        alert('Erro ao carregar dados do produto');
     }
 };
 
@@ -304,6 +317,38 @@ window.excluirProduto = async function (id) {
         alert('❌ Erro ao excluir produto');
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Pesquisa por texto (com debounce)
 document.getElementById('pesquisa')?.addEventListener('input', debounce(e => {
