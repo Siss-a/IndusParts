@@ -33,12 +33,12 @@
 
                 <div class="col-6">
                     <label class="form-label">Descrição:</label>
-                    <textarea id="descricao" name="descricao" class="form-control"></textarea>
+                    <input id="descricao" name="descricao" class="form-control"></input>
                 </div>
 
                 <div class="col-6">
                     <label class="form-label">Especificações :</label>
-                    <textarea id="especificacoes" name="descricao" class="form-control"></textarea>
+                    <input id="especificacoes" name="descricao" class="form-control"></input>
                 </div>
 
                 <div class="col-md-4">
@@ -58,7 +58,13 @@
 
                 <div class="col-md-4">
                     <label class="form-label">Categoria:</label>
-                    <input type="text" id="categoria" name="categoria" class="form-control" value="Geral">
+                    <select class="form-select" style="cursor: pointer;" name="categoria" id="categoria">
+                        <option value="Ferramentas de Furação">Ferramentas de Furação</option>
+                        <option value="Parafusadeiras">Parafusadeiras</option>
+                        <option value="Pastilhas">Pastilhas</option>
+                        <option value="Pinças">Pinças</option>
+                        <option value="Cortes">Ferramentas de Corte</option>
+                    </select>
                 </div>
 
                 <div class="col-md-4">
@@ -90,7 +96,6 @@
                 <div class="form-group me-4">
                     <label class="form-label">Categoria:</label>
                     <select id="filtroCategoria" class="form-select">
-                        <option value="">Todas as categorias</option>
                         <option value="Ferramentas de Furação">Ferramentas de Furação</option>
                         <option value="Parafusadeiras">Parafusadeiras</option>
                         <option value="Pastilhas">Pastilhas</option>
@@ -150,8 +155,12 @@
                             <div class="mb-2">
                                 <label class="form-label" for="tipo">Categoria:</label>
                                 <select id="editCategoria" class="form-control">
-                                    <option value="calkjs">Categoria tal</option>
-                                    <option value="lcjsmalk">Outra categoria</option>
+                                    <option value="">Todas as categorias</option>
+                                    <option value="Ferramentas de Furação">Ferramentas de Furação</option>
+                                    <option value="Parafusadeiras">Parafusadeiras</option>
+                                    <option value="Pastilhas">Pastilhas</option>
+                                    <option value="Pinças">Pinças</option>
+                                    <option value="Cortes">Ferramentas de Corte</option>
                                 </select>
                             </div>
 
