@@ -65,16 +65,21 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.error("Erro ao carregar dados do usuário:", error);
   }
 });
-  const btn = document.getElementById("appsBtn");
-    const menu = document.querySelector(".apps-menu");
 
-    btn.onclick = (e) => {
-      e.preventDefault();
-      menu.classList.toggle("show");
-    };
 
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".apps-container")) {
-        menu.classList.remove("show");
-      }
-    });
+const btn = document.getElementById("appsBtn");
+const menu = document.querySelector(".apps-menu");
+
+btn.onclick = (e) => {
+  e.preventDefault();
+  menu.classList.toggle("show");
+};
+
+document.addEventListener("click", (e) => {
+  const clicouNoBotao = e.target.closest("#appsBtn");
+  const clicouNoMenu = e.target.closest(".apps-menu");
+
+  if (!clicouNoBotao && !clicouNoMenu) {
+    menu.classList.remove("show");
+  }
+});
