@@ -92,9 +92,10 @@ function montarTabelaUsuarios(lista) {
             <td>${usuario.cnpj}</td>
             <td>${usuario.telefone}</td>
 
-            <td>
-                <button class="bobo btn btn-sm btn-editar" data-id="${usuario.id}">Editar</button>
-                <button class="bebe btn-excluir" data-id="${usuario.id}" style="color:red;">Excluir</button>
+            <td style="display:flex;align-items: center;">
+                <button class="btn-buy btn btn-sm btn-editar" data-id="${usuario.id}">Editar</button>
+                <span class=" btn-excluir  material-icons lixeira btnExcluir" style="cursor: pointer;" data-id="${usuario.id}" style="color:red;">delete</span>
+
             </td>
         `;
 
