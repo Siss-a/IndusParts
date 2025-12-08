@@ -172,13 +172,12 @@ async function carregarProdutos() {
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
                 </div>
-                <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="bobo" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
+                <div class="leu" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button class="btn-buy" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
                         Editar
                     </button>
-                    <button class="bebe btnExcluir" data-id="${produto.id}"
-                        Excluir
-                    </button>
+                    <span class="material-icons lixeira btnExcluir" alt="mini pequena lixera #chorabia" style="cursor: pointer;" data-id="${produto.id}">
+                     delete</span>
                 </div>
             </div>
         `).join('');
@@ -315,7 +314,6 @@ document.addEventListener("click", e => {
         excluirProduto(id);
     }
 });
-
 
 window.excluirProduto = async function (id) {
     if (!confirm('⚠️ Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita!')) {
