@@ -155,7 +155,7 @@ async function carregarProdutos() {
 
         // Renderizar produtos
         if (produtos.length === 0) {
-            listaProdutos.innerHTML = '<p style="text-align: center; color: #999;">😕 Nenhum produto encontrado.</p>';
+            listaProdutos.innerHTML = '<p style="text-align: center; color: #999;"> Nenhum produto encontrado.</p>';
             return;
         }
 
@@ -177,11 +177,11 @@ async function carregarProdutos() {
                     </div>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id = "${produto.id}" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
-                        ✏️ Editar
+                    <button class="bobo" onclick="editarProduto(${produto.id})">
+                        Editar
                     </button>
-                    <button onclick="excluirProduto(${produto.id})" style="background-color: #dc3545; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
-                        🗑️ Excluir
+                    <button class="bebe" onclick="excluirProduto(${produto.id})">
+                        Excluir
                     </button>
                 </div>
             </div>
@@ -336,37 +336,6 @@ window.excluirProduto = async function (id) {
         alert('❌ Erro ao excluir produto');
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Pesquisa por texto (com debounce)
