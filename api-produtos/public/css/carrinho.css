@@ -198,6 +198,7 @@ main{
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
     color: white;
     transition: 0.2s ease;
 }
@@ -222,3 +223,5 @@ main{
 .btn-buy:active {
     transform: scale(0.97);
 }
+
+
