@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         interesses.appendChild(card)
                     })
-                })
+            
                 .catch(err => {
                     console.log(err);
                 })
@@ -108,6 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
             codigo.innerHTML = codigoProduto;
             categoria.innerHTML = `${produto.categoria}`
         })
-} catch (error) {
-    console.error('Erro ao procurar produto', error)
-}
+        .catch(err => {
+            console.log(err);
+        })
+})
+})
