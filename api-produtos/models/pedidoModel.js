@@ -67,7 +67,7 @@ class PedidoModel {
     const connection = await getConnection();
     try {
       const [pedidos] = await connection.execute(
-        `SELECT p.id, p.numero_pedido, p.endereco, p.criado_em,
+        `SELECT p.id, p.numero_pedido, p.endereco, p.data_pedido,
                 COUNT(pi.id) as total_itens,
                 SUM(pi.quantidade * pi.preco_unitario) as total
          FROM pedidos p

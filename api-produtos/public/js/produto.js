@@ -23,11 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         .then(produto => {
 
-            let produtoAtual = produto;
+            document.getElementById('btn-add-carrinho').addEventListener('click', async () => {
+                const produtoId = id; 
+                const quantidade = 1; 
 
-            document.getElementById('btn-add-carrinho').onclick = function () {
-                adicionarAoCarrinho(produtoAtual.id, 1);
-            };
+                await adicionarAoCarrinho(produtoId, quantidade);
+            });
 
             let codigoProduto
 

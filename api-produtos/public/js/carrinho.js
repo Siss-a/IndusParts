@@ -241,6 +241,11 @@ if (btnLimpar) {
 
 
 function irParaCheckout() {
+    const lista = document.getElementById("lista-carrinho");
+    if (lista.children.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
     window.location.href = "/checkout";
 }
 

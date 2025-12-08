@@ -109,7 +109,7 @@ class PedidoController {
   // GET /pedidos - Listar pedidos do usuário
   static async listarPedidos(req, res) {
     try {
-      const id_usuario = req.user.id;
+      const id_usuario = req.usuario.id;
 
       const pedidos = await PedidoModel.listarPorUsuario(id_usuario);
 
