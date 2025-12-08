@@ -13,8 +13,8 @@ router.get('/:id', ProdutoController.buscarPorId);
 
 // Rotas protegidas (precisam de autenticação)
 router.post('/', authMiddleware, adminMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.criarProduto);
-router.put('/atualizar/:id', /* authMiddleware, adminMiddleware, */ uploadImagens.single('imagem'), handleUploadError, ProdutoController.atualizarProduto)
-router.delete('/excluir/:id', authMiddleware, ProdutoController.excluirProduto);
+router.put('/:id', authMiddleware, adminMiddleware, uploadImagens.single('imagem'), handleUploadError, ProdutoController.atualizarProduto)
+router.delete('/:id', authMiddleware, ProdutoController.excluirProduto);
 
 // Rotas OPTIONS para CORS (preflight requests)
 router.options('/', (req, res) => {

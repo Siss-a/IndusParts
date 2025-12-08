@@ -33,9 +33,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ============================================
-// FUNÇÃO DEBOUNCE
-// ============================================
+/* debounce */
 function debounce(fn, delay = 300) {
     let timer;
     return (...args) => {
@@ -44,9 +42,7 @@ function debounce(fn, delay = 300) {
     };
 }
 
-// ============================================
-// OBJETO DE FILTROS
-// ============================================
+/* Objeto filtros */
 const filtros = {
     texto: "",
     categoria: "",
@@ -180,7 +176,7 @@ async function carregarProdutos() {
                     <button class="bobo" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
                         Editar
                     </button>
-                    <button class="bebe" onclick="excluirProduto(${produto.id})">
+                    <button class="bebe btnExcluir" data-id="${produto.id}"
                         Excluir
                     </button>
                 </div>
@@ -277,7 +273,7 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
     try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch(`/api/produtos/atualizar/${id}`, {
+        const res = await fetch(`/api/produtos/${id}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -295,7 +291,7 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
                 const modal = bootstrap.Modal.getInstance(document.getElementById('modalEdicao'));
                 modal.hide();
                 carregarProdutos();
-            }, 1500);
+            }, 2000);
         } else {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: red;">❌ ${dados.erro || dados.mensagem}</p>`;
@@ -313,21 +309,33 @@ window.cancelarEdicao = function () {
     document.getElementById('mensagemEdicao').innerHTML = '';
 };
 
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("btnExcluir")) {
+        const id = e.target.getAttribute("data-id");
+        excluirProduto(id);
+    }
+});
+
+
 window.excluirProduto = async function (id) {
     if (!confirm('⚠️ Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita!')) {
         return;
     }
 
     try {
-        const response = await fetchWithAuth(`/api/produtos/${id}`, { // ✅ Rota corrigida
-            method: 'DELETE'
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`/api/produtos/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+
         });
 
-        if (!response) return;
+        const dados = await res.json();
 
-        const dados = await response.json();
-
-        if (response.ok) {
+        if (res.ok) {
             alert('✅ ' + dados.mensagem);
             carregarProdutos();
         } else {
