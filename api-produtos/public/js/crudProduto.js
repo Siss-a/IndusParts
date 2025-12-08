@@ -137,7 +137,9 @@ async function carregarProdutos() {
         }
 
         if (filtros.categoria) {
-            produtos = produtos.filter(p => p.id_categoria == filtros.categoria);
+            produtos = produtos.filter(p =>
+                p.categoria && p.categoria.toLowerCase().includes(filtros.categoria.toLowerCase())
+            );
         }
 
         // Informações de paginação
