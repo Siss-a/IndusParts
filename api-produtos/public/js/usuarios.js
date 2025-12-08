@@ -94,7 +94,7 @@ function montarTabelaUsuarios(lista) {
 
             <td style="display:flex;align-items: center;">
                 <button class="btn-buy btn btn-sm btn-editar" data-id="${usuario.id}">Editar</button>
-                <span class=" btn-excluir  material-icons lixeira btnExcluir" style="cursor: pointer;" data-id="${usuario.id}" style="color:red;">delete</span>
+                <span class="ms-2 btn-excluir  material-icons lixeira btnExcluir" style="cursor: pointer;" data-id="${usuario.id}" style="color:red;">delete</span>
 
             </td>
         `;
