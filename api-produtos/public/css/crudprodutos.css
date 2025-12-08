@@ -103,7 +103,6 @@ h2 {
   border: 1px solid red !important;
   transition: 0.5s ease;
   color:#721c24;
-
   background-color: white;
   border-radius: 5px !important;
 }
@@ -112,22 +111,19 @@ h2 {
     background-color: var(--bege);
     border: none;
     padding: 12px 18px;
-    width: 120px;
-    height: 50px;
+    /* width: 100%; */
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    text-decoration: none;
     color: white;
-    cursor: pointer;
-  
+
 }
 
-.luipa{
+
+.leu{
   display: flex;
   align-items: center;
 }
-
 
 
 /* =========================

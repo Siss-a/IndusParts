@@ -258,8 +258,6 @@ class ProdutoController {
         const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
         const id = req.params.id;
 
-        console.log('req.body: ', req.body)
-
         /* Coletar erros */
         const erros = []
 
@@ -321,15 +319,21 @@ class ProdutoController {
         }
 
         /* Preparar dados do produto */
-        const dadosProduto = {
-            nome: nome.trim(),
-            preco: parseFloat(preco),
-            categoria: categoria,
-            estoque: estoque,
-            descricao: descricao,
-            fornecedor: fornecedor,
-            especificacoes: especificacoes
+        const dadosProduto = {};
+
+        if (nome !== undefined) dadosProduto.nome = nome.trim();
+        if (preco !== undefined) dadosProduto.preco = parseFloat(preco);
+        if (categoria !== undefined) dadosProduto.categoria = categoria;
+        if (estoque !== undefined) dadosProduto.estoque = parseInt(estoque);
+        if (descricao !== undefined) dadosProduto.descricao = descricao;
+        if (fornecedor !== undefined) dadosProduto.fornecedor = fornecedor;
+        if (especificacoes !== undefined) dadosProduto.especificacoes = especificacoes;
+
+        /* Adicionar imagem */
+        if (req.file) {
+            dadosProduto.img = req.file.filename;
         }
+
 
         /* Adicionar imagem */
         if (req.file) {

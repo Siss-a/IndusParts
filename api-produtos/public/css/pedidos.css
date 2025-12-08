@@ -5,21 +5,93 @@
     --azul-claro: rgb(26, 115, 232);
   }
 
+  * {
+    margin: 0;
+    padding: 0;
+  }
 
-/* Todos os ícones do Bootstrap Icons */
-i[class^="bi-"], i[class*=" bi-"] {
-    color: var(--bege) !important;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @font-face {
+      font-family: "Helvetica";
+      src: url("/fonts/helvetica-255/helvetica-light-587ebe5a59211.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+  }
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 20px;
 }
 
-/* Caso queira também os ícones dentro de botões */
-button i[class^="bi-"], button i[class*=" bi-"] {
-    color: var(--bege) !important;
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
 }
 
-.neg{
-    border: 1px solid var(--bege);
-    border-radius: 5px;
-    padding: 10px;
-    text-decoration: none;
-    color: black;
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.pedido {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    transition: 0.2s;
+}
+
+.pedido:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pedido h3 {
+    margin: 0 0 10px 0;
+    color: #1a73e8;
+}
+
+.info {
+    color: #555;
+    margin: 5px 0;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.status.pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.entregue {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.cancelado {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+@media (max-width: 600px) {
+    .pedido {
+        padding: 15px;
+    }
 }

@@ -110,6 +110,10 @@ app.get('/carrinho', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
 });
 
+app.get('/pedidos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'pedidos.html'));
+});
+
 app.get('/catalogo/:categoria', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
 });

@@ -33,9 +33,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ============================================
-// FUNÇÃO DEBOUNCE
-// ============================================
+/* debounce */
 function debounce(fn, delay = 300) {
     let timer;
     return (...args) => {
@@ -44,9 +42,7 @@ function debounce(fn, delay = 300) {
     };
 }
 
-// ============================================
-// OBJETO DE FILTROS
-// ============================================
+/* Objeto filtros */
 const filtros = {
     texto: "",
     categoria: "",
@@ -96,7 +92,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
         mensagemEl.innerHTML = `<p style="color: green;">✅ Produto cadastrado!</p>`;
         document.getElementById('formCadastro').reset();
         carregarProdutos();
-        setTimeout(() => mensagemEl.innerHTML = '', 3000);
+        setTimeout(() => mensagemEl.innerHTML = '', 300);
 
     } catch (error) {
         console.error('Erro ao cadastrar produto:', error);
@@ -111,8 +107,8 @@ async function carregarProdutos() {
 
     const pagina = document.getElementById("pagina").value;
     const limite = document.getElementById("limite").value;
-    /* const listaProdutos = document.getElementById('listaProdutos');
-    listaProdutos.innerHTML = '<p style="text-align: center;">⏳ Carregando produtos...</p>'; */
+    const listaProdutos = document.getElementById('listaProdutos');
+    listaProdutos.innerHTML = '<p style="text-align: center;">⏳ Carregando produtos...</p>';
 
     try {
         const res = await fetch(`/api/produtos?pagina=${pagina}&limite=${limite}`, {
@@ -176,6 +172,7 @@ async function carregarProdutos() {
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
                 </div>
+<<<<<<< HEAD
                 <div class="luipa" style="margin-top: 15px; display: flex; gap: 10px;">
                  <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id="${produto.id}">
                    Editar
@@ -184,6 +181,14 @@ async function carregarProdutos() {
                  <span class="material-icons lixeira" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
                      delete
                  </span>
+=======
+                <div class="leu" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button class="btn-buy" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
+                        Editar
+                    </button>
+                    <span class="material-icons lixeira btnExcluir" alt="mini pequena lixera #chorabia" style="cursor: pointer;" data-id="${produto.id}">
+                     delete</span>
+>>>>>>> bia/backend
                 </div>
 
             </div>
@@ -279,7 +284,7 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
     try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch(`/api/produtos/atualizar/${id}`, {
+        const res = await fetch(`/api/produtos/${id}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -292,10 +297,12 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
         if (res.ok && dados.sucesso) {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: green;">✔️ ${dados.mensagem}</p>`;
+            // Aguarda o fechamento do modal antes de recarregar
             setTimeout(() => {
-                cancelarEdicao();
+                const modal = bootstrap.Modal.getInstance(document.getElementById('modalEdicao'));
+                modal.hide();
                 carregarProdutos();
-            }, 1200);
+            }, 2000);
         } else {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: red;">❌ ${dados.erro || dados.mensagem}</p>`;
@@ -313,21 +320,32 @@ window.cancelarEdicao = function () {
     document.getElementById('mensagemEdicao').innerHTML = '';
 };
 
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("btnExcluir")) {
+        const id = e.target.getAttribute("data-id");
+        excluirProduto(id);
+    }
+});
+
 window.excluirProduto = async function (id) {
     if (!confirm('⚠️ Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita!')) {
         return;
     }
 
     try {
-        const response = await fetchWithAuth(`/api/produtos/${id}`, { // ✅ Rota corrigida
-            method: 'DELETE'
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`/api/produtos/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+
         });
 
-        if (!response) return;
+        const dados = await res.json();
 
-        const dados = await response.json();
-
-        if (response.ok) {
+        if (res.ok) {
             alert('✅ ' + dados.mensagem);
             carregarProdutos();
         } else {
@@ -338,37 +356,6 @@ window.excluirProduto = async function (id) {
         alert('❌ Erro ao excluir produto');
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Pesquisa por texto (com debounce)

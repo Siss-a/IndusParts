@@ -28,16 +28,17 @@
     <div class="d-flex align-items-center gap-2 icones">
       <a style="text-decoration: none; color: black !important;" href="/catalogo/todos" id="btnProdutosDesk"
         class="material-icons btn-header">storefront</a>
+      <a href="/carrinho"><button id="btnCarrinhoMobile" class="material-icons btn-header">shopping_cart</button></a>
+
       <div class="apps-container">
-        <a href="/carrinho"><button id="btnCarrinhoMobile" class="material-icons btn-header">shopping_cart</button></a>
         <button id="appsBtn" class="material-icons btn-header">apps</button>
 
         <div class="apps-menu">
           <a href="/admin/crud-produtos">Produtos</a>
           <a href="/admin/crud-usuarios">Usuários</a>
-          <a href="/pedidos">Pedidos</a>
         </div>
       </div>
+
 
 
     </div>
@@ -485,8 +486,28 @@
   </div>
 
 
+
+
+
   <script>
-    
+    const btn = document.getElementById("appsBtn");
+    const menu = document.querySelector(".apps-menu");
+
+    btn.onclick = (e) => {
+      e.preventDefault();
+      menu.classList.toggle("show");
+    };
+
+    document.addEventListener("click", (e) => {
+      const clicouNoBotao = e.target.closest("#appsBtn");
+      const clicouNoMenu = e.target.closest(".apps-menu");
+
+      if (!clicouNoBotao && !clicouNoMenu) {
+        menu.classList.remove("show");
+      }
+    });
+
+
   </script>
 
 
