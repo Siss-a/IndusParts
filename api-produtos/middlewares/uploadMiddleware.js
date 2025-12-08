@@ -63,10 +63,10 @@ const isImage = (mimetype) => {
 
 // Filtro para tipos de arquivo permitidos (imagens)
 const fileFilterImagens = (req, file, cb) => {
-    const tiposPermitidos = process.env.ALLOWED_FILE_TYPES ? 
-        process.env.ALLOWED_FILE_TYPES.split(',').map(t => t.trim()) : 
+    const tiposPermitidos = process.env.ALLOWED_FILE_TYPES ?
+        process.env.ALLOWED_FILE_TYPES.split(',').map(t => t.trim()) :
         ['image/jpeg', 'image/png', 'image/gif'];
-    
+
     if (tiposPermitidos.includes(file.mimetype)) {
         cb(null, true);
     } else {
@@ -126,7 +126,7 @@ const handleUploadError = (error, req, res, next) => {
             });
         }
     }
-    
+
     if (error.message && error.message.includes('Tipo de arquivo não permitido')) {
         return res.status(400).json({
             sucesso: false,
@@ -142,11 +142,11 @@ const handleUploadError = (error, req, res, next) => {
 export const removerArquivoAntigo = async (nomeArquivo, tipo = 'imagem') => {
     try {
         if (!nomeArquivo) return;
-        
-        const caminhoArquivo = tipo === 'imagem' 
+
+        const caminhoArquivo = tipo === 'imagem'
             ? path.join(uploadPathImagens, nomeArquivo)
             : path.join(uploadPathArquivos, nomeArquivo);
-        
+
         if (fs.existsSync(caminhoArquivo)) {
             fs.unlinkSync(caminhoArquivo);
             return true;
@@ -158,4 +158,4 @@ export const removerArquivoAntigo = async (nomeArquivo, tipo = 'imagem') => {
     }
 };
 
-export const uploadImagem = uploadImagens.single("imagem");
+export { uploadImagens, uploadArquivos, handleUploadError };
