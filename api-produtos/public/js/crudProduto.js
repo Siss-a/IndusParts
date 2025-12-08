@@ -177,7 +177,7 @@ async function carregarProdutos() {
                     </div>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="bobo" onclick="editarProduto(${produto.id})">
+                    <button class="bobo" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
                         Editar
                     </button>
                     <button class="bebe" onclick="excluirProduto(${produto.id})">
@@ -291,9 +291,8 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: green;">✔️ ${dados.mensagem}</p>`;
             setTimeout(() => {
-                cancelarEdicao();
                 carregarProdutos();
-            }, 1200);
+            }, 20);
         } else {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: red;">❌ ${dados.erro || dados.mensagem}</p>`;
