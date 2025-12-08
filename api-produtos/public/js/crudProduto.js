@@ -176,14 +176,16 @@ async function carregarProdutos() {
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
                 </div>
-                <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id = "${produto.id}">
-                     Editar
-                    </button>
-                    <button class="bebe" onclick="excluirProduto(${produto.id})">
-                     Excluir
-                    </button>
+                <div class="luipa" style="margin-top: 15px; display: flex; gap: 10px;">
+                 <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id="${produto.id}">
+                   Editar
+                  </button>
+
+                 <span class="material-icons lixeira" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
+                     delete
+                 </span>
                 </div>
+
             </div>
         `).join('');
     } catch (error) {
