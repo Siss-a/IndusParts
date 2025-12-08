@@ -67,7 +67,7 @@ fetch(url) /* informacoes dos produtos */
                     case 'Fixação': categoriaProd = 'fixacao'; break;
                     case 'Cortes': categoriaProd = 'cortes'; break;
                     case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessorios-para-fixacao'; break;
                     default: categoriaProd = 'todos';
                 }
 

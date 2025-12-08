@@ -63,6 +63,40 @@
       font-size: 14px;
     }
 
+
+    /* animação de shake */
+    @keyframes shake {
+      0% {
+        transform: translateX(0px);
+      }
+
+      20% {
+        transform: translateX(-5px);
+      }
+
+      40% {
+        transform: translateX(5px);
+      }
+
+      60% {
+        transform: translateX(-5px);
+      }
+
+      80% {
+        transform: translateX(5px);
+      }
+
+      100% {
+        transform: translateX(0px);
+      }
+    }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
+
+
     a {
       text-decoration: none;
       color: rgb(167, 118, 96);
@@ -176,7 +210,7 @@
     }
   }
 
-  
+
 
   .dashboard {
     @font-face {
@@ -197,9 +231,9 @@
       z-index: 50;
     }
 
-.apps-menu {
-  z-index: 9999;
-}
+    .apps-menu {
+      z-index: 9999;
+    }
 
 
     .apps-menu {
@@ -379,7 +413,7 @@
     }
 
     .icones .btn-header:hover {
-      background:rgba(167, 119, 96, 0.692);
+      background: rgba(167, 119, 96, 0.692);
       transform: translateY(-2px);
     }
 
@@ -830,7 +864,7 @@
       nav button.ativo {
         background: none !important;
         font-weight: 600;
-        color:rgb(167, 118, 96) !important;
+        color: rgb(167, 118, 96) !important;
         box-shadow: none !important;
         border-bottom-left-radius: 2px !important;
         border-bottom-right-radius: 2px !important;
@@ -850,7 +884,7 @@
 
       /* Cor dos ícones */
       nav button.ativo i {
-        color:rgb(167, 118, 96) !important;
+        color: rgb(167, 118, 96) !important;
       }
 
       .layout {
