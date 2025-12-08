@@ -92,21 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         interesses.appendChild(card)
                     })
-<<<<<<< HEAD
                 })
                 .catch(err => {
                     console.log(err);
-=======
->>>>>>> c338582ec41217cd68f890eb15fbb583c201c95d
                 })
 
             nome.innerHTML = `${produto.nome}`
             preco.innerText = `R$${produto.preco}`
             descricao.forEach(desc => desc.innerText = produto.descricao)
-<<<<<<< HEAD
-=======
             especificacoes.forEach(espe => espe.textContent = produto.especificacoes)
->>>>>>> c338582ec41217cd68f890eb15fbb583c201c95d
             fornecedor.forEach((el) => el.textContent = produto.fornecedor);
             estoque.innerText = `${produto.estoque}`
             imagem.src = `/uploads/imagens/${produto.img}`
@@ -114,13 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
             codigo.innerHTML = codigoProduto;
             categoria.innerHTML = `${produto.categoria}`
         })
-<<<<<<< HEAD
-        .catch(err => {
-            console.log(err);
-        })
-})
-=======
 } catch (error) {
     console.error('Erro ao procurar produto', error)
 }
->>>>>>> c338582ec41217cd68f890eb15fbb583c201c95d
