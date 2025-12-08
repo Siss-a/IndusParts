@@ -1,0 +1,25 @@
+  :root {
+    --azul-mais-escuro: #012F6D;
+    --azul-escuro: #144272;
+    --bege: rgb(167, 118, 96);
+    --azul-claro: rgb(26, 115, 232);
+  }
+
+
+/* Todos os ícones do Bootstrap Icons */
+i[class^="bi-"], i[class*=" bi-"] {
+    color: var(--bege) !important;
+}
+
+/* Caso queira também os ícones dentro de botões */
+button i[class^="bi-"], button i[class*=" bi-"] {
+    color: var(--bege) !important;
+}
+
+.neg{
+    border: 1px solid var(--bege);
+    border-radius: 5px;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
