@@ -16,6 +16,7 @@ fetch(url) /* informacoes dos produtos */
 
         const produtos = data.dados;
         const barraPesquisa = document.getElementById('pesquisa');
+        const filtro = document.getElementById('filtroCategoria');
         renderizarProdutos()
         contarProdutos()
 
@@ -67,7 +68,7 @@ fetch(url) /* informacoes dos produtos */
                     case 'Fixação': categoriaProd = 'fixacao'; break;
                     case 'Cortes': categoriaProd = 'cortes'; break;
                     case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessorios-para-fixacao'; break;
                     default: categoriaProd = 'todos';
                 }
 
@@ -109,7 +110,7 @@ fetch(url) /* informacoes dos produtos */
                     case 'Fixação': categoriaProd = 'fixacao'; break;
                     case 'Cortes': categoriaProd = 'cortes'; break;
                     case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessorios-para-fixacao'; break;
                     default: categoriaProd = 'todos';
                 }
 
@@ -135,5 +136,50 @@ fetch(url) /* informacoes dos produtos */
         }
         barraPesquisa.addEventListener('input', filtrarProdutos);
         barraPesquisa.addEventListener('input', contarProdutos);
+
+        function selecionarProdutos() {
+
+            container.querySelectorAll(".card-produto").forEach(el => el.remove());
+
+            const valorOpcao = filtro.value
+            const produtosFiltrados = produtos.filter(produto => produto.categoria === valorOpcao || valorOpcao === "");
+
+
+            produtosFiltrados.forEach(produto => {
+                const card = document.createElement("div");
+                card.className = "col-12 col-sm-6 col-md-3 card-produto";
+
+                let categoriaProd;
+                switch (produto.categoria) {
+                    case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+                    case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
+                    case 'Fixação': categoriaProd = 'fixacao'; break;
+                    case 'Cortes': categoriaProd = 'cortes'; break;
+                    case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                    case 'Acessórios para Fixação': categoriaProd = 'acessorios-para-fixacao'; break;
+                    default: categoriaProd = 'todos';
+                }
+
+                card.innerHTML = `
+                    <a href="/produtos/${categoriaProd}/${produto.id}" class="card h-100 text-decoration-none mx-auto">
+                        <img src="/uploads/imagens/${produto.img}" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-text" style="overflow: hidden; height: 30px;">${produto.nome}</h4>
+                            <p>${produto.descricao}</p>
+
+                        </div>
+                        <div class="w-100 h-100">
+                                <p class="preco">R$ ${produto.preco}</p>
+                        </div>
+                    </a>
+                `;
+
+                container.appendChild(card);
+                setTimeout(() => {
+                    card.classList.add("show")
+                }, 20)
+            })
+        }
+        filtro.addEventListener('input', selecionarProdutos);
     }
     )
