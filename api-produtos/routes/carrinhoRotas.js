@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/adicionar", authMiddleware, CarrinhoController.adicionar);
 router.put("/atualizar", authMiddleware, CarrinhoController.atualizar);
 router.delete("/remover/:produtoId", authMiddleware, CarrinhoController.remover);
+router.delete("/limpar", authMiddleware, CarrinhoController.limpar);
 router.get("/", authMiddleware, CarrinhoController.listar);
 
 

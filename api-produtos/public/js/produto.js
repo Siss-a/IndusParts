@@ -13,59 +13,61 @@ const descricao = document.querySelectorAll(".descricao-produto");
 const fornecedor = document.querySelectorAll(".fornecedor-produto");
 const categoria = document.getElementById('categoria-produto');
 
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
     fetch(`/api/produtos/${id}`)
-    .then(res => res.json())
-    .then(data => {
-        return data.dados
-    })
-    .then(produto => {
+        .then(res => res.json())
+        .then(data => {
+            if (!data.sucesso) throw new Error("Produto não encontrado");
+            return data.dados;
+        })
 
-        let produtoAtual = produto;
+        .then(produto => {
 
-        document.getElementById('btn-add-carrinho').onclick = function () {
-            adicionarAoCarrinho(produtoAtual.id, 1);
-        };
+            let produtoAtual = produto;
 
-        let codigoProduto
+            document.getElementById('btn-add-carrinho').onclick = function () {
+                adicionarAoCarrinho(produtoAtual.id, 1);
+            };
 
-        if (caracteresID === 1) {
-            codigoProduto = `<p>000${produto.id}</p>`
-        }
-        if (caracteresID === 2) {
-            codigoProduto = `<p>00${produto.id}</p>`
-        }
-        if (caracteresID === 3) {
-            codigoProduto = `<p>0${produto.id}</p>`
-        }
-        if (caracteresID === 4) {
-            codigoProduto = `<p>${produto.id}</p>`
-        }
+            let codigoProduto
 
-        let categoriaProd;
-        switch (produto.categoria) {
-            case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
-            case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
-            case 'Fixação': categoriaProd = 'fixacao'; break;
-            case 'Cortes': categoriaProd = 'cortes'; break;
-            case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-            case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
-            default: categoriaProd = 'todos';
-        }
+            if (caracteresID === 1) {
+                codigoProduto = `<p>000${produto.id}</p>`
+            }
+            if (caracteresID === 2) {
+                codigoProduto = `<p>00${produto.id}</p>`
+            }
+            if (caracteresID === 3) {
+                codigoProduto = `<p>0${produto.id}</p>`
+            }
+            if (caracteresID === 4) {
+                codigoProduto = `<p>${produto.id}</p>`
+            }
 
-        fetch(`/api/produtos/categoria/${produto.categoria}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.dados)
-                return data.dados
-            })
-            .then(produtos => {
-                interesses.innerHTML = ''
-                produtos.slice(0, 8).forEach(produto => {
-                    const card = document.createElement('div')
-                    card.className = 'product-card'
+            let categoriaProd;
+            switch (produto.categoria) {
+                case 'Usinagem': categoriaProd = 'fresas-de-usinagem'; break;
+                case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
+                case 'Fixação': categoriaProd = 'fixacao'; break;
+                case 'Cortes': categoriaProd = 'cortes'; break;
+                case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
+                case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
+                default: categoriaProd = 'todos';
+            }
 
-                    card.innerHTML = `
+            fetch(`/api/produtos/categoria/${produto.categoria}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.dados)
+                    return data.dados
+                })
+                .then(produtos => {
+                    interesses.innerHTML = ''
+                    produtos.slice(0, 8).forEach(produto => {
+                        const card = document.createElement('div')
+                        card.className = 'product-card'
+
+                        card.innerHTML = `
                             <a href="/produtos/${categoriaProd}/${produto.id}">
                                 <div class="product-card-img">
                                     <img src="/uploads/imagens/${produto.img}" alt="${produto.nome}" />
@@ -86,24 +88,24 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             </a>
                         `
 
-                    interesses.appendChild(card)
+                        interesses.appendChild(card)
+                    })
                 })
-            })
-            .catch(err => {
-                console.log(err);
-            })
+                .catch(err => {
+                    console.log(err);
+                })
 
-        nome.innerHTML = `${produto.nome}`
-        preco.innerText = `R$${produto.preco}`
-        descricao.forEach(desc => desc.innerText = produto.descricao)
-        fornecedor.forEach((el) => el.textContent = produto.fornecedor);
-        estoque.innerText = `${produto.estoque}`
-        imagem.src = `/uploads/imagens/${produto.img}`
-        titulo.innerText = `${produto.nome}`
-        codigo.innerHTML = codigoProduto;
-        categoria.innerHTML = `${produto.categoria}`
-    })
-    .catch(err => {
-        console.log(err);
-    })
+            nome.innerHTML = `${produto.nome}`
+            preco.innerText = `R$${produto.preco}`
+            descricao.forEach(desc => desc.innerText = produto.descricao)
+            fornecedor.forEach((el) => el.textContent = produto.fornecedor);
+            estoque.innerText = `${produto.estoque}`
+            imagem.src = `/uploads/imagens/${produto.img}`
+            titulo.innerText = `${produto.nome}`
+            codigo.innerHTML = codigoProduto;
+            categoria.innerHTML = `${produto.categoria}`
+        })
+        .catch(err => {
+            console.log(err);
+        })
 })

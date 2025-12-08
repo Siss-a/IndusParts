@@ -2,7 +2,7 @@ import CarrinhoModel from '../models/CarrinhoModel.js';
 import ProdutoModel from '../models/ProdutoModel.js';
 
 class CarrinhoController {
-    
+
     // POST /api/carrinho/adicionar
     static async adicionar(req, res) {
         try {
@@ -120,6 +120,26 @@ class CarrinhoController {
                 sucesso: false,
                 erro: "Erro interno ao remover do carrinho"
             });
+        }
+    }
+
+    static async limpar(req, res) {
+        try {
+            const userId = req.usuario.id;
+            await CarrinhoModel.limpar(userId);
+
+            return res.json({
+                sucesso: true,
+                mensagem: "Carrinho limpo com sucesso"
+            });
+        }
+        catch (error) {
+            console.error("Erro ao limpar carrinho:", error);
+            return res.status(500).json({
+                sucesso: false,
+                erro: "Erro ao limpar carrinho"
+            });
+
         }
     }
 

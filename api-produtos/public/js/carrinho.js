@@ -2,6 +2,7 @@ function getToken() {
     return localStorage.getItem("token");
 }
 
+
 async function adicionarAoCarrinho(produtoId, quantidade) {
     try {
         const token = getToken();
