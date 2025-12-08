@@ -194,7 +194,13 @@
       position: relative;
       display: inline-block;
       transition: 0.5s ease;
+      z-index: 50;
     }
+
+.apps-menu {
+  z-index: 9999;
+}
+
 
     .apps-menu {
       position: absolute;
@@ -696,6 +702,7 @@
         width: 920px;
       }
     }
+
 
 
     /* ===== RESPONSIVIDADE ===== */
