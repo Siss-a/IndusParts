@@ -258,8 +258,6 @@ class ProdutoController {
         const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
         const id = req.params.id;
 
-        console.log("req.body recebido:", req.body);
-
         /* Coletar erros */
         const erros = []
 

@@ -96,7 +96,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
         mensagemEl.innerHTML = `<p style="color: green;">✅ Produto cadastrado!</p>`;
         document.getElementById('formCadastro').reset();
         carregarProdutos();
-        setTimeout(() => mensagemEl.innerHTML = '', 3000);
+        setTimeout(() => mensagemEl.innerHTML = '', 300);
 
     } catch (error) {
         console.error('Erro ao cadastrar produto:', error);
@@ -111,8 +111,8 @@ async function carregarProdutos() {
 
     const pagina = document.getElementById("pagina").value;
     const limite = document.getElementById("limite").value;
-    /* const listaProdutos = document.getElementById('listaProdutos');
-    listaProdutos.innerHTML = '<p style="text-align: center;">⏳ Carregando produtos...</p>'; */
+    const listaProdutos = document.getElementById('listaProdutos');
+    listaProdutos.innerHTML = '<p style="text-align: center;">⏳ Carregando produtos...</p>';
 
     try {
         const res = await fetch(`/api/produtos?pagina=${pagina}&limite=${limite}`, {
@@ -290,9 +290,12 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
         if (res.ok && dados.sucesso) {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: green;">✔️ ${dados.mensagem}</p>`;
+            // Aguarda o fechamento do modal antes de recarregar
             setTimeout(() => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('modalEdicao'));
+                modal.hide();
                 carregarProdutos();
-            }, 20);
+            }, 1500);
         } else {
             document.getElementById('mensagemEdicao').innerHTML =
                 `<p style="color: red;">❌ ${dados.erro || dados.mensagem}</p>`;
