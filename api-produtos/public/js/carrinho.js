@@ -5,10 +5,10 @@ function getToken() {
 async function adicionarAoCarrinho(produtoId, quantidade) {
     try {
         const token = getToken();
-        if (!token) { 
-            alert("Você precisa estar logado!"); 
+        if (!token) {
+            alert("Você precisa estar logado!");
             window.location.href = "/login";
-            return; 
+            return;
         }
 
         const response = await fetch("http://localhost:3000/api/carrinho/adicionar", {
@@ -35,10 +35,10 @@ async function adicionarAoCarrinho(produtoId, quantidade) {
 async function carregarCarrinho() {
     try {
         const token = getToken();
-        if (!token) { 
-            alert("Você precisa estar logado!"); 
+        if (!token) {
+            alert("Você precisa estar logado!");
             window.location.href = "/login";
-            return; 
+            return;
         }
 
         const response = await fetch("http://localhost:3000/api/carrinho", {
@@ -57,11 +57,13 @@ async function carregarCarrinho() {
         }
 
         const lista = document.getElementById("lista-carrinho");
+        const resumo = document.getElementById("resumo-produtos");
         const btnCheckout = document.getElementById("btn-checkout");
-        
+
         if (!lista) return;
 
         lista.innerHTML = "";
+        resumo.innerHTML = `<span class="fs-4">Produtos:</span>`;
 
         if (data.dados.itens.length === 0) {
             lista.innerHTML = `
@@ -77,53 +79,61 @@ async function carregarCarrinho() {
             return;
         }
 
-        data.dados.itens.forEach(item => {
-            const itemDiv = document.createElement("div");
-            itemDiv.className = "card mb-3";
-            itemDiv.innerHTML = `
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-2">
-                            <img src="${item.img || '/uploads/imagens/pfres.png'}" 
-                                 class="img-fluid rounded" 
-                                 alt="${item.nome}">
-                        </div>
-                        <div class="col-md-4">
-                            <h6 class="mb-1">${item.nome}</h6>
-                            <p class="text-muted mb-0">R$ ${parseFloat(item.preco).toFixed(2)}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group input-group-sm">
-                                <button class="btn btn-outline-secondary" type="button" 
-                                        onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade - 1})">
-                                    <i class="bi bi-dash"></i>
-                                </button>
-                                <input type="number" class="form-control text-center" 
-                                       value="${item.quantidade}" 
-                                       min="1"
-                                       onchange="atualizarQuantidade(${item.produto_id}, this.value)">
-                                <button class="btn btn-outline-secondary" type="button"
-                                        onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade + 1})">
-                                    <i class="bi bi-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-2 text-end">
-                            <strong>R$ ${(item.preco * item.quantidade).toFixed(2)}</strong>
-                        </div>
-                        <div class="col-md-1 text-end">
-                            <button class="btn btn-danger btn-sm" onclick="removerItem(${item.produto_id})">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            lista.appendChild(itemDiv);
-        });
 
-        document.getElementById("total").innerText = "Total: R$ " + data.dados.total;
-        
+ let total = 0;
+
+data.dados.itens.forEach(item => {
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "card-produto";
+
+    const subtotal = item.preco * item.quantidade;
+    total += subtotal;
+
+    itemDiv.innerHTML = `
+        <img src="${item.img || '/uploads/imagens/pfres.png'}" class="img-produto">
+
+        <div class="info">
+            <h6>${item.nome}</h6>
+        </div>
+
+        <div class="quantidade">
+            <button onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade - 1})">
+                <i class="bi bi-dash"></i>
+            </button>
+
+            <input type="number"
+                value="${item.quantidade}"
+                min="1"
+                onchange="atualizarQuantidade(${item.produto_id}, this.value)">
+
+            <button onclick="alterarQuantidade(${item.produto_id}, ${item.quantidade + 1})">
+                <i class="bi bi-plus"></i>
+            </button>
+        </div>
+
+        <div class="preco">
+            <p>R$ ${parseFloat(item.preco).toFixed(2)}</p>
+            <strong>R$ ${subtotal.toFixed(2)}</strong>
+        </div>
+
+        <div>
+            <button onclick="removerItem(${item.produto_id})">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    `;
+
+    lista.appendChild(itemDiv);
+
+    resumo.innerHTML += `
+        <span>${item.quantidade} / R$ ${subtotal.toFixed(2)}</span>
+    `;
+});
+
+// Total final
+document.getElementById("total").innerText = `R$ ${total.toFixed(2)}`;
+
+
         if (btnCheckout) {
             btnCheckout.disabled = false;
         }
@@ -147,9 +157,9 @@ function alterarQuantidade(produtoId, novaQuantidade) {
 async function atualizarQuantidade(produtoId, quantidade) {
     try {
         const token = getToken();
-        if (!token) { 
-            alert("Você precisa estar logado!"); 
-            return; 
+        if (!token) {
+            alert("Você precisa estar logado!");
+            return;
         }
 
         const qtd = parseInt(quantidade);
@@ -169,7 +179,7 @@ async function atualizarQuantidade(produtoId, quantidade) {
         });
 
         const data = await response.json();
-        
+
         if (data.sucesso) {
             carregarCarrinho();
         } else {
@@ -185,9 +195,9 @@ async function atualizarQuantidade(produtoId, quantidade) {
 async function removerItem(produtoId) {
     try {
         const token = getToken();
-        if (!token) { 
-            alert("Você precisa estar logado!"); 
-            return; 
+        if (!token) {
+            alert("Você precisa estar logado!");
+            return;
         }
 
         const response = await fetch(`http://localhost:3000/api/carrinho/remover/${produtoId}`, {
@@ -198,7 +208,7 @@ async function removerItem(produtoId) {
         });
 
         const data = await response.json();
-        
+
         if (data.sucesso) {
             carregarCarrinho();
         } else {
@@ -210,6 +220,24 @@ async function removerItem(produtoId) {
         alert("Erro ao remover item");
     }
 }
+
+//NOVO, não tem verificação nenhuma
+const btnLimpar = document.getElementById("limpar");
+
+if (btnLimpar) {
+    btnLimpar.addEventListener("click", async () => {
+        const token = getToken();
+        if (!token) return;
+
+        await fetch("http://localhost:3000/api/carrinho/limpar", {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        carregarCarrinho();
+    });
+}
+
 
 function irParaCheckout() {
     window.location.href = "/checkout";
