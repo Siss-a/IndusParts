@@ -62,14 +62,14 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
     formData.append('nome', document.getElementById('nome').value);
     formData.append('descricao', document.getElementById('descricao').value);
     formData.append('preco', document.getElementById('preco').value);
+    formData.append('estoque', document.getElementById('estoque').value);
     formData.append('categoria', document.getElementById('categoria').value);
-    formData.append('estoque', document.getElementById('categoria').value);
     formData.append('fornecedor', document.getElementById('fornecedor').value || '');
     formData.append('especificacoes', document.getElementById('especificacoes')?.value || '');
 
     const imagemFile = document.getElementById('imagem').files[0];
     if (imagemFile) {
-        formData.append('img', imagemFile); // <-- CORRIGIDO
+        formData.append('imagem', imagemFile);
     }
 
     const mensagemEl = document.getElementById('mensagemCadastro');
@@ -87,7 +87,6 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
         });
 
         const dados = await res.json();
-        console.log("RESPOSTA API:", dados);
 
         if (!res.ok || !dados.sucesso) {
             mensagemEl.innerHTML = `<p style="color: red;">❌ Erro: ${dados.erro || dados.mensagem}</p>`;
@@ -106,9 +105,7 @@ document.getElementById('formCadastro').addEventListener('submit', async (e) => 
 });
 
 
-// ============================================
-// CARREGAR LISTA DE PRODUTOS
-// ============================================
+/* Carregar produtos */
 async function carregarProdutos() {
     const token = localStorage.getItem("token");
 
@@ -158,7 +155,7 @@ async function carregarProdutos() {
 
         // Renderizar produtos
         if (produtos.length === 0) {
-            listaProdutos.innerHTML = '<p style="text-align: center; color: #999;">😕 Nenhum produto encontrado.</p>';
+            listaProdutos.innerHTML = '<p style="text-align: center; color: #999;">Nenhum produto encontrado.</p>';
             return;
         }
 
@@ -179,14 +176,16 @@ async function carregarProdutos() {
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
                 </div>
-                <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button onclick="editarProduto(${produto.id})" style="background-color: #007bff; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
-                        ✏️ Editar
-                    </button>
-                    <button onclick="excluirProduto(${produto.id})" style="background-color: #dc3545; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
-                        🗑️ Excluir
-                    </button>
+                <div class="luipa" style="margin-top: 15px; display: flex; gap: 10px;">
+                 <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id="${produto.id}">
+                   Editar
+                  </button>
+
+                 <span class="material-icons lixeira" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
+                     delete
+                 </span>
                 </div>
+
             </div>
         `).join('');
     } catch (error) {
@@ -195,76 +194,111 @@ async function carregarProdutos() {
     }
 }
 
-// ============================================
-// EDITAR PRODUTO
-// ============================================
-window.editarProduto = async function (id) {
-    try {
-        const response = await fetchWithAuth(`/api/produtos/${id}`); // ✅ Rota corrigida
+const modalEdicao = document.getElementById("modalEdicao");
 
-        const dados = await response.json();
-        if (!response.ok) {
-            alert('❌ Erro ao buscar produto');
+modalEdicao.addEventListener("show.bs.modal", async (event) => {
+    const botao = event.relatedTarget;
+    const id = botao.getAttribute("data-id");
+    await editarProduto(id);
+});
+
+let produtoAtual
+async function editarProduto(id) {
+    console.log('Editar produto de id:', id);
+
+    try {
+        const token = localStorage.getItem('token');
+
+        const res = await fetch(`/api/produtos/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) return alert("Erro ao buscar");
+
+        const dados = await res.json();
+
+        if (!dados.sucesso) {
+            alert('Erro ao carregar produto');
             return;
         }
 
-        const produto = dados.dados;
+        produtoAtual = dados.dados;
+        console.log('Produto carregado: ', produtoAtual);
 
-        document.getElementById('edit_id').value = produto.id;
-        document.getElementById('edit_nome').value = produto.nome;
-        document.getElementById('edit_descricao').value = produto.descricao || '';
-        document.getElementById('edit_categoria').value = produto.id_categoria || '';
-        document.getElementById('edit_fornecedor').value = produto.fornecedor || '';
-        document.getElementById('edit_tipo').value = produto.tipo || '';
-        document.getElementById('edit_especificacoes').value = produto.especificacoes || '';
-
-        document.getElementById('secaoEdicao').style.display = 'block';
-        document.getElementById('secaoEdicao').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('edit_id').value = id;
+        document.getElementById('editNome').value = produtoAtual.nome;
+        document.getElementById('editPreco').value = produtoAtual.preco;
+        document.getElementById('editDescricao').value = produtoAtual.descricao || '';
+        document.getElementById('editCategoria').value = produtoAtual.categoria || '';
+        document.getElementById('editFornecedor').value = produtoAtual.fornecedor || '';
+        document.getElementById('editEstoque').value = produtoAtual.estoque || '';
+        document.getElementById('editEspecificacoes').value = produtoAtual.especificacoes || '';
+        document.getElementById('editImagem')
 
     } catch (error) {
         console.error('Erro ao buscar produto:', error);
-        alert('❌ Erro ao carregar dados do produto');
+        alert('Erro ao carregar dados do produto');
     }
 };
 
+/* Salvar edição */
+const salvarEdicao = document.getElementById("btnSalvarEdicao");
 document.getElementById('formEdicao').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const id = document.getElementById('edit_id').value;
     const formData = new FormData();
 
-    formData.append('nome', document.getElementById('edit_nome').value);
-    formData.append('descricao', document.getElementById('edit_descricao').value);
-    formData.append('categoria', document.getElementById('edit_categoria').value);
-    formData.append('fornecedor', document.getElementById('edit_fornecedor').value);
-    formData.append('tipo', document.getElementById('edit_tipo').value);
-    formData.append('especificacoes', document.getElementById('edit_especificacoes').value);
+    // Captura valores
+    const campos = {
+        nome: document.getElementById('editNome').value.trim(),
+        preco: document.getElementById('editPreco').value,
+        descricao: document.getElementById('editDescricao').value.trim(),
+        categoria: document.getElementById('editCategoria').value.trim(),
+        fornecedor: document.getElementById('editFornecedor').value.trim(),
+        estoque: document.getElementById('editEstoque').value,
+        especificacoes: document.getElementById('editEspecificacoes').value.trim()
+    };
 
-    const imagemFile = document.getElementById('edit_imagem').files[0];
+    // Comparação — só envia os campos alterados
+    Object.keys(campos).forEach(key => {
+        if (campos[key] !== produtoAtual[key] && campos[key] !== "") {
+            formData.append(key, campos[key]);
+        }
+    });
+
+    // Enviar arquivo somente se selecionou
+    const imagemFile = document.getElementById('editImagem').files[0];
     if (imagemFile) {
-        formData.append('img', imagemFile);
+        formData.append("imagem", imagemFile);
     }
 
     try {
-        const response = await fetchWithAuth(`/api/produtos/${id}`, {
-            method: 'PUT',
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`/api/produtos/atualizar/${id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
             body: formData
         });
 
-        if (!response) return;
+        const dados = await res.json();
 
-        const dados = await response.json();
-
-        if (response.ok) {
+        if (res.ok && dados.sucesso) {
             document.getElementById('mensagemEdicao').innerHTML =
-                `<p style="color: green;">✅ ${dados.mensagem}</p>`;
+                `<p style="color: green;">✔️ ${dados.mensagem}</p>`;
             setTimeout(() => {
                 cancelarEdicao();
                 carregarProdutos();
-            }, 1500);
+            }, 1200);
         } else {
             document.getElementById('mensagemEdicao').innerHTML =
-                `<p style="color: red;">❌ Erro: ${dados.mensagem || dados.erro}</p>`;
+                `<p style="color: red;">❌ ${dados.erro || dados.mensagem}</p>`;
         }
     } catch (error) {
         console.error('Erro ao atualizar produto:', error);
@@ -304,6 +338,38 @@ window.excluirProduto = async function (id) {
         alert('❌ Erro ao excluir produto');
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Pesquisa por texto (com debounce)
 document.getElementById('pesquisa')?.addEventListener('input', debounce(e => {

@@ -95,6 +95,7 @@ h2 {
 .bobo{
   border: 1px solid var(--bege);
   transition: 0.5s ease;
+  background-color: white;
   border-radius: 5px !important;
 }
 
@@ -102,7 +103,29 @@ h2 {
   border: 1px solid red !important;
   transition: 0.5s ease;
   color:#721c24;
+
+  background-color: white;
   border-radius: 5px !important;
+}
+
+.btn-buy {
+    background-color: var(--bege);
+    border: none;
+    padding: 12px 18px;
+    width: 120px;
+    height: 50px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+  
+}
+
+.luipa{
+  display: flex;
+  align-items: center;
 }
 
 

@@ -88,9 +88,13 @@ header a {
     transform: scale(1.05);
 }
 
+a{
+    text-decoration: none !important;
+}
+
 .main-image-container {
     border-radius: 12px;  
-    min-height: 450px;
+    max-height:585px;
     display: flex;
     align-items: center;
     justify-content: center;

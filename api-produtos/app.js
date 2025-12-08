@@ -14,7 +14,7 @@ import pedidoRotas from './routes/pedidoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
-// import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
 
 // Carregar variáveis do arquivo .env
 dotenv.config();
@@ -45,12 +45,14 @@ app.use(helmet({
                 "'self'",
                 "'unsafe-inline'",
                 "https://cdn.jsdelivr.net",
-                "https://fonts.googleapis.com"
+                "https://fonts.googleapis.com",
+                "https://cdnjs.cloudflare.com"
             ],
             fontSrc: [
                 "'self'",
                 "https://cdn.jsdelivr.net",
-                "https://fonts.gstatic.com"
+                "https://fonts.gstatic.com",
+                "https://cdnjs.cloudflare.com"
             ],
             imgSrc: ["'self'", "data:", "https:"],
             connectSrc: ["'self'"]

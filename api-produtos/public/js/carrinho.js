@@ -72,7 +72,7 @@ async function carregarCarrinho() {
                     <i class="bi bi-cart-x display-1 text-muted"></i>
                     <h4 class="mt-3">Seu carrinho está vazio</h4>
                     <p class="text-muted">Adicione produtos para continuar comprando</p>
-                    <a href="/" class="btn btn-primary">Ir às Compras</a>
+                    <a href="/catalogo/todos" class="btn-buy">Ir às Compras</a>
                 </div>
             `;
             if (btnCheckout) btnCheckout.disabled = true;

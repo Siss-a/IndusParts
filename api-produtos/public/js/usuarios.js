@@ -154,7 +154,7 @@ form.addEventListener('submit', async (e) => {
 /* EDIÇÃO */
 let usuarioAtual = null; // objeto carregado para edição
 
-// Quando clicar no botão editar ↓
+// Quando clicar no botão editar
 async function editarUsuario(id) {
     console.log("Editar usuario com id:", id);
 
