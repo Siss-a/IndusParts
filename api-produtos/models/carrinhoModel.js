@@ -8,11 +8,11 @@ class CarrinhoModel {
             const conn = await getConnection();
 
             const [rows] = await conn.query(
-                `SELECT c.id, c.usuario_id, c.produto_id, c.quantidade,
+                `SELECT c.id, c.id_usuario, c.produto_id, c.quantidade,
                         p.nome, p.preco, p.img
                    FROM carrinho c
                    JOIN produtos p ON c.produto_id = p.id
-                  WHERE c.usuario_id = ?`,
+                  WHERE c.Id_usuario  = ?`,
                 [usuarioId]
             );
 
