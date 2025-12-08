@@ -66,21 +66,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-<<<<<<< HEAD
-const btn = document.getElementById("appsBtn");
-    const menu = document.querySelector(".apps-menu");
-
-    btn.onclick = (e) => {
-      e.preventDefault();
-      menu.classList.toggle("show");
-    };
-
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".apps-container")) {
-        menu.classList.remove("show");
-      }
-    });
-=======
 
 const btn = document.getElementById("appsBtn");
 const menu = document.querySelector(".apps-menu");
@@ -98,4 +83,3 @@ document.addEventListener("click", (e) => {
     menu.classList.remove("show");
   }
 });
->>>>>>> bia/backend

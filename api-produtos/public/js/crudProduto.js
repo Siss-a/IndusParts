@@ -172,7 +172,6 @@ async function carregarProdutos() {
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
                 </div>
-<<<<<<< HEAD
                 <div class="luipa" style="margin-top: 15px; display: flex; gap: 10px;">
                  <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id="${produto.id}">
                    Editar
@@ -181,14 +180,6 @@ async function carregarProdutos() {
                  <span class="material-icons lixeira" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
                      delete
                  </span>
-=======
-                <div class="leu" style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="btn-buy" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
-                        Editar
-                    </button>
-                    <span class="material-icons lixeira btnExcluir" alt="mini pequena lixera #chorabia" style="cursor: pointer;" data-id="${produto.id}">
-                     delete</span>
->>>>>>> bia/backend
                 </div>
 
             </div>
