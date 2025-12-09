@@ -268,7 +268,6 @@ class ProdutoController {
         if (req.file && produto.img) {
             try {
                 await fs.unlink(`./uploads/imagens/${produto.img}`);
-                console.log("Imagem antiga removida");
             } catch (err) {
                 console.warn("Não foi possível apagar a imagem antiga:", err);
             }
