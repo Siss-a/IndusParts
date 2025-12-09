@@ -176,13 +176,15 @@ async function carregarProdutos() {
                     </div>
                 </div>
                 <div class="luipa" style="margin-top: 15px; display: flex; gap: 10px;">
+
                  <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id="${produto.id}">
                    Editar
                   </button>
 
-                 <span class="material-icons lixeira" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
+                 <span class="material-icons lixeira btnExcluir" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
                      delete
                  </span>
+
                 </div>
 
             </div>
