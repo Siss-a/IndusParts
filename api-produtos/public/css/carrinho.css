@@ -30,6 +30,7 @@ header {
     transition: box-shadow 0.3s ease;
     z-index: 999 !important;
     border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10vh;
 }
 
 .header.scrolled {
@@ -72,7 +73,7 @@ header a {
 /* main */
 
 main{
-    height: 90vh; /* ocupa a tela inteira */
+    height: 85vh; /* ocupa a tela inteira */
     display: flex;
     justify-content: center; /* centraliza horizontal */
     align-items: center; /* centraliza vertical */
@@ -99,7 +100,7 @@ main{
 }
 
 .card-produto {
-   border: 1px solid rgba(167, 119, 96, 0.61) ;
+   border: 1px solid rgba(167, 119, 96, 0.61) !important ;
     padding: 15px;
     border-radius: 1px;
     display: flex;
@@ -198,6 +199,7 @@ main{
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
     color: white;
     transition: 0.2s ease;
 }

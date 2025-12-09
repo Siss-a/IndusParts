@@ -1,45 +1,76 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico de Pedidos</title>
+    <title>Meus Pedidos - IndusParts</title>
     <link rel="stylesheet" href="../css/pedidos.css">
-
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
-
 <body>
-    <h1>Histórico de Pedidos</h1>
-    <h3>CNPJ: </h3>
-
-    <div class="container">
-
-        <div class="pedido">
-            <h3>Pedido #0003</h3>
-            <p class="info">Data: 04/12/2025</p>
-            <p class="info">Valor: R$ 349,90</p>
-            <p class="info">Produtos: 3 itens</p>
-            <span class="status entregue">Entregue</span>
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col">
+                <h2>
+                    <i class="cor bi-box-seam text-primary" style="color: var(--bege) !important;"></i>
+                    Meus Pedidos
+                </h2>
+                <p class="text-muted">Acompanhe seus pedidos realizados</p>
+            </div>
+            <div class="col-auto">
+                <a href="/" class="neg" style="border: 1px solid var(--bege); padding: 10px; border-radius: 5px; text-decoration: none; color: black;">
+                    <i class="bi bi-arrow-left cor"></i> Voltar à Home
+                </a>
+            </div>
         </div>
 
-        <div class="pedido">
-            <h3>Pedido #0002</h3>
-            <p class="info">Data: 30/11/2025</p>
-            <p class="info">Valor: R$ 120,00</p>
-            <p class="info">Produtos: 1 item</p>
-            <span class="status pendente">Pendente</span>
+        <!-- Loading -->
+        <div id="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando pedidos...</p>
         </div>
 
-        <div class="pedido">
-            <h3>Pedido #0001</h3>
-            <p class="info">Data: 29/11/2025</p>
-            <p class="info">Valor: R$ 89,00</p>
-            <p class="info">Produtos: 2 itens</p>
-            <span class="status cancelado">Cancelado</span>
+        <!-- Lista de Pedidos -->
+        <div id="lista-pedidos" class="row" style="display: none;">
+            <!-- Os pedidos serão carregados aqui via JavaScript -->
         </div>
 
+        <!-- Mensagem quando não há pedidos -->
+        <div id="sem-pedidos" class="text-center py-5" style="display: none;">
+            <i class="bi bi-inbox display-1 text-muted"></i>
+            <h4 class="mt-3">Você ainda não fez nenhum pedido</h4>
+            <!-- <p class="text-muted">Explore nossos produtos e faça seu primeiro pedido!</p>
+            <a href="/" class="btn btn-primary mt-3">
+                <i class="bi bi-shop"></i> Ir às Compras
+            </a> -->
+        </div>
     </div>
+
+    <!--Detalhes do Pedido(Modal) -->
+    <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-receipt"></i>
+                        Detalhes do Pedido
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="detalhes-pedido">
+                    <!-- detalhes carregados-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/pedido.js"></script>
 </body>
 </html>
- -->

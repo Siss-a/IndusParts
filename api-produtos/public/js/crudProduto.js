@@ -153,7 +153,7 @@ async function carregarProdutos() {
 
         // Renderizar produtos
         if (produtos.length === 0) {
-            listaProdutos.innerHTML = '<p style="text-align: center; color: #999;"> Nenhum produto encontrado.</p>';
+            listaProdutos.innerHTML = '<p style="text-align: center; color: #999;">Nenhum produto encontrado.</p>';
             return;
         }
 
@@ -175,13 +175,16 @@ async function carregarProdutos() {
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>
                 </div>
-                <div class="leu" style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="btn-buy" data-id="${produto.id}" data-bs-toggle="modal" data-bs-target="#modalEdicao">
-                        Editar
-                    </button>
-                    <span class="material-icons lixeira btnExcluir" alt="mini pequena lixera #chorabia" style="cursor: pointer;" data-id="${produto.id}">
-                     delete</span>
+                <div class="luipa" style="margin-top: 15px; display: flex; gap: 10px;">
+                 <button class="btn-buy" data-bs-toggle="modal" data-bs-target="#modalEdicao" data-id="${produto.id}">
+                   Editar
+                  </button>
+
+                 <span class="material-icons lixeira" alt="mini pequena lixera #chorabia" style="cursor: pointer;" onclick="excluirProduto(${produto.id})">
+                     delete
+                 </span>
                 </div>
+
             </div>
         `).join('');
     } catch (error) {

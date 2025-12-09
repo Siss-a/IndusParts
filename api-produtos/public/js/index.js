@@ -74,7 +74,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
       cardLink.innerHTML = `
         <div class="card">
-          <img src="/uploads/imagens/${prod.imagem}" class="card-img-top">
+          <img src="/uploads/imagens/${prod.img}" class="card-img-top">
           <div class="card-body">
             <h4 class="card-text">${prod.nome}</h4>
             <p>${prod.descricao}</p>
