@@ -12,6 +12,6 @@ router.get('/:id', authMiddleware, PedidoController.verPedido);
 // ========== ROTAS DE ADMIN ==========
 router.get('/admin/todos', authMiddleware, adminMiddleware, PedidoController.listarTodos);
 router.get('/admin/buscar', authMiddleware, adminMiddleware, PedidoController.buscar);
-router.get('/admin/pedidos/${pedidoId}', authMiddleware, adminMiddleware, PedidoController.verDetalhes);
+/* router.get('/admin/pedidos/:id', authMiddleware, adminMiddleware, PedidoController.verDetalhes); */
 
 export default router;

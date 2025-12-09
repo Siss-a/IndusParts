@@ -66,8 +66,8 @@ fetch(url) /* informacoes dos produtos */
                     case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
                     case 'Fixação': categoriaProd = 'fixacao'; break;
                     case 'Cortes': categoriaProd = 'cortes'; break;
+                    case 'Pastilhas': categoriaProd = 'pastilhas'; break;
                     case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
                     default: categoriaProd = 'todos';
                 }
 
@@ -108,8 +108,8 @@ fetch(url) /* informacoes dos produtos */
                     case 'Ferramentas de Furação': categoriaProd = 'ferramentas-de-furacao'; break;
                     case 'Fixação': categoriaProd = 'fixacao'; break;
                     case 'Cortes': categoriaProd = 'cortes'; break;
+                    case 'Pastilhas': categoriaProd = 'pastilhas'; break;
                     case 'Parafusadeiras': categoriaProd = 'parafusadeiras'; break;
-                    case 'Acessórios para Fixação': categoriaProd = 'acessoriosparafixacao'; break;
                     default: categoriaProd = 'todos';
                 }
 
