@@ -1,18 +1,4 @@
-# API de Produtos - Sistema de Gestão
-
-Uma API RESTful completa para gestão de produtos desenvolvida com Node.js, Express e MySQL.
-
-## Características
-
-- Arquitetura MVC completa
-- Autenticação JWT com middleware
-- Upload de imagens com validação
-- Validações manuais robustas
-- Migrations com padrão timestamp
-- Configuração .env para ambiente
-- Tratamento de erros centralizado
-- Documentação completa das rotas
-
+##Larissa, Gabriel e Bia
 ## Instalação e Configuração
 
 ### 1. Pré-requisitos
@@ -38,7 +24,7 @@ Edite o arquivo `.env` com suas configurações do MySQL:
 ```env
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=sua_senha_aqui
+DB_PASSWORD=
 DB_NAME=produtos_api
 PORT=3000
 NODE_ENV=development
@@ -53,12 +39,6 @@ ALLOWED_FILE_TYPES=image/jpeg,image/png,image/gif
 
 Execute os arquivos SQL na ordem correta no MySQL:
 
-1. **20251028_001_create_database.sql** - Cria o banco de dados
-2. **20251028_002_create_table_usuarios.sql** - Cria tabela de usuários
-3. **20251028_003_create_table_produtos.sql** - Cria tabela de produtos
-4. **20251028_004_insert_dados_iniciais.sql** - Insere dados iniciais
-5. **20251028_005_create_table_logs.sql** - Cria tabela de logs
-
 
 ### 5. Iniciar o Servidor
 
@@ -68,44 +48,6 @@ npm start
 
 O servidor estará rodando em `http://localhost:3000`
 
-## Credenciais de Teste
-
-Após executar as migrations, você terá os seguintes usuários:
-
-- **Admin**: `admin@produtos.com` / `123456`
-- **Usuário comum**: `joao@email.com` / `123456`
-- **Usuária comum**: `maria@email.com` / `123456`
-
-## Testes da API
-
-### Teste 1: Login (Autenticação)
-
-/* Este teste realiza o login do usuário administrador para obter o token JWT necessário para acessar as rotas protegidas da API */
-// Login do usuário admin para obter token JWT
-```bash
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@produtos.com",
-    "senha": "123456"
-  }'
-```
-/*
-Resultado esperado:
-{
-  "sucesso": true,
-  "mensagem": "Login realizado com sucesso",
-  "dados": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "usuario": {
-      "id": 1,
-      "nome": "Administrador",
-      "email": "admin@produtos.com",
-      "tipo": "admin"
-    }
-  }
-}
-*/
 
 -----
 
@@ -152,7 +94,6 @@ Resultado esperado (com paginacao):
 }
 */
 
------
 
 ### Teste 3: Buscar Produto por ID (GET)
 

@@ -6,11 +6,11 @@ USE indusparts;
 
 -- Tabela de Pedidos
 CREATE TABLE pedidos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    numero_pedido VARCHAR(50) UNIQUE NOT NULL,
-    id_cliente_empresa INT NOT NULL,
-    status ENUM ('pendente', 'pago', 'enviado', 'cancelado') DEFAULT 'pendente',
-    data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
-    endereco VARCHAR(255),
-    FOREIGN KEY (id_cliente_empresa) REFERENCES usuarios (id)
+    id int auto_increment primary key,
+    empresa_id int not null,
+    total decimal(10,2),
+    status ENUM ('carrinho', 'pendente', 'pago', 'enviado', 'finalizado') default 'carrinho',   
+    data_pedido datetime default current_timestamp
+    
+    FOREIGN KEY (empresa_id) REFERENCES usuarios(id)
 );

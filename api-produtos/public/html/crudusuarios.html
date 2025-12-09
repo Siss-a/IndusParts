@@ -5,107 +5,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indusparts - Gestão de Usuários</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="shortcut icon" href="../imagens/home/fttop.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/crudprodutos.css">
+    <script src="https://cdn.jsdelivr.net/npm/inputmask/dist/inputmask.min.js"></script>
 </head>
 
 <body>
-    <h1>Sistema de Gestão de Usuários - Indusparts</h1>
+    <div class="container">
+        <!-- Seção de Cadastro de Usuário -->
+        <div class="section-box">
+            <h2>Cadastrar nova empresa</h2>
 
-    <!-- Seção de Cadastro de Usuário -->
-    <div>
-        <h2>Cadastrar nova empresa</h2>
-        <form id="formCadastro">
+            <form id="formCadastro" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Nome da Empresa:</label>
+                    <input type="text" id="nome_social" name="nome_social" class="form-control" required>
+                </div>
 
-            <div>
-                <label>Nome da Empresa:</label>
-                <input type="text" id="nome_social" name="nome_social" required>
-            </div>
+                <div class="col-md-4">
+                    <label class="form-label">Senha: </label>
+                    <input type="password" id="senhaCadastro" name="senha" class="form-control" required>
+                </div>
 
-            <div>
-                <label>Senha: </label>
-                <input type="password" id="senhaCadastro" name="senha" required>
-            </div>
+                <div class="col-md-4">
+                    <label class="form-label">Email: </label>
+                    <input type="email" id="emailCadastro" name="email" placeholder="empresa@gmail.com" class="form-control" required>
+                </div>
 
-            <div>
-                <label>Email: </label>
-                <input type="email" id="emailCadastro" name="email" required>
-            </div>
+                <div class="col-md-3">
+                    <label class="form-label">CNPJ:</label>
+                    <input type="text" name="cnpj" id="cnpj" class="form-control" placeholder="XX.XXX.XXX/XXXX-XX" required>
+                </div>
 
-            <div>
-                <label>CNPJ:</label>
-                <input type="text" name="cnpj" id="cnpj" required>
-            </div>
+                <div class="col-md-4">
+                    <label class="form-label">Telefone:</label>
+                    <input type="tel" name="telefone" id="telefone" class="form-control"
+                        placeholder="+55 (11) 4444-4444" required>
+                </div>
 
-            <div>
-                <label>Telefone:</label>
-                <input type="tel" name="telefone" id="telefone" required>
-            </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="tipo">Tipo:</label>
+                    <select id="tipo" name="tipo" class="form-select" style="cursor: pointer;" required>
+                        <option value="comum">Comum</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
 
-            <div>
-                <label>Tipo:</label>
-                <input type="text" id="tipo" name="tipo" required>
-            </div>
-
-            <button type="submit">Cadastrar Usuário</button>
-        </form>
-        <div id="mensagemCadastro"></div>
-    </div>
-
-    <hr>
-
-    <!-- Seção de Listagem de Usuários -->
-    <div>
-        <h2>Lista de Usuários</h2>
-
-        <div>
-            <label>Página:</label>
-            <input type="number" id="pagina" value="1" min="1">
-
-            <label>Itens por página:</label>
-            <input type="number" id="limite" value="10" min="1" max="100">
-
-            <button onclick="carregarUsuários()">Buscar</button>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-primary">Cadastrar Usuário</button>
+                </div>
+            </form>
+            <div id="mensagemCadastro" class="message-box d-none mt-3"></div>
         </div>
 
-        <div id="infoPaginacao"></div>
-        <div id="listaUsuários"></div>
+        <hr>
+
+        <!-- Seção de Listagem de Usuários -->
+        <div class="section-box">
+            <h2>Lista de Usuários</h2>
+            <div class="paginacao d-flex flex-wrap align-items-end mb-3">
+
+                <div class="form-group me-3">
+                    <label class="form-label">Página:</label>
+                    <input type="number" id="pagina" value="1" min="1" class="form-control">
+                </div>
+
+                <div class="form-group me-3">
+                    <label class="form-label">Itens por página:</label>
+                    <input type="number" id="limite" value="10" min="1" max="100" class="form-control">
+                </div>
+
+                <button class="btn btn-primary" onclick="carregarUsuarios()">Buscar</button>
+            </div>
+
+            <div id="infoPaginacao" class="message-box d-none"></div>
+
+
+
+            <!-- Agora existe a tabela -->
+            <div class="table-scroll">
+                <table border="1" cellpadding="5" cellspacing="0" class="tabela">
+                    <thead class="">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CNPJ</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaUsuarios"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr>
+        <!-- Modal de Edição de Usuário -->
+        <div class="modal fade" id="modalEdicao" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Usuário</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="formEdicao">
+                            <input type="hidden" id="edit_id">
+
+                            <div class="mb-2">
+                                <label>Nome</label>
+                                <input type="text" id="edit_nome_social" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Email</label>
+                                <input type="email" id="edit_email" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Telefone</label>
+                                <input type="text" id="edit_telefone" class="form-control" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="form-label" for="tipo">Tipo:</label>
+                                <select id="editTipo" class="form-control" required>
+                                    <option value="comum">Comum</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btnSalvarEdicao">Salvar</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
-    <hr>
-
-    <!-- Seção de Edição de Usuário -->
-    <div id="secaoEdicao" style="display:none;">
-        <h2>Editar Usuário</h2>
-        <form id="formEdicao">
-            <input type="hidden" id="edit_id">
-
-            <div>
-                <label>Nome:</label>
-                <input type="text" id="edit_nome">
-            </div>
-
-            <div>
-                <label>Descrição:</label>
-                <textarea id="edit_descricao"></textarea>
-            </div>
-
-            <div>
-                <label>Preço:</label>
-                <input type="number" id="edit_preco" step="0.01">
-            </div>
-
-            <div>
-                <label>Nova Imagem (opcional):</label>
-                <input type="file" id="edit_imagem" accept="image/*">
-            </div>
-
-            <button type="submit">Salvar Alterações</button>
-            <button type="button" onclick="cancelarEdicao()">Cancelar</button>
-        </form>
-        <div id="mensagemEdicao"></div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/usuarios.js"></script>
+
+
 
 </body>
 

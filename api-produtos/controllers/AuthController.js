@@ -84,7 +84,7 @@ class AuthController {
     // POST /auth/registrar - Registrar novo usuário
     static async registrar(req, res) {
         try {
-            const { nome_social, email, senha, cnpj, telefone, tipo } = req.body;
+            const { nome_social, email, senha, cnpj, telefone /*, tipo */} = req.body;
 
             // Validações básicas
             if (!nome_social || nome_social.trim() === '') {
@@ -187,8 +187,7 @@ class AuthController {
                 email: email.trim().toLowerCase(),
                 senha: senha, 
                 cnpj: cnpj.replace(/[^\d]/g, ''),
-                telefone: telefone.replace(/[^\d]/g, '') || null,
-                tipo: tipo || 'comum'
+                telefone: telefone.replace(/[^\d]/g, '') || null
             };
 
             // Criar usuário
@@ -201,9 +200,8 @@ class AuthController {
                     id: usuarioId,
                     nome_social: dadosUsuario.nome_social,
                     email: dadosUsuario.email,
-                    cnpj: dadosUsuario.cnpj,
-                    telefone: dadosUsuario.telefone,
-                    tipo: dadosUsuario.tipo
+                    cnpj: dadosUsuario.cnpj
+                    /* tipo: dadosUsuario.tipo */
                 }
             });
         } catch (error) {

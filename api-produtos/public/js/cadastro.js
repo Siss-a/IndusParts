@@ -30,7 +30,7 @@ form.addEventListener('submit', async (e) => {
         localStorage.setItem('token', dados.dados.token);
 
         setTimeout(() => {
-            window.location.href = "/perfil";
+            window.location.href = "/";
         }, 1500);
 
     } else {

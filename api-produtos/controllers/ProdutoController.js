@@ -1,439 +1,355 @@
-import ProdutoModel from "../models/ProdutoModel.js";
-import { fileURLToPath } from "url";
-import path from "path";
-import { removerArquivoAntigo } from "../middlewares/uploadMiddleware.js";
+import ProdutoModel from '../models/ProdutoModel.js';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs/promises'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const _filename = fileURLToPath(import.meta.url);
+const _dirname = path.dirname(_filename)
 
-// Controller para operações com produtos
 class ProdutoController {
-  // GET /produtos - Listar todos os produtos (com paginação)
-  static async listarTodos(req, res) {
-    try {
-      let pagina = parseInt(req.query.pagina) || 1;
-      let limite = parseInt(req.query.limite) || 10;
+    // GET /api/produtos para listar produtos
+    static async listarProdutos(req, res) {
+        try {
 
-      if (pagina <= 0) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "Página inválida",
-          mensagem: "A página deve ser um número maior que zero",
-        });
-      }
-      if (limite <= 0) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "Limite inválido",
-          mensagem: "O limite deve ser um número maior que zero",
-        });
-      }
+            let pagina = parseInt(req.query.pagina) || 1;
+            let limite = parseInt(req.query.limite) || 100;
 
-      const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100;
-      if (limite > limiteMaximo) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "Limite inválido",
-          mensagem: `O limite deve ser um número entre 1 e ${limiteMaximo}`,
-        });
-      }
+            if (pagina <= 0) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Página inválida',
+                    mensagem: 'A página deve ser um número positivo e diferente de zero'
+                })
+            }
+            if (limite <= 0) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Limite inválido',
+                    mensagem: 'O limite deve ser um número maior que zero'
+                })
+            }
 
-      const offset = (pagina - 1) * limite;
+            const limiteMaximo = parseInt(process.env.PAGINACAO_LIMITE_MAXIMO) || 100
+            if (limite > limiteMaximo) {
+                res.status(400).json({
+                    sucesso: false,
+                    erro: 'Limite inválido',
+                    mensagem: `O limite deve ser um número entre 1 e ${limiteMaximo}`
+                })
+            }
 
-      const resultado = await ProdutoModel.listarTodos(limite, offset);
+            const offset = (pagina - 1) * limite
 
-      res.status(200).json({
-        sucesso: true,
-        dados: resultado.produtos,
-        paginacao: {
-          pagina: resultado.pagina,
-          limite: resultado.limite,
-          total: resultado.total,
-          totalPaginas: resultado.totalPaginas,
-        },
-      });
-    } catch (error) {
-      console.error("Erro ao listar produtos:", error);
-      res.status(500).json({
-        sucesso: false,
-        erro: "Erro interno do servidor",
-        mensagem: "Não foi possível listar os produtos",
-      });
+            const resultado = await ProdutoModel.listarTodos(limite, offset)
+
+            res.status(200).json({
+                sucesso: true,
+                dados: resultado.produtos,
+                paginacao: {
+                    pagina: resultado.pagina,
+                    limite: resultado.limite,
+                    total: resultado.total,
+                    totalPaginas: resultado.totalPaginas
+                }
+            })
+        } catch (err) {
+            console.error('Erro ao listar produtos', err)
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno do servidor',
+                mensagem: 'Não foi possível listar os produtos'
+            })
+        }
     }
-  }
 
-  // GET /produtos/:id - Buscar produto por ID
-  static async buscarPorId(req, res) {
-    try {
-      const { id } = req.params;
+    // GET /api/produtos/:id para listar produtos por id
+    static async buscarPorId(req, res) {
+        try {
+            const { id } = req.params
 
-      // Validação básica do ID
-      if (!id || isNaN(id)) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "ID inválido",
-          mensagem: "O ID deve ser um número válido",
-        });
-      }
+            if (!id || isNaN(id)) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'ID inválido',
+                    mensagem: 'O ID deve ser um número válido'
+                })
+            }
 
-      const produto = await ProdutoModel.buscarPorId(id);
+            const produto = await ProdutoModel.buscarPorId(id);
 
-      if (!produto) {
-        return res.status(404).json({
-          sucesso: false,
-          erro: "Produto não encontrado",
-          mensagem: `Produto com ID ${id} não foi encontrado`,
-        });
-      }
+            if (!produto) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Produto não encontrado',
+                    mensagem: `Produto com ID ${id} não foi encontrado`
+                })
+            }
 
-      res.status(200).json({
-        sucesso: true,
-        dados: produto,
-      });
-    } catch (error) {
-      console.error("Erro ao buscar produto:", error);
-      res.status(500).json({
-        sucesso: false,
-        erro: "Erro interno do servidor",
-        mensagem: "Não foi possível buscar o produto",
-      });
+            res.status(200).json({
+                sucesso: true,
+                dados: produto
+            })
+        } catch (err) {
+            console.error('Erro ao buscar produto por ID', err)
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno do servidor',
+                mensagem: 'Não foi possível buscar o produto por ID'
+            })
+        }
     }
-  }
 
-  // POST /produtos - Criar novo produto
-  static async criar(req, res) {
-    try {
-      const {
-        nome,
-        descricao,
-        preco,
-        id_categoria,
-        fornecedor,
-        tipo,
-        especificacoes,
-      } = req.body;
+    // GET /api/produtos/categoria/:categoria listar produtos por categoria
+    static async buscarPorCategoria(req, res) {
+        try {
+            const { categoria } = req.params;
 
-      // Validações manuais - coletar todos os erros
-      const erros = [];
+            const produtos = await ProdutoModel.buscarPorCategoria(categoria);
 
-      // Validar nome
-      if (!nome || nome.trim() === "") {
-        erros.push({
-          campo: "nome",
-          mensagem: "Nome é obrigatório",
-        });
-      } else {
-        if (nome.trim().length < 3) {
-          erros.push({
-            campo: "nome",
-            mensagem: "O nome deve ter pelo menos 3 caracteres",
-          });
+            if (!produtos) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Categoria não encontrada',
+                    mensagem: `Produto com categoria ${categoria} não encontrado`
+                });
+            }
+            res.status(200).json({ sucesso: true, dados: produtos });
+        } catch (error) {
+            console.error('Erro ao buscar produtos por categoria:', error);
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno',
+                mensagem: 'Não foi possível buscar produtos por categoria'
+            });
+        }
+    }
+
+    // POST /api/produtos/criar criar produtos
+    static async criarProduto(req, res) {
+        try {
+            const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
+
+            const erros = []
+
+            /* validar nome */
+            if (!nome || nome.trim() === '') {
+                erros.push({
+                    campo: 'nome',
+                    mensagem: 'Nome é obrigatório'
+                })
+            } else {
+                if (nome.trim().length < 3) {
+                    erros.push({
+                        campo: 'nome',
+                        mensagem: 'O nome deve ter pelo menos 3 caracteres'
+                    })
+                }
+
+                if (nome.trim().length > 255) {
+                    erros.push({
+                        campo: 'nome',
+                        mensagem: 'O nome não deve ter mais de 255 caracteres'
+                    })
+                }
+            }
+
+
+            /* validar preço */
+            if (!preco || isNaN(preco) || preco <= 0) {
+                erros.push({
+                    campo: 'preco',
+                    mensagem: 'O preço deve ser um  número positivo'
+                })
+            }
+            /* validar estoque */
+            if (estoque < 1 || estoque === 0) {
+                erros.push({
+                    campo: 'estoque',
+                    mensagem: 'Deve ter pelo menos 1 item no estoque'
+                })
+            }
+
+            /* Retornar erros de uma vez */
+            if (erros.length > 0) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'Dados inválidos',
+                    detalhes: erros
+                })
+            }
+
+            /* Preparar dados do produto */
+            const dadosProduto = {
+                nome: nome.trim(),
+                preco: parseFloat(preco),
+                categoria: categoria,
+                estoque: estoque,
+                descricao: descricao,
+                fornecedor: fornecedor,
+                especificacoes: especificacoes
+            }
+
+            /* Adicionar imagem */
+            if (req.file) {
+                dadosProduto.img = req.file.filename;
+            }
+
+            const produtoId = await ProdutoModel.criar(dadosProduto);
+
+            res.status(201).json({
+                sucesso: true,
+                mensagem: 'Produto criado com sucesso',
+                dados: {
+                    id: produtoId,
+                    ...dadosProduto
+                }
+            });
+        } catch (error) {
+            console.error('Erro ao criar produto: ', error)
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno do servidor',
+                mensagem: 'Não foi possível criar o produto'
+            });
+        }
+    }
+
+    // DELETE /api/produtos/excluir/:id rota para excluir produtos
+    static async excluirProduto(req, res) {
+        try {
+            const { id, img } = req.params
+            //console.log('Parametros', req.params)
+
+            if (!id || isNaN(id)) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: 'ID inválido',
+                    mensagem: 'O ID deve ser um número válido'
+                })
+            }
+            if (img) {
+                try {
+                    await fs.unlink(`./uploads/imagens/${img}`)
+                    console.log('Imagem excluída com sucesso')
+                } catch (err) {
+                    console.error('Não foi possível deletar a imagem', err)
+                }
+            }
+
+            await ProdutoModel.excluir(id)
+
+            res.status(200).json({
+                sucesso: true,
+                mensagem: `Produto excluído com sucesso`
+            })
+            return
+        } catch (err) {
+            console.error('Erro ao excluir produto', err)
+            res.status(500).json({
+                sucesso: false,
+                erro: 'Erro interno do servidor',
+                mensagem: 'Não foi possível excluir o produto'
+            })
+        }
+    }
+
+    // PUT /api/produtos/atualizar rota para atualizar dados do produto
+    static async atualizarProduto(req, res) {
+        const { nome, preco, descricao, fornecedor, categoria, estoque, especificacoes } = req.body
+        const id = req.params.id;
+
+        /* Coletar erros */
+        const erros = []
+
+        // Produto atual
+        const produto = await ProdutoModel.buscarPorId(id);
+
+        /* Apagar imagem antiga */
+        if (req.file && produto.img) {
+            try {
+                await fs.unlink(`./uploads/imagens/${produto.img}`);
+            } catch (err) {
+                console.warn("Não foi possível apagar a imagem antiga:", err);
+            }
         }
 
-        if (nome.trim().length > 255) {
-          erros.push({
-            campo: "nome",
-            mensagem: "O nome deve ter no máximo 255 caracteres",
-          });
+        /* validar nome */
+        if (nome !== undefined) {
+            if (nome.trim() === '') {
+                erros.push({
+                    campo: 'nome',
+                    mensagem: 'Nome não pode estar vazio'
+                })
+            } else if (nome.trim().length < 3) {
+                erros.push({
+                    campo: 'nome',
+                    mensagem: 'O nome deve ter pelo menos 3 caracteres'
+                })
+            }
         }
-      }
 
-      // Validar preço
-      if (!preco || isNaN(preco) || preco <= 0) {
-        erros.push({
-          campo: "preco",
-          mensagem: "Preço deve ser um número positivo",
-        });
-      }
-
-      if (!fornecedor || fornecedor.trim() === "") {
-        erros.push({
-          campo: "fornecedor",
-          mensagem: "Fornecedor é obrigatório",
-        });
-      } else if (fornecedor.trim().length > 255) {
-        erros.push({
-          campo: "fornecedor",
-          mensagem: "Fornecedor não pode ter mais que 255 caracteres",
-        });
-      }
-
-      if (!tipo || tipo.trim() === "") {
-        erros.push({
-          campo: "tipo",
-          mensagem: "Tipo é obrigatório",
-        });
-      } else if (tipo.trim().length > 100) {
-        erros.push({
-          campo: "tipo",
-          mensagem: "Tipo não pode ter mais que 100 caracteres",
-        });
-      }
-
-      if (especificacoes && especificacoes.trim().length > 1000) {
-        erros.push({
-          campo: "especificacoes",
-          mensagem: "Especificações não pode ter mais que 1000 caracteres",
-        });
-      }
-
-      // Se houver erros, retornar todos de uma vez
-      if (erros.length > 0) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "Dados inválidos",
-          detalhes: erros,
-        });
-      }
-
-      // Preparar dados do produto
-      const dadosProduto = {
-        nome: nome.trim(),
-        descricao: descricao ? descricao.trim() : null,
-        preco: Number(preco),
-        id_categoria: id_categoria ? Number(id_categoria) : null,
-        fornecedor: fornecedor ? fornecedor.trim() : null,
-        tipo: tipo ? tipo.trim() : null,
-        especificacoes: especificacoes ? especificacoes.trim() : null,
-      };
-
-      // Adicionar imagem se foi enviada
-      if (req.file) {
-        dadosProduto.imagem = req.file.filename;
-      }
-
-      const produtoId = await ProdutoModel.criar(dadosProduto);
-
-      res.status(201).json({
-        sucesso: true,
-        mensagem: "Produto criado com sucesso",
-        dados: {
-          id: produtoId,
-          ...dadosProduto,
-        },
-      });
-    } catch (error) {
-      console.error("Erro ao criar produto:", error);
-      res.status(500).json({
-        sucesso: false,
-        erro: "Erro interno do servidor",
-        mensagem: "Não foi possível criar o produto",
-      });
-    }
-  }
-
-  // PUT /produtos/:id - Atualizar produto
-  static async atualizar(req, res) {
-    try {
-      const { id } = req.params;
-      const { nome, descricao, preco, id_categoria } = req.body;
-
-      // Validação do ID
-      if (!id || isNaN(id)) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "ID inválido",
-          mensagem: "O ID deve ser um número válido",
-        });
-      }
-
-      // Verificar se o produto existe
-      const produtoExistente = await ProdutoModel.buscarPorId(id);
-      if (!produtoExistente) {
-        return res.status(404).json({
-          sucesso: false,
-          erro: "Produto não encontrado",
-          mensagem: `Produto com ID ${id} não foi encontrado`,
-        });
-      }
-
-      // Preparar dados para atualização
-      const dadosAtualizacao = {};
-
-      if (nome !== undefined) {
-        if (nome.trim() === "") {
-          return res.status(400).json({
-            sucesso: false,
-            erro: "Nome inválido",
-            mensagem: "O nome não pode estar vazio",
-          });
+        /* validar preço */
+        if (preco !== undefined) {
+            if (isNaN(preco) || preco <= 0) {
+                erros.push({
+                    campo: 'preco',
+                    mensagem: 'O preço deve ser um número positivo'
+                })
+            }
         }
-        dadosAtualizacao.nome = nome.trim();
-      }
 
-      if (preco !== undefined) {
-        if (isNaN(preco) || preco <= 0) {
-          return res.status(400).json({
-            sucesso: false,
-            erro: "Preço inválido",
-            mensagem: "O preço deve ser um número maior que zero",
-          });
+        /* validar estoque */
+        if (estoque !== undefined) {
+            if (isNaN(estoque) || estoque < 0) {
+                erros.push({
+                    campo: 'estoque',
+                    mensagem: 'O estoque deve ser 0 ou maior'
+                })
+            }
         }
-        dadosAtualizacao.preco = parseFloat(preco);
-      }
 
-      if (descricao !== undefined) {
-        dadosAtualizacao.descricao = descricao ? descricao.trim() : null;
-      }
-
-      if (id_categoria !== undefined) {
-        dadosAtualizacao.id_categoria = Number(id_categoria) || null;
-      }
-
-      if (fornecedor !== undefined) {
-        dadosAtualizacao.fornecedor = fornecedor.trim();
-      }
-
-      if (tipo !== undefined) {
-        dadosAtualizacao.tipo = tipo.trim();
-      }
-
-      if (especificacoes !== undefined) {
-        dadosAtualizacao.especificacoes = especificacoes.trim();
-      }
-
-      // Adicionar nova imagem se foi enviada
-      if (req.file) {
-        // Remover imagem antiga se existir
-        if (produtoExistente.imagem) {
-          await removerArquivoAntigo(produtoExistente.imagem, "imagem");
+        /* Retornar erros de uma vez */
+        if (erros.length > 0) {
+            return res.status(400).json({
+                sucesso: false,
+                erro: 'Dados inválidos',
+                detalhes: erros
+            })
         }
-        dadosAtualizacao.imagem = req.file.filename;
-      }
 
-      // Verificar se há dados para atualizar
-      if (Object.keys(dadosAtualizacao).length === 0) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "Nenhum dado para atualizar",
-          mensagem: "Forneça pelo menos um campo para atualizar",
+        /* Preparar dados do produto */
+        const dadosProduto = {};
+
+        if (nome !== undefined) dadosProduto.nome = nome.trim();
+        if (preco !== undefined) dadosProduto.preco = parseFloat(preco);
+        if (categoria !== undefined) dadosProduto.categoria = categoria;
+        if (estoque !== undefined) dadosProduto.estoque = parseInt(estoque);
+        if (descricao !== undefined) dadosProduto.descricao = descricao;
+        if (fornecedor !== undefined) dadosProduto.fornecedor = fornecedor;
+        if (especificacoes !== undefined) dadosProduto.especificacoes = especificacoes;
+
+        /* Adicionar imagem */
+        if (req.file) {
+            dadosProduto.img = req.file.filename;
+        }
+
+
+        /* Adicionar imagem */
+        if (req.file) {
+            dadosProduto.img = req.file.filename;
+        }
+
+        const produtoId = await ProdutoModel.atualizar(id, dadosProduto);
+
+        res.status(201).json({
+            sucesso: true,
+            mensagem: 'Produto atualizado com sucesso',
+            dados: {
+                id: produtoId,
+                ...dadosProduto
+            }
         });
-      }
-
-      const resultado = await ProdutoModel.atualizar(id, dadosAtualizacao);
-
-      res.status(200).json({
-        sucesso: true,
-        mensagem: "Produto atualizado com sucesso",
-        dados: {
-          linhasAfetadas: resultado.affectedRows || 1,
-        },
-      });
-    } catch (error) {
-      console.error("Erro ao atualizar produto:", error);
-      res.status(500).json({
-        sucesso: false,
-        erro: "Erro interno do servidor",
-        mensagem: "Não foi possível atualizar o produto",
-      });
     }
-  }
-
-  // DELETE /produtos/:id - Excluir produto
-  static async excluir(req, res) {
-    try {
-      const { id } = req.params;
-
-      // Validação do ID
-      if (!id || isNaN(id)) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "ID inválido",
-          mensagem: "O ID deve ser um número válido",
-        });
-      }
-
-      // Verificar se o produto existe
-      const produtoExistente = await ProdutoModel.buscarPorId(id);
-      if (!produtoExistente) {
-        return res.status(404).json({
-          sucesso: false,
-          erro: "Produto não encontrado",
-          mensagem: `Produto com ID ${id} não foi encontrado`,
-        });
-      }
-
-      // Remover imagem do produto se existir
-      if (produtoExistente.imagem) {
-        await removerArquivoAntigo(produtoExistente.imagem, "imagem");
-      }
-
-      const resultado = await ProdutoModel.excluir(id);
-
-      res.status(200).json({
-        sucesso: true,
-        mensagem: "Produto excluído com sucesso",
-        dados: {
-          linhasAfetadas: resultado || 1,
-        },
-      });
-    } catch (error) {
-      console.error("Erro ao excluir produto:", error);
-      res.status(500).json({
-        sucesso: false,
-        erro: "Erro interno do servidor",
-        mensagem: "Não foi possível excluir o produto",
-      });
-    }
-  }
-
-  // POST /produtos/upload - Upload de imagem para produto
-  static async uploadImagem(req, res) {
-    try {
-      const { produto_id } = req.body;
-
-      // Validações básicas
-      if (!produto_id || isNaN(produto_id)) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "ID de produto inválido",
-          mensagem: "O ID do produto é obrigatório e deve ser um número válido",
-        });
-      }
-
-      if (!req.file) {
-        return res.status(400).json({
-          sucesso: false,
-          erro: "Imagem não fornecida",
-          mensagem: "É necessário enviar uma imagem",
-        });
-      }
-
-      // Verificar se o produto existe
-      const produtoExistente = await ProdutoModel.buscarPorId(produto_id);
-      if (!produtoExistente) {
-        return res.status(404).json({
-          sucesso: false,
-          erro: "Produto não encontrado",
-          mensagem: `Produto com ID ${produto_id} não foi encontrado`,
-        });
-      }
-
-      // Remover imagem antiga se existir
-      if (produtoExistente.imagem) {
-        await removerArquivoAntigo(produtoExistente.imagem, "imagem");
-      }
-
-      // Atualizar produto com a nova imagem
-      await ProdutoModel.atualizar(produto_id, { imagem: req.file.filename });
-
-      res.status(200).json({
-        sucesso: true,
-        mensagem: "Imagem enviada com sucesso",
-        dados: {
-          nomeArquivo: req.file.filename,
-          caminho: `/uploads/imagens/${req.file.filename}`,
-        },
-      });
-    } catch (error) {
-      console.error("Erro ao fazer upload de imagem:", error);
-      res.status(500).json({
-        sucesso: false,
-        erro: "Erro interno do servidor",
-        mensagem: "Não foi possível fazer upload da imagem",
-      });
-    }
-  }
 }
 
 export default ProdutoController;

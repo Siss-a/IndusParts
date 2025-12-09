@@ -1,119 +1,207 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indusparts - Gestão de Produtos</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Seu CSS customizado -->
     <link rel="stylesheet" href="../css/crudprodutos.css">
+
+    <link rel="shortcut icon" href="../imagens/home/fttop.png" type="image/x-icon" />
 </head>
+
 <body>
-    <h1>Sistema de Gestão de Produtos - Indusparts</h1>
-   
-    <!-- Seção de Cadastro de Produto -->
-    <div>
-        <h2>Cadastrar Novo Produto</h2>
-        <form id="formCadastro">
-            <div>
-                <label>Nome do Produto:</label>
-                <input type="text" id="nome" name="nome" required>
-            </div>
-           
-            <div>
-                <label>Descrição:</label>
-                <textarea id="descricao" name="descricao"></textarea>
-            </div>
-           
-            <div>
-                <label>Preço:</label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
-            </div>
-           
-            <div>
-                <label>Categoria:</label>
-                <input type="text" id="id_categoria" name="id_categoria" value="Geral">
-            </div>
-           
-            <div>
-                <label>Fornecedor:</label>
-                <input type="text" id="fornecedor" name="fornecedor" required>
-            </div>
-           
-            <div>
-                <label>Tipo:</label>
-                <input type="text" id="tipo" name="tipo" required>
-            </div>
-           
-            <div>
-                <label>Especificações:</label>
-                <textarea id="especificacoes" name="especificacoes"></textarea>
-            </div>
-           
-            <div>
-                <label>Imagem:</label>
-                <input type="file" id="imagem" name="imagem" accept="image/*">
-            </div>
-           
-            <button type="submit">Cadastrar Produto</button>
-        </form>
-        <div id="mensagemCadastro"></div>
-    </div>
-   
-    <hr>
-   
-    <!-- Seção de Listagem de Produtos -->
-    <div>
-        <h2>Lista de Produtos</h2>
-       
-        <div>
-            <label>Página:</label>
-            <input type="number" id="pagina" value="1" min="1">
-           
-            <label>Itens por página:</label>
-            <input type="number" id="limite" value="10" min="1" max="100">
-           
-            <button onclick="carregarProdutos()">Buscar</button>
+    <div class="container">
+
+        <!-- ======================== CADASTRO ======================== -->
+        <div class="section-box">
+            <h2>Cadastrar Novo Produto</h2>
+
+            <form id="formCadastro" enctype="multipart/form-data" class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Nome do Produto:</label>
+                    <input type="text" id="nome" name="nome" class="form-control" required>
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">Descrição:</label>
+                    <input id="descricao" name="descricao" class="form-control"></input>
+                </div>
+
+                <div class="col-6">
+                    <label class="form-label">Especificações :</label>
+                    <input id="especificacoes" name="descricao" class="form-control"></input>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Preço (R$):</label>
+                    <input type="number" id="preco" name="preco" class="form-control" step="0.01" min="0" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Fornecedor:</label>
+                    <input type="text" id="fornecedor" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Estoque:</label>
+                    <input type="number" id="estoque" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Categoria:</label>
+                    <select class="form-select" style="cursor: pointer;" name="categoria" id="categoria">
+                        <option value="Ferramentas de Furação">Ferramentas de Furação</option>
+                        <option value="Parafusadeiras">Parafusadeiras</option>
+                        <option value="Pastilhas">Pastilhas</option>
+                        <option value="Pinças">Pinças</option>
+                        <option value="Cortes">Ferramentas de Corte</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Imagem:</label>
+                    <input type="file" id="imagem" name="imagem" class="form-control" accept="image/*">
+                </div>
+
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-primary">Cadastrar Produto</button>
+                </div>
+
+            </form>
+
+            <div id="mensagemCadastro" class="message-box d-none mt-3"></div>
         </div>
-       
-        <div id="infoPaginacao"></div>
-        <div id="listaProdutos"></div>
-    </div>
-   
-    <hr>
-   
-    <!-- Seção de Edição de Produto -->
-    <div id="secaoEdicao" style="display:none;">
-        <h2>Editar Produto</h2>
-        <form id="formEdicao">
-            <input type="hidden" id="edit_id">
-           
-            <div>
-                <label>Nome:</label>
-                <input type="text" id="edit_nome">
+
+        <!-- ======================== LISTAGEM ======================== -->
+        <div class="section-box">
+            <h2>Lista de Produtos</h2>
+
+            <!-- FILTROS -->
+            <div class="filtros d-flex flex-wrap mb-3">
+
+                <div class="form-group me-4">
+                    <label class="form-label">Buscar:</label>
+                    <input type="text" id="pesquisa" class="form-control" placeholder="Digite o nome do produto...">
+                </div>
+
+                <div class="form-group me-4">
+                    <label class="form-label">Categoria:</label>
+                    <select id="filtroCategoria" class="form-select">
+                        <option value="Ferramentas de Furação">Ferramentas de Furação</option>
+                        <option value="Parafusadeiras">Parafusadeiras</option>
+                        <option value="Pastilhas">Pastilhas</option>
+                        <option value="Pinças">Pinças</option>
+                        <option value="Cortes">Ferramentas de Corte</option>
+                    </select>
+                </div>
             </div>
-           
-            <div>
-                <label>Descrição:</label>
-                <textarea id="edit_descricao"></textarea>
+
+            <!-- PAGINAÇÃO -->
+            <div class="paginacao d-flex flex-wrap align-items-end mb-3">
+
+                <div class="form-group me-3">
+                    <label class="form-label">Página:</label>
+                    <input type="number" id="pagina" value="1" min="1" class="form-control">
+                </div>
+
+                <div class="form-group me-3">
+                    <label class="form-label">Itens por página:</label>
+                    <input type="number" id="limite" value="10" min="1" max="100" class="form-control">
+                </div>
+
+                <button id="btnBuscar" class="btn btn-primary">Buscar</button>
             </div>
-           
-            <div>
-                <label>Preço:</label>
-                <input type="number" id="edit_preco" step="0.01">
+
+            <div id="infoPaginacao" class="message-box d-none"></div>
+
+            <div id="listaProdutos" class="row gy-3"></div>
+        </div>
+
+        <!-- Modal de Edição de Usuário -->
+        <div class="modal fade" id="modalEdicao" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Produto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="formEdicao">
+                            <input type="hidden" id="edit_id">
+
+                            <div class="eachinput">
+                                <p>Upload da Imagem</p>
+                                <div class="upload_container">
+                                    <input type="file" id="editImagem" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Nome do produto:</label>
+                                <input type="text" id="editNome" class="form-control">
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="form-label" for="tipo">Categoria:</label>
+                                <select id="editCategoria" class="form-control">
+                                    <option value="">Todas as categorias</option>
+                                    <option value="Ferramentas de Furação">Ferramentas de Furação</option>
+                                    <option value="Parafusadeiras">Parafusadeiras</option>
+                                    <option value="Pastilhas">Pastilhas</option>
+                                    <option value="Pinças">Pinças</option>
+                                    <option value="Cortes">Ferramentas de Corte</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Estoque:</label>
+                                <input type="number" id="editEstoque" class="form-control">
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Fornecedor</label>
+                                <input type="text" id="editFornecedor" class="form-control">
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Preço</label>
+                                <input type="number" id="editPreco" class="form-control">
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Descrição</label>
+                                <input type="text" id="editDescricao" class="form-control">
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Especificações</label>
+                                <input type="text" id="editEspecificacoes" class="form-control">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="btnSalvarEdicao">Salvar edição</button>
+                        </form>
+                        <div id="mensagemEdicao"></div>
+                    </div>
+
+                </div>
             </div>
-           
-            <div>
-                <label>Nova Imagem (opcional):</label>
-                <input type="file" id="edit_imagem" accept="image/*">
-            </div>
-           
-            <button type="submit">Salvar Alterações</button>
-            <button type="button" onclick="cancelarEdicao()">Cancelar</button>
-        </form>
-        <div id="mensagemEdicao"></div>
+        </div>
+
     </div>
 
-<script src="../js/produto.js"></script>
-
+    <script src="../js/crudProduto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 
+</html>

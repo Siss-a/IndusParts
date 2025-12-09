@@ -9,30 +9,40 @@
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <!-- style -->
   <link rel="stylesheet" href="../css/style.css">
+
+  
+    <link rel="shortcut icon" href="../imagens/home/fttop.png" type="image/x-icon" />
   <!-- Icones -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- icones tb -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- mascara -->
+  <script src="https://cdn.jsdelivr.net/npm/inputmask/dist/inputmask.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
   <header class="d-flex align-items-center justify-content-between header">
-    <a class="text-decoration-none" href="">
-      <h1 class="fs-4 titulo"><span style="color: rgb(26, 115, 232) !important; ;">Indus</span><span
-          style="color: black;">Parts</span></h1>
+    <a style="color: black;" class="text-decoration-none" href="/">
+      <h1 class="fs-3 titulo">
+        <i style="color: var(--bege);" class=" bi bi-gear-fill me-2"></i>IndusParts
+      </h1>
     </a>
 
     <div class="d-flex align-items-center gap-2 icones">
-      <a href="#">
-        <button class="material-icons btn-header">search</button>
-      </a>
-      <a href="#">
-        <button class="material-icons btn-header">help_outline</button>
-      </a>
-      <a href="#">
-        <button class="material-icons btn-header">apps</button>
-      </a>
+      <a style="text-decoration: none; color: black !important;" href="/catalogo/todos" id="btnProdutosDesk"
+        class="material-icons btn-header">storefront</a>
+      <a href="/carrinho"><button id="btnCarrinhoMobile" class="material-icons btn-header">shopping_cart</button></a>
+
+      <div class="apps-container">
+        <button id="appsBtn" class="material-icons btn-header">apps</button>
+
+        <div class="apps-menu">
+          <a href="/admin/crud-produtos">Produtos</a>
+          <a href="/admin/crud-usuarios">Usuários</a>
+          <a href="/pedidos">Histórico</a>
+        </div>
+      </div>
+
     </div>
   </header>
 
@@ -115,7 +125,8 @@
 
                 <!-- Imagem -->
                 <div style="flex: 0 0 auto;">
-                  <img src="../imagens/dashboard/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png" alt="">
+                  <img src="../imagens/dashboard/dataandpersonalization_icon_96x96_cdb6dff2e31ed6745ece4662231bfd48.png"
+                    alt="">
                 </div>
               </div>
 
@@ -476,9 +487,37 @@
 
   </div>
 
+
+
+
+
+  <script>
+    const btn = document.getElementById("appsBtn");
+    const menu = document.querySelector(".apps-menu");
+
+    btn.onclick = (e) => {
+      e.preventDefault();
+      menu.classList.toggle("show");
+    };
+
+    document.addEventListener("click", (e) => {
+      const clicouNoBotao = e.target.closest("#appsBtn");
+      const clicouNoMenu = e.target.closest(".apps-menu");
+
+      if (!clicouNoBotao && !clicouNoMenu) {
+        menu.classList.remove("show");
+      }
+    });
+
+
+  </script>
+
+
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
     integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
     crossorigin="anonymous"></script>

@@ -6,10 +6,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Importar rotas
-import produtoRotas from './routes/produtoRotas.js';
 import authRotas from './routes/authRotas.js';
-import criptografiaRotas from './routes/criptografiaRotas.js';
-import adminRotas from './routes/adminRotas.js';
+import usuariosRotas from './routes/usuariosRotas.js'
+import produtoRotas from './routes/produtoRotas.js';
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
@@ -25,8 +24,40 @@ const __dirname = path.dirname(__filename);
 // Configurações do servidor
 const PORT = process.env.PORT || 3000;
 
-// Middlewares globais
-app.use(helmet()); // Segurança HTTP
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            scriptSrcElem: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://cdnjs.cloudflare.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.googleapis.com",
+                "https://cdnjs.cloudflare.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "https://cdn.jsdelivr.net",
+                "https://fonts.gstatic.com",
+                "https://cdnjs.cloudflare.com"
+            ],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"]
+        }
+    }
+}));
+
 
 // Configuração CORS global
 app.use(cors({
@@ -37,12 +68,19 @@ app.use(cors({
     optionsSuccessStatus: 200 // Responder com 200 para requisições OPTIONS
 }));
 
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //  Servir arquivos estáticos
+
+
+// Servir arquivos estáticos
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Middleware para log de requisições (salva no banco de dados)
 // app.use(logMiddleware);
@@ -57,18 +95,34 @@ app.get('/cadastro', (req, res) => {
 app.get('/perfil', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
 });
-app.get('/crud-produtos', (req, res) => {
+app.get('/admin/crud-produtos', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
 });
-app.get('/crud-usuarios', (req, res) => {
+app.get('/admin/crud-usuarios', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
+});
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+});
+app.get('/carrinho', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
+});
+
+app.get('/pedidos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'pedidos.html'));
+});
+
+app.get('/catalogo/:categoria', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+});
+app.get('/produtos/:categoria/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'produto.html'));
 });
 
 // Rotas da API
 app.use('/api/auth', authRotas);
 app.use('/api/produtos', produtoRotas);
-app.use('/api/admin', adminRotas);
-//
+app.use('/api/usuarios', usuariosRotas);
 
 
 // Rota raiz
@@ -80,7 +134,7 @@ app.get('/', (req, res) => {
         rotas: {
             autenticacao: '/api/auth',
             produtos: '/api/produtos',
-            admin: '/api/admin',
+            usuarios: '/api/usuarios',
         },
         documentacao: {
             login: 'POST /api/auth/login',
@@ -91,10 +145,10 @@ app.get('/', (req, res) => {
             criarProduto: 'POST /api/produtos',
             atualizarProduto: 'PUT /api/produtos/:id',
             excluirProduto: 'DELETE /api/produtos/:id',
-            listarUsuarios: 'GET /api/admin/usuarios',
-            criarUsuario: 'POST /api/admin/usuarios',
-            atualizarUsuario: 'PUT /api/admin/usuarios/:id',
-            excluirUsuario: 'DELETE /api/admin/usuarios/:id'
+            listarUsuarios: 'GET /api/usuarios',
+            criarUsuario: 'POST /api/usuarios',
+            atualizarUsuario: 'PUT /api/usuarios/:id',
+            excluirUsuario: 'DELETE /api/usuarios/:id'
         }
     });
 });
