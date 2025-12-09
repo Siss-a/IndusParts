@@ -16,9 +16,9 @@ class PedidoController {
 
       // Validar endereço
       if (!endereco || endereco.trim() === "") {
-        return res.status(400).json({ 
-          sucesso: false, 
-          mensagem: "Endereço de entrega é obrigatório" 
+        return res.status(400).json({
+          sucesso: false,
+          mensagem: "Endereço de entrega é obrigatório"
         });
       }
 
@@ -26,9 +26,9 @@ class PedidoController {
       const itens = await CarrinhoModel.listarPorUsuario(id_usuario);
 
       if (!itens || itens.length === 0) {
-        return res.status(400).json({ 
-          sucesso: false, 
-          mensagem: "Carrinho vazio" 
+        return res.status(400).json({
+          sucesso: false,
+          mensagem: "Carrinho vazio"
         });
       }
 
@@ -41,26 +41,26 @@ class PedidoController {
 
       // Criar pedido (transacional) e inserir itens
       const { id_pedido, numeroPedido } = await PedidoModel.criarPedidoComItens(
-        id_usuario, 
-        endereco, 
+        id_usuario,
+        endereco,
         itensParaPedido
       );
 
       // Limpar carrinho após pedido criado com sucesso
       await CarrinhoModel.limpar(id_usuario);
 
-      return res.status(201).json({ 
-        sucesso: true, 
-        id_pedido, 
+      return res.status(201).json({
+        sucesso: true,
+        id_pedido,
         numeroPedido,
         mensagem: "Pedido realizado com sucesso!"
       });
 
     } catch (err) {
       console.error("Erro no checkout:", err);
-      return res.status(500).json({ 
-        sucesso: false, 
-        mensagem: "Erro ao processar pedido. Tente novamente." 
+      return res.status(500).json({
+        sucesso: false,
+        mensagem: "Erro ao processar pedido. Tente novamente."
       });
     }
   }
@@ -73,9 +73,9 @@ class PedidoController {
 
       // Validar ID do pedido
       if (!id_pedido || isNaN(id_pedido)) {
-        return res.status(400).json({ 
-          sucesso: false, 
-          mensagem: "ID do pedido inválido" 
+        return res.status(400).json({
+          sucesso: false,
+          mensagem: "ID do pedido inválido"
         });
       }
 
@@ -83,30 +83,30 @@ class PedidoController {
       const pedido = await PedidoModel.buscarPorId(id_pedido);
 
       if (!pedido) {
-        return res.status(404).json({ 
-          sucesso: false, 
-          mensagem: "Pedido não encontrado" 
+        return res.status(404).json({
+          sucesso: false,
+          mensagem: "Pedido não encontrado"
         });
       }
 
       // Verificar se o pedido pertence ao usuário logado
       if (pedido.id_cliente_empresa !== id_usuario) {
-        return res.status(403).json({ 
-          sucesso: false, 
-          mensagem: "Você não tem permissão para ver este pedido" 
+        return res.status(403).json({
+          sucesso: false,
+          mensagem: "Você não tem permissão para ver este pedido"
         });
       }
 
-      return res.json({ 
-        sucesso: true, 
-        pedido 
+      return res.json({
+        sucesso: true,
+        pedido
       });
 
     } catch (err) {
       console.error("Erro ao buscar pedido:", err);
-      return res.status(500).json({ 
-        sucesso: false, 
-        mensagem: "Erro ao buscar pedido" 
+      return res.status(500).json({
+        sucesso: false,
+        mensagem: "Erro ao buscar pedido"
       });
     }
   }
@@ -117,21 +117,21 @@ class PedidoController {
       const id_usuario = req.usuario.id;
 
       const pedidos = await PedidoModel.listarPorUsuario(id_usuario);
-      return res.json({ 
-        sucesso: true, 
-        pedidos 
+      return res.json({
+        sucesso: true,
+        pedidos
       });
 
     } catch (err) {
       console.error("Erro ao listar pedidos:", err);
-      return res.status(500).json({ 
-        sucesso: false, 
-        mensagem: "Erro ao listar pedidos" 
+      return res.status(500).json({
+        sucesso: false,
+        mensagem: "Erro ao listar pedidos"
       });
     }
   }
 
-   // NOVO - Listar todos pedidos (admin)
+  // NOVO - Listar todos pedidos (admin)
   static async listarTodos(req, res) {
     try {
       const pedidos = await PedidoModel.listarTodos();
