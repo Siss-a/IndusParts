@@ -137,7 +137,9 @@ async function carregarProdutos() {
         }
 
         if (filtros.categoria) {
-            produtos = produtos.filter(p => p.id_categoria == filtros.categoria);
+            produtos = produtos.filter(p =>
+                p.categoria && p.categoria.toLowerCase().includes(filtros.categoria.toLowerCase())
+            );
         }
 
         // Informações de paginação
@@ -165,9 +167,10 @@ async function carregarProdutos() {
                     <div style="flex: 1;">
                         <h3 style="margin: 0 0 10px 0; color: #333;">${produto.nome}</h3>
                         <p style="margin: 5px 0;"><strong>ID:</strong> ${produto.id}</p>
+                        <p style="margin: 5px 0;"><strong>Preço: </strong>${produto.preco}</p>                        
                         <p style="margin: 5px 0;"><strong>Fornecedor:</strong> ${produto.fornecedor || 'N/A'}</p>
                         <p style="margin: 5px 0;"><strong>Categoria:</strong> ${produto.categoria || 'N/A'}</p>
-                        <p style="margin: 5px 0;"><strong>Estoque: </strong>${produto.estoque}</p>
+                        <p style="margin: 5px 0;"><strong>Estoque: </strong>${produto.estoque}</p>                        
                         <p style="margin: 5px 0;"><strong>Descrição:</strong> ${produto.descricao || 'Sem descrição'}</p>
                         ${produto.especificacoes ? `<p style="margin: 5px 0;"><strong>Especificações:</strong> ${produto.especificacoes}</p>` : ''}
                     </div>

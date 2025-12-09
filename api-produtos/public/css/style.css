@@ -64,6 +64,8 @@
     }
 
 
+align-items: center;
+
     /* animação de shake */
     @keyframes shake {
       0% {

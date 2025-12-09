@@ -92,9 +92,9 @@ function montarTabelaUsuarios(lista) {
             <td>${usuario.cnpj}</td>
             <td>${usuario.telefone}</td>
 
-            <td>
-                <button class="bobo btn btn-sm btn-editar" data-id="${usuario.id}">Editar</button>
-                <button class="bebe btn-excluir" data-id="${usuario.id}" style="color:red;">Excluir</button>
+            <td style="display:flex;align-items: center;">
+                <button class="btn-buy btn btn-sm btn-editar" data-id="${usuario.id}">Editar</button>
+                <span class="ms-2 btn-excluir  material-icons lixeira btnExcluir" style="cursor: pointer;" data-id="${usuario.id}" style="color:red;">delete</span>
             </td>
         `;
 
@@ -318,58 +318,26 @@ document.getElementById("cnpj").addEventListener("input", function (e) {
         .replace(/(\d{4})(\d)/, "$1-$2");
 });
 
-// Mascara Telefone Fixo
-function mascaraTelefone(input) {
-    let valor = input.value.replace(/\D/g, '');
+// Mascara Telefone
+function mascaraTelefoneFixoPais(e) {
+    let valor = e.target.value.replace(/\D/g, ""); // remove tudo que não é número
+    if (valor.length > 12) valor = valor.slice(0, 12); // +55 + DDD + número fixo (2+2+8=12)
 
-    // Limita ao máximo internacional: E.164 (15 dígitos)
-    if (valor.length > 15) valor = valor.slice(0, 15);
-
-    let cc = "";   // codigo do país
-    let dd = "";   // codigo da area
-    let pre = "";   // prefixo
-    let su = "";   // sufixo
-
-    // Código do país (de 1 a 3 dígitos)
-    if (valor.length >= 1) cc = valor.substring(0, 1);
-    if (valor.length >= 2 && valor[0] !== "1") cc = valor.substring(0, 2); // países que não começam com 1 têm 2 dígitos
-    if (valor.length >= 3 && valor[0] !== "1" && parseInt(valor.substring(0, 2)) > 55) cc = valor.substring(0, 3); // fallback para países exóticos
-
-    let resto = valor.substring(cc.length);
-
-    // Código de área (2–3 dígitos dependendo do país)
-    if (resto.length >= 2) dd = resto.substring(0, 2);
-
-    // Para EUA e Canadá (country code 1) o DDD tem 3 dígitos:
-    if (cc === "1" && resto.length >= 3) {
-        dd = resto.substring(0, 3);
+    if (valor.length > 4) {
+        // separa código do país, DDD e telefone
+        valor = valor.replace(/(\d{2})(\d{2})(\d{0,4})(\d{0,4})/, "+$1 ($2) $3-$4");
+    } else if (valor.length > 2) {
+        valor = valor.replace(/(\d{2})(\d+)/, "+$1 ($2");
+    } else if (valor.length > 0) {
+        valor = "+" + valor;
     }
 
-    resto = resto.substring(dd.length);
-
-    // Primeira parte (prefixo)
-    if (resto.length > 0) pre = resto.substring(0, 4);
-
-    // Segunda parte (sufixo)
-    if (resto.length > 4) su = resto.substring(4, 8);
-
-    // MONTAGEM DO FORMATO
-    let formatado = `+${cc}`;
-
-    if (dd) formatado += ` (${dd})`;
-    if (pre) formatado += ` ${pre}`;
-    if (su) formatado += `-${su}`;
-
-    input.value = formatado;
+    e.target.value = valor;
 }
 
-// Mascara no cadastro
-document.addEventListener("DOMContentLoaded", () => {
-    mascaraTelefone(document.getElementById("telefone"));
-
-    const telEdicao = document.getElementById("edit_telefone");
-    if (telEdicao) mascaraTelefone(telEdicao);
-});
+// Aplica nos inputs de telefone
+document.getElementById("telefone").addEventListener("input", mascaraTelefoneFixoPais);
+document.getElementById("edit_telefone").addEventListener("input", mascaraTelefoneFixoPais);
 
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("btn-editar")) {
