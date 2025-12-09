@@ -131,6 +131,9 @@ app.get("/checkout", (req, res) => {
 app.get("/pedidos", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "html", "pedidos.html"));
 });
+app.get("/admin/pedidos", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "pedidosadm.html"));
+});
 
 // Rotas da API
 app.use("/api/auth", authRotas);

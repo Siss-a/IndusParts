@@ -1,6 +1,6 @@
 import express from 'express';
 import PedidoController from '../controllers/PedidoController.js';
-import { authMiddleware } from '../middlewares/authMiddleware.js';
+import { authMiddleware, adminMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
