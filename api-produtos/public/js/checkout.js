@@ -50,7 +50,7 @@ function exibirItensCheckout(itens) {
         const itemDiv = document.createElement("div");
         itemDiv.className = "d-flex align-items-center border-bottom pb-3 mb-3";
         itemDiv.innerHTML = `
-            <img src="${item.img || '/uploads/placeholder.jpg'}" 
+            <img src="/uploads/imagens/${item.img}" 
                  class="img-thumbnail me-3" 
                  style="width: 80px; height: 80px; object-fit: cover;">
             <div class="flex-grow-1">

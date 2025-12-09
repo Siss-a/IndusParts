@@ -63,9 +63,9 @@ async function adicionarAoCarrinho(produtoId, quantidade = 1) {
 
 // Carregar carrinho completo
 async function carregarCarrinho() {
-  
+
   try {
-   const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const response = await fetch(`/api/carrinho`, {
       method: "GET",
       headers: {
@@ -109,7 +109,7 @@ function renderizarCarrinho(dados) {
                 <i class="bi bi-cart-x display-1 text-muted"></i>
                 <h4 class="mt-3">Seu carrinho está vazio</h4>
                 <p class="text-muted">Adicione produtos para continuar comprando</p>
-                <a href="/catalogo/todos" class="btn btn-primary">Ir às Compras</a>
+                <a href="/catalogo/todos" class="btn-buy">Ir às Compras</a>
             </div>
         `;
     if (btnCheckout) btnCheckout.disabled = true;
@@ -156,26 +156,22 @@ function criarCardProduto(item) {
   const preco = parseFloat(item.preco || 0);
   const quantidade = parseInt(item.quantidade || 1);
   const subtotal = (preco * quantidade).toFixed(2);
-  const imagem = item.img || item.imagem || "/uploads/imagens/default.png";
+  const imagem = item.img || item.imagem;
 
   itemDiv.innerHTML = `
         <div class="card-body">
             <div class="row align-items-center">
-                <div class="col-md-2">
-                    <img src="${imagem}" class="img-fluid rounded" alt="${
-    item.nome
-  }">
+
+                <div class="col-md-3">
+                    <img src="/uploads/imagens/${imagem}" class="img-fluid rounded" alt="${item.nome}">
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-3">
                     <h6 class="mb-0">${item.nome || item.produto_nome}</h6>
-                    <small class="text-muted">Ref: ${
-                      item.produto_id || item.id
-                    }</small>
+                    <small class="text-muted">ID: ${item.produto_id || item.id}</small>
                 </div>
-                <div class="col-md-2">
-                    <p class="mb-0">R$ ${preco.toFixed(2)}</p>
-                </div>
-                <div class="col-md-2">
+              
+                <div class="col-md-3">
                     <div class="input-group input-group-sm">
                         <button class="btn btn-outline-secondary btn-menos" type="button">
                             <i class="bi bi-dash"></i>
@@ -187,11 +183,13 @@ function criarCardProduto(item) {
                         </button>
                     </div>
                 </div>
-                <div class="col-md-1">
+
+                <div class="col-md-2">
                     <strong>R$ ${subtotal}</strong>
                 </div>
+
                 <div class="col-md-1 text-end">
-                    <button class="btn btn-danger btn-sm btn-remover">
+                    <button class="btn btn-sm btn-remover">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
@@ -239,6 +237,8 @@ function criarCardProduto(item) {
       removerItem(produtoId);
     }
   });
+
+
 
   return itemDiv;
 }
@@ -369,16 +369,14 @@ function irParaCheckout() {
 function mostrarNotificacao(mensagem, tipo = "info") {
   // Criar elemento de notificação
   const notif = document.createElement("div");
-  notif.className = `alert alert-${
-    tipo === "error" ? "danger" : tipo === "success" ? "success" : "info"
-  } 
+  notif.className = `alert alert-${tipo === "error" ? "danger" : tipo === "success" ? "success" : "info"
+    } 
                        position-fixed top-0 end-0 m-3`;
   notif.style.zIndex = "9999";
   notif.innerHTML = `
         <div class="d-flex align-items-center">
-            <i class="bi bi-${
-              tipo === "error" ? "x-circle" : "check-circle"
-            } me-2"></i>
+            <i class="bi bi-${tipo === "error" ? "x-circle" : "check-circle"
+    } me-2"></i>
             <span>${mensagem}</span>
         </div>
     `;
