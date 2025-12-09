@@ -33,7 +33,7 @@ class CarrinhoModel {
     }
 
     // Buscar um item específico no carrinho
-    static async buscarItens(usuarioId) {
+    static async buscarItem(usuarioId, produtoId) {
         try {
             const conn = await getConnection();
             const [rows] = await conn.query(
