@@ -15,7 +15,7 @@ const fornecedor = document.querySelectorAll(".fornecedor-produto");
 
 async function adicionarAoCarrinho(produtoId, quantidade) {
     try {
-        const token = getToken();
+        const token = localStorage.getItem('token');
         if (!token) {
             alert("Você precisa estar logado!");
             window.location.href = "/login";
@@ -30,6 +30,8 @@ async function adicionarAoCarrinho(produtoId, quantidade) {
             },
             body: JSON.stringify({ produtoId, quantidade })
         });
+
+        console.log(response)
 
         const data = await response.json();
         console.log(data);
