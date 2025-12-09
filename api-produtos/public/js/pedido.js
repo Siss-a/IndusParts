@@ -17,7 +17,7 @@ function formatarData(dataString) {
 // Carregar lista de pedidos
 async function carregarPedidos() {
     try {
-        const token = getToken();
+        const token = localStorage.getItem("token");
         if (!token) {
             alert("Você precisa estar logado!");
             window.location.href = "/login";
@@ -70,7 +70,7 @@ function exibirPedidos(pedidos) {
                     <div class="row align-items-center">
                         <div class="col-md-3">
                             <h6 class="mb-1">Pedido #${pedido.numero_pedido}</h6>
-                            <small class="text-muted">${formatarData(pedido.criado_em)}</small>
+                            <small class="text-muted">${formatarData(pedido.data_pedido)}</small>
                         </div>
                         <div class="col-md-3">
                             <small class="text-muted d-block">Itens</small>
@@ -166,7 +166,7 @@ function exibirDetalhesPedido(pedido) {
 
         <div class="mb-4">
             <h6 class="text-muted">Data do Pedido</h6>
-            <p class="mb-0">${formatarData(pedido.criado_em)}</p>
+            <p class="mb-0">${formatarData(pedido.data_pedido)}</p>
         </div>
 
         <div class="mb-4">

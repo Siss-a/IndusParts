@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Painel Admin — Pedidos</title>
+</head>
+<body>
+  <header>
+    <h1>Painel Administrativo — Pedidos</h1>
+    <p>Pesquisar e gerenciar pedidos</p>
+  </header>
+
+  <!-- Barra de ações / busca -->
+  <section id="actions">
+    <label for="busca">Buscar (nº do pedido, cliente ou endereço):</label>
+    <input id="busca" type="search" placeholder="Digite para buscar..." />
+    <button id="btn-recarregar" type="button">Recarregar</button>
+  </section>
+
+  <!-- Resumo rápido -->
+  <section id="resumo">
+    <p>Total de pedidos: <span id="total-pedidos">0</span></p>
+  </section>
+
+  <!-- Lista de pedidos (tabela simples) -->
+  <section>
+    <table id="tabela-pedidos" border="1" cellpadding="6" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Nº do Pedido</th>
+          <th>Cliente</th>
+          <th>Endereço</th>
+          <th>Data</th>
+          <th>Qtde Itens</th>
+          <th>Total (R$)</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="lista-pedidos">
+        <!-- linhas preenchidas pelo JS -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Placeholder de paginação (opcional) -->
+  <nav id="paginacao">
+    <!-- controles de paginação que seu JS pode popular -->
+  </nav>
+
+  <!-- Modal de detalhes (estrutura sem JS de modal) -->
+  <div id="modalDetalhes" role="dialog" aria-hidden="true" style="display:none;">
+    <div role="document">
+      <header>
+        <h2>Detalhes do Pedido</h2>
+        <button id="fechar-modal" type="button">Fechar</button>
+      </header>
+
+      <main id="detalhes-pedido">
+        <!-- preenchido pelo JS: número, data, endereço, lista de itens e total -->
+      </main>
+
+      <footer>
+        <button id="btn-fechar-2" type="button">Fechar</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Mensagens simples -->
+  <div id="mensagem" role="status" aria-live="polite" style="display:none;"></div>
+
+  <!-- Scripts -->
+  <!--
+    Certifique-se de que o arquivo /js/pedidos-admin.js exista e
+    contenha as funções que combinamos (carregarPedidosAdmin, verDetalhes, etc.).
+  -->
+  <script src="/js/pedidos-admin.js"></script>
+
+  <!-- Script pequeno para ligar botões básicos do HTML (sem depender de Bootstrap) -->
+  <script>
+    // Abrir/fechar modal simples (JS mínimo para não depender de libs)
+    const modal = document.getElementById('modalDetalhes');
+    const fecharBtns = [document.getElementById('fechar-modal'), document.getElementById('btn-fechar-2')];
+
+    function abrirModal() {
+      modal.style.display = 'block';
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function fecharModal() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    fecharBtns.forEach(btn => {
+      if (btn) btn.addEventListener('click', fecharModal);
+    });
+
+    // gatilhos básicos: busca e recarregar (assumem que carregarPedidosAdmin está no JS importado)
+    document.addEventListener('DOMContentLoaded', () => {
+      const busca = document.getElementById('busca');
+      const btnRecarregar = document.getElementById('btn-recarregar');
+
+      if (busca) busca.addEventListener('input', () => {
+        if (typeof carregarPedidosAdmin === 'function') carregarPedidosAdmin();
+      });
+
+      if (btnRecarregar) btnRecarregar.addEventListener('click', () => {
+        if (typeof carregarPedidosAdmin === 'function') carregarPedidosAdmin();
+      });
+    });
+
+    // Expor abrirModal para que o JS de listagem possa utilizá-lo
+    window.abrirModalAdmin = abrirModal;
+    window.fecharModalAdmin = fecharModal;
+  </script>
+</body>
+</html>
