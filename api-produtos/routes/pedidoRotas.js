@@ -4,15 +4,13 @@ import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// Todas as rotas de pedidos precisam de autenticação
+// ========== ROTAS DE USUÁRIO ==========
+router.post('/checkout', authMiddleware, PedidoController.checkout);
+router.get('/', authMiddleware, PedidoController.listarPedidos);
+router.get('/:id', authMiddleware, PedidoController.verPedido);
 
-// POST /api/pedidos/checkout - Finalizar compra e criar pedido
-router.post("/checkout", authMiddleware, PedidoController.checkout);
-
-// GET /api/pedidos - Listar todos os pedidos do usuário logado
-router.get("/", authMiddleware, PedidoController.listarPedidos);
-
-// GET /api/pedidos/:id - Ver detalhes de um pedido específico
-router.get("/:id", authMiddleware, PedidoController.verPedido);
+// ========== ROTAS DE ADMIN ==========
+router.get('/admin/todos', authMiddleware, adminMiddleware, PedidoController.listarTodos);
+router.get('/admin/buscar', authMiddleware, adminMiddleware, PedidoController.buscar);
 
 export default router;

@@ -1,6 +1,6 @@
 // controllers/PedidoController.js
 import CarrinhoModel from "../models/CarrinhoModel.js";
-import PedidoModel from "../models/PedidoModel.js";
+import PedidoModel from "/models/PedidoModel.js";
 
 class PedidoController {
   // POST /pedidos/checkout -> { endereco }
@@ -112,7 +112,6 @@ class PedidoController {
       const id_usuario = req.usuario.id;
 
       const pedidos = await PedidoModel.listarPorUsuario(id_usuario);
-
       return res.json({ 
         sucesso: true, 
         pedidos 
@@ -126,6 +125,29 @@ class PedidoController {
       });
     }
   }
+
+   // NOVO - Listar todos pedidos (admin)
+  static async listarTodos(req, res) {
+    try {
+      const pedidos = await PedidoModel.listarTodos();
+      res.json(pedidos);
+    } catch (err) {
+      res.status(500).json({ erro: 'Erro ao listar pedidos' });
+    }
+  }
+
+  // NOVO - Buscar pedidos (admin)
+  static async buscar(req, res) {
+    try {
+      const { q } = req.query;
+      const pedidos = await PedidoModel.buscarAdmin(q || '');
+      res.json(pedidos);
+    } catch (err) {
+      res.status(500).json({ erro: 'Erro ao buscar pedidos' });
+    }
+  }
+
+
 }
 
 export default PedidoController;
