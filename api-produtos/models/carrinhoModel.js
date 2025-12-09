@@ -16,6 +16,7 @@ class CarrinhoModel {
                     p.nome,
                     p.preco,
                     p.estoque,
+                    p.img,
                     (p.preco * c.quantidade) as subtotal
                 FROM carrinho c
                 JOIN produtos p ON c.produto_id = p.id

@@ -1,6 +1,5 @@
 import express from 'express';
 import CarrinhoController from '../controllers/CarrinhoController.js';
-/* import */
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
