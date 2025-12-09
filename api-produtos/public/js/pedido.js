@@ -68,23 +68,19 @@ function exibirPedidos(pedidos) {
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <h6 class="mb-1">Pedido #${pedido.numero_pedido}</h6>
                             <small class="text-muted">${formatarData(pedido.data_pedido)}</small>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <small class="text-muted d-block">Itens</small>
                             <strong>${pedido.total_itens} produto(s)</strong>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <small class="text-muted d-block">Total</small>
                             <strong class="text-success">R$ ${parseFloat(pedido.total).toFixed(2)}</strong>
                         </div>
-                        <div class="col-md-3 text-end">
-                            <button class="btn btn-primary btn-sm" onclick="verDetalhes(${pedido.id})">
-                                <i class="bi bi-eye"></i> Ver Detalhes
-                            </button>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
