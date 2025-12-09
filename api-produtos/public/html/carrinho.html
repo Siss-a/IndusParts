@@ -25,7 +25,8 @@
 
 <body>
 
-    <header class="d-flex flex-column gap-2 p-2" style="width: 90%;">
+    <!-- HEADER -->
+    <header class="d-flex flex-column gap-2 p-2" style="width: 100%;">
         <div class="d-flex align-items-center justify-content-between w-100">
             <!-- LOGO -->
             <a class="text-decoration-none" href="/">
@@ -49,91 +50,129 @@
 
         </div>
     </header>
-    <main>
-        <div class="bloco">
-            <div class="produtos">
-                <!-- CARD 1 -->
-                <div class="card-produto">
-                    <img src="/api-produtos/uploads/imagens/al1.png" alt="produto" class="img-produto">
 
-                    <div class="info">
-                        <h3>Alargador CoroReamer</h3>
-                        <p>Product ID: 0007</p>
-                    </div>
 
-                    <div class="quantidade">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
+    <!-- MAIN CONTENT -->
+    <main class="container mt-5 mb-5">
+        <div class="row">
 
-                    <div class="preco">
-                        R$ 50,00
-                    </div>
-                </div>
+            <!-- COLUNA DOS PRODUTOS -->
+            <div class="col-lg-8">
+                <h2 class="mb-4">Meu Carrinho</h2>
 
-                <!-- CARD 2 -->
-                <div class="card-produto">
-                    <img src="/api-produtos/uploads/imagens/pincaER.png" alt="produto" class="img-produto">
-
-                    <div class="info">
-                        <h3>Pinça ER</h3>
-                        <p>Product ID: 0002</p>
-                    </div>
-
-                    <div class="quantidade">
-                        <button>-</button>
-                        <span>2</span>
-                        <button>+</button>
-                    </div>
-
-                    <div class="preco">
-                        R$ 80,00
+                <div id="lista-carrinho">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="mt-2">Carregando carrinho...</p>
                     </div>
                 </div>
             </div>
 
+            <!-- COLUNA DO RESUMO -->
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h3 class="card-title h5 mb-4">Resumo do Pedido</h3>
 
-            <div class="infos">
+                        <div id="resumo-produtos" class="mb-3">
+                            <p class="text-muted">Produtos:</p>
+                        </div>
 
-                <h2 class="titulo-infos">Pedido</h2>
+                        <hr>
 
-                <div class="linha-info">
-                    <div class="d-flex flex-column">
-                        <span class="fs-4">Produtos:</span>
-                        <span>1 / R$ 50.00</span>
-                        <span>2 / R$ 40.00</span>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R$ 0,00</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Frete:</span>
+                            <span class="text-success">Grátis</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total:</strong>
+                            <strong id="total" class=" fs-5">R$ 0,00</strong>
+                        </div>
+
+                        <p class="small text-muted mb-3">Impostos inclusos no valor total.</p>
+
+                        <div class="d-grid gap-2">
+                            <button id="btn-checkout" class="btn-buy btn-lg" disabled>
+                                <i class="bi bi-credit-card me-2"></i>
+                                Finalizar Compra
+                            </button>
+
+                            <button id="limpar" class="btn-buy2 ">
+                                <i class="bi bi-trash me-2"></i>
+                                Limpar Carrinho
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                <hr class="linha-rosa">
-
-                <div class="linha-info">
-                    <span>Frete</span>
-                    <span>R$ 20</span>
-                </div>
-
-                <div class="linha-info">
-                    <span>Total</span>
-                    <span>R$ 150.00</span>
-                </div>
-
-
-
-                <p class="vat">Impostos inclusos no valor total.</p>
-                <div class="btns">
-                    <button class="btn-buy">Compre já</button>
-                    <button style="margin-top: 10px;" class="btn-buy2" id="limpar">Limpar Carrinho</button>
-                </div>
             </div>
-
 
         </div>
     </main>
 
-    <div class="" id="cartContainer"></div>
 
-    <script type="module" src="../js/carrinho.js"></script>
+    <!-- Footer -->
+    <!-- precisei por o footer aqui para centralizar as divs, gambiarra fortissima -->
+    <div class="container">
+        <div class="mt-5 ">
+            <footer class="">
+                <div class="row justify-content-between">
+                    <div class="col-6 col-md-2 mb-3">
+                        <h5>IndusParts</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary"
+                                    style="color: rgb(129, 129, 129) !important;">Home</a></li>
+                            <li class="nav-item mb-2"><a href="/catalogo/todos" class="nav-link p-0 text-body-secondary"
+                                    style="color: rgb(129, 129, 129) !important;">Produtos</a></li>
+                            <li class="nav-item mb-2"><a href="/login" class="nav-link p-0 text-body-secondary"
+                                    style="color: rgb(129, 129, 129) !important;">Login</a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary"
+                                    style="color: rgb(129, 129, 129) !important;">Ajuda</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6 offset-md-1 mb-3">
+                        <form>
+                            <h5>Se inscreva no nosso newsletter</h5>
+                            <p>Fique por dentro de todas as nossas novidades !</p>
+                            <div class="d-flex flex-column flex-sm-row w-100 gap-2"> <label for="newsletter1"
+                                    class="visually-hidden">Endereço de e-mail</label> <input id="newsletter1"
+                                    type="email" class="form-control" placeholder="Endereço de e-mail"> <button
+                                    class="btn btn-primary border-1" type="button"
+                                    style="background-color:var(--bege) !important; width: auto; border-color: rgb(185, 185, 185)">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                    <p>© 2025 IndusParts | Agilidade, foco e resultado!</p>
+                    <ul class="list-unstyled d-flex">
+                        <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Instagram"><svg class="bi"
+                                    width="24" height="24">
+                                    <use xlink:href="#instagram"></use>
+                                </svg></a></li>
+                        <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Facebook"><svg class="bi"
+                                    width="24" height="24" aria-hidden="true">
+                                    <use xlink:href="#facebook"></use>
+                                </svg></a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/carrinho.js"></script>
+
 </body>
 
 </html>

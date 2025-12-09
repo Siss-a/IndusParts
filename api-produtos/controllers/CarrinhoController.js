@@ -2,17 +2,17 @@ import CarrinhoModel from '../models/CarrinhoModel.js';
 import ProdutoModel from '../models/ProdutoModel.js';
 
 class CarrinhoController {
-    
+
     // POST /api/carrinho/adicionar
     static async adicionar(req, res) {
         try {
-            const { produtoId, quantidade } = req.body;
-            const userId = req.usuario.id; // Corrigido: req.usuario (conforme seu middleware)
+            const { produtoId, quantidade = 1 } = req.body;
+            const userId = req.usuario.id;
 
-            if (!produtoId || !quantidade) {
+            if (!produtoId) {
                 return res.status(400).json({
                     sucesso: false,
-                    erro: "Produto e quantidade são obrigatórios"
+                    erro: "ID do produto é obrigatório"
                 });
             }
 
@@ -23,7 +23,7 @@ class CarrinhoController {
                 });
             }
 
-            // Verificar se o produto existe
+            // Verificar se o produto existe e tem estoque
             const produto = await ProdutoModel.buscarPorId(produtoId);
             if (!produto) {
                 return res.status(404).json({
@@ -32,21 +32,43 @@ class CarrinhoController {
                 });
             }
 
+            if (produto.estoque < quantidade) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: `Estoque insuficiente. Disponível: ${produto.estoque}`
+                });
+            }
+
             // Verificar se já existe no carrinho
             const itemExistente = await CarrinhoModel.buscarItem(userId, produtoId);
 
             if (itemExistente) {
-                // Atualizar quantidade
                 const novaQuantidade = itemExistente.quantidade + quantidade;
+                
+                // Verificar estoque para nova quantidade
+                if (produto.estoque < novaQuantidade) {
+                    return res.status(400).json({
+                        sucesso: false,
+                        erro: `Estoque insuficiente. Disponível: ${produto.estoque}`
+                    });
+                }
+
                 await CarrinhoModel.atualizarQuantidade(userId, produtoId, novaQuantidade);
             } else {
-                // Adicionar novo item
                 await CarrinhoModel.adicionar(userId, produtoId, quantidade);
             }
 
+            // Retornar carrinho atualizado
+            const carrinho = await CarrinhoModel.listarPorUsuario(userId);
+            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+
             res.json({
                 sucesso: true,
-                mensagem: "Item adicionado ao carrinho"
+                mensagem: "Item adicionado ao carrinho",
+                dados: {
+                    totalItens: carrinho.length,
+                    total: total.toFixed(2)
+                }
             });
 
         } catch (error) {
@@ -78,11 +100,34 @@ class CarrinhoController {
                 });
             }
 
+            // Verificar estoque
+            const produto = await ProdutoModel.buscarPorId(produtoId);
+            if (!produto) {
+                return res.status(404).json({
+                    sucesso: false,
+                    erro: "Produto não encontrado"
+                });
+            }
+
+            if (produto.estoque < quantidade) {
+                return res.status(400).json({
+                    sucesso: false,
+                    erro: `Estoque insuficiente. Disponível: ${produto.estoque}`
+                });
+            }
+
             await CarrinhoModel.atualizarQuantidade(userId, produtoId, quantidade);
+
+            const carrinho = await CarrinhoModel.listarPorUsuario(userId);
+            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
 
             res.json({
                 sucesso: true,
-                mensagem: "Carrinho atualizado"
+                mensagem: "Carrinho atualizado",
+                dados: {
+                    totalItens: carrinho.length,
+                    total: total.toFixed(2)
+                }
             });
 
         } catch (error) {
@@ -109,9 +154,16 @@ class CarrinhoController {
 
             await CarrinhoModel.remover(userId, produtoId);
 
+            const carrinho = await CarrinhoModel.listarPorUsuario(userId);
+            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+
             res.json({
                 sucesso: true,
-                mensagem: "Item removido do carrinho"
+                mensagem: "Item removido do carrinho",
+                dados: {
+                    totalItens: carrinho.length,
+                    total: total.toFixed(2)
+                }
             });
 
         } catch (error) {
@@ -123,14 +175,35 @@ class CarrinhoController {
         }
     }
 
+    // DELETE /api/carrinho/limpar
+    static async limpar(req, res) {
+        try {
+            const userId = req.usuario.id;
+            await CarrinhoModel.limpar(userId);
+
+            return res.json({
+                sucesso: true,
+                mensagem: "Carrinho limpo com sucesso",
+                dados: {
+                    totalItens: 0,
+                    total: "0.00"
+                }
+            });
+        } catch (error) {
+            console.error("Erro ao limpar carrinho:", error);
+            return res.status(500).json({
+                sucesso: false,
+                erro: "Erro ao limpar carrinho"
+            });
+        }
+    }
+
     // GET /api/carrinho
     static async listar(req, res) {
         try {
             const userId = req.usuario.id;
-
             const itens = await CarrinhoModel.listarPorUsuario(userId);
 
-            // Calcular total
             const total = itens.reduce((acc, item) => {
                 return acc + (item.preco * item.quantidade);
             }, 0);
@@ -139,7 +212,8 @@ class CarrinhoController {
                 sucesso: true,
                 dados: {
                     itens,
-                    total: total.toFixed(2)
+                    total: total.toFixed(2),
+                    totalItens: itens.length
                 }
             });
 
@@ -148,6 +222,29 @@ class CarrinhoController {
             res.status(500).json({
                 sucesso: false,
                 erro: "Erro interno ao listar carrinho"
+            });
+        }
+    }
+
+    // GET /api/carrinho/count - Retorna apenas a contagem de itens
+    static async count(req, res) {
+        try {
+            const userId = req.usuario.id;
+            const itens = await CarrinhoModel.listarPorUsuario(userId);
+
+            res.json({
+                sucesso: true,
+                dados: {
+                    totalItens: itens.length
+                }
+            });
+
+        } catch (error) {
+            console.error("Erro ao contar itens do carrinho:", error);
+            res.status(500).json({
+                sucesso: false,
+                erro: "Erro interno ao contar itens",
+                detalhes: error.message
             });
         }
     }

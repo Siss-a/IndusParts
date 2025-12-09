@@ -5,8 +5,27 @@ class CarrinhoModel {
     // Listar itens do carrinho de um usuário
     static async listarPorUsuario(usuarioId) {
         try {
-            const rows = await read('pedidos', `usuario_id = ${usuarioId} and status ='carrinho'`);
-            return rows[0] || null
+            const conn = await getConnection();
+
+            const [rows] = await conn.query(
+                `SELECT 
+                    c.id, 
+                    c.usuario_id, 
+                    c.produto_id, 
+                    c.quantidade,
+                    p.nome,
+                    p.preco,
+                    p.estoque,
+                    p.img,
+                    (p.preco * c.quantidade) as subtotal
+                FROM carrinho c
+                JOIN produtos p ON c.produto_id = p.id
+                WHERE c.usuario_id = ?`,
+                [usuarioId]
+            );
+
+            return rows;
+
         } catch (error) {
             console.error("Erro ao listar carrinho:", error);
             throw error;
@@ -16,14 +35,12 @@ class CarrinhoModel {
     // Buscar um item específico no carrinho
     static async buscarItens(usuarioId) {
         try {
-            const conection = await getConnection();
-            const rows = await read(
-                'carrinho',
-                `usuario_id = ${usuarioId} AND produto_id = ${produtoId}`
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT * FROM carrinho WHERE usuario_id = ? AND produto_id = ?",
+                [usuarioId, produtoId]
             );
-
             return rows[0] || null;
-
         } catch (error) {
             console.error("Erro ao buscar item do carrinho:", error);
             throw error;

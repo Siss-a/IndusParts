@@ -1,18 +1,20 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // Importar rotas
-import authRotas from './routes/authRotas.js';
-import usuariosRotas from './routes/usuariosRotas.js'
-import produtoRotas from './routes/produtoRotas.js';
+import authRotas from "./routes/authRotas.js";
+import usuariosRotas from "./routes/usuariosRotas.js";
+import produtoRotas from "./routes/produtoRotas.js";
+import carrinhoRotas from "./routes/carrinhoRotas.js";
+import pedidoRotas from "./routes/pedidoRotas.js";
 
 // Importar middlewares
 // import { logMiddleware } from './middlewares/logMiddleware.js';
-import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 
 // Carregar variáveis do arquivo .env
 dotenv.config();
@@ -21,155 +23,170 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configurações do servidor
+// Configurações do servidora
 const PORT = process.env.PORT || 3000;
 
-app.use(helmet({
+app.use(
+  helmet({
     contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: [
-                "'self'",
-                "'unsafe-inline'",
-                "https://cdn.jsdelivr.net",
-                "https://cdnjs.cloudflare.com"
-            ],
-            scriptSrcElem: [
-                "'self'",
-                "https://cdn.jsdelivr.net",
-                "https://cdnjs.cloudflare.com"
-            ],
-            styleSrc: [
-                "'self'",
-                "'unsafe-inline'",
-                "https://cdn.jsdelivr.net",
-                "https://fonts.googleapis.com",
-                "https://cdnjs.cloudflare.com"
-            ],
-            fontSrc: [
-                "'self'",
-                "https://cdn.jsdelivr.net",
-                "https://fonts.gstatic.com",
-                "https://cdnjs.cloudflare.com"
-            ],
-            imgSrc: ["'self'", "data:", "https:"],
-            connectSrc: ["'self'"]
-        }
-    }
-}));
-
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+        ],
+        scriptSrcElem: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.jsdelivr.net",
+          "https://fonts.googleapis.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        fontSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://fonts.gstatic.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+          "https://fonts.googleapis.com",
+          "https://fonts.gstatic.com",
+        ],
+      },
+    },
+  })
+);
 
 // Configuração CORS global
-app.use(cors({
-    origin: '*', // Permitir todas as origens. Ajuste conforme necessário. Ex.: 'http://meufrontend.com'
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+app.use(
+  cors({
+    origin: "*", // Permitir todas as origens. Ajuste conforme necessário. Ex.: 'http://meufrontend.com'
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Métodos permitidos
+    allowedHeaders: ["Content-Type", "Authorization"], // Cabeçalhos permitidos
     preflightContinue: false, // Não passar para o próximo middleware
-    optionsSuccessStatus: 200 // Responder com 200 para requisições OPTIONS
-}));
-
-
+    optionsSuccessStatus: 200, // Responder com 200 para requisições OPTIONS
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //  Servir arquivos estáticos
 
-
 // Servir arquivos estáticos
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware para log de requisições (salva no banco de dados)
 // app.use(logMiddleware);
 
 // Rotas de Frontend (páginas estáticas)
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "login.html"));
 });
-app.get('/cadastro', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'cadastro.html'));
+app.get("/cadastro", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "cadastro.html"));
 });
-app.get('/perfil', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'dashboard.html'));
+app.get("/perfil", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "dashboard.html"));
 });
-app.get('/admin/crud-produtos', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'crudprodutos.html'));
+app.get("/admin/crud-produtos", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "crudprodutos.html"));
 });
-app.get('/admin/crud-usuarios', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'crudusuarios.html'));
+app.get("/admin/crud-usuarios", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "crudusuarios.html"));
 });
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "index.html"));
 });
-app.get('/carrinho', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'carrinho.html'));
-});
-
-app.get('/pedidos', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'pedidos.html'));
+app.get("/carrinho", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "carrinho.html"));
 });
 
-app.get('/catalogo/:categoria', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'catalogo.html'));
+app.get("/pedidos", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "pedidos.html"));
 });
-app.get('/produtos/:categoria/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'produto.html'));
+
+app.get("/catalogo/:categoria", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "catalogo.html"));
+});
+app.get("/produtos/:categoria/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "produto.html"));
+});
+app.get("/checkout", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "checkout.html"));
+});
+app.get("/pedidos", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "pedidos.html"));
+});
+app.get("/admin/pedidos", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "html", "pedidosadm.html"));
 });
 
 // Rotas da API
-app.use('/api/auth', authRotas);
-app.use('/api/produtos', produtoRotas);
-app.use('/api/usuarios', usuariosRotas);
-
+app.use("/api/auth", authRotas);
+app.use("/api/produtos", produtoRotas);
+app.use("/api/usuarios", usuariosRotas);
+app.use("/api/carrinho", carrinhoRotas);
+app.use("/api/pedidos", pedidoRotas);
 
 // Rota raiz
-app.get('/', (req, res) => {
-    res.json({
-        sucesso: true,
-        mensagem: 'IndusParts - Sistema de venda de produtos industriais',
-        versao: '1.0.0',
-        rotas: {
-            autenticacao: '/api/auth',
-            produtos: '/api/produtos',
-            usuarios: '/api/usuarios',
-        },
-        documentacao: {
-            login: 'POST /api/auth/login',
-            registrar: 'POST /api/auth/registrar',
-            perfil: 'GET /api/auth/perfil',
-            listarProdutos: 'GET /api/produtos',
-            buscarProduto: 'GET /api/produtos/:id',
-            criarProduto: 'POST /api/produtos',
-            atualizarProduto: 'PUT /api/produtos/:id',
-            excluirProduto: 'DELETE /api/produtos/:id',
-            listarUsuarios: 'GET /api/usuarios',
-            criarUsuario: 'POST /api/usuarios',
-            atualizarUsuario: 'PUT /api/usuarios/:id',
-            excluirUsuario: 'DELETE /api/usuarios/:id'
-        }
-    });
+app.get("/", (req, res) => {
+  res.json({
+    sucesso: true,
+    mensagem: "IndusParts - Sistema de venda de produtos industriais",
+    versao: "1.0.0",
+    rotas: {
+      autenticacao: "/api/auth",
+      produtos: "/api/produtos",
+      usuarios: "/api/usuarios",
+    },
+    documentacao: {
+      login: "POST /api/auth/login",
+      registrar: "POST /api/auth/registrar",
+      perfil: "GET /api/auth/perfil",
+      listarProdutos: "GET /api/produtos",
+      buscarProduto: "GET /api/produtos/:id",
+      criarProduto: "POST /api/produtos",
+      atualizarProduto: "PUT /api/produtos/:id",
+      excluirProduto: "DELETE /api/produtos/:id",
+      listarUsuarios: "GET /api/usuarios",
+      criarUsuario: "POST /api/usuarios",
+      atualizarUsuario: "PUT /api/usuarios/:id",
+      excluirUsuario: "DELETE /api/usuarios/:id",
+    },
+  });
 });
 
 // Middleware para tratar rotas não encontradas
-app.use('*', (req, res) => {
-    res.status(404).json({
-        sucesso: false,
-        erro: 'Rota não encontrada',
-        mensagem: `A rota ${req.method} ${req.originalUrl} não foi encontrada`
-    });
+app.use("*", (req, res) => {
+  res.status(404).json({
+    sucesso: false,
+    erro: "Rota não encontrada",
+    mensagem: `A rota ${req.method} ${req.originalUrl} não foi encontrada`,
+  });
 });
 
-// Middleware global de tratamento de erros (deve ser o último)
+// // Middleware global de tratamento de erros (deve ser o último)
 app.use(errorMiddleware);
 
 // Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`Acesse: http://localhost:${PORT}`);
-    console.log(`API de Produtos Industriais - IndusParts`);
-    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Acesse: http://localhost:${PORT}`);
+  console.log(`API de Produtos Industriais - IndusParts`);
+  console.log(`Ambiente: ${process.env.NODE_ENV || "development"}`);
 });
 
 export default app;
