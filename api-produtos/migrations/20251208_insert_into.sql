@@ -1,3 +1,18 @@
+--a tabela completinha:
+
+CREATE TABLE produtos (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    descricao TEXT,
+    img VARCHAR(255),
+    fornecedor VARCHAR(255),
+    categoria VARCHAR(255) NOT NULL,
+    estoque INT NOT NULL,
+    especificacoes TEXT
+);
+
+
 --adicionando a tabela produtos de forma direta, sem o update.
 
 INSERT INTO produtos 
