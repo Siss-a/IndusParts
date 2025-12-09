@@ -109,7 +109,7 @@ function renderizarCarrinho(dados) {
                 <i class="bi bi-cart-x display-1 text-muted"></i>
                 <h4 class="mt-3">Seu carrinho está vazio</h4>
                 <p class="text-muted">Adicione produtos para continuar comprando</p>
-                <a href="/catalogo/todos" class="btn btn-primary">Ir às Compras</a>
+                <a href="/catalogo/todos" class="btn-buy">Ir às Compras</a>
             </div>
         `;
     if (btnCheckout) btnCheckout.disabled = true;
@@ -161,17 +161,17 @@ function criarCardProduto(item) {
   itemDiv.innerHTML = `
         <div class="card-body">
             <div class="row align-items-center">
-                <div class="col-md-2">
+
+                <div class="col-md-3">
                     <img src="/uploads/imagens/${imagem}" class="img-fluid rounded" alt="${item.nome}">
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-3">
                     <h6 class="mb-0">${item.nome || item.produto_nome}</h6>
                     <small class="text-muted">ID: ${item.produto_id || item.id}</small>
                 </div>
-                <div class="col-md-2">
-                    <p class="mb-0">R$ ${preco.toFixed(2)}</p>
-                </div>
-                <div class="col-md-2">
+              
+                <div class="col-md-3">
                     <div class="input-group input-group-sm">
                         <button class="btn btn-outline-secondary btn-menos" type="button">
                             <i class="bi bi-dash"></i>
@@ -183,11 +183,13 @@ function criarCardProduto(item) {
                         </button>
                     </div>
                 </div>
-                <div class="col-md-1">
+
+                <div class="col-md-2">
                     <strong>R$ ${subtotal}</strong>
                 </div>
+
                 <div class="col-md-1 text-end">
-                    <button class="btn btn-danger btn-sm btn-remover">
+                    <button class="btn btn-sm btn-remover">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
@@ -235,6 +237,8 @@ function criarCardProduto(item) {
       removerItem(produtoId);
     }
   });
+
+
 
   return itemDiv;
 }
