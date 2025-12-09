@@ -4,7 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Painel Admin — Pedidos</title>
+
+  <!-- Bootstrap CSS  -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
   <header>
     <h1>Painel Administrativo — Pedidos</h1>
@@ -23,7 +27,11 @@
     <p>Total de pedidos: <span id="total-pedidos">0</span></p>
   </section>
 
-  <!-- Lista de pedidos (tabela simples) -->
+  
+  <div id="loading" style="display:none;">Carregando pedidos...</div>
+  <!-- CORRIGIDO -->
+
+  <!-- Lista de pedidos  -->
   <section>
     <table id="tabela-pedidos" border="1" cellpadding="6" cellspacing="0" width="100%">
       <thead>
@@ -43,72 +51,58 @@
     </table>
   </section>
 
-  <!-- Placeholder de paginação (opcional) -->
-  <nav id="paginacao">
-    <!-- controles de paginação que seu JS pode popular -->
-  </nav>
+  <!-- Placeholder de paginação -->
+  <nav id="paginacao"></nav>
 
-  <!-- Modal de detalhes (estrutura sem JS de modal) -->
-  <div id="modalDetalhes" role="dialog" aria-hidden="true" style="display:none;">
-    <div role="document">
-      <header>
-        <h2>Detalhes do Pedido</h2>
-        <button id="fechar-modal" type="button">Fechar</button>
-      </header>
 
-      <main id="detalhes-pedido">
-        <!-- preenchido pelo JS: número, data, endereço, lista de itens e total -->
-      </main>
+  <div class="modal fade" id="modalDetalhes" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
 
-      <footer>
-        <button id="btn-fechar-2" type="button">Fechar</button>
-      </footer>
+        <div class="modal-header">
+          <h5 class="modal-title">Detalhes do Pedido</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body" id="detalhes-pedido">
+          <!-- preenchido via JS -->
+        </div>
+
+      </div>
     </div>
   </div>
+  <!-- CORRIGIDO: modal agora compatível com bootstrap.Modal -->
 
-  <!-- Mensagens simples -->
   <div id="mensagem" role="status" aria-live="polite" style="display:none;"></div>
 
+  <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/pedidoadm.js"></script>
 
-  <!-- Script pequeno para ligar botões básicos do HTML (sem depender de Bootstrap) -->
+
+  <script src="/js/pedidosadm.js"></script>
+
+  <!-- Script pequeno para ligar botões básicos -->
   <script>
-    // Abrir/fechar modal simples (JS mínimo para não depender de libs)
-    const modal = document.getElementById('modalDetalhes');
-    const fecharBtns = [document.getElementById('fechar-modal'), document.getElementById('btn-fechar-2')];
-
-    function abrirModal() {
-      modal.style.display = 'block';
-      modal.setAttribute('aria-hidden', 'false');
-    }
-
-    function fecharModal() {
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-    }
-
-    fecharBtns.forEach(btn => {
-      if (btn) btn.addEventListener('click', fecharModal);
-    });
-
-    // gatilhos básicos: busca e recarregar (assumem que carregarPedidosAdmin está no JS importado)
+    // Busca e recarregar
     document.addEventListener('DOMContentLoaded', () => {
+      
       const busca = document.getElementById('busca');
       const btnRecarregar = document.getElementById('btn-recarregar');
 
+      // Chama a função correta (carregarPedidos)
+      if (typeof carregarPedidos === 'function') carregarPedidos();
+      // CORRIGIDO: antes chamava "carregarPedidosAdmin()"
+
       if (busca) busca.addEventListener('input', () => {
-        if (typeof carregarPedidosAdmin === 'function') carregarPedidosAdmin();
+        if (typeof carregarPedidos === 'function') carregarPedidos();
       });
 
       if (btnRecarregar) btnRecarregar.addEventListener('click', () => {
-        if (typeof carregarPedidosAdmin === 'function') carregarPedidosAdmin();
+        document.getElementById('busca').value = '';
+        if (typeof carregarPedidos === 'function') carregarPedidos();
       });
     });
-
-    // Expor abrirModal para que o JS de listagem possa utilizá-lo
-    window.abrirModalAdmin = abrirModal;
-    window.fecharModalAdmin = fecharModal;
   </script>
+
 </body>
 </html>

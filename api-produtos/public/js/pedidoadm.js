@@ -41,7 +41,6 @@ async function carregarPedidos() {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
       }
     });
 
@@ -143,7 +142,6 @@ async function verDetalhes(pedidoId) {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
       }
     });
 
