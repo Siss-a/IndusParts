@@ -23,7 +23,7 @@ class CarrinhoModel {
                 [usuarioId]
             );
 
-            return rows[0];
+            return rows;
 
         } catch (error) {
             console.error("Erro ao listar carrinho:", error);
@@ -34,13 +34,12 @@ class CarrinhoModel {
     // Buscar um item específico no carrinho
     static async buscarItem(usuarioId, produtoId) {
         try {
-            const rows = await read(
-                'carrinho',
-                `usuario_id = ${usuarioId} AND produto_id = ${produtoId}`
+            const conn = await getConnection();
+            const [rows] = await conn.query(
+                "SELECT * FROM carrinho WHERE usuario_id = ? AND produto_id = ?",
+                [usuarioId, produtoId]
             );
-
             return rows[0] || null;
-
         } catch (error) {
             console.error("Erro ao buscar item do carrinho:", error);
             throw error;
