@@ -1,6 +1,6 @@
 // controllers/PedidoController.js
 import CarrinhoModel from "../models/CarrinhoModel.js";
-import PedidoModel from "/models/PedidoModel.js";
+import PedidoModel from "../models/pedidoModel.js";
 
 class PedidoController {
   // POST /pedidos/checkout -> { endereco }
@@ -8,6 +8,11 @@ class PedidoController {
     try {
       const id_usuario = req.usuario.id;
       const { endereco } = req.body;
+
+      console.log("=== INICIO CHECKOUT ===");
+      console.log("ID Usuario:", id_usuario);
+      console.log("Endereço:", endereco);
+
 
       // Validar endereço
       if (!endereco || endereco.trim() === "") {
