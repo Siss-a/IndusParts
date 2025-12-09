@@ -134,7 +134,7 @@ function exibirDetalhesPedido(pedido) {
     const container = document.getElementById("detalhes-pedido");
     
     // Calcular total
-    const total = pedido.itens.reduce((acc, item) => {
+    const total =  (pedido.itens || []).reduce((acc, item) => {
         return acc + (item.preco_unitario * item.quantidade);
     }, 0);
 

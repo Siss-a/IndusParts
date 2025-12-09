@@ -135,7 +135,7 @@ class PedidoController {
   static async listarTodos(req, res) {
     try {
       const pedidos = await PedidoModel.listarTodos();
-      res.json(pedidos);
+      res.json({ sucesso: true, pedidos });
     } catch (err) {
       res.status(500).json({ erro: 'Erro ao listar pedidos' });
     }
@@ -146,7 +146,7 @@ class PedidoController {
     try {
       const { q } = req.query;
       const pedidos = await PedidoModel.buscarAdmin(q || '');
-      res.json(pedidos);
+      res.json({ sucesso: true, pedidos });
     } catch (err) {
       res.status(500).json({ erro: 'Erro ao buscar pedidos' });
     }

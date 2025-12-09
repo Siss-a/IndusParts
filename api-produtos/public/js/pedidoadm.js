@@ -58,8 +58,7 @@ async function carregarPedidos() {
 
     const pedidosRecebidos = await response.json();
 
-    // Garantir que seja sempre um array
-    const pedidos = Array.isArray(pedidosRecebidos) ? pedidosRecebidos : [];
+    const pedidos = pedidosRecebidos.pedidos || [];
 
     console.log('Pedidos recebidos:', pedidos); // Debug
 
@@ -140,7 +139,7 @@ async function verDetalhes(pedidoId) {
 
     console.log('Buscando detalhes do pedido:', pedidoId); // Debug
 
-    const response = await fetch(`/${pedidoId}`, {
+    const response = await fetch(`/admin/pedidos/${pedidoId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -171,9 +170,9 @@ async function verDetalhes(pedidoId) {
 function exibirDetalhesPedido(pedido) {
   const container = document.getElementById("detalhes-pedido");
 
-  const total = pedido.itens.reduce((acc, item) => {
-    return acc + (item.preco_unitario * item.quantidade);
-  }, 0);
+  const itens = pedido.itens || [];
+  const total = itens.reduce((acc, item) => acc + (item.preco_unitario * item.quantidade), 0);
+ 
 
   let itensHTML = "";
   pedido.itens.forEach(item => {
